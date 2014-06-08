@@ -1,0 +1,209 @@
+/**
+ * WooCommerce Admin RTL Styles
+ *
+ * @package    WebMan WordPress Theme Framework
+ * @copyright  2014 WebMan - Oliver Juhas
+ */
+
+	.woocommerce table.form-table .color_box,
+	table.wc_input_table .button,
+	table.wc_tax_rates .button,
+	.widefat .column-order_actions a.button,
+	.widefat .column-user_actions a.button,
+	.widefat .column-wc_actions a.button,
+	#order_data .order_data_column,
+	#poststuff #woocommerce-order-totals .total_row p.first,
+	#woocommerce-order-items .bulk_actions,
+	#woocommerce-coupon-data ul.wc-tabs,
+	#woocommerce-product-data ul.wc-tabs,
+	.woocommerce ul.wc-tabs,
+	.woocommerce_options_panel label,
+	.woocommerce_options_panel legend,
+	.woocommerce_options_panel input[type=email],
+	.woocommerce_options_panel input[type=number],
+	.woocommerce_options_panel input[type=text],
+	.woocommerce_options_panel select,
+	.wc-metabox-content img.ui-datepicker-trigger,
+	.woocommerce_options_panel img.ui-datepicker-trigger,
+	.woocommerce_options_panel .chosen-container-multi,
+	.chosen-container-multi .chosen-choices li,
+	.column-coupon_code .code,
+	ul.wc_coupon_list .code,
+	.woocommerce-reports-wide .postbox .chart-with-sidebar .chart-sidebar,
+	.woocommerce-reports-wrap .postbox .chart-with-sidebar .chart-sidebar,
+	.woocommerce-reports-wide .postbox h3.stats_range ul li,
+	.woocommerce-reports-wrap .postbox h3.stats_range ul li,
+	#woocommerce-product-images .inside #product_images_container ul li.add,
+	#woocommerce-product-images .inside #product_images_container ul li.image,
+	#woocommerce-product-images .inside #product_images_container ul li.wc-metabox-sortable-placeholder {float: right}
+
+	table.wc_input_table .export,
+	table.wc_input_table .import,
+	table.wc_tax_rates .export,
+	table.wc_tax_rates .import,
+	#poststuff #woocommerce-order-totals .total_row p.last,
+	#woocommerce-order-items .add_items,
+	.woocommerce-reports-wide .postbox h3.stats_range .export_csv,
+	.woocommerce-reports-wrap .postbox h3.stats_range .export_csv,
+	.wc-metaboxes-wrapper .fr,
+	.wc-metaboxes-wrapper button.add_attribute,
+	.wc-metaboxes-wrapper button.add_variable_attribute,
+	.wc-metaboxes-wrapper select.attribute_taxonomy {float: left}
+
+	#poststuff #woocommerce-order-totals .total_row p.first {clear: right}
+
+	table.wc_gateways .settings,
+	table.wc_shipping .settings {text-align: left}
+
+	.woocommerce_order_items_wrapper table.woocommerce_order_items thead th,
+	.woocommerce_order_items_wrapper table.woocommerce_order_items tbody th,
+	.woocommerce_order_items_wrapper table.woocommerce_order_items td,
+	.wc-metaboxes-wrapper .wc-metabox table td label,
+	.wc-metaboxes-wrapper .wc-metabox table td {text-align: right}
+
+	table.wp-list-table span.wc-featured,
+	table.wp-list-table span.wc-image,
+	table.wp-list-table span.wc-type {
+		text-indent: 9999px;
+		overflow: hidden;
+	}
+
+	#order_data .order_data_column {padding: 0 0 0 2%}
+		#order_data .order_data_column:last-child {padding-left: 0}
+
+	#woocommerce-order-items .add_items,
+	#woocommerce-order-items .bulk_actions {
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+
+	#tiptip_arrow,
+	#tiptip_arrow_inner {
+		left: auto;
+		right: 50%;
+		margin-right: -6px;
+	}
+
+	ul.order_notes li .note_content:after {
+		left: auto;
+		right: 20px;
+	}
+
+
+
+	/**
+	 * Tabs
+	 */
+
+		#woocommerce-coupon-data .panel-wrap,
+		#woocommerce-product-data .panel-wrap {
+			padding-left: 0;
+			padding-right: 153px;
+		}
+
+		#woocommerce-coupon-data .wc-tabs-back,
+		#woocommerce-product-data .wc-tabs-back {
+			left: auto;
+			right: 0;
+			border-right: 0;
+			border-left: 1px solid #DFDFDF;
+		}
+
+		#woocommerce-coupon-data ul.wc-tabs,
+		#woocommerce-product-data ul.wc-tabs,
+		.woocommerce ul.wc-tabs {
+			margin-left: 0;
+			margin-right: -153px;
+		}
+
+		#woocommerce-coupon-data ul.wc-tabs li.active a,
+		#woocommerce-product-data ul.wc-tabs li.active a,
+		.woocommerce ul.wc-tabs li.active a {margin: 0 0 0 -1px}
+
+		.woocommerce_options_panel fieldset.form-field,
+		.woocommerce_options_panel p.form-field {padding: 5px 162px 5px 20px !important}
+
+		.woocommerce_options_panel label,
+		.woocommerce_options_panel legend {margin: 0 -150px 0 0}
+		img.help_tip {margin: 0 9px 0 0}
+		.woocommerce_options_panel .description {margin: 0 7px 0 0}
+		.chosen-container-multi .chosen-choices li {margin: 3px 5px 3px 0}
+		.column-coupon_code .code,
+		ul.wc_coupon_list .code {margin: 0 0 0 8px}
+
+
+
+	/**
+	 * Reports
+	 */
+
+		.woocommerce-reports-wide .postbox .chart-with-sidebar,
+		.woocommerce-reports-wrap .postbox .chart-with-sidebar {padding: 12px 249px 12px 12px}
+
+		.woocommerce-reports-wide .postbox .chart-with-sidebar .chart-sidebar,
+		.woocommerce-reports-wrap .postbox .chart-with-sidebar .chart-sidebar {
+			margin-left: 0;
+			margin-right: -237px;
+		}
+
+		.woocommerce-reports-wide .postbox h3.stats_range .export_csv,
+		.woocommerce-reports-wrap .postbox h3.stats_range .export_csv {
+			border-left: 0;
+			border-right: 1px solid #DFDFDF;
+		}
+		.woocommerce-reports-wide .postbox h3.stats_range ul li a,
+		.woocommerce-reports-wrap .postbox h3.stats_range ul li a {
+			border-right: 0;
+			border-left: 1px solid #DFDFDF;
+		}
+
+
+
+	/**
+	 * Products
+	 */
+
+		#product_cat_thumbnail {
+			float: right !important;
+			margin-right: 0 !important;
+			margin-left: 10px !important;
+		}
+
+		#woocommerce-product-images .inside #product_images_container {padding: 0 9px 0 0}
+		#woocommerce-product-images .inside #product_images_container ul li.add,
+		#woocommerce-product-images .inside #product_images_container ul li.image,
+		#woocommerce-product-images .inside #product_images_container ul li.wc-metabox-sortable-placeholder {margin: 9px 0 0 9px}
+
+		#woocommerce-product-data h3.hndle label:first-child {
+			margin-right: 0;
+			margin-left: 1em;
+			border-right: 0;
+			border-left: 1px solid #DFDFDF;
+		}
+
+		h3.hndle label[for="_virtual"],
+		h3.hndle label[for="_downloadable"] {display: inline-block !important}
+
+		.woocommerce_options_panel .downloadable_files {padding: 0 162px 0 9px}
+			.woocommerce_options_panel .downloadable_files label {
+				left: auto;
+				right: 0;
+			}
+
+		.wc-metaboxes-wrapper .fr,
+		.wc-metaboxes-wrapper button.add_attribute,
+		.wc-metaboxes-wrapper button.add_variable_attribute,
+		.wc-metaboxes-wrapper select.attribute_taxonomy {margin: 0 6px 0 0}
+
+
+
+	/**
+	 * Chose JS layout fixes
+	 */
+
+		.chosen-container .chosen-drop {
+			left: auto;
+			right: -9999px;
+		}
+
+/* End of file */

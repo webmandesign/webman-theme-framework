@@ -1,0 +1,137 @@
+/**
+ * WordPress Admin Styles
+ *
+ * @package    WebMan WordPress Theme Framework
+ * @copyright  2014 WebMan - Oliver Juhas
+ */
+
+
+
+/**
+ * General classes
+ */
+
+	.text-center {text-align: center !important}
+
+	.wm-table th {text-align: left}
+	.wm-table thead th {
+		padding-top: 1em;
+		padding-bottom: .5em;
+		font-size: 1.17em;
+	}
+
+
+
+/**
+ * Home and blog page admin styling
+ */
+
+	#front-static-pages li + li {margin-top: 15px}
+	#front-static-pages label {
+		padding: 10px;
+		border-radius: 5px;
+	}
+	#front-static-pages label[for="page_on_front"] {background: #d7eef4}
+	#front-static-pages label[for="page_for_posts"] {background: #d7f4e3}
+
+
+
+/**
+ * Update notifier
+ */
+
+	.update-notifier {}
+		.update-notifier hr {
+			margin: 10px 0 20px;
+			border: 0;
+			border-top: 1px solid #ddd;
+		}
+		.update-notifier #instructions {
+			max-width: 640px;
+			margin-right: 40px;
+			float: left;
+		}
+		.update-notifier .theme-img {
+			float: left;
+			width: 140px;
+			margin: 10px 20px 20px 0;
+		}
+		.update-notifier ol {clear: both}
+		.update-notifier .note {
+			padding: 10px 20px;
+			font-size: .9em;
+			background: #f3f3f3;
+			border: 1px solid #ccc;
+		}
+		.update-notifier #changelog {
+			float: left;
+			max-width: 400px;
+			margin-top: 30px;
+			padding: 20px;
+		}
+
+
+
+/**
+ * Forms
+ */
+
+	select.widefat {background-color: #fff}
+	select[multiple] {height: 80px !important}
+
+
+
+/**
+ * Colorize posts
+ */
+
+	/* by post status */
+		.status-draft,
+		.status-pending {background: #fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHklEQVQIW2NkQAXGjEh8YyD7LEwAzAFJggTgHJAAAE+uAzjGgU3wAAAAAElFTkSuQmCC) repeat}
+
+
+
+/**
+ * Widgets admin
+ */
+
+	.wm-desc {
+		font-family: Georgia, Times, serif;
+		font-size: 11px;
+		font-style: italic;
+		line-height: 1.25em;
+		color: #666;
+		padding-bottom: .65em !important;
+		border-bottom: 1px solid #ddd;
+	}
+
+	.widget-content textarea {max-width: 100%}
+
+
+
+/**
+ * Admin bar
+ */
+
+	#wpadminbar #wp-admin-bar-wm_theme_options > .ab-item:before {content: '\f111'}
+	#wpadminbar #wp-admin-bar-update_notifier > .ab-item:before {content: '\f107'}
+
+
+
+/**
+ * bbPress related
+ */
+
+	.wp-list-table .bbp-content-container {display: none}
+
+
+
+/**
+ * Visual Composer related
+ */
+
+	.vc-remove-licence-notice .vc-license-activation-notice {display: none}
+
+
+
+/* End of file */

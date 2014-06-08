@@ -1,0 +1,27 @@
+/**
+ * WordPress RTL Admin Styles
+ *
+ * @package    WebMan WordPress Theme Framework
+ * @copyright  2014 WebMan - Oliver Juhas
+ */
+
+
+
+/**
+ * Update notifier
+ */
+
+	.update-notifier #instructions {
+		float: right;
+		margin-right: 0;
+		margin-left: 40px;
+	}
+	.update-notifier .theme-img {
+		float: right;
+		margin: 10px 0 20px 20px;
+	}
+	.update-notifier #changelog {float: right}
+
+
+
+/* END OF FILE */

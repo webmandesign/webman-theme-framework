@@ -1,0 +1,29 @@
+/**
+ * About Page RTL Styles
+ *
+ * @package     WebMan WordPress Theme Framework
+ * @subpackage  About Page
+ * @copyright   2014 WebMan - Oliver Juhas
+ * @version     1.0
+ */
+
+
+
+	.about-wrap {direction: rtl}
+
+	.wm-badge {
+		right: auto;
+		left: 0;
+	}
+
+	.about-wrap .twitter-share-button {
+		margin-left: 0;
+		margin-right: 3px;
+	}
+
+	.about-wrap .dropcap {
+		float: right;
+		margin: 0 0 .25em .5em;
+	}
+
+/* End of file */
