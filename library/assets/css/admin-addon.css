@@ -122,7 +122,7 @@
  * bbPress related
  */
 
-	.wp-list-table .bbp-content-container {display: none}
+	.bbp-hide-content-container .wp-list-table .bbp-content-container {display: none}
 
 
 
