@@ -4,7 +4,9 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Skinning System
  * @copyright   2014 WebMan - Oliver Juhas
- * @version     1.0
+ *
+ * @since       3.0
+ * @version     1.1
  */
 
 
@@ -40,6 +42,74 @@
 		background: #d7eef4;
 	}
 	#customize-control-page_for_posts {background: #d7f4e3}
+
+
+
+	/**
+	 * Preview thumbnail
+	 */
+
+		.accordion-section .customize-control-image .dropdown-content,
+		.accordion-section .customize-control-image .preview-thumbnail {
+			width: 100%;
+			background: #eee;
+		}
+			.accordion-section .customize-control-image .preview-thumbnail img {width: auto}
+
+
+
+	/**
+	 * Radio matrix (3x3)
+	 */
+
+		.matrix {
+			padding: 2px 0 3px 2px;
+			margin-bottom: .5em;
+			border: 2px solid #ddd;
+			overflow: hidden;
+		}
+			.matrix span,
+			.image-radio span {display: none}
+			.matrix label {
+				float: left;
+				display: block;
+				width: 33.33%;
+				padding: .5em 0 .5em 4px;
+				margin: 0 -1px -1px 0;
+				text-align: center;
+				border: 1px dotted #ddd;
+				-webkit-box-sizing: border-box;
+				   -moz-box-sizing: border-box;
+				        box-sizing: border-box;
+			}
+				.matrix label.active {background: #b0dbee}
+				.matrix label.active:hover {background: #a0cadd}
+				.matrix label:hover {background: #f6f6f6}
+
+
+
+	/**
+	 * Image radios
+	 */
+
+		.image-radio label {
+			float: left;
+			display: inline-block;
+			margin: 4px;
+			text-align: center;
+		}
+			.image-radio img {
+				display: block;
+				width: 42px;
+				opacity: .5;
+			}
+			.image-radio input {
+				position: relative;
+				top: -.75em;
+				margin: 0;
+			}
+			.image-radio label.active img,
+			.image-radio label:hover img {opacity: 1}
 
 
 

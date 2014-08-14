@@ -4,7 +4,9 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Skinning System
  * @copyright   2014 WebMan - Oliver Juhas
- * @version     1.0
+ *
+ * @since       3.0
+ * @version     1.1
  */
 
 
@@ -14,24 +16,39 @@
 
 
 	/**
+	 * Custom radio select
+	 *
+	 * @since 1.1
+	 */
+
+	jQuery( '.custom-radio-container' ).on( 'change', 'input', function() {
+			jQuery( this ).parent().addClass( 'active' ).siblings().removeClass( 'active' );
+		} );
+
+
+
+	/**
 	 * Run actions after customizer saving
+	 *
+	 * @since    1.0
+	 * @version  1.1
 	 */
 
 		exports.customize.bind( 'saved', function() {
 
 				if (
-						$( '#customize-control-wm-trigger-skin-wm-skin-new input' ).val()
-						|| $( '#customize-control-wm-trigger-skin-wm-skin-load select' ).val()
+						$( '#customize-control-wm-' + wmCustomizerHelper.wmThemeShortname + '-skin-wm-skin-new input' ).val()
+						|| $( '#customize-control-wm-' + wmCustomizerHelper.wmThemeShortname + '-skin-wm-skin-load select' ).val()
 					) {
 					//Trigger action when customizer saved and new skin/load skin set
 
 					//Refresh the page when loading skin (will empty also the new skin/load skin fields)
-						if ( $( '#customize-control-wm-trigger-skin-wm-skin-load select' ).val() ) {
+						if ( $( '#customize-control-wm-' + wmCustomizerHelper.wmThemeShortname + '-skin-wm-skin-load select' ).val() ) {
 							document.location.reload( true );
 						}
 
 					//Empty the new skin field
-						$( '#customize-control-wm-trigger-skin-wm-skin-new input' ).val( '' );
+						$( '#customize-control-wm-' + wmCustomizerHelper.wmThemeShortname + '-skin-wm-skin-new input' ).val( '' );
 
 				}
 

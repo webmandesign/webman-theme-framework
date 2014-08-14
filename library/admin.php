@@ -6,6 +6,9 @@
  * @subpackage  Admin Functions
  * @copyright   2014 WebMan - Oliver Juhas
  *
+ * @since       3.0
+ * @version     1.0
+ *
  * CONTENT:
  * - 1) Required files
  * - 10) Actions and filters
@@ -123,7 +126,7 @@
 	if ( ! function_exists( 'wm_admin_include' ) ) {
 		function wm_admin_include() {
 			//Styles
-				wp_enqueue_style( 'wm-admin-addons' );
+				wp_enqueue_style( 'wm-admin' );
 
 				//RTL languages support
 					if ( is_rtl() ) {

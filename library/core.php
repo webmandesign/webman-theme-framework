@@ -9,7 +9,7 @@
  * @license    GPL-2.0+
  * @link       http://www.webmandesign.eu
  * @copyright  2014 WebMan - Oliver Juhas
- * @version    3.0
+ * @version    3.1
  *
  * CONTENT:
  * - 1) Required files
@@ -30,7 +30,7 @@
  */
 
 	//Layouts and patterns
-		locate_template( WM_LIBRARY_DIR . 'helpers/hooks.php', true );
+		locate_template( WM_LIBRARY_DIR . 'includes/hooks.php', true );
 
 	//Plugins activation
 		if (
@@ -40,8 +40,8 @@
 					|| file_exists( WM_SETUP_CHILD . 'plugins.php' )
 				)
 			) {
-			locate_template( WM_LIBRARY_DIR . 'helpers/class-tgm-plugin-activation.php', true );
-			locate_template( WM_SETUP_DIR . 'plugins.php',                               true );
+			locate_template( WM_LIBRARY_DIR . 'includes/class-tgm-plugin-activation.php', true );
+			locate_template( WM_SETUP_DIR . 'plugins.php',                                true );
 		}
 
 
@@ -64,9 +64,6 @@
 			if ( function_exists( 'wma_pagination' ) ) {
 				add_action( 'wmhook_postslist_after', 'wma_pagination', 10 );
 			}
-		//Post/page end
-			// add_action( 'wmhook_entry_bottom', 'wm_post_parts', 10 );
-			// add_action( 'wmhook_entry_bottom', 'wm_post_attachments', 10 );
 		//Remove recent comments <style> from HTML head
 			add_action( 'widgets_init', 'wm_remove_recent_comments_style' );
 		//Blog page query modification
@@ -84,8 +81,8 @@
 	 * Filters
 	 */
 
-		//Minimize CSS
-			add_filter( 'wmhook_wm_generate_main_css_output_min', 'wm_minimize_css', 10 );
+		//Minify CSS
+			add_filter( 'wmhook_wm_generate_main_css_output_min', 'wm_minify_css', 10 );
 		//Meta title
 			add_filter( 'wp_title', 'wm_seo_title', 10, 2 );
 		//Excerpt
@@ -97,10 +94,6 @@
 			add_filter( 'the_category', 'wm_remove_rel' );
 		//HTML in widget title of default WordPress widgets
 			add_filter( 'widget_title', 'wm_html_widget_title' );
-		//WordPress [gallery] shortcode improvements
-			add_filter( 'post_gallery', 'wm_shortcode_gallery', 10, 2 );
-		//WordPress image with caption shortcode improvements
-			add_filter( 'img_caption_shortcode', 'wm_shortcode_image_caption', 10, 3 );
 		//Table of contents
 			add_filter( 'the_content', 'wm_nextpage_table_of_contents', 10 );
 		//Default WordPress content filters only
@@ -112,6 +105,8 @@
 			add_filter( 'wmhook_wm_default_content_filters', 'wpautop',            50 ); //Default WP
 			add_filter( 'wmhook_wm_default_content_filters', 'shortcode_unautop',  60 ); //Default WP
 			add_filter( 'wmhook_wm_default_content_filters', 'prepend_attachment', 70 ); //Default WP
+		//OPTIONAL: WordPress [gallery] and [caption] shortcode improvements
+			// add_filter( 'post_gallery', 'wm_shortcode_gallery', 10, 2 );
 
 
 
@@ -273,6 +268,8 @@
 
 	/**
 	 * Logo
+	 *
+	 * @version  3.1
 	 */
 	if ( ! function_exists( 'wm_logo' ) ) {
 		function wm_logo() {
@@ -299,12 +296,12 @@
 							$logo_url       = wp_get_attachment_image_src( $img_id, 'full' );
 							$logo_url_hiDPI = ( $img_id_hiDPI ) ? ( wp_get_attachment_image_src( $img_id_hiDPI, 'full' ) ) : ( array( '' ) );
 
-							$atts = array(
+							$atts = (array) apply_filters( 'wmhook_wm_logo_image_atts', array(
 									'alt'        => esc_attr( sprintf( __( '%s logo', 'wm_domain' ), trim( get_bloginfo( 'name' ) ) ) ),
 									'title'      => esc_attr( $args['description'] ),
 									'class'      => '',
 									'data-hidpi' => ( $logo_url_hiDPI[0] ) ? ( $logo_url_hiDPI[0] ) : ( $logo_url[0] ),
-								);
+								) );
 
 							$args['logo_image'] = wp_get_attachment_image( $img_id, 'full', false, $atts );
 
@@ -796,7 +793,7 @@
 								'before' => ( 1 === $page ) ? ( '<div class="post-table-of-contents top" title="' . esc_attr( strip_tags( $title_text ) ) . '">' . $title . '<ol>' . $atts['links'] . '</ol></div>' ) : ( '' ),
 							//Display table of cotnnets after the post cotnent on each post part
 								'after'  => '<div class="post-table-of-contents bottom" title="' . esc_attr( strip_tags( $title_text ) ) . '">' . $title . '<ol>' . $atts['links'] . '</ol></div>',
-						) );
+						), $atts );
 
 					$content = $links['before'] . $content . $links['after'];
 
@@ -816,11 +813,18 @@
 	 *
 	 * Original source code from @link wp-includes/media.php
 	 *
+	 * @version  3.1
+	 *
 	 * @param  string $output
 	 * @param  array  $attr
 	 */
 	if ( ! function_exists( 'wm_shortcode_gallery' ) ) {
 		function wm_shortcode_gallery( $output, $attr ) {
+			//Something else is overriding post_gallery, such as a Jetpack plugin's Tiled Gallery
+				if ( ! empty( $output ) ) {
+					return $output;
+				}
+
 			$post = get_post();
 
 			static $instance = 0;
@@ -912,7 +916,7 @@
 
 			//custom theme addon:
 				$class_container = '';
-				$class           = esc_attr( sanitize_html_class( trim( $class ) ) );
+				$class           = esc_attr( trim( $class ) );
 				$wrapper         = ( 'li' == $itemtag ) ? ( '<ul>' ) : ( '' );
 				$wrapper_end     = ( $wrapper ) ? ( '</ul>' ) : ( '' );
 				$columns         = ( 1 > $columns || 9 < $columns ) ? ( 3 ) : ( $columns ); //only 1 to 9 columns allowed
@@ -1004,48 +1008,6 @@
 			return apply_filters( 'wmhook_wm_shortcode_gallery_output', $output );
 		}
 	} // /wm_shortcode_gallery
-
-
-
-	/**
-	 * WordPress image captions
-	 *
-	 * Improves WordPress image captions by removing inline styling.
-	 *
-	 * Original source code from @link wp-includes/media.php
-	 *
-	 * @param  string $empty
-	 * @param  array  $attr
-	 * @param  string $content
-	 */
-	if ( ! function_exists( 'wm_shortcode_image_caption' ) ) {
-		function wm_shortcode_image_caption( $empty, $attr, $content ) {
-			//Helper variables
-				$output = '';
-				$attr   = shortcode_atts( array(
-						'id'      => '',
-						'align'   => 'alignnone',
-						'width'   => '',
-						'caption' => '',
-					), $attr, 'caption' );
-
-			//Preparing output
-				if ( 1 > (int) $attr['width'] || empty( $attr['caption'] ) ) {
-					return $content;
-				}
-
-				if ( $attr['id'] ) {
-					$attr['id'] = 'id="' . esc_attr( $attr['id'] ) . '" ';
-				}
-
-				$output .= '<div ' . $attr['id'] . 'class="wp-caption ' . esc_attr( $attr['align'] ) . '">';
-				$output .= '<figure>' . $content . '<figcaption class="wp-caption-text">' . do_shortcode( $attr['caption'] ) . '</figcaption></figure>';
-				$output .= '</div>';
-
-			//Output
-				return apply_filters( 'wmhook_wm_shortcode_image_caption_output', $output );
-		}
-	} // /wm_shortcode_image_caption
 
 
 
@@ -1883,12 +1845,53 @@
 
 
 		/**
-		 * CSS minimizer
+		 * Outputs path to the specific file
 		 *
-		 * @param  string $css Code to minimize
+		 * This function looks for the file in the child theme first.
+		 * If the file is not located in child theme, output the path from parent theme.
+		 *
+		 * @since   3.1
+		 *
+		 * @param   string $file_relative_path File to look for (insert also the relative path inside the theme)
+		 *
+		 * @return  string Actual path to the file
 		 */
-		if ( ! function_exists( 'wm_minimize_css' ) ) {
-			function wm_minimize_css( $css ) {
+		if ( ! function_exists( 'wm_get_stylesheet_directory' ) ) {
+			function wm_get_stylesheet_directory( $file_relative_path ) {
+				//Helper variables
+					$output = '';
+
+					$file_relative_path = trim( $file_relative_path );
+
+				//Requirements chek
+					if ( ! $file_relative_path ) {
+						return apply_filters( 'wm_get_stylesheet_directory_output', esc_url( $output ), $file_relative_path );
+					}
+
+				//Praparing output
+					if ( file_exists( trailingslashit( get_stylesheet_directory() ) . $file_relative_path ) ) {
+						$output = trailingslashit( get_stylesheet_directory() ) . $file_relative_path;
+					} else {
+						$output = trailingslashit( get_template_directory() ) . $file_relative_path;
+					}
+
+				//Output
+					return apply_filters( 'wm_get_stylesheet_directory_output', $output, $file_relative_path );
+			}
+		} // /wm_get_stylesheet_directory
+
+
+
+		/**
+		 * CSS minifier
+		 *
+		 * @since    3.0
+		 * @version  1.1
+		 *
+		 * @param    string $css Code to minimize
+		 */
+		if ( ! function_exists( 'wm_minify_css' ) ) {
+			function wm_minify_css( $css ) {
 				//Praparing output
 					//Remove CSS comments
 						$css = preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css );
@@ -1896,16 +1899,19 @@
 						$css = str_replace( array( "\r\n", "\r", "\n", "\t", "  ", "    " ), '', $css );
 
 				//Output
-					return apply_filters( 'wmhook_wm_minimize_css_output', $css );
+					return apply_filters( 'wmhook_wm_minify_css_output', $css );
 			}
-		} // /wm_minimize_css
+		} // /wm_minify_css
 
 
 
 		/**
 		 * Generate main CSS file
 		 *
-		 * @param  boolean $args
+		 * @since    3.0
+		 * @version  1.1
+		 *
+		 * @param    boolean $args
 		 */
 		if ( ! function_exists( 'wm_generate_main_css' ) ) {
 			function wm_generate_main_css( $args = array() ) {
@@ -1923,7 +1929,7 @@
 							'type'           => '',
 						) ) );
 
-					$output  = $output_min = '';
+					$output = $output_min = '';
 
 					if ( ! $args['gzip'] ) {
 						$args['gzip'] = wm_option( 'general-gzip' ) || wm_option( 'skin-gzip' );
@@ -1962,7 +1968,7 @@
 						return false;
 					}
 
-					//Minimize output if set
+					//Minify output if set
 						$output_min = apply_filters( 'wmhook_wm_generate_main_css_output_min', $output, $args );
 
 				//Output
@@ -1990,6 +1996,9 @@
 
 						//Admin notice
 							set_transient( 'wm-admin-notice', array( $args['message_before'] . $args['message'] . $args['message_after'] , 'switch_themes' ), ( 60 * 60 * 24 ) );
+
+						//Run custom actions
+							do_action( 'wmhook_wm_generate_main_css', $args );
 
 						return true;
 					}

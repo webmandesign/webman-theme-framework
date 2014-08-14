@@ -5,11 +5,14 @@
  * Provides a notification to the user everytime the WordPress theme is updated.
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Theme Update Notifier *
+ * @subpackage  Theme Update Notifier
  * @author      Modifications by WebMan - Oliver Juhas
  * @author      Joao Araujo
  * @link        http://themeforest.net/user/unisphere
  * @link        http://twitter.com/unispheredesign
+ *
+ * @since       3.0
+ * @version     3.1
  *
  * CONTENT:
  * - 1) Constants
@@ -46,13 +49,12 @@
 	 */
 
 		//Admin menu and menu bar
-			if (
-					! class_exists( 'Envato_WP_Toolkit' )
-					|| ! apply_filters( 'wmhook_envato', false )
-				) {
+			if ( ! apply_filters( 'wmhook_disable_update_notifier_menu', false ) ) {
 				add_action( 'admin_menu', 'update_notifier_menu', 1000 );
 			}
-			add_action( 'admin_bar_menu', 'update_notifier_bar_menu', 1000 );
+			if ( ! apply_filters( 'wmhook_disable_update_notifier_bar_menu', false ) ) {
+				add_action( 'admin_bar_menu', 'update_notifier_bar_menu', 1000 );
+			}
 
 
 
@@ -120,7 +122,10 @@
 			$installedVersion = substr( $installedVersion, 0, 1 ) . '.' . substr( $installedVersion, 1 ); //101 => 1.01
 
 			if( (float) $latestVersion > (float) $installedVersion ) { //Compare current theme version with the remote XML version
-				$adminURL = ( ! class_exists( 'Envato_WP_Toolkit' ) ) ? ( get_admin_url() . 'themes.php?page=theme-update-notifier' ) : ( network_admin_url( 'admin.php?page=envato-wordpress-toolkit' ) );
+				$adminURL = get_admin_url() . 'themes.php?page=theme-update-notifier';
+				if ( class_exists( 'Envato_WP_Toolkit' ) && ! isset( $xml->noenvato ) ) {
+					$adminURL = network_admin_url( 'admin.php?page=envato-wordpress-toolkit' );
+				}
 				$wp_admin_bar->add_menu( array(
 						'id'    => 'update_notifier',
 						'title' => sprintf( __( '%s update', 'wm_domain' ), WM_THEME_NAME ) . ' <span id="ab-updates">1</span>',
@@ -152,47 +157,66 @@
 		<div class="wrap update-notifier">
 
 			<div id="icon-tools" class="icon32"></div>
-			<h2><?php printf( __( '<strong>%s</strong> Theme Updates', 'wm_domain' ), WM_THEME_NAME ); ?></h2>
+			<h2><strong><?php echo WM_THEME_NAME; ?></strong> Theme Updates</h2>
 
 			<br />
 
-			<div id="message" class="updated below-h2">
+			<div id="message" class="error">
 				<p>
 				<?php
 				if ( isset( $xml->message ) && trim( $xml->message ) ) {
 					echo '<strong>' . trim( $xml->message ) . '</strong><br />';
 				}
-				printf( __( 'You have version %1$s installed. Update to version %2$s.', 'wm_domain' ), WM_THEME_VERSION, trim( $xml->latest ) );
+				echo 'You have version ' . WM_THEME_VERSION . ' installed. <strong>Update to version ' . trim( $xml->latest ) . ' now.</strong>';
 				?>
 				</p>
 			</div>
 
 			<div id="instructions">
-				<img src="<?php echo get_stylesheet_directory_uri(); ?>/screenshot.png" alt="" class="theme-img" />
+				<img src="<?php echo get_template_directory_uri(); ?>/screenshot.png" alt="" class="theme-img" />
 
-				<h3><?php _e( 'Update Download and Instructions', 'wm_domain' ); ?></h3>
+				<h3>Update Download and Instructions</h3>
 
-				<p><?php _e( 'To update the theme you need to re-download it from the marketplace you have bought it on.', 'wm_domain' ); ?></p>
+				<p>To update the theme you need to <strong>re-download it from the marketplace</strong> you have bought it on.</p>
 
-				<p><?php _e( 'Now use one of these options to update the theme:', 'wm_domain' ); ?></p>
+				<p>Use one of these options to update the theme:</p>
+
+				<?php
+				if ( isset( $xml->important ) ) {
+					echo '<div class="important-note">' . $xml->important . '</div>';
+				}
+				?>
 
 				<ul>
+					<?php
+					if ( class_exists( 'Envato_WP_Toolkit' ) && ! isset( $xml->noenvato ) ) {
+						echo '<li><h4>Automatic theme update:</h4><a href="' . network_admin_url( 'admin.php?page=envato-wordpress-toolkit' ) . '" class="button button-primary button-hero">Update the Theme Automatically &raquo;</a></li>';
+					}
+					?>
 					<li>
-						<h4><?php _e( 'Easier, but might take longer time:', 'wm_domain' ); ?></h4>
-						<p><?php _e( 'Unzip the zipped theme file (you have just downloaded) on your computer. Upload the unzipped theme folder using FTP client to your server (into <code>YOUR_WORDPRESS_INSTALLATION/wp-content/themes/</code>) overwriting all the current theme files.', 'wm_domain' ); ?></p>
+						<h4>Easier, but might take longer time:</h4>
+						<ol>
+							<li>Unzip the zipped theme file (you have just downloaded) on your computer.</li>
+							<li>Upload the unzipped theme folder using FTP client to your server (into <code>YOUR_WORDPRESS_INSTALLATION/wp-content/themes/</code>) overwriting all the current theme files.</li>
+						</ol>
 					</li>
 					<li>
-						<h4><?php _e( 'More advanced, quicker:', 'wm_domain' ); ?></h4>
-						<p><?php printf( __( 'Upload the theme installation ZIP file using FTP client to your server (into <code>YOUR_WORDPRESS_INSTALLATION/wp-content/themes/</code>). Using your FTP client, rename the old theme folder (for example from %1s to %2s). When the old theme folder is renamed, unzip the theme installation zip file on the server (you might need to use web-based FTP tool for this; hosting companies provides such tools). After checking if the theme works fine, delete the renamed old theme folder from the server.', 'wm_domain' ), '<code>' . WM_THEME_SHORTNAME . '</code>', '<code>' . WM_THEME_SHORTNAME . '-old</code>' ); ?></p>
+						<h4>More advanced, quicker:</h4>
+						<ol>
+							<li>Upload the theme installation ZIP file using FTP client to your server (into <code>YOUR_WORDPRESS_INSTALLATION/wp-content/themes/</code>).</li>
+							<li>Using your FTP client, rename the old theme folder (for example from <code><?php echo WM_THEME_SHORTNAME; ?></code> to <code><?php echo WM_THEME_SHORTNAME; ?>-old</code>).</li>
+							<li>When the old theme folder is renamed, unzip the theme installation zip file directly on the server (you might need to use a web-based FTP tool for this; hosting companies provides such tools).</li>
+							<li>After checking whether the theme works fine, delete the renamed old theme folder from the server.</li>
+						</ol>
 					</li>
 				</ul>
 			</div>
 
 			<div id="changelog" class="note">
-				<div class="icon32 icon32-posts-page" id="icon-edit-pages"><br /></div><h2><?php _e( 'Update Changes', 'wm_domain' ); ?></h2>
+				<div class="icon32 icon32-posts-page" id="icon-edit-pages"><br /></div><h2>Changelog</h2>
 				<?php echo $xml->changelog; ?>
 				<hr />
-				<h3><?php _e( 'Files changed:', 'wm_domain' ); ?></h3>
+				<h3>Files changed:</h3>
 				<code><?php echo str_replace( ', ', '</code><br /><code>', $xml->changefiles ); ?></code>
 			</div>
 		</div>
