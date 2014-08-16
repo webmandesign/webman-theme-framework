@@ -102,7 +102,7 @@
 			add_filter( 'login_headertitle', 'wm_login_headertitle' );
 			add_filter( 'login_headerurl', 'wm_login_headerurl' );
 		//Admin customization
-			if ( is_admin() ) {
+			if ( is_admin() && apply_filters( 'wmhook_admin_modifications_enabled', true ) ) {
 				add_filter( 'admin_footer_text', 'wm_admin_footer' );
 				add_filter( 'manage_post_posts_columns', 'wm_post_columns_register' );
 				add_filter( 'manage_post_posts_custom_column', 'wm_post_columns_render', 10 );
