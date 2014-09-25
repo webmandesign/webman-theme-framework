@@ -5,7 +5,7 @@
  * @copyright  2014 WebMan - Oliver Juhas
  *
  * @since      3.0
- * @version    1.1
+ * @version    3.1
  */
 
 
@@ -17,7 +17,7 @@ jQuery( function() {
 	/**
 	 * Global scripts
 	 *
-	 * @since  1.0
+	 * @since  3.0
 	 */
 
 		//Open "View" button in new window
@@ -28,7 +28,7 @@ jQuery( function() {
 	/**
 	 * WooSidebars specific
 	 *
-	 * @since  1.0
+	 * @since  3.0
 	 */
 
 		//Remove line breaks in sidebars admin list
@@ -39,8 +39,8 @@ jQuery( function() {
 	/**
 	 * WooCommerce specific
 	 *
-	 * @since    1.0
-	 * @version  1.1
+	 * @since    3.0
+	 * @version  3.1
 	 */
 
 		//Remove secondary color picker

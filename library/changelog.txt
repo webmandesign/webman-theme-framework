@@ -1,4 +1,22 @@
 **************************************
+ WebMan WordPress Theme Framework 3.2
+**************************************
+
+	WordPress 4.0 support
+	Theme customizer update
+	TGM-Plugin-Activation removed support for old WordPress versions
+
+	Files changed:
+	**************
+	skinning.php
+	assets/css/theme-customizer.css
+	includes/class-tgm-plugin-activation.php
+
+
+
+
+
+**************************************
  WebMan WordPress Theme Framework 3.1
 **************************************
 

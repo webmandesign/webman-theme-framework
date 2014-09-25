@@ -9,7 +9,6 @@
  * @copyright   2014 WebMan - Oliver Juhas
  *
  * @since       3.1
- * @version     1.1
  */
 
 

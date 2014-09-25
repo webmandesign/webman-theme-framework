@@ -6,7 +6,7 @@
  * @copyright   2014 WebMan - Oliver Juhas
  *
  * @since       3.0
- * @version     1.1
+ * @version     3.1
  */
 
 
@@ -18,7 +18,7 @@
 	/**
 	 * Custom radio select
 	 *
-	 * @since 1.1
+	 * @since 3.1
 	 */
 
 	jQuery( '.custom-radio-container' ).on( 'change', 'input', function() {
@@ -30,8 +30,8 @@
 	/**
 	 * Run actions after customizer saving
 	 *
-	 * @since    1.0
-	 * @version  1.1
+	 * @since    3.0
+	 * @version  3.1
 	 */
 
 		exports.customize.bind( 'saved', function() {

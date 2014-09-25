@@ -1886,7 +1886,7 @@
 		 * CSS minifier
 		 *
 		 * @since    3.0
-		 * @version  1.1
+		 * @version  3.1
 		 *
 		 * @param    string $css Code to minimize
 		 */
@@ -1909,7 +1909,7 @@
 		 * Generate main CSS file
 		 *
 		 * @since    3.0
-		 * @version  1.1
+		 * @version  3.1
 		 *
 		 * @param    boolean $args
 		 */
