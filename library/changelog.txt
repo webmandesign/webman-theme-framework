@@ -1,4 +1,19 @@
 **************************************
+ WebMan WordPress Theme Framework 3.3
+**************************************
+
+	Theme customizer improved
+
+	Files changed:
+	**************
+	skinning.php
+	includes/sanitize.php
+
+
+
+
+
+**************************************
  WebMan WordPress Theme Framework 3.2
 **************************************
 

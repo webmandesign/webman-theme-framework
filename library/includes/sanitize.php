@@ -9,6 +9,7 @@
  * @copyright   2014 WebMan - Oliver Juhas
  *
  * @since       3.1
+ * @version     3.3
  */
 
 
@@ -35,31 +36,23 @@ if ( ! function_exists( 'wm_sanitize_email' ) ) {
  *
  * @param  mixed $value WP customizer value to sanitize.
  */
-if ( ! function_exists( 'wm_sanitize_int' ) ) {
-	function wm_sanitize_int( $value ) {
-		//Helper variables
-			$value = intval( $value );
-
-		//Output
-			return apply_filters( 'wmhook_wm_sanitize_int_output', $value );
+if ( ! function_exists( 'wm_sanitize_intval' ) ) {
+	function wm_sanitize_intval( $value ) {
+		return apply_filters( 'wmhook_wm_sanitize_intval_output', intval( $value ) );
 	}
-} // /wm_sanitize_int
+} // /wm_sanitize_intval
 
 
 
 /**
- * Sanitize absolute integer number
+ * No sanitization at all, simply return the value
  *
  * @param  mixed $value WP customizer value to sanitize.
  */
-if ( ! function_exists( 'wm_sanitize_absint' ) ) {
-	function wm_sanitize_absint( $value ) {
-		//Helper variables
-			$value = absint( $value );
-
-		//Output
-			return apply_filters( 'wmhook_wm_sanitize_absint_output', $value );
+if ( ! function_exists( 'wm_sanitize_return_value' ) ) {
+	function wm_sanitize_return_value( $value ) {
+		return apply_filters( 'wmhook_wm_sanitize_return_value_output', $value );
 	}
-} // /wm_sanitize_absint
+} // /wm_sanitize_return_value
 
 ?>

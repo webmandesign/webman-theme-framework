@@ -9,7 +9,7 @@
  * @uses        Custom CSS Styles Generator
  *
  * @since       3.0
- * @version     3.2
+ * @version     3.3
  *
  * CONTENT:
  * - 1) Required files
@@ -178,7 +178,7 @@
 	/**
 	 * Registering sections and options for WP Customizer
 	 *
-	 * @version  3.2
+	 * @version  3.3
 	 *
 	 * @param  object $wp_customize WP customizer object.
 	 */
@@ -359,9 +359,11 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-url]',
 											array(
-												'type'      => 'option',
-												'default'   => ( isset( $default['url'] ) ) ? ( $default['url'] ) : ( null ),
-												'transport' => $transport,
+												'type'                 => 'option',
+												'default'              => ( isset( $default['url'] ) ) ? ( $default['url'] ) : ( null ),
+												'transport'            => $transport,
+												'sanitize_callback'    => 'wm_sanitize_return_value',
+												'sanitize_js_callback' => 'wm_sanitize_return_value',
 											)
 										);
 
@@ -379,9 +381,11 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-url-hidpi]',
 											array(
-												'type'      => 'option',
-												'default'   => ( isset( $default['url-hidpi'] ) ) ? ( $default['url-hidpi'] ) : ( null ),
-												'transport' => $transport,
+												'type'                 => 'option',
+												'default'              => ( isset( $default['url-hidpi'] ) ) ? ( $default['url-hidpi'] ) : ( null ),
+												'transport'            => $transport,
+												'sanitize_callback'    => 'wm_sanitize_return_value',
+												'sanitize_js_callback' => 'wm_sanitize_return_value',
 											)
 										);
 
@@ -401,9 +405,11 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-position]',
 												array(
-													'type'      => 'option',
-													'default'   => ( isset( $default['position'] ) ) ? ( $default['position'] ) : ( '50% 0' ),
-													'transport' => $transport,
+													'type'                 => 'option',
+													'default'              => ( isset( $default['position'] ) ) ? ( $default['position'] ) : ( '50% 0' ),
+													'transport'            => $transport,
+													'sanitize_callback'    => 'esc_attr',
+													'sanitize_js_callback' => 'esc_attr',
 												)
 											);
 
@@ -422,9 +428,11 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-repeat]',
 												array(
-													'type'      => 'option',
-													'default'   => ( isset( $default['repeat'] ) ) ? ( $default['repeat'] ) : ( 'no-repeat' ),
-													'transport' => $transport,
+													'type'                 => 'option',
+													'default'              => ( isset( $default['repeat'] ) ) ? ( $default['repeat'] ) : ( 'no-repeat' ),
+													'transport'            => $transport,
+													'sanitize_callback'    => 'esc_attr',
+													'sanitize_js_callback' => 'esc_attr',
 												)
 											);
 
@@ -443,9 +451,11 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-attachment]',
 												array(
-													'type'      => 'option',
-													'default'   => ( isset( $default['attachment'] ) ) ? ( $default['attachment'] ) : ( 'scroll' ),
-													'transport' => $transport,
+													'type'                 => 'option',
+													'default'              => ( isset( $default['attachment'] ) ) ? ( $default['attachment'] ) : ( 'scroll' ),
+													'transport'            => $transport,
+													'sanitize_callback'    => 'esc_attr',
+													'sanitize_js_callback' => 'esc_attr',
 												)
 											);
 
@@ -463,9 +473,11 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-size]',
 												array(
-													'type'      => 'option',
-													'default'   => ( isset( $default['size'] ) ) ? ( $default['size'] ) : ( '' ),
-													'transport' => $transport,
+													'type'                 => 'option',
+													'default'              => ( isset( $default['size'] ) ) ? ( $default['size'] ) : ( '' ),
+													'transport'            => $transport,
+													'sanitize_callback'    => 'esc_attr',
+													'sanitize_js_callback' => 'esc_attr',
 												)
 											);
 
@@ -526,9 +538,11 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 												array(
-													'type'      => 'option',
-													'default'   => $default,
-													'transport' => $transport,
+													'type'                 => 'option',
+													'default'              => $default,
+													'transport'            => $transport,
+													'sanitize_callback'    => 'wm_sanitize_email',
+													'sanitize_js_callback' => 'wm_sanitize_email',
 												)
 											);
 
@@ -555,9 +569,11 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'      => 'option',
-												'default'   => $default,
-												'transport' => $transport,
+												'type'                 => 'option',
+												'default'              => $default,
+												'transport'            => $transport,
+												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
 											)
 										);
 
@@ -580,7 +596,11 @@
 								case 'theme-customizer-html':
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[custom-title-' . $priority . ']'
+											WM_THEME_SETTINGS_SKIN . '[custom-title-' . $priority . ']',
+											array(
+												'sanitize_callback'    => 'wm_sanitize_return_value',
+												'sanitize_js_callback' => 'wm_sanitize_return_value',
+											)
 										);
 
 									$wp_customize->add_control( new WM_Customizer_HTML(
@@ -603,9 +623,11 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'      => 'option',
-												'default'   => $default,
-												'transport' => $transport,
+												'type'                 => 'option',
+												'default'              => $default,
+												'transport'            => $transport,
+												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_return_value' ),
+												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_return_value' ),
 											)
 										);
 
@@ -633,9 +655,11 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'      => 'option',
-												'default'   => $default,
-												'transport' => $transport,
+												'type'                 => 'option',
+												'default'              => $default,
+												'transport'            => $transport,
+												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
 											)
 										);
 
@@ -661,9 +685,11 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'      => 'option',
-												'default'   => $default,
-												'transport' => $transport,
+												'type'                 => 'option',
+												'default'              => $default,
+												'transport'            => $transport,
+												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_return_value' ),
+												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_return_value' ),
 											)
 										);
 
@@ -693,9 +719,11 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 												array(
-													'type'      => 'option',
-													'default'   => $default,
-													'transport' => $transport,
+													'type'                 => 'option',
+													'default'              => $default,
+													'transport'            => $transport,
+													'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
+													'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
 												)
 											);
 
@@ -722,9 +750,11 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'      => 'option',
-												'default'   => $default,
-												'transport' => $transport,
+												'type'                 => 'option',
+												'default'              => $default,
+												'transport'            => $transport,
+												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
 											)
 										);
 
@@ -754,10 +784,11 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'              => 'option',
-												'default'           => $default,
-												'transport'         => $transport,
-												'sanitize_callback' => 'wm_sanitize_' . $skin_option['validate'],
+												'type'                 => 'option',
+												'default'              => $default,
+												'transport'            => $transport,
+												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_intval' ),
+												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_intval' ),
 											)
 										);
 
@@ -783,9 +814,11 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'      => 'option',
-												'default'   => $default,
-												'transport' => $transport,
+												'type'                 => 'option',
+												'default'              => $default,
+												'transport'            => $transport,
+												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_textarea' ),
+												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_textarea' ),
 											)
 										);
 
@@ -811,9 +844,11 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'      => 'option',
-												'default'   => $default,
-												'transport' => $transport,
+												'type'                 => 'option',
+												'default'              => $default,
+												'transport'            => $transport,
+												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_textarea' ),
+												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_textarea' ),
 											)
 										);
 
@@ -858,9 +893,11 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 												array(
-													'type'      => 'option',
-													'default'   => $default,
-													'transport' => $transport,
+													'type'                 => 'option',
+													'default'              => $default,
+													'transport'            => $transport,
+													'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_url' ),
+													'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_url' ),
 												)
 											);
 
@@ -909,9 +946,11 @@
 							$wp_customize->add_setting(
 									'last-trigger-setting',
 									array(
-										'type'      => 'option',
-										'default'   => 'true',
-										'transport' => $transport,
+										'type'                 => 'option',
+										'default'              => 'true',
+										'transport'            => $transport,
+										'sanitize_callback'    => 'esc_attr',
+										'sanitize_js_callback' => 'esc_attr',
 									)
 								);
 

@@ -9,7 +9,7 @@
  * @license    GPL-2.0+
  * @link       http://www.webmandesign.eu
  * @copyright  2014 WebMan - Oliver Juhas
- * @version    3.1
+ * @version    3.3
  *
  * CONTENT:
  * - 1) Required files
