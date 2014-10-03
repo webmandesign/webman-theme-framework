@@ -9,7 +9,7 @@
  * @license    GPL-2.0+
  * @link       http://www.webmandesign.eu
  * @copyright  2014 WebMan - Oliver Juhas
- * @version    3.3
+ * @version    3.4
  *
  * CONTENT:
  * - 1) Required files
@@ -1909,7 +1909,7 @@
 		 * Generate main CSS file
 		 *
 		 * @since    3.0
-		 * @version  3.1
+		 * @version  3.4
 		 *
 		 * @param    boolean $args
 		 */
@@ -1978,7 +1978,11 @@
 						$theme_css_dir = trailingslashit( $theme_css_dir['basedir'] ) . 'wmtheme-' . WM_THEME_SHORTNAME;
 
 						if ( ! wma_create_folder( $theme_css_dir ) ) {
-							exit( "Wasn't able to create a theme CSS folder" );
+							set_transient( 'wmamp-admin-notice', array( "<strong>ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.</strong>", 'error', 'switch_themes', 2 ), ( 60 * 60 * 48 ) );
+
+							delete_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-css' );
+							delete_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-files' );
+							return false;
 						}
 
 					$css_file_name       = apply_filters( 'wmhook_wm_generate_main_css_css_file_name',       'global' . $args['type'],                                        $args                 );
@@ -1995,7 +1999,7 @@
 							update_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-files', $theme_css_dir  );
 
 						//Admin notice
-							set_transient( 'wm-admin-notice', array( $args['message_before'] . $args['message'] . $args['message_after'] , 'switch_themes' ), ( 60 * 60 * 24 ) );
+							set_transient( 'wmamp-admin-notice', array( $args['message_before'] . $args['message'] . $args['message_after'], '', 'switch_themes' ), ( 60 * 60 * 24 ) );
 
 						//Run custom actions
 							do_action( 'wmhook_wm_generate_main_css', $args );

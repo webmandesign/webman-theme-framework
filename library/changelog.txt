@@ -1,4 +1,20 @@
 **************************************
+ WebMan WordPress Theme Framework 3.4
+**************************************
+
+	Improved admin notices
+
+	Files changed:
+	**************
+	admin.php
+	core.php
+	skinning.php
+
+
+
+
+
+**************************************
  WebMan WordPress Theme Framework 3.3
 **************************************
 

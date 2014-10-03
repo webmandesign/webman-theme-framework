@@ -7,7 +7,7 @@
  * @copyright   2014 WebMan - Oliver Juhas
  *
  * @since       3.0
- * @version     3.0
+ * @version     3.4
  *
  * CONTENT:
  * - 1) Required files
@@ -439,31 +439,64 @@
 	 * WordPress admin notices
 	 *
 	 * Displays the message stored in "wm-admin-notice" transient cache
-	 * just once, than deletes the message cache.
+	 * once or multiple times, than deletes the message cache.
+	 * Transient structure:
+	 * set_transient(
+	 *   'wm-admin-notice',
+	 *   array( $text, $class, $capability, $number_of_displays )
+	 * );
+	 *
+	 * @since    3.0
+	 * @version  3.4
 	 */
 	if ( ! function_exists( 'wm_admin_notice' ) ) {
 		function wm_admin_notice() {
+			//Requirements check
+				if ( ! is_admin() ) {
+					return;
+				}
+
 			//Helper variables
 				$output     = '';
+				$class      = 'updated';
+				$repeat     = 0;
 				$capability = apply_filters( 'wmhook_wm_admin_notice_capability', 'switch_themes' );
+				$message    = get_transient( 'wm-admin-notice' );
 
-				$message = get_transient( 'wm-admin-notice' );
-
-				if ( ! is_array( $message ) ) {
-					$message = array( $message, $capability );
-				}
-				if ( ! isset( $message[1] ) || empty( $message[1] ) ) {
-					$message[1] = $capability;
+			//Requirements check
+				if ( empty( $message ) ) {
+					return;
 				}
 
 			//Preparing output
-				if ( $message[0] && current_user_can( $message[1] ) ) {
-					$output .= '<div class="updated wm-notice"><p>' . $message[0] . '</p></div>';
+				if ( ! is_array( $message ) ) {
+					$message = array( $message, $class, $capability, $repeat );
+				}
+				if ( ! isset( $message[1] ) || empty( $message[1] ) ) {
+					$message[1] = $class;
+				}
+				if ( ! isset( $message[2] ) || empty( $message[2] ) ) {
+					$message[2] = $capability;
+				}
+				if ( ! isset( $message[3] ) ) {
+					$message[3] = $repeat;
+				}
+
+				if ( $message[0] && current_user_can( $message[2] ) ) {
+					$output .= '<div class="' . trim( 'wm-notice ' . $message[1] ) . '"><p>' . $message[0] . '</p></div>';
 					delete_transient( 'wm-admin-notice' );
 				}
 
+				//Delete the transient cache after specific number of displays
+					if ( 1 < intval( $message[3] ) ) {
+						$message[3] = intval( $message[3] ) - 1;
+						set_transient( 'wm-admin-notice', $message, ( 60 * 60 * 48 ) );
+					}
+
 			//Output
-				echo apply_filters( 'wmhook_wm_admin_notice_output', $output );
+				if ( $output ) {
+					echo apply_filters( 'wmhook_wm_admin_notice_output', $output, $message );
+				}
 		}
 	} // /wm_admin_notice
 

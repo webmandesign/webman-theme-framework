@@ -9,7 +9,7 @@
  * @uses        Custom CSS Styles Generator
  *
  * @since       3.0
- * @version     3.3
+ * @version     3.4
  *
  * CONTENT:
  * - 1) Required files
@@ -992,7 +992,7 @@
 	 * Creates a new skin JSON file and/or
 	 * loads a selected skin settings.
 	 *
-	 * @version  3.2
+	 * @version  3.4
 	 */
 	if ( ! function_exists( 'wm_save_skin' ) ) {
 		function wm_save_skin() {
@@ -1041,7 +1041,10 @@
 
 						//Create the theme skins folder
 							if ( ! wma_create_folder( $theme_skin_dir ) ) {
-								exit( "Wasn't able to create a theme skins folder" );
+								set_transient( 'wmamp-admin-notice', array( "<strong>ERROR: Wasn't able to create a theme skins folder! Contact the theme support.</strong>", 'error', 'switch_themes', 2 ), ( 60 * 60 * 48 ) );
+
+								delete_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . '-skins' );
+								return false;
 							}
 
 						//Write the skin JSON file
