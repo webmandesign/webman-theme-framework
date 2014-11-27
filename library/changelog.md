@@ -1,5 +1,4 @@
 # Changelog
-**WebMan WordPress Theme Framework**
 
 ## 3.4
 
@@ -76,4 +75,4 @@
 * Initial release for use with WebMan Amplifier plugin.
 
 
-*(C) 2014 WebMan, www.webmandesign.eu*
+*WebMan WordPress Theme Framework, (C) 2014 WebMan, www.webmandesign.eu*
