@@ -1,10 +1,11 @@
-# WebMan WordPress Theme Framework Changelog
+# Changelog
+**WebMan WordPress Theme Framework**
 
 ## 3.4
 
 * Improved admin notices
 
-### Files changed:
+#### Files changed:
 	admin.php
 	core.php
 	skinning.php
@@ -14,7 +15,7 @@
 
 * Theme customizer improved
 
-### Files changed:
+#### Files changed:
 	skinning.php
 	includes/sanitize.php
 
@@ -25,7 +26,7 @@
 * Theme customizer update
 * TGM-Plugin-Activation removed support for old WordPress versions
 
-### Files changed:
+#### Files changed:
 	skinning.php
 	assets/css/theme-customizer.css
 	includes/class-tgm-plugin-activation.php
@@ -43,7 +44,7 @@
 * `[gallery]` shortcode modification disabled by default
 * `[caption]` shortcode modification removed
 
-### Files changed:
+#### Files changed:
 	admin.php
 	core.php
 	skinning.php
