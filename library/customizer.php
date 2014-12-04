@@ -18,7 +18,7 @@
  * - 30) Main customizer function
  * - 40) CSS styles
  *
- * @todo  move something to core.php (like it is in case of wm_generate_css())?
+ * @todo  move something to core.php (like it is in case of wm_generate_css() - think it over!!!)?
  */
 
 
