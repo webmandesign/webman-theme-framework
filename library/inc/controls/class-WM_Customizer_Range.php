@@ -1,26 +1,27 @@
 <?php
 /**
- * Skinning System
+ * Theme Customizer Input Fields
  *
- * Customizer number slider.
+ * Customizer range / number slider.
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Skinning System
+ * @subpackage  Theme Customizer
  * @copyright   2014 WebMan - Oliver Juhas
  *
- * @since       3.1
+ * @since    3.1
+ * @version  4.0
  */
 
 
 
 /**
- * Number slider
+ * Range
  */
-class WM_Customizer_Slider extends WP_Customize_Control {
+class WM_Customizer_Range extends WP_Customize_Control {
 
 	public function enqueue() {
-		wp_enqueue_style( 'wm-theme-customizer' );
-		wp_enqueue_script( 'jquery-ui-slider' );
+		//Scripts
+			wp_enqueue_script( 'jquery-ui-slider' );
 	}
 
 	public function render_content() {
@@ -28,8 +29,10 @@ class WM_Customizer_Slider extends WP_Customize_Control {
 			$this->json = array( 0, 10, 1 ); // [min, max, step]
 		}
 		?>
+
 		<label>
 			<span class="customize-control-title"><?php echo $this->label; ?></span>
+			<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php endif; ?>
 
 			<span class="slide-number-wrapper">
 				<span id="<?php echo sanitize_title( $this->id ); ?>-slider" class="number-slider"></span>
@@ -53,9 +56,10 @@ class WM_Customizer_Slider extends WP_Customize_Control {
 
 			} );
 		//--></script>
+
 		<?php
 	}
 
-} // /WM_Customizer_Slider
+} // /WM_Customizer_Range
 
 ?>

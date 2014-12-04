@@ -1,14 +1,14 @@
 <?php
 /**
- * Skinning System
+ * Theme Customizer Input Fields
  *
  * Customizer custom HTML.
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Skinning System
+ * @subpackage  Theme Customizer
  * @copyright   2014 WebMan - Oliver Juhas
  *
- * @since       3.1
+ * @since  3.1
  */
 
 

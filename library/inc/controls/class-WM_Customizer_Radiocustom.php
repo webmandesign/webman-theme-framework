@@ -1,14 +1,15 @@
 <?php
 /**
- * Skinning System
+ * Theme Customizer Input Fields
  *
  * Customizer image radio fields.
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Skinning System
+ * @subpackage  Theme Customizer
  * @copyright   2014 WebMan - Oliver Juhas
  *
- * @since       3.1
+ * @since    3.1
+ * @version  4.0
  */
 
 
@@ -22,10 +23,18 @@ class WM_Customizer_Radiocustom extends WP_Customize_Control {
 
 	public function render_content() {
 		if ( ! empty( $this->choices ) && is_array( $this->choices ) ) {
+
 			echo '<span class="customize-control-title">' . $this->label . '</span>';
+			if ( $this->description ) {
+				echo '<span class="description customize-control-description">' . $this->description . '</span>';
+			}
+
 			echo '<div class="' . trim( 'custom-radio-container ' . $this->class ) . '">';
+
 				$i = 0;
+
 				foreach ( $this->choices as $value => $name ) {
+
 					$checked      = checked( $this->value(), $value, false );
 					$active_class = ( $checked ) ? ( ' class="active"' ) : ( '' );
 
@@ -40,8 +49,11 @@ class WM_Customizer_Radiocustom extends WP_Customize_Control {
 						echo $name;
 						echo '<input class="custom-radio-item" type="radio" value="' . $value . '" name="' . $this->id . '" id="' . $this->id . $i . '" ' . $this->get_link() . $checked . ' />';
 					echo '</label>';
+
 				}
+
 			echo '</div>';
+
 		}
 	}
 

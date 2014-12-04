@@ -1,5 +1,15 @@
 <?php
 /**
+ * WebMan modification: Removed obsolete screen icon.
+ *
+ * @package     WebMan WordPress Theme Framework
+ * @subpackage  Plugins
+ * @copyright   2014 WebMan - Oliver Juhas
+ *
+ * @version  3.2
+ */
+
+/**
  * Plugin installation and activation for WordPress themes.
  *
  * @package   TGM-Plugin-Activation
@@ -9,8 +19,6 @@
  * @copyright Copyright (c) 2012, Thomas Griffin
  * @license   http://opensource.org/licenses/gpl-2.0.php GPL v2 or later
  * @link      https://github.com/thomasgriffin/TGM-Plugin-Activation
- *
- * @version  3.2 (WEBMAN: Removed screen icon)
  */
 
 /*

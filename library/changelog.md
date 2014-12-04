@@ -1,5 +1,19 @@
 # Changelog
 
+## 4.0
+
+* Added support for optgroups in Customizer select fields
+* Improved code in several functions
+* Updated saving of file paths for easier site transfer
+* Removed obsolete filters
+* Removed obsolete functions
+* Removed GZIP option from generating main CSS file
+
+#### Files changed:
+	admin.php
+	core.php
+	skinning.php
+
 ## 3.4
 
 * Improved admin notices
