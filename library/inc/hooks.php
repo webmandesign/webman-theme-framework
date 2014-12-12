@@ -9,8 +9,8 @@
  * @subpackage  Theme Framework Hooks
  * @copyright   2014 WebMan - Oliver Juhas
  *
- * @since       3.0
- * @version     3.0
+ * @since    3.0
+ * @version  4.0
  */
 
 
@@ -81,8 +81,6 @@
 		/**
 		 * HTML <html> hook
 		 * Special case, useful for <DOCTYPE>, etc.
-		 *
-		 * @since  2.0
 		 */
 		function wmhook_html_before() {
 			do_action( 'wmhook_html_before' );
@@ -97,8 +95,6 @@
 
 		/**
 		 * HTML <body> hooks
-		 *
-		 * @since  2.0
 		 */
 		function wmhook_body_top() {
 			do_action( 'wmhook_body_top' );
@@ -118,8 +114,6 @@
 
 		/**
 		 * HTML <head> hooks
-		 *
-		 * @since  2.0
 		 */
 		function wmhook_head_top() {
 			do_action( 'wmhook_head_top' );
@@ -139,8 +133,6 @@
 
 		/**
 		 * Semantic <header> hooks
-		 *
-		 * @since  2.0
 		 */
 		function wmhook_header_before() {
 			do_action( 'wmhook_header_before' );
@@ -174,8 +166,6 @@
 
 		/**
 		 * Semantic <content> hooks
-		 *
-		 * @since  2.0
 		 */
 		function wmhook_content_before() {
 			do_action( 'wmhook_content_before' );
@@ -222,8 +212,6 @@
 
 		/**
 		 * Semantic <entry> hooks
-		 *
-		 * @since  2.0
 		 */
 		function wmhook_entry_before() {
 			do_action( 'wmhook_entry_before' );
@@ -246,6 +234,11 @@
 		} // /wmhook_entry_bottom
 
 
+		function wmhook_entry_container_atts() {
+			do_action( 'wmhook_entry_container_atts' );
+		} // /wmhook_entry_container_atts
+
+
 
 	/**
 	 * $tha_supports[] = 'comments';
@@ -253,8 +246,6 @@
 
 		/**
 		 * Comments block hooks
-		 *
-		 * @since  2.0
 		 */
 		function wmhook_comments_before() {
 			do_action( 'wmhook_comments_before' );
@@ -276,8 +267,6 @@
 		 * Semantic <sidebar> hooks
 		 *
 		 * IMPORTANT: These funcitons can't echo, only return!
-		 *
-		 * @since  2.0
 		 *
 		 * @return  string
 		 */
@@ -313,8 +302,6 @@
 
 		/**
 		 * Semantic <footer> hooks
-		 *
-		 * @since  2.0
 		 */
 		function wmhook_footer_before() {
 			do_action( 'wmhook_footer_before' );

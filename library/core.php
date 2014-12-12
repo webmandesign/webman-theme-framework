@@ -9,17 +9,52 @@
  * @license    GPL-2.0+
  * @link       http://www.webmandesign.eu
  * @copyright  2014 WebMan - Oliver Juhas
- * @version    3.4
+ * @version    4.0
  *
  * CONTENT:
- * - 1) Required files
- * - 10) Actions and filters
- * - 20) Get/save theme options
- * - 30) Branding
- * - 40) SEO and tracking
- * - 50) Post/page
- * - 60) Other functions
+ * -   0) Constants
+ * -   1) Required files
+ * -  10) Actions and filters
+ * -  20) Branding
+ * -  30) SEO
+ * -  40) Post/page
+ * - 100) Other functions
  */
+
+
+
+
+
+/**
+ * 0) Constants
+ */
+
+	//Helper variables
+		$theme_data = wp_get_theme();
+
+	//Basic constants
+		if ( ! defined( 'WM_THEME_NAME' ) )             define( 'WM_THEME_NAME',             $theme_data->Name                                            );
+		if ( ! defined( 'WM_THEME_SHORTNAME' ) )        define( 'WM_THEME_SHORTNAME',        get_template()                                               );
+		if ( ! defined( 'WM_THEME_VERSION' ) )          define( 'WM_THEME_VERSION',          $theme_data->Version                                         );
+
+		if ( ! defined( 'WM_SCRIPTS_VERSION' ) )        define( 'WM_SCRIPTS_VERSION',        esc_attr( trim( WM_THEME_VERSION ) )                         );
+
+	//Settings constants
+		if ( ! defined( 'WM_THEME_SETTINGS_PREFIX' ) )  define( 'WM_THEME_SETTINGS_PREFIX',  'wm-'                                                        );
+		if ( ! defined( 'WM_THEME_SETTINGS' ) )         define( 'WM_THEME_SETTINGS',         WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME                );
+		if ( ! defined( 'WM_THEME_SETTINGS_INSTALL' ) ) define( 'WM_THEME_SETTINGS_INSTALL', WM_THEME_SETTINGS . '-install'                               );
+		if ( ! defined( 'WM_THEME_SETTINGS_SKIN' ) )    define( 'WM_THEME_SETTINGS_SKIN',    WM_THEME_SETTINGS . '-skin'                                  );
+
+	//Dir constants
+		if ( ! defined( 'WM_LIBRARY_DIR' ) )            define( 'WM_LIBRARY_DIR',            trailingslashit( 'library' )                                 );
+		if ( ! defined( 'WM_SETUP_DIR' ) )              define( 'WM_SETUP_DIR',              trailingslashit( 'setup' )                                   );
+		if ( ! defined( 'WM_SETUP' ) )                  define( 'WM_SETUP',                  trailingslashit( get_template_directory() ) . WM_SETUP_DIR   );
+		if ( ! defined( 'WM_SETUP_CHILD' ) )            define( 'WM_SETUP_CHILD',            trailingslashit( get_stylesheet_directory() ) . WM_SETUP_DIR );
+		if ( ! defined( 'WM_SKINS_DIR' ) )              define( 'WM_SKINS_DIR',              trailingslashit( WM_SETUP . 'skins' )                        );
+		if ( ! defined( 'WM_SKINS_DIR_CHILD' ) )        define( 'WM_SKINS_DIR_CHILD',        trailingslashit( WM_SETUP_CHILD . 'skins' )                  );
+
+	//URL constants
+		if ( ! defined( 'WM_DEVELOPER_URL' ) )          define( 'WM_DEVELOPER_URL',          'http://www.webmandesign.eu'                                 );
 
 
 
@@ -29,19 +64,27 @@
  * 1) Required files
  */
 
-	//Layouts and patterns
-		locate_template( WM_LIBRARY_DIR . 'includes/hooks.php', true );
+	//Main theme action hooks
+		locate_template( WM_LIBRARY_DIR . 'inc/hooks.php', true );
 
-	//Plugins activation
-		if (
-				is_admin()
-				&& (
-					file_exists( WM_SETUP . 'plugins.php' )
-					|| file_exists( WM_SETUP_CHILD . 'plugins.php' )
-				)
-			) {
-			locate_template( WM_LIBRARY_DIR . 'includes/class-tgm-plugin-activation.php', true );
-			locate_template( WM_SETUP_DIR . 'plugins.php',                                true );
+	//Admin required files
+		if ( is_admin() ) {
+
+			//WP admin functionality
+				locate_template( WM_LIBRARY_DIR . 'admin.php', true );
+
+			//Plugins suggestions
+				if (
+						apply_filters( 'wmhook_enable_plugins_integration', true )
+						&& (
+							file_exists( WM_SETUP . 'plugins.php' )
+							|| file_exists( WM_SETUP_CHILD . 'plugins.php' )
+						)
+					) {
+					locate_template( WM_LIBRARY_DIR . 'inc/class-tgm-plugin-activation.php', true );
+					locate_template( WM_SETUP_DIR . 'plugins.php',                                true );
+				}
+
 		}
 
 
@@ -56,24 +99,20 @@
 	 * Actions
 	 */
 
-		//Make sure you are using the most current stylesheet
-			add_action( 'init', 'wm_theme_update_regenerate_css' );
-		//Modifying HTML head
-			add_action( 'wp_head', 'wm_schema_org_meta' );
-		//Posts list
-			if ( function_exists( 'wma_pagination' ) ) {
-				add_action( 'wmhook_postslist_after', 'wma_pagination', 10 );
-			}
+		//Theme upgrade action
+			add_action( 'init', 'wm_theme_upgrade' );
 		//Remove recent comments <style> from HTML head
 			add_action( 'widgets_init', 'wm_remove_recent_comments_style' );
-		//Blog page query modification
+		//Flushing transients
+			add_action( 'switch_theme',  'wm_image_ids_transient_flusher'      );
+			add_action( 'edit_category', 'wm_all_categories_transient_flusher' );
+			add_action( 'save_post',     'wm_all_categories_transient_flusher' );
+		//Home query modification
 			add_action( 'pre_get_posts', 'wm_home_query', 10 );
 		//Contextual help
 			add_action( 'contextual_help', 'wm_help', 10, 3 );
-		//Display post excerpt
-			if ( is_single() && has_excerpt() ) {
-				add_action( 'wmhook_content_top', 'wm_excerpt', 10 );
-			}
+		//Admin bar link (displayed also on admin bar on front end)
+			add_action( 'admin_bar_menu', 'wm_theme_options_admin_bar', 998 );
 
 
 
@@ -83,191 +122,35 @@
 
 		//Minify CSS
 			add_filter( 'wmhook_wm_generate_main_css_output_min', 'wm_minify_css', 10 );
-		//Meta title
-			add_filter( 'wp_title', 'wm_seo_title', 10, 2 );
-		//Excerpt
-			add_filter( 'excerpt_length', 'wm_excerpt_length_blog', 999 );
-			add_filter( 'excerpt_more', 'wm_excerpt_more' );
-		//Search form
-			add_filter( 'get_search_form', 'wm_search_form' );
-		//Remove invalid HTML5 rel attribute
-			add_filter( 'the_category', 'wm_remove_rel' );
-		//HTML in widget title of default WordPress widgets
+		//HTML in widget title
 			add_filter( 'widget_title', 'wm_html_widget_title' );
 		//Table of contents
 			add_filter( 'the_content', 'wm_nextpage_table_of_contents', 10 );
 		//Default WordPress content filters only
-			add_filter( 'wmhook_content_filters', 'wm_default_content_filters', 10 );
-			add_filter( 'wmhook_wm_default_content_filters', 'wptexturize',        10 ); //Default WP
-			add_filter( 'wmhook_wm_default_content_filters', 'convert_smilies',    20 ); //Default WP
-			add_filter( 'wmhook_wm_default_content_filters', 'convert_chars',      30 ); //Default WP
-			add_filter( 'wmhook_wm_default_content_filters', 'do_shortcode',       40 ); //Added by WebMan
-			add_filter( 'wmhook_wm_default_content_filters', 'wpautop',            50 ); //Default WP
-			add_filter( 'wmhook_wm_default_content_filters', 'shortcode_unautop',  60 ); //Default WP
-			add_filter( 'wmhook_wm_default_content_filters', 'prepend_attachment', 70 ); //Default WP
-		//OPTIONAL: WordPress [gallery] and [caption] shortcode improvements
-			// add_filter( 'post_gallery', 'wm_shortcode_gallery', 10, 2 );
+			add_filter( 'wmhook_content_filters',            'wm_default_content_filters', 10 );
+			add_filter( 'wmhook_wm_default_content_filters', 'wptexturize',                10 ); //Default WP
+			add_filter( 'wmhook_wm_default_content_filters', 'convert_smilies',            20 ); //Default WP
+			add_filter( 'wmhook_wm_default_content_filters', 'convert_chars',              30 ); //Default WP
+			add_filter( 'wmhook_wm_default_content_filters', 'do_shortcode',               40 ); //Added by WebMan
+			add_filter( 'wmhook_wm_default_content_filters', 'wpautop',                    50 ); //Default WP
+			add_filter( 'wmhook_wm_default_content_filters', 'shortcode_unautop',          60 ); //Default WP
+			add_filter( 'wmhook_wm_default_content_filters', 'prepend_attachment',         70 ); //Default WP
 
 
 
 
 
 /**
- * 20) Get/save theme options
- */
-
-	/**
-	 * Get page ID by its slug
-	 *
-	 * @param  string $slug
-	 */
-	if ( ! function_exists( 'wm_page_slug_to_id' ) ) {
-		function wm_page_slug_to_id( $slug = null ) {
-			$page = get_page_by_path( $slug );
-
-			return ( $slug && is_object( $page ) ) ? ( $page->ID ) : ( null );
-		}
-	} // /wm_page_slug_to_id
-
-
-
-	/**
-	 * Get or echo the option
-	 *
-	 * @param   string $option_name Option name without WM_THEME_SETTINGS_PREFIX prefix
-	 * @param   string $css What CSS styles to output ["css" = color, "bgimg" = background image styles]
-	 * @param   boolean $addon Will be added to the value if the value is not empty
-	 *
-	 * @return  mixed Option value
-	 */
-	if ( ! function_exists( 'wm_option' ) ) {
-		function wm_option( $option_name = '', $css = '', $addon = '' ) {
-			//Requirements check
-				if ( ! $option_name ) {
-					return;
-				}
-
-			//Helper variables
-				global $wm_theme_options, $wp_customize;
-
-				$output = $color = $bg = '';
-
-			//Premature output
-				$output = apply_filters( 'wmhook_wm_option_output_premature', $output, $option_name, $css, $addon );
-
-				if ( $output ) {
-					return apply_filters( 'wmhook_wm_option_output', $output, $option_name, $css, $addon );
-				}
-
-			//Alter $wm_theme_options only in Theme Customizer to provide live preview
-				if (
-						isset( $wp_customize )
-						&& $wp_customize->is_preview()
-						&& is_array( get_option( WM_THEME_SETTINGS_SKIN ) )
-					) {
-					$wm_theme_options = get_option( WM_THEME_SETTINGS_SKIN );
-				}
-
-			//Preparing output
-				$options     = ( $wm_theme_options ) ? ( $wm_theme_options ) : ( get_option( WM_THEME_SETTINGS_SKIN ) );
-				$option_name = WM_THEME_SETTINGS_PREFIX . $option_name;
-
-				if ( ! isset( $options[ $option_name ] ) || ! $options[ $option_name ] ) {
-					return;
-				}
-
-				//CSS output helper
-					if ( $css ) {
-						$color  = ( is_string( $css ) && 5 <= strlen( $css ) && 'color' == substr( $css, 0, 5 ) ) ? ( '#' . str_replace( '#', '', stripslashes( $options[ $option_name ] ) ) ) : ( '' );
-						$color .= ( $color && 5 < strlen( $css ) ) ? ( str_replace( 'color', '', $css ) ) : ( '' ); // use for example like "color !important"
-
-						$bg  = ( is_string( $css ) && 5 <= strlen( $css ) && 'bgimg' == substr( $css, 0, 5 ) ) ? ( 'url(' . esc_url( stripslashes( $options[ $option_name ] ) ) . ')' ) : ( '' );
-						$bg .= ( $bg && 5 < strlen( $css ) ) ? ( str_replace( 'bgimg', '', $css ) ) : ( '' ); // use for example for css positioning, repeat,...
-					}
-
-				//Setting the output
-					if ( $bg ) {
-						$output = $bg;
-					} elseif ( $color ) {
-						$output = $color;
-					} else {
-						$output = ( is_array( $options[ $option_name ] ) ) ? ( $options[ $option_name ] ) : ( stripslashes( $options[ $option_name ] ) );
-					}
-
-					if ( $output && $addon ) {
-						$output .= $addon;
-					}
-
-			//Output
-				return apply_filters( 'wmhook_wm_option_output', $output, $option_name, $css, $addon );
-		}
-	} // /wm_option
-
-
-
-	/**
-	 * Get specific files from specific folder(s)
-	 *
-	 * @param  array $args
-	 */
-	if ( ! function_exists( 'wm_get_files' ) ) {
-		function wm_get_files( $args = array() ) {
-			//Helper variables
-				$output = array();
-
-				//Parse arguments
-					$args = wp_parse_args( $args, apply_filters( 'wmhook_wm_get_files_args', array(
-							'empty_option'    => true,
-							'file_extenstion' => 'json',
-							'folders'         => array(),
-						) ) );
-
-					$args['folders'] = array_unique( $args['folders'] );
-
-				$replacements = apply_filters( 'wmhook_wm_get_files_replacements', array(
-						'.' . $args['file_extenstion'] => '',
-						'-'                            => ' ',
-						'_'                            => ' ',
-					) );
-
-			//Requirements check
-				if ( empty( $args['folders'] ) ) {
-					return;
-				}
-
-			//Preparing output
-				if ( $args['empty_option'] ) {
-					$output[''] = '';
-				}
-
-				foreach ( $args['folders'] as $folder ) {
-					$folder = trim( $folder );
-					if ( $folder && $dir = @opendir( $folder ) ) {
-						//This is the correct way to loop over the directory
-							while ( false != ( $file = readdir( $dir ) ) ) {
-								if ( strpos( $file, $args['file_extenstion'] ) ) {
-									$output[ trailingslashit( $folder ) . $file ] = ucwords( str_replace( array_keys( $replacements ), $replacements, $file ) );
-								}
-							}
-						closedir( $dir );
-					}
-				}
-
-			//Output
-				return apply_filters( 'wmhook_wm_get_files_output', $output );
-		}
-	} // /wm_get_files
-
-
-
-
-
-/**
- * 30) Branding
+ * 20) Branding
  */
 
 	/**
 	 * Logo
+	 *
+	 * Supports Jetpack Site Logo module.
+	 *
+	 * @since    3.0
+	 * @version  4.0
 	 *
 	 * @version  3.1
 	 */
@@ -276,38 +159,50 @@
 			//Helper variables
 				$output = '';
 
+				$blog_info = apply_filters( 'wmhook_wm_logo_blog_info', array(
+						'name'        => trim( get_bloginfo( 'name' ) ),
+						'description' => trim( get_bloginfo( 'description' ) ),
+					) );
+
 				$args = apply_filters( 'wmhook_wm_logo_args', array(
-						'description' => ( get_bloginfo( 'description' ) ) ? ( get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' ) ) : ( get_bloginfo( 'name' ) ),
-						'logo_image'  => array( wm_option( 'skin-logo' ), wm_option( 'skin-logo-hidpi' ) ),
-						'logo_type'   => 'text',
-						'logo_size'   => explode( 'x', WM_DEFAULT_LOGO_SIZE ),
-						'url'         => home_url(),
+						'logo_image' => ( function_exists( 'jetpack_get_site_logo' ) ) ? ( array( absint( jetpack_get_site_logo( 'id' ) ) ) ) : ( array( wm_option( 'skin-logo' ), wm_option( 'skin-logo-hidpi' ) ) ),
+						'logo_type'  => 'text',
+						'logo_size'  => explode( 'x', WM_DEFAULT_LOGO_SIZE ),
+						'title_att'  => ( $blog_info['description'] ) ? ( $blog_info['name'] . ' | ' . $blog_info['description'] ) : ( $blog_info['name'] ),
+						'url'        => home_url( '/' ),
 					) );
 
 			//Preparing output
-				//Logo image (HiDPI ready)
+				//Logo image
 					if ( $args['logo_image'][0] ) {
 
-						$img_id       = wm_get_image_id_from_url( $args['logo_image'][0] );
-						$img_id_hiDPI = wm_get_image_id_from_url( $args['logo_image'][1] );
+						$img_id = ( is_numeric( $args['logo_image'][0] ) ) ? ( absint( $args['logo_image'][0] ) ) : ( wm_get_image_id_from_url( $args['logo_image'][0] ) );
+
+						//HiDPI support
+							if ( isset( $args['logo_image'][1] ) && is_numeric( $args['logo_image'][1] ) ) {
+								$img_id_hiDPI = absint( $args['logo_image'][1] );
+							} elseif ( isset( $args['logo_image'][1] ) ) {
+								$img_id_hiDPI = wm_get_image_id_from_url( $args['logo_image'][1] );
+							} else {
+								$img_id_hiDPI = false;
+							}
 
 						if ( $img_id ) {
 
-							$logo_url       = wp_get_attachment_image_src( $img_id, 'full' );
-							$logo_url_hiDPI = ( $img_id_hiDPI ) ? ( wp_get_attachment_image_src( $img_id_hiDPI, 'full' ) ) : ( array( '' ) );
+							$logo_url = wp_get_attachment_image_src( $img_id, 'full' );
 
-							$atts = (array) apply_filters( 'wmhook_wm_logo_image_atts', array(
-									'alt'        => esc_attr( sprintf( __( '%s logo', 'wm_domain' ), trim( get_bloginfo( 'name' ) ) ) ),
-									'title'      => esc_attr( $args['description'] ),
-									'class'      => '',
-									'data-hidpi' => ( $logo_url_hiDPI[0] ) ? ( $logo_url_hiDPI[0] ) : ( $logo_url[0] ),
-								) );
+							$atts = array(
+									'alt'   => esc_attr( sprintf( __( '%s logo', 'wm_domain' ), trim( $blog_info['name'] ) ) ),
+									'title' => esc_attr( $args['title_att'] ),
+									'class' => '',
+								);
+							if ( $img_id_hiDPI ) {
+								$logo_url_hiDPI     = wp_get_attachment_image_src( $img_id_hiDPI, 'full' );
+								$atts['data-hidpi'] = $logo_url_hiDPI[0];
+							}
+							$atts = (array) apply_filters( 'wmhook_wm_logo_image_atts', $atts );
 
 							$args['logo_image'] = wp_get_attachment_image( $img_id, 'full', false, $atts );
-
-						} else {
-
-							$args['logo_image'] = '<img width="' . $args['logo_size'][0] . '" height="' . $args['logo_size'][1] . '" src="' . $args['logo_image'][0] . '" alt="' . esc_attr( sprintf( __( '%s logo', 'wm_domain' ), trim( get_bloginfo( 'name' ) ) ) ) . '" title="' . esc_attr( $args['description'] ) . '" data-hidpi="' . $args['logo_image'][1] . '" />';
 
 						}
 
@@ -317,254 +212,96 @@
 
 					$args['logo_image'] = apply_filters( 'wmhook_wm_logo_logo_image', $args['logo_image'] );
 
-				//SEO logo HTML tag
-					if ( is_front_page() ) {
-						$logo_tag = 'h1';
-					} else {
-						$logo_tag = 'div';
-					}
-					$logo_tag = apply_filters( 'wmhook_wm_logo_logo_tag', $logo_tag );
-
 				//Logo HTML
-					$output .= '<' . $logo_tag . ' class="' . apply_filters( 'wmhook_wm_logo_class', 'logo type-' . $args['logo_type'], $args['logo_type'] ) . '">';
-						$output .= '<a href="' . $args['url'] . '" title="' . esc_attr( $args['description'] ) . '">';
+					$output .= '<div class="site-branding">';
+						$output .= '<h1 class="' . apply_filters( 'wmhook_wm_logo_class', 'site-title logo type-' . $args['logo_type'], $args ) . '">';
+						$output .= '<a href="' . esc_url( $args['url'] ) . '" title="' . esc_attr( $args['title_att'] ) . '">';
 
-							if ( 'text' === $args['logo_type'] ) {
-								$output .= '<span class="text-logo">' . get_bloginfo( 'name' ) . '</span>';
-							} else {
-								$output .= $args['logo_image'] . '<span class="screen-reader-text">' . get_bloginfo( 'name' ) . ' </span>';
+								if ( 'text' === $args['logo_type'] ) {
+									$output .= '<span class="text-logo">' . $blog_info['name'] . '</span>';
+								} else {
+									$output .= $args['logo_image'];
+								}
+
+								if ( $blog_info['description'] ) {
+									$output .= '<span class="description">' . $blog_info['description'] . '</span>';
+								}
+
+						$output .= '</a></h1>';
+
+							if ( $blog_info['description'] ) {
+								$output .= '<h2 class="site-description">' . $blog_info['description'] . '</h2>';
 							}
 
-							if ( get_bloginfo( 'description' ) ) {
-								$output .= '<span class="description">' . get_bloginfo( 'description' ) . '</span>';
-							}
-
-						$output .= '</a>';
-					$output .= '</' . $logo_tag . '>';
+					$output .= '</div>';
 
 			//Output
-				$output = apply_filters( 'wmhook_wm_logo_output', $output );
-
-				if ( apply_filters( 'wmhook_wm_logo_echo', true ) ) {
-					echo $output;
-				} else {
-					return $output;
-				}
+				echo apply_filters( 'wmhook_wm_logo_output', $output );
 		}
 	} // /wm_logo
 
 
 
-	/**
-	 * Favicon and touch icon
-	 */
-	if ( ! function_exists( 'wm_favicon' ) ) {
-		function wm_favicon() {
-			//Helper variables
-				$output = '';
-
-			//Preparing output
-				if ( wm_option( 'skin-touch-icon-144' ) ) {
-					$output .= '<link rel="apple-touch-icon-precomposed" sizes="144x144" href="' . esc_url( wm_option( 'skin-touch-icon-144' ) ) . '" /> <!-- for retina iPad -->' . "\r\n";
-				}
-				if ( wm_option( 'skin-touch-icon-114' ) ) {
-					$output .= '<link rel="apple-touch-icon-precomposed" sizes="114x114" href="' . esc_url( wm_option( 'skin-touch-icon-114' ) ) . '" /> <!-- for retina iPhone -->' . "\r\n";
-				}
-				if ( wm_option( 'skin-touch-icon-72' ) ) {
-					$output .= '<link rel="apple-touch-icon-precomposed" sizes="72x72" href="' . esc_url( wm_option( 'skin-touch-icon-72' ) ) . '" /> <!-- for legacy iPad -->' . "\r\n";
-				}
-				if ( wm_option( 'skin-touch-icon-57' ) ) {
-					$output .= '<link rel="apple-touch-icon-precomposed" href="' . esc_url( wm_option( 'skin-touch-icon-57' ) ) . '" /> <!-- for non-retina devices -->' . "\r\n";
-				}
-
-				if ( wm_option( 'skin-favicon-png' ) ) {
-					$output .= '<link rel="icon" type="image/png" href="' . esc_url( wm_option( 'skin-favicon-png' ) ) . '" /> <!-- standard favicon -->' . "\r\n";
-				}
-				if ( wm_option( 'skin-favicon-ico' ) ) {
-					$output .= '<link rel="shortcut icon" href="' . esc_url( wm_option( 'skin-favicon-ico' ) ) . '" /> <!-- IE favicon -->' . "\r\n";
-				}
-
-				if ( $output ) {
-					$output = "<!-- icons and favicon -->\r\n" . $output . "\r\n";
-				}
-
-			//Output
-				return apply_filters( 'wmhook_wm_favicon_output', $output );
-		}
-	} // /wm_favicon
-
-
-
 
 
 /**
- * 40) SEO and tracking
+ * 30) SEO
  */
 
 	/**
 	 * SEO website meta title
 	 *
+	 * Not needed since WordPress 4.1, that's why the add_filter()
+	 * is encapsulated in the conditional check.
+	 *
+	 * @since    3.0 (under wm_seo_title() name)
+	 * @version  4.0
+	 *
 	 * @param  string $title
-	 * @param  string $separator
+	 * @param  string $sep
 	 */
-	if ( ! function_exists( 'wm_seo_title' ) ) {
-		function wm_seo_title( $title, $separator ) {
-			//Helper variables
-				if ( ! $separator ) {
-					$separator = ' | ';
-				}
-				$separator = apply_filters( 'wmhook_wm_seo_title_separator', $separator );
-				$title     = apply_filters( 'wmhook_wm_seo_title_separator', $title );
+	if ( ! function_exists( 'wm_title' ) && ! function_exists( '_wp_render_title_tag' ) ) {
 
-			//Preparing output
+		function wm_title( $title, $sep ) {
+			//Requirements check
 				if ( is_feed() ) {
 					return $title;
 				}
 
-				if ( is_tag() ) {
-				//tag archive
+			//Helper variables
+				$sep = ' ' . trim( $sep ) . ' ';
 
-					$title = sprintf( __( 'Tag archive for "%s"', 'wm_domain' ), single_tag_title( '', false ) ) . $separator;
+			//Preparing output
+				$title .= get_bloginfo( 'name', 'display' );
 
-				} elseif ( is_search() ) {
-				//search
-
-					$title = sprintf( __( 'Search for "%s"', 'wm_domain' ), get_search_query() ) . $separator;
-
-				} elseif ( is_archive() ) {
-				//general archive
-
-					$title = sprintf( __( 'Archive for %s', 'wm_domain' ), $title ) . $separator;
-
-				} elseif ( is_singular() && ! is_404() && ! is_front_page() && ! is_home() ) {
-				//is page or post but not 404, front page nor home page post list
-
-					$title = trim( $title ) . $separator;
-
-				} elseif ( is_404() ) {
-				//404 page
-
-					$title = __( 'Web page was not found', 'wm_domain' ) . $separator;
-
-				} elseif ( is_home() && get_option( 'page_for_posts' ) ) {
-				//post page (if set) - get the actual page title
-
-					$title = get_the_title( get_option( 'page_for_posts' ) ) . $separator;
-
-				}
-
-				$title .= get_bloginfo( 'name' );
-
-				//Front page
-					if ( is_front_page() ) {
-						$title .= $separator . get_bloginfo( 'description' );
+				//Site description
+					if (
+							( $site_description = get_bloginfo( 'description', 'display' ) )
+							&& ( is_home() || is_front_page() )
+						) {
+						$title .= $sep . $site_description;
 					}
 
 				//Pagination / parts
-					$title .= wm_paginated_suffix();
+					if ( wm_paginated_suffix() && ! is_404() ) {
+						$title .= $sep . wm_paginated_suffix();
+					}
 
 			//Output
-				return apply_filters( 'wmhook_wm_seo_title_output', esc_attr( $title ) );
+				return esc_attr( $title );
 		}
-	} // /wm_seo_title
 
+		add_filter( 'wp_title', 'wm_title', 10, 2 );
 
-
-	/**
-	 * Schema.org markup on HTML meta
-	 *
-	 * @link  http://leaves-and-love.net/how-to-improve-wordpress-seo-with-schema-org/
-	 *
-	 * @uses  WPSEO_Frontend class (WordPress SEO by Yoast plugin)
-	 * @uses  schema.org
-	 */
-	if ( ! function_exists( 'wm_schema_org_meta' ) ) {
-		function wm_schema_org_meta() {
-			if (
-					class_exists( 'WPSEO_Frontend' )
-					&& defined( 'WMAMP_HOOK_PREFIX' )
-					&& ! apply_filters( WMAMP_HOOK_PREFIX . 'disable_schema_org', true )
-				) {
-				global $wpseo_front;
-
-				$canonical = $wpseo_front->canonical( false );
-				echo '<link itemprop="url" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n\r";
-
-				$metadesc = $wpseo_front->metadesc( false );
-				echo '<meta itemprop="description" content="' . esc_attr( strip_tags( stripslashes( $metadesc ) ) ) . '" />' . "\n\r";
-			}
-		}
-	} // /wm_schema_org_meta
+	} // /wm_title
 
 
 
 
 
 /**
- * 50) Post/page
+ * 40) Post/page
  */
-
-	/**
-	 * Modify blog page query
-	 *
-	 * @param  object $query WordPress posts query
-	 */
-	if ( ! function_exists( 'wm_home_query' ) ) {
-		function wm_home_query( $query ) {
-			//Process only blog query
-			if (
-					$query->is_home()
-					&& $query->is_main_query()
-					&& function_exists( 'wma_meta_option' )
-				) {
-
-				//Helper variables
-					$page_id       = get_option( 'page_for_posts' );
-					$article_count = ( wma_meta_option( 'blog-posts-count', $page_id ) ) ? ( wma_meta_option( 'blog-posts-count', $page_id ) ) : ( false );
-					$cats_action   = ( wma_meta_option( 'blog-categories-action', $page_id ) ) ? ( wma_meta_option( 'blog-categories-action', $page_id ) ) : ( 'category__in' );
-					$cats          = ( wma_meta_option( 'blog-categories', $page_id ) ) ? ( array_filter( wma_meta_option( 'blog-categories', $page_id ) ) ) : ( array() );
-
-					if ( 0 < count( $cats ) ) {
-						$cat_temp = array();
-
-						foreach ( $cats as $cat ) {
-							if ( isset( $cat['category'] ) && $cat['category'] ) {
-								$cat = $cat['category'];
-
-								if ( ! is_numeric( $cat ) ) {
-								//Category slugs to IDs
-
-									$cat_object = get_category_by_slug( $cat );
-									$cat_temp[] = ( is_object( $cat_object ) && isset( $cat_object->term_id ) ) ? ( $cat_object->term_id ) : ( null );
-
-								} else {
-
-									$cat_temp[] = $cat;
-
-								}
-							}
-						}
-
-						array_filter( $cat_temp ); //remove empty (if any)
-
-						$cats = $cat_temp;
-					}
-
-				//Modify the query
-					do_action( 'wmhook_wm_home_query', $query );
-
-					if ( $article_count ) {
-						$query->set( 'posts_per_page', absint( $article_count ) );
-					}
-					if ( 0 < count( $cats ) ) {
-						$query->set( $cats_action, $cats );
-					}
-
-			}
-		}
-	} // /wm_home_query
-
-
 
 	/**
 	 * Thumbnail image
@@ -617,7 +354,7 @@
 					if ( $attachment ) {
 						$image = get_the_post_thumbnail( $post_id, $args['size'], $args['attr-img'] );
 					} elseif ( $args['placeholder'] ) {
-						$image = apply_filters( 'wmhook_wm_thumb_placeholder_image', '<img src="' . wm_get_stylesheet_directory_uri( 'assets/img/placeholder/' . $args['size'] . '.png' ) . '" alt="" />' );
+						$image = apply_filters( 'wmhook_wm_thumb_placeholder_image', '<img src="' . wm_get_stylesheet_directory_uri( 'assets/images/placeholder/' . $args['size'] . '.png' ) . '" alt="" />' );
 					}
 
 				//Setting link
@@ -664,71 +401,14 @@
 
 
 	/**
-	 * Get all images attached to the post
-	 *
-	 * @param   integer $post_id    Specific post id, else current post id used
-	 * @param   string  $image_size Image size to get
-	 * @param   integer $count      Number of images to retrieve
-	 *
-	 * @return  Array of images (array keys: name, id, img, title, alt)
-	 */
-	if ( ! function_exists( 'wm_get_post_images' ) ) {
-		function wm_get_post_images( $post_id = null, $image_size = 'widget', $count = -1 ) {
-			//Helper variables
-				global $post;
-
-				//Requirements check
-					if ( ! $post_id && ! $post ) {
-						return;
-					}
-
-				$post_id    = ( $post_id ) ? ( absint( $post_id ) ) : ( $post->ID );
-				$image_size = apply_filters( 'wmhook_wm_get_post_images_image_size', $image_size );
-				$output     = array();
-
-			//Preparing output
-				$args = apply_filters( 'wmhook_wm_get_post_images_query_args', array(
-					'numberposts'    => $count,
-					'post_parent'    => $post_id,
-					'orderby'        => 'menu_order',
-					'order'          => 'asc',
-					'post_mime_type' => 'image',
-					'post_type'      => 'attachment'
-					) );
-				$images = get_children( $args );
-
-				if ( ! empty( $images ) ) {
-					foreach ( $images as $attachment_id => $attachment ) {
-						$image_url     = wp_get_attachment_image_src( $attachment_id, $image_size );
-						$image_title   = trim( strip_tags( $attachment->post_title ) );
-						$iamge_caption = trim( strip_tags( $attachment->post_excerpt ) );
-
-						$entry = array();
-
-						$entry['name']  = ( $iamge_caption ) ? ( esc_attr( $image_title . ' - ' . $iamge_caption ) ) : ( esc_attr( $image_title ) );
-						$entry['name']  = apply_filters( 'wmhook_wm_get_post_images_image_name', $entry['name'] );
-						$entry['id']    = esc_attr( $attachment_id );
-						$entry['img']   = $image_url[0];
-						$entry['title'] = esc_attr( $image_title );
-						$entry['alt']   = esc_attr( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) );
-
-						$output[] = apply_filters( 'wmhook_wm_get_post_images_single_entry', $entry );
-					}
-				}
-
-			//Output
-				return apply_filters( 'wmhook_wm_get_post_images_output', $output );
-		}
-	} // /wm_get_post_images
-
-
-
-	/**
 	 * Table of contents from <!--nextpage--> tag
 	 *
 	 * Will create a table of content in multipage post from
 	 * the first H2 heading in each post part.
 	 * Appends the output at the top and bottom of post content.
+	 *
+	 * @since    3.0
+	 * @version  4.0
 	 *
 	 * @param  string $content
 	 */
@@ -748,11 +428,11 @@
 						return $content;
 					}
 
-				$atts = apply_filters( 'wmhook_wm_nextpage_table_of_contents_atts', array(
+				$args = apply_filters( 'wmhook_wm_nextpage_table_of_contents_atts', array(
 						//If set to TRUE, the first post part will have a title of the post (the part title will not be parsed)
 						'disable_first' => true,
 						//The output HTML
-						'links'         => array( 1 => '<li>' . _wp_link_page( 1 ) . get_the_title() . '</a></li>' ),
+						'links'         => array(),
 						//Get the whole post content
 						'post_content'  => ( isset( $post->post_content ) ) ? ( $post->post_content ) : ( '' ),
 						//Which HTML heading tag to parse as a post part title
@@ -763,597 +443,61 @@
 					$i = 0;
 
 			//Prepare output
-				$atts['post_content'] = explode( '<!--nextpage-->', $atts['post_content'] );
+				$args['post_content'] = explode( '<!--nextpage-->', $args['post_content'] );
 
 				//Get post parts titles
-					foreach ( $atts['post_content'] as $part ) {
-						$i++;
-						if ( absint( $atts['disable_first'] ) < $i ) {
-							//Get heading from post part
-								preg_match( '/<' . $atts['tag'] . '(.*?)>(.*?)<\/' . $atts['tag'] . '>/', $part, $matches );
-							//Fallback to "Part #" if no post part heading found
+					foreach ( $args['post_content'] as $part ) {
+
+						//Current post part number
+							$i++;
+
+						//Get title for post part
+							if ( $args['disable_first'] && 1 === $i ) {
+
+								$part_title = get_the_title();
+
+							} else {
+
+								preg_match( '/<' . $args['tag'] . '(.*?)>(.*?)<\/' . $args['tag'] . '>/', $part, $matches );
+
 								if ( ! isset( $matches[2] ) || ! $matches[2] ) {
-									$matches[2] = sprintf( __( 'Part %d', 'wm_domain' ), $i );
+									$part_title = sprintf( __( 'Page %s', 'wm_domain' ), $i );
+								} else {
+									$part_title = $matches[2];
 								}
 
-							$atts['links'][$i] = apply_filters( 'wmhook_wm_nextpage_table_of_contents_part', '<li>' . _wp_link_page( $i ) . $matches[2] . '</a></li>', $matches, $i );
-						}
-					}
+							}
 
-				//Set active part in table of contents
-					if ( isset( $atts['links'][$page] ) ) {
-						$atts['links'][$page] = str_replace( '<li>', '<li class="active">', $atts['links'][$page] );
+						//Set post part class
+							if ( $page === $i ) {
+								$class = ' class="current"';
+							} elseif ( $page > $i ) {
+								$class = ' class="passed"';
+							} else {
+								$class = '';
+							}
+
+						//Post part item output
+							$args['links'][$i] = apply_filters( 'wmhook_wm_nextpage_table_of_contents_part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
+
 					}
 
 				//Add table of contents into the post/page content
-					$atts['links'] = implode( '', $atts['links'] );
+					$args['links'] = implode( '', $args['links'] );
 
 					$links = apply_filters( 'wmhook_wm_nextpage_table_of_contents_links', array(
 							//Display table of contents before the post content only in first post part
-								'before' => ( 1 === $page ) ? ( '<div class="post-table-of-contents top" title="' . esc_attr( strip_tags( $title_text ) ) . '">' . $title . '<ol>' . $atts['links'] . '</ol></div>' ) : ( '' ),
+								'before' => ( 1 === $page ) ? ( '<div class="post-table-of-contents top" title="' . esc_attr( strip_tags( $title_text ) ) . '">' . $title . '<ol>' . $args['links'] . '</ol></div>' ) : ( '' ),
 							//Display table of cotnnets after the post cotnent on each post part
-								'after'  => '<div class="post-table-of-contents bottom" title="' . esc_attr( strip_tags( $title_text ) ) . '">' . $title . '<ol>' . $atts['links'] . '</ol></div>',
-						), $atts );
+								'after'  => '<div class="post-table-of-contents bottom" title="' . esc_attr( strip_tags( $title_text ) ) . '">' . $title . '<ol>' . $args['links'] . '</ol></div>',
+						), $args );
 
 					$content = $links['before'] . $content . $links['after'];
 
 			//Output
-				return apply_filters( 'wmhook_wm_nextpage_table_of_contents_output', $content );
+				return apply_filters( 'wmhook_wm_nextpage_table_of_contents_output', $content, $args );
 		}
 	} // /wm_nextpage_table_of_contents
-
-
-
-	/**
-	 * WP gallery improvements
-	 *
-	 * Improves WordPress [gallery] shortcode.
-	 * Removes inline CSS, changes HTML markup to  valid,
-	 * makes it easier to remove images from gallery.
-	 *
-	 * Original source code from @link wp-includes/media.php
-	 *
-	 * @version  3.1
-	 *
-	 * @param  string $output
-	 * @param  array  $attr
-	 */
-	if ( ! function_exists( 'wm_shortcode_gallery' ) ) {
-		function wm_shortcode_gallery( $output, $attr ) {
-			//Something else is overriding post_gallery, such as a Jetpack plugin's Tiled Gallery
-				if ( ! empty( $output ) ) {
-					return $output;
-				}
-
-			$post = get_post();
-
-			static $instance = 0;
-			$instance++;
-			//WordPress only passes $attr variable to the filter, so the above needs to be reset
-
-			$output = '';
-
-			// We're trusting author input, so let's at least make sure it looks like a valid orderby statement
-			if ( isset( $attr['orderby'] ) ) {
-				$attr['orderby'] = sanitize_sql_orderby( $attr['orderby'] );
-				if ( ! $attr['orderby'] )
-					unset( $attr['orderby'] );
-			}
-
-			extract( shortcode_atts( array(
-				'order'      => 'ASC',
-				'orderby'    => 'menu_order ID',
-				'id'         => $post->ID,
-				'itemtag'    => 'figure',
-				'icontag'    => 'span',
-				'captiontag' => 'div',
-				'columns'    => 3,
-				'size'       => ( wm_option( 'skin-image-gallery' ) ) ? ( 'mobile-' . wm_option( 'skin-image-gallery' ) ) : ( 'mobile-' . WM_DEFAULT_IMAGE_SIZE ),
-				'include'    => '',
-				'exclude'    => '',
-				'link'       => '',
-				//custom theme addon:
-					'remove'   => '', //remove images by order number
-					'flexible' => '', //if set, masonry gallery displayed
-					'class'    => '', //additional CSS class on images
-				// /custom theme addon
-			), $attr, 'gallery' ) );
-
-			//custom theme addon:
-				$remove = preg_replace( '/[^0-9,]+/', '', $remove );
-				$remove = array_filter( explode( ',', $remove ) );
-			// /custom theme addon
-
-			$id = intval( $id );
-			if ( 'RAND' == $order ) {
-				$orderby = 'none';
-			}
-
-			if ( ! empty( $include ) ) {
-				$include = preg_replace( '/[^0-9,]+/', '', $include ); //not in WP 3.5 but keeping it
-				$_attachments = get_posts( array(
-						'include'        => $include,
-						'post_status'    => 'inherit',
-						'post_type'      => 'attachment',
-						'post_mime_type' => 'image',
-						'order'          => $order,
-						'orderby'        => $orderby
-					) );
-
-				$attachments = array();
-				foreach ( $_attachments as $key => $val ) {
-					$attachments[$val->ID] = $_attachments[$key];
-				}
-			} elseif ( ! empty( $exclude ) ) {
-				$exclude     = preg_replace( '/[^0-9,]+/', '', $exclude ); //not in WP 3.5 but keeping it
-				$attachments = get_children( array(
-						'post_parent'    => $id,
-						'exclude'        => $exclude,
-						'post_status'    => 'inherit',
-						'post_type'      => 'attachment',
-						'post_mime_type' => 'image',
-						'order'          => $order,
-						'orderby'        => $orderby
-					) );
-			} else {
-				$attachments = get_children( array(
-						'post_parent'    => $id,
-						'post_status'    => 'inherit',
-						'post_type'      => 'attachment',
-						'post_mime_type' => 'image',
-						'order'          => $order,
-						'orderby'        => $orderby
-					) );
-			}
-
-			if ( empty( $attachments ) || is_feed() )
-				return ''; //this will make the default WordPress function to take care of processing
-
-			$itemtag    = tag_escape( $itemtag );
-			$captiontag = tag_escape( $captiontag );
-			$columns    = absint( $columns );
-			$float      = is_rtl() ? 'right' : 'left';
-
-			//custom theme addon:
-				$class_container = '';
-				$class           = esc_attr( trim( $class ) );
-				$wrapper         = ( 'li' == $itemtag ) ? ( '<ul>' ) : ( '' );
-				$wrapper_end     = ( $wrapper ) ? ( '</ul>' ) : ( '' );
-				$columns         = ( 1 > $columns || 9 < $columns ) ? ( 3 ) : ( $columns ); //only 1 to 9 columns allowed
-
-				if ( 1 === absint( $columns ) ) {
-					$size = 'content-width';
-				}
-
-
-				$flexible = ( ( $flexible || 'mobile' == $size || 'content-width' == $size ) && 1 < $columns ) ? ( true ) : ( false );
-
-				if ( $flexible ) {
-					$class_container .= ' masonry-container masonry-this';
-					if ( 1 !== absint( $columns ) ) {
-						$size = 'mobile';
-					}
-					wp_enqueue_script( 'jquery-masonry' );
-				} else {
-					$class_container .= ' no-masonry';
-				}
-
-				if (
-						$class
-						&& false !== strpos( $class, 'no-margin' )
-					) {
-					$class_container .= ' no-margin';
-				} else {
-					$class_container .= ' with-margin';
-					$class           .= ' with-margin';
-				}
-
-				$size = apply_filters( 'wmhook_wm_shortcode_gallery_size', $size, $attr, $instance );
-			// /custom theme addon
-
-			$selector   = "gallery-{$instance}";
-			$size_class = sanitize_html_class( $size );
-			$output     = "<div id='$selector' class='gallery galleryid-{$id} clearfix gallery-columns-{$columns} gallery-columns gallery-size-{$size_class}{$class_container}'>" . $wrapper; //custom theme addon
-
-			$i = $j = 0; //$i = every image from gallery, $j = only displayed images
-			foreach ( $attachments as $id => $attachment ) { //custom theme addon in this foreach
-
-				$full_image_size  = apply_filters( 'wmhook_wm_shortcode_gallery_full_image_size', 'large', $attr, $instance );
-
-				$full_image_array = wp_get_attachment_image_src( $id, $full_image_size, false );
-				$image_array      = wp_get_attachment_image_src( $id, $size, false );
-
-				$title_text       = array( ucfirst( $attachment->post_title ), $attachment->post_excerpt );
-				$title_text       = apply_filters( 'wmhook_wm_shortcode_gallery_image_title_array', $title_text );
-				$title_separator  = apply_filters( 'wmhook_wm_shortcode_gallery_image_title_separator', ' | ' );
-				$title_text       = esc_attr( implode( $title_separator, array_filter( $title_text ) ) );
-
-				$image            = '<img src="' . $image_array[0] . '" alt="' . $title_text . '" title="' . $title_text . '" />';
-				$image_link       = '<a href="' . $full_image_array[0] . '" title="' . $title_text . '">' . $image . '</a>';
-
-				$i++;
-
-				if ( ! in_array( $i, $remove ) ) {
-
-					if ( ++$j % $columns == 0 ) {
-						$last = ' last';
-					} else {
-						$last = '';
-					}
-
-					$last .= ( $j <= $columns ) ? ( ' first-row' ) : ( null );
-
-					$output .= "<{$itemtag} class='gallery-item wm-column width-1-{$columns}{$last} {$class}'>";
-					$output .= "<{$icontag} class='gallery-icon'>{$image_link}</{$icontag}>";
-
-					if ( $captiontag && trim( $attachment->post_excerpt ) ) {
-						$output .= "
-							<{$captiontag} class='wp-caption-text gallery-caption'>
-							" . apply_filters( 'wmhook_content_filters', $attachment->post_excerpt ) . "
-							</{$captiontag}>";
-					}
-
-					$output .= "</{$itemtag}>";
-
-					if ( $columns > 0 && $i % $columns == 0 ) {
-						$output .= '';
-					}
-
-				}
-
-			}
-
-			$output .= $wrapper_end . "</div>\r\n"; //custom theme addon
-
-			return apply_filters( 'wmhook_wm_shortcode_gallery_output', $output );
-		}
-	} // /wm_shortcode_gallery
-
-
-
-	/**
-	 * Post excerpt
-	 */
-	if ( ! function_exists( 'wm_excerpt' ) ) {
-		function wm_excerpt() {
-			//Helper variables
-				$output = '';
-
-				//Shortcodes are being stripped out by WordPress by default
-					$excerpt = trim( get_the_excerpt() );
-					$excerpt = apply_filters( 'wmhook_wm_excerpt_excerpt', $excerpt );
-
-			//Requirements check
-				if ( ! $excerpt ) {
-					return;
-				}
-
-			//Preparing output
-				$output .= '<div class="entry-summary"' . wm_schema_org( 'description' ) . '>';
-				if ( ! post_password_required() ) {
-					$output .= apply_filters( 'wmhook_content_filters', $excerpt );
-				} else {
-					$output .= '<strong>' . __( 'Password protected', 'wm_domain' ) . '</strong>';
-				}
-				$output .= '</div>';
-
-			//Output
-				return apply_filters( 'wmhook_wm_excerpt_output', $output );
-		}
-	} // /wm_excerpt
-
-
-
-	/**
-	 * Set custom excerpt length
-	 */
-	if ( ! function_exists( 'wm_excerpt_length_blog' ) ) {
-		function wm_excerpt_length_blog( $length ) {
-			return apply_filters( 'wmhook_wm_excerpt_length_blog_output', WM_DEFAULT_EXCERPT_LENGTH );
-		}
-	} // /wm_excerpt_length_blog
-
-
-
-	/**
-	 * Post content or excerpt
-	 *
-	 * Output depends on using <!--more--> tag.
-	 *
-	 * @param  object $post
-	 * @param  boolean $content_filters
-	 */
-	if ( ! function_exists( 'wm_content_or_excerpt' ) ) {
-		function wm_content_or_excerpt( $post, $content_filters = true ) {
-			//Helper variables
-				$output = $link = '';
-
-			//Requirements check
-				if (
-						! $post
-						|| ! is_object( $post )
-						|| ! isset( $post->post_content )
-						|| ! isset( $post->ID )
-					) {
-					return;
-				}
-
-			//Preparing output
-				if ( false !== stripos( $post->post_content, '<!--more-->' ) ) {
-				//Display excerpt until <!--more--> tag
-
-					//Helper variables
-						//Required for <!--more--> tag to work
-							global $more;
-							$more = 0;
-
-					$output .= '<div class="more-tag-excerpt">';
-					if ( ! post_password_required() ) {
-						if ( has_excerpt() ) {
-							$output .= wm_excerpt();
-						}
-						$output .= ( $content_filters ) ? ( apply_filters( 'wmhook_content_filters', get_the_content( '' ) ) ) : ( get_the_content( '' ) );
-					} else {
-						$output .= '<strong>' . __( 'Password protected', 'wm_domain' ) . '</strong>';
-					}
-					$output .= '</div>';
-
-					$link = get_permalink() . '#more-' . $post->ID;
-
-				} else {
-				//Display excerpt only
-
-					$output .= wm_excerpt();
-
-					$link = get_permalink();
-
-				}
-
-				if ( $output ) {
-					$output .= '<p class="more-link-container">';
-					$output .= wm_more( array(
-							'link' => $link,
-						) );
-					$output .= '</p>';
-				}
-
-			//Output
-				return apply_filters( 'wmhook_wm_content_or_excerpt_output', $output );
-		}
-	} // /wm_content_or_excerpt
-
-
-
-	/**
-	 * Excerpt ellipsis
-	 *
-	 * @param  string $more
-	 */
-	if ( ! function_exists( 'wm_excerpt_more' ) ) {
-		function wm_excerpt_more( $more ) {
-			//Output
-				return apply_filters( 'wmhook_wm_excerpt_more_output', '&hellip;' );
-		}
-	} // /wm_excerpt_more
-
-
-
-	/**
-	 * "Continue reading" button
-	 *
-	 * @param  array $args
-	 */
-	if ( ! function_exists( 'wm_more' ) ) {
-		function wm_more( $args = array() ) {
-			//Helper variables
-				$args = wp_parse_args( $args, apply_filters( 'wmhook_wm_more_defaults', array(
-						'attributes' => '',
-						'class'      => 'more-link',
-						'content'    => sprintf( __( 'Continue reading <span class="screen-reader-text">the "%s" </span>&raquo;', 'wm_domain' ), get_the_title() ),
-						'html'       => '<a href="{link}" class="{class}"{attributes}>{content}</a>',
-						'link'       => get_permalink(),
-					) ) );
-				$args = apply_filters( 'wmhook_wm_more_args', $args );
-
-				$output = '';
-
-			//Requirements check
-				if ( ! $args['link'] ) {
-					return;
-				}
-
-			//Preparing output
-				$replacements = apply_filters( 'wmhook_wm_more_replacements', array(
-						'{attributes}' => esc_attr( $args['attributes'] ),
-						'{class}'      => esc_attr( $args['class'] ),
-						'{content}'    => $args['content'],
-						'{link}'       => esc_url( $args['link'] ),
-					) );
-				$output = strtr( $args['html'], $replacements );
-
-			//Output
-				return apply_filters( 'wmhook_wm_more_output', $output );
-		}
-	} // /wm_more
-
-
-
-	/**
-	 * Post meta info
-	 *
-	 * hAtom microformats compatible. @link http://goo.gl/LHi4Dy
-	 *
-	 * @param  array $args
-	 */
-	if ( ! function_exists( 'wm_post_meta' ) ) {
-		function wm_post_meta( $args = array() ) {
-			//Helper variables
-				$output = '';
-
-				$args = wp_parse_args( $args, apply_filters( 'wmhook_wm_post_meta_defaults', array(
-						'class'       => 'entry-meta clearfix',
-						'date_format' => null,
-						'html'        => '<span class="{class}"{attributes}>{content}</span>',
-						'html_custom' => array(
-								'date' => '<time datetime="{datetime}" class="{class}"{attributes}>{content}</time>',
-							),
-						'meta'        => array( 'date', 'author', 'category', 'comments', 'permalink' ),
-						'post_id'     => null,
-						'post'        => null,
-					) ) );
-				$args = apply_filters( 'wmhook_wm_post_meta_args', $args );
-
-				$args['meta'] = array_filter( (array) $args['meta'] );
-
-				if ( $args['post_id'] ) {
-					$args['post_id'] = absint( $args['post_id'] );
-					$args['post']    = get_post( $args['post_id'] );
-				}
-
-			//Requirements check
-				if ( empty( $args['meta'] ) ) {
-					return;
-				}
-
-			//Preparing output
-				foreach ( $args['meta'] as $meta ) {
-
-					//Allow custom metas
-						$output .= apply_filters( 'wmhook_wm_post_meta', '', $meta, $args );
-
-					//Predefined metas
-						switch ( $meta ) {
-							case 'author':
-
-								if ( apply_filters( 'wmhook_wm_post_meta_enable_author', true ) ) {
-									$replacements = array(
-											'{attributes}' => wm_schema_org( 'creator' ),
-											'{class}'      => 'author vcard entry-meta-element',
-											'{content}'    => '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" class="fn" rel="author">' . get_the_author() . '</a>',
-										);
-									$replacements = apply_filters( 'wmhook_wm_post_meta_replacements_author', $replacements );
-
-									if ( isset( $args['html_custom']['author'] ) ) {
-										$output .= strtr( $args['html_custom']['author'], $replacements );
-									} else {
-										$output .= strtr( $args['html'], $replacements );
-									}
-								}
-
-							break;
-							case 'category':
-							case 'categories':
-
-								if ( apply_filters( 'wmhook_wm_post_meta_enable_categories', true ) && get_the_category_list( '', '', $args['post_id'] ) ) {
-									$replacements = array(
-											'{attributes}' => '',
-											'{class}'      => 'cat-links entry-meta-element',
-											'{content}'    => get_the_category_list( ', ', '', $args['post_id'] ),
-										);
-									$replacements = apply_filters( 'wmhook_wm_post_meta_replacements_category', $replacements );
-
-									if ( isset( $args['html_custom']['category'] ) ) {
-										$output .= strtr( $args['html_custom']['category'], $replacements );
-									} else {
-										$output .= strtr( $args['html'], $replacements );
-									}
-								}
-
-							break;
-							case 'comments':
-
-								if ( apply_filters( 'wmhook_wm_post_meta_enable_comments', true ) && ( comments_open( $args['post_id'] ) || get_comments_number( $args['post_id'] ) ) ) {
-									$element_id   = ( get_comments_number( $args['post_id'] ) ) ? ( '#comments' ) : ( '#respond' );
-									$replacements = array(
-											'{attributes}' => '',
-											'{class}'      => 'comments-link entry-meta-element',
-											'{content}'    => '<a href="' . get_permalink( $args['post_id'] ) . $element_id . '" title="' . esc_attr( sprintf( __( 'Comments: %s', 'wm_domain' ), get_comments_number( $args['post_id'] ) ) ) . '">' . sprintf( __( '<span class="comments-title">Comments: </span>%s', 'wm_domain' ), '<span class="comments-count">' . get_comments_number( $args['post_id'] ) . '</span>' ) . '</a>',
-										);
-									$replacements = apply_filters( 'wmhook_wm_post_meta_replacements_comments', $replacements );
-
-									if ( isset( $args['html_custom']['comments'] ) ) {
-										$output .= strtr( $args['html_custom']['comments'], $replacements );
-									} else {
-										$output .= strtr( $args['html'], $replacements );
-									}
-								}
-
-							break;
-							case 'date':
-
-								if ( apply_filters( 'wmhook_wm_post_meta_enable_date', true ) ) {
-									$replacements = array(
-											'{attributes}' => ' title="' . esc_attr( get_the_date() ) . ' | ' . esc_attr( get_the_time( '', $args['post'] ) ) . '"' . wm_schema_org( 'publish_date' ),
-											'{class}'      => 'entry-date entry-meta-element updated',
-											'{content}'    => esc_html( get_the_date( $args['date_format'] ) ),
-											'{datetime}'   => esc_attr( get_the_date( 'c' ) ),
-										);
-									$replacements = apply_filters( 'wmhook_wm_post_meta_replacements_date', $replacements );
-
-									if ( isset( $args['html_custom']['date'] ) ) {
-										$output .= strtr( $args['html_custom']['date'], $replacements );
-									} else {
-										$output .= strtr( $args['html'], $replacements );
-									}
-								}
-
-							break;
-							case 'permalink':
-
-								if ( apply_filters( 'wmhook_wm_post_meta_enable_permalink', true ) ) {
-									$the_title_attribute_args = array( 'echo' => false );
-									if ( $args['post_id'] ) {
-										$the_title_attribute_args['post'] = $args['post'];
-									}
-
-									$replacements = array(
-											'{attributes}' => wm_schema_org( 'bookmark' ),
-											'{class}'      => 'entry-permalink entry-meta-element',
-											'{content}'    => '<a href="' . get_permalink( $args['post_id'] ) . '" title="' . esc_attr( sprintf( __( 'Permalink to %s', 'wm_domain' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
-										);
-									$replacements = apply_filters( 'wmhook_wm_post_meta_replacements_permalink', $replacements );
-
-									if ( isset( $args['html_custom']['permalink'] ) ) {
-										$output .= strtr( $args['html_custom']['permalink'], $replacements );
-									} else {
-										$output .= strtr( $args['html'], $replacements );
-									}
-								}
-
-							break;
-							case 'tags':
-
-								if ( apply_filters( 'wmhook_wm_post_meta_enable_tags', true ) && get_the_tag_list( '', '', '', $args['post_id'] ) ) {
-									$replacements = array(
-											'{attributes}' => wm_schema_org( 'itemprop="keywords"' ),
-											'{class}'      => 'tag-links entry-meta-element',
-											'{content}'    => sprintf( __( '<strong>Tags:</strong> %s', 'wm_domain' ), get_the_tag_list( '', ', ', '', $args['post_id'] ) ),
-										);
-									$replacements = apply_filters( 'wmhook_wm_post_meta_replacements_tags', $replacements );
-
-									if ( isset( $args['html_custom']['tags'] ) ) {
-										$output .= strtr( $args['html_custom']['tags'], $replacements );
-									} else {
-										$output .= strtr( $args['html'], $replacements );
-									}
-								}
-
-							break;
-
-							default:
-							break;
-						} // /switch
-
-				} // /foreach
-
-				if ( $output ) {
-					$output = '<div class="' . esc_attr( $args['class'] ) . '">' . $output . '</div>';
-				}
-
-			//Output
-				return apply_filters( 'wmhook_wm_post_meta_output', $output );
-		}
-	} // /wm_post_meta
 
 
 
@@ -1377,7 +521,218 @@
 
 
 	/**
+	 * Post meta info
+	 *
+	 * hAtom microformats compatible. @link http://goo.gl/LHi4Dy
+	 * Supports ZillaLikes plugin. @link http://www.themezilla.com/plugins/zillalikes/
+	 *
+	 * @since    3.0
+	 * @version  4.0
+	 *
+	 * @param  array $args
+	 */
+	if ( ! function_exists( 'wm_post_meta' ) ) {
+		function wm_post_meta( $args = array() ) {
+			//Helper variables
+				$output = '';
+
+				$args = wp_parse_args( $args, apply_filters( 'wmhook_wm_post_meta_defaults', array(
+						'class'       => 'entry-meta clearfix',
+						'date_format' => null,
+						'html'        => '<span class="{class}"{attributes}>{content}</span>',
+						'html_custom' => array(
+								'date' => '<time datetime="{datetime}" class="{class}"{attributes}>{content}</time>',
+							),
+						'meta'        => array(), //For example: array( 'date', 'author', 'category', 'comments', 'permalink' )
+						'post_id'     => null,
+						'post'        => null,
+					) ) );
+				$args = apply_filters( 'wmhook_wm_post_meta_args', $args );
+
+				$args['meta'] = array_filter( (array) $args['meta'] );
+
+				if ( $args['post_id'] ) {
+					$args['post_id'] = absint( $args['post_id'] );
+					$args['post']    = get_post( $args['post_id'] );
+				}
+
+			//Requirements check
+				if ( empty( $args['meta'] ) ) {
+					return;
+				}
+
+			//Preparing output
+				foreach ( $args['meta'] as $meta ) {
+
+					//Allow custom metas
+						$helper = '';
+
+						$replacements  = (array) apply_filters( 'wmhook_wm_post_meta_replacements', array(), $meta, $args );
+						$single_output = apply_filters( 'wmhook_wm_post_meta', '', $meta, $args );
+						$output       .= $single_output;
+
+					//Predefined metas
+						switch ( $meta ) {
+							case 'author':
+
+								if ( apply_filters( 'wmhook_wm_post_meta_enable_' . $meta, true, $args ) ) {
+									$replacements = array(
+											'{attributes}' => wm_schema_org( 'Person' ),
+											'{class}'      => 'author vcard entry-meta-element',
+											'{content}'    => '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" class="url fn n" rel="author"' . wm_schema_org( 'author' ) .'>' . get_the_author() . '</a>',
+										);
+								}
+
+							break;
+							case 'category':
+
+								if (
+										wm_is_categorized_blog()
+										&& apply_filters( 'wmhook_wm_post_meta_enable_' . $meta, true, $args )
+										&& ( $helper = get_the_category_list( ', ', '', $args['post_id'] ) )
+									) {
+									$replacements = array(
+											'{attributes}' => '',
+											'{class}'      => 'cat-links entry-meta-element',
+											'{content}'    => $helper,
+										);
+								}
+
+							break;
+							case 'comments':
+
+								if (
+										apply_filters( 'wmhook_wm_post_meta_enable_' . $meta, true, $args )
+										&& ! post_password_required()
+										&& (
+											comments_open( $args['post_id'] )
+											|| get_comments_number( $args['post_id'] )
+										)
+									) {
+									$helper = get_comments_number( $args['post_id'] ); //Don't know why this can not be in IF condition, but otherwise it won't work...
+									$element_id   = ( $helper ) ? ( '#comments' ) : ( '#respond' );
+									$replacements = array(
+											'{attributes}' => '',
+											'{class}'      => 'comments-link entry-meta-element',
+											'{content}'    => '<a href="' . get_permalink( $args['post_id'] ) . $element_id . '" title="' . esc_attr( sprintf( __( 'Comments: %s', 'wm_domain' ), $helper ) ) . '">' . sprintf( __( '<span class="comments-title">Comments: </span>%s', 'wm_domain' ), '<span class="comments-count">' . $helper . '</span>' ) . '</a>',
+										);
+								}
+
+							break;
+							case 'date':
+
+								if ( apply_filters( 'wmhook_wm_post_meta_enable_' . $meta, true, $args ) ) {
+									$replacements = array(
+											'{attributes}' => ' title="' . esc_attr( get_the_date() ) . ' | ' . esc_attr( get_the_time( '', $args['post'] ) ) . '"' . wm_schema_org( 'datePublished' ),
+											'{class}'      => 'entry-date entry-meta-element published',
+											'{content}'    => esc_html( get_the_date( $args['date_format'] ) ),
+											'{datetime}'   => esc_attr( get_the_date( 'c' ) ),
+										);
+								}
+
+							break;
+							case 'edit':
+
+								if (
+										apply_filters( 'wmhook_wm_post_meta_enable_' . $meta, true, $args )
+										&& ( $helper = get_edit_post_link( $args['post_id'] ) )
+									) {
+									$the_title_attribute_args = array( 'echo' => false );
+									if ( $args['post_id'] ) {
+										$the_title_attribute_args['post'] = $args['post'];
+									}
+
+									$replacements = array(
+											'{attributes}' => '',
+											'{class}'      => 'entry-edit entry-meta-element',
+											'{content}'    => '<a href="' . esc_url( $helper ) . '" title="' . esc_attr( sprintf( __( 'Edit the "%s"', 'wm_domain' ), the_title_attribute( $the_title_attribute_args ) ) ) . '"><span>' . __( 'Edit', 'wm_domain' ) . '</span></a>',
+										);
+								}
+
+							break;
+							case 'likes':
+
+								if (
+										function_exists( 'zilla_likes' )
+										&& apply_filters( 'wmhook_wm_post_meta_enable_' . $meta, true, $args )
+									) {
+									global $zilla_likes;
+									$meta_output = $zilla_likes->do_likes();
+
+									$replacements = array(
+											'{attributes}' => '',
+											'{class}'      => 'entry-likes entry-meta-element',
+											'{content}'    => $meta_output,
+										);
+								}
+
+							break;
+							case 'permalink':
+
+								if ( apply_filters( 'wmhook_wm_post_meta_enable_' . $meta, true, $args ) ) {
+									$the_title_attribute_args = array( 'echo' => false );
+									if ( $args['post_id'] ) {
+										$the_title_attribute_args['post'] = $args['post'];
+									}
+
+									$replacements = array(
+											'{attributes}' => wm_schema_org( 'url' ),
+											'{class}'      => 'entry-permalink entry-meta-element',
+											'{content}'    => '<a href="' . get_permalink( $args['post_id'] ) . '" title="' . esc_attr( sprintf( __( 'Permalink to %s', 'wm_domain' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
+										);
+								}
+
+							break;
+							case 'tags':
+
+								if (
+										apply_filters( 'wmhook_wm_post_meta_enable_' . $meta, true, $args )
+										&& ( $helper = get_the_tag_list( '', ' ', '', $args['post_id'] ) )
+									) {
+									$replacements = array(
+											'{attributes}' => wm_schema_org( 'keywords' ),
+											'{class}'      => 'tags-links entry-meta-element',
+											'{content}'    => $helper,
+										);
+								}
+
+							break;
+
+							default:
+							break;
+						} // /switch
+
+						//Single meta output
+							$replacements = (array) apply_filters( 'wmhook_wm_post_meta_replacements_' . $meta, $replacements, $args );
+							if (
+									empty( $single_output )
+									&& ! empty( $replacements )
+								) {
+								if ( isset( $args['html_custom'][ $meta ] ) ) {
+									$output .= strtr( $args['html_custom'][ $meta ], (array) $replacements );
+								} else {
+									$output .= strtr( $args['html'], (array) $replacements );
+								}
+							}
+
+				} // /foreach
+
+				if ( $output ) {
+					$output = '<div class="' . esc_attr( $args['class'] ) . '">' . $output . '</div>';
+				}
+
+			//Output
+				return apply_filters( 'wmhook_wm_post_meta_output', $output );
+		}
+	} // /wm_post_meta
+
+
+
+	/**
 	 * Paginated heading suffix
+	 *
+	 * @since    3.0
+	 * @version  4.0
 	 *
 	 * @param  string $tag           Wrapper tag
 	 * @param  string $singular_only Display only on singular posts of specific type
@@ -1394,18 +749,14 @@
 
 				$output = '';
 
-				/**
-				 * This is just a placeholder for Theme Check plugin.
-				 * The theme applies pagination via WebMan Amplifier plugin.
-				 */
-				$placeholder = paginate_links();
-
 				if ( ! isset( $paged ) ) {
 					$paged = 0;
 				}
 				if ( ! isset( $page ) ) {
 					$page = 0;
 				}
+
+				$paged = max( $page, $paged );
 
 				$tag = trim( $tag );
 				if ( $tag ) {
@@ -1415,9 +766,7 @@
 				}
 
 			//Preparing output
-				if ( 1 < $page ) {
-					$output = ' ' . $tag[0] . sprintf( __( '(part %s)', 'wm_domain' ), $page ) . $tag[1];
-				} elseif ( 1 < $paged ) {
+				if ( 1 < $paged ) {
 					$output = ' ' . $tag[0] . sprintf( __( '(page %s)', 'wm_domain' ), $paged ) . $tag[1];
 				}
 
@@ -1429,27 +778,79 @@
 
 
 	/**
-	 * No content found message
+	 * Checks for <!--more--> tag in post content
+	 *
+	 * @since  4.0
+	 *
+	 * @param  obj/absint $post
 	 */
-	if ( ! function_exists( 'wm_not_found' ) ) {
-		function wm_not_found() {
+	if ( ! function_exists( 'wm_has_more_tag' ) ) {
+		function wm_has_more_tag( $post = null ) {
 			//Helper variables
-				$output  = '<article class="not-found">';
-				$output .= '<h1>' . __( 'No item found', 'wm_domain' ) . '</h1>';
-				$output .= '</article>';
+				if ( empty( $post ) ) {
+					global $post;
+				} elseif ( is_numeric( $post ) ) {
+					$post = get_post( absint( $post ) );
+				}
+
+			//Requirements check
+				if (
+						! is_object( $post )
+						|| ! isset( $post->post_content )
+					) {
+					return;
+				}
 
 			//Output
-				echo apply_filters( 'wmhook_wm_not_found_output', $output );
+				return strpos( $post->post_content, '<!--more-->' );
 		}
-	} // /wm_not_found
+	} // /wm_has_more_tag
 
 
 
 
 
 /**
- * 60) Other functions
+ * 100) Other functions
  */
+
+	/**
+	 * Check WordPress version
+	 *
+	 * @param  float $version
+	 */
+	if ( ! function_exists( 'wm_check_wp_version' ) ) {
+		function wm_check_wp_version( $version = WM_WP_COMPATIBILITY ) {
+			global $wp_version;
+
+			return apply_filters( 'wmhook_wm_check_wp_version_output', version_compare( (float) $wp_version, $version, '>=' ) );
+		}
+	} // /wm_check_wp_version
+
+
+
+	/**
+	 * Do action on theme version change
+	 *
+	 * @since  4.0
+	 */
+	if ( ! function_exists( 'wm_theme_upgrade' ) ) {
+		function wm_theme_upgrade() {
+			//Helper variables
+				$current_theme_version = get_transient( WM_THEME_SHORTNAME . '-version' );
+
+			//Processing
+				if (
+						empty( $current_theme_version )
+						|| WM_THEME_VERSION != $current_theme_version
+					) {
+					do_action( 'wmhook_theme_upgrade' );
+					set_transient( WM_THEME_SHORTNAME . '-version', WM_THEME_VERSION );
+				}
+		}
+	} // /wm_theme_upgrade
+
+
 
 	/**
 	 * Use default WordPress content filters only
@@ -1470,52 +871,6 @@
 
 
 	/**
-	 * Check WordPress version
-	 *
-	 * @param  float $version
-	 */
-	if ( ! function_exists( 'wm_check_wp_version' ) ) {
-		function wm_check_wp_version( $version = WM_WP_COMPATIBILITY ) {
-			global $wp_version;
-
-			return apply_filters( 'wmhook_wm_check_wp_version_output', version_compare( (float) $wp_version, $version, '>=' ) );
-		}
-	} // /wm_check_wp_version
-
-
-
-	/**
-	 * Prevent your email address from stealing
-	 *
-	 * Rrequires jQuery function.
-	 *
-	 * @param  string $email
-	 * @param  string $method Set "wp" to use default WordPress method
-	 */
-	if ( ! function_exists( 'wm_nospam' ) ) {
-		function wm_nospam( $email, $method = '' ) {
-			//Requirements check
-				if ( ! $email || ! is_email( $email ) ) {
-					return;
-				}
-
-			//Preparing output
-				if ( 'wp' == $method ) {
-					$email = antispambot( $email );
-				} else {
-					$email = strrev( $email );
-					$email = preg_replace( '[@]', ']ta[', $email );
-					$email = preg_replace( '[\.]', '/', $email );
-				}
-
-			//Output
-				return apply_filters( 'wmhook_wm_nospam_output', $email );
-		}
-	} // /wm_nospam
-
-
-
-	/**
 	 * Remove shortcodes from string
 	 *
 	 * This function keeps the text between shortcodes,
@@ -1528,136 +883,6 @@
 			return apply_filters( 'wmhook_wm_remove_shortcodes_output', preg_replace( '|\[(.+?)\]|s', '', $content ) );
 		}
 	} // /wm_remove_shortcodes
-
-
-
-	/**
-	 * Remove invalid HTML5 rel attribute
-	 *
-	 * @param  string $link
-	 */
-	if ( ! function_exists( 'wm_remove_rel' ) ) {
-		function wm_remove_rel( $link ) {
-			return ( str_replace ( ' rel="category tag"', '', $link ) );
-		}
-	} // /wm_remove_rel
-
-
-
-	/**
-	 * Get post attachments list (except images)
-	 */
-	if ( ! function_exists( 'wm_post_attachments' ) ) {
-		function wm_post_attachments() {
-			//Requirements check
-				if (
-						! is_singular()
-						|| ! ( function_exists( 'wma_meta_option' ) && wma_meta_option( 'attachments-list' ) )
-					) {
-					return;
-				}
-
-			//Helper variables
-				global $post;
-
-				$output = '';
-
-			//Preparing output
-				$args = apply_filters( 'wmhook_wm_post_attachments_args', array(
-						'post_type'      => 'attachment',
-						'post_mime_type' => 'application,audio,video',
-						'numberposts'    => -1,
-						'post_status'    => null,
-						'post_parent'    => $post->ID,
-						'orderby'        => 'menu_order',
-						'order'          => 'ASC'
-					) );
-
-				$attachments = get_posts( $args );
-
-				if ( is_array( $attachments ) && ! empty( $attachments ) ) {
-					foreach ( $attachments as $attachment ) {
-						$output .= '<li class="attachment mime-' . sanitize_title( $attachment->post_mime_type ) . '">';
-						$output .= '<a href="' . wp_get_attachment_url( $attachment->ID ) . '" title="' . esc_attr( $attachment->post_title ) . '">' . $attachment->post_title . '</a>';
-						$output .= '</li>';
-					}
-
-					$output = '<div class="list-attachments meta-bottom"><ul class="download">' . $output . '</ul></div>';
-				}
-
-			//Output
-				echo apply_filters( 'wmhook_wm_post_attachments_output', $output );
-		}
-	} // /wm_post_attachments
-
-
-
-	/**
-	 * Get image ID from its URL
-	 *
-	 * @link   http://pippinsplugins.com/retrieve-attachment-id-from-image-url/
-	 * @link   http://make.wordpress.org/core/2012/12/12/php-warning-missing-argument-2-for-wpdb-prepare/
-	 *
-	 * @param  string $url
-	 */
-	if ( ! function_exists( 'wm_get_image_id_from_url' ) ) {
-		function wm_get_image_id_from_url( $url ) {
-			//Helper variables
-				global $wpdb;
-
-				$output = null;
-
-			//Preparing output
-				if (
-						is_object( $wpdb )
-						&& isset( $wpdb->prefix )
-					) {
-					$prefix     = $wpdb->prefix;
-					$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM " . $prefix . "posts" . " WHERE guid = %s", esc_url( $url ) ) );
-					$output     = ( isset( $attachment[0] ) ) ? ( $attachment[0] ) : ( null );
-				}
-
-			//Output
-				return apply_filters( 'wmhook_wm_get_image_id_from_url_output', $output );
-		}
-	} // /wm_get_image_id_from_url
-
-
-
-	/**
-	 * Search form
-	 *
-	 * This needs to be a function to maintain return output of get_search_form()
-	 *
-	 * @param  string $form
-	 */
-	if ( ! function_exists( 'wm_search_form' ) ) {
-		function wm_search_form( $form = '' ) {
-			//Helper variables
-				$html_array = array();
-				$atts       = apply_filters( 'wmhook_wm_search_form_atts', array(
-						'action'      => home_url( '/' ),
-						'label'       => __( 'Search for:', 'wm_domain' ),
-						'name'        => 's',
-						'placeholder' => __( 'Search for...', 'wm_domain' ),
-					) );
-				$value      = ( ! empty( $_GET[ $atts['name'] ] ) ) ? ( get_search_query() ) : ( '' );
-
-			//Preparing output
-				$html_array[10]   = '<form class="form-search searchform" action="' . $atts['action'] . '" method="get"><fieldset>';
-				if ( $atts['label'] ) {
-					$html_array[15] = '<label class="screen-reader-text">' . $atts['label'] . '</label>';
-				}
-				$html_array[20]   = '<input type="text" name="' . $atts['name'] . '" value="' . $value . '" placeholder="' . $atts['placeholder'] . '" />';
-				$html_array[90]   = '<input type="submit" class="submit" value="' . __( 'Submit', 'wm_domain' ) . '" />';
-				$html_array[100]  = '</fieldset></form>';
-
-				$html_array = apply_filters( 'wmhook_wm_search_form_html_array', $html_array );
-
-			//Output
-				return apply_filters( 'wmhook_wm_search_form_output', implode( '', $html_array ) );
-		}
-	} // /wm_search_form
 
 
 
@@ -1705,33 +930,10 @@
 
 
 	/**
-	 * Comments pagination
-	 *
-	 * @param  string $container_id
-	 */
-	if ( ! function_exists( 'wm_comments_navigation' ) ) {
-		function wm_comments_navigation( $container_id = 'comment-nav-above' ) {
-			//Helper variables
-				$output       = array();
-				$container_id = esc_attr( sanitize_html_class( trim( $container_id ) ) );
-
-			//Preparing output
-				$output[10] = '<nav id="' . $container_id . '" class="navigation comment-navigation ' . $container_id . '" role="navigation">';
-				$output[20] = '<h3 class="screen-reader-text">' . __( 'Comment navigation', 'wm_domain' ) . '</h3>';
-				$output[30] = '<div class="nav-previous">' . get_previous_comments_link( __( '&larr; Older comments', 'wm_domain' ) ) . '</div>';
-				$output[40] = '<div class="nav-next">' . get_next_comments_link( __( 'Newer comments &rarr;', 'wm_domain' ) ) . '</div>';
-				$output[50] = '</nav>';
-
-			//Output
-				$output = apply_filters( 'wmhook_wm_comments_navigation_output', $output );
-				return implode( '', $output );
-		}
-	} // /wm_comments_navigation
-
-
-
-	/**
 	 * Accessibility skip links
+	 *
+	 * @since    3.0
+	 * @version  4.0
 	 *
 	 * @param  string $type
 	 */
@@ -1739,8 +941,8 @@
 		function wm_accessibility_skip_link( $type ) {
 			//Helper variables
 				$links = apply_filters( 'wmhook_wm_accessibility_skip_links', array(
-					'to_content'    => '<a class="screen-reader-text" href="#content-section">' . __( 'Skip to content', 'wm_domain' ) . '</a>',
-					'to_navigation' => '<a class="screen-reader-text" href="#nav-main">' . __( 'Skip to navigation', 'wm_domain' ) . '</a>',
+					'to_content'    => '<a class="skip-link screen-reader-text" href="#content">' . __( 'Skip to content', 'wm_domain' ) . '</a>',
+					'to_navigation' => '<a class="skip-link screen-reader-text" href="#site-navigation">' . __( 'Skip to navigation', 'wm_domain' ) . '</a>',
 				) );
 
 			//Output
@@ -1805,44 +1007,152 @@
 
 
 	/**
-	 * CSS functions
+	 * Get theme options and files
 	 */
 
 		/**
-		 * Outputs URL to the specific file
+		 * Get the theme option
 		 *
-		 * This function looks for the file in the child theme first.
-		 * If the file is not located in child theme, output the URL from parent theme.
+		 * Note: Do not use get_theme_mod() as it is not very transferable from "lite" to "pro" themes.
 		 *
-		 * @param   string $file_relative_path File to look for (insert also the relative path inside the theme)
+		 * @since    3.0
+		 * @version  4.0
 		 *
-		 * @return  string Actual URL to the file
+		 * @param   string $option_name Option name without WM_THEME_SETTINGS_PREFIX prefix
+		 * @param   string $css         CSS to output ["color" = HEX color, "bgimg" = background image styles]
+		 * @param   string $addon       Will be added to the value if the value is not empty
+		 *
+		 * @return  mixed Option value.
 		 */
-		if ( ! function_exists( 'wm_get_stylesheet_directory_uri' ) ) {
-			function wm_get_stylesheet_directory_uri( $file_relative_path ) {
-				//Helper variables
-					$output = '';
-
-					$file_relative_path = trim( $file_relative_path );
-
-				//Requirements chek
-					if ( ! $file_relative_path ) {
-						return apply_filters( 'wm_get_stylesheet_directory_uri_output', esc_url( $output ), $file_relative_path );
+		if ( ! function_exists( 'wm_option' ) ) {
+			function wm_option( $option_name = '', $css = '', $addon = '' ) {
+				//Requirements check
+					if ( ! $option_name ) {
+						return;
 					}
 
-				//Praparing output
-					if ( file_exists( trailingslashit( get_stylesheet_directory() ) . $file_relative_path ) ) {
-						$output = trailingslashit( get_stylesheet_directory_uri() ) . $file_relative_path;
-					} else {
-						$output = trailingslashit( get_template_directory_uri() ) . $file_relative_path;
+				//Helper variables
+					global $wm_theme_options, $wp_customize;
+
+					$output = '';
+
+					if ( ! isset( $wm_theme_options ) ) {
+						$wm_theme_options = null;
+					}
+
+				//Premature output
+					$output = apply_filters( 'wmhook_wm_option_output_premature', $output, $option_name, $css, $addon );
+
+					if ( $output ) {
+						return apply_filters( 'wmhook_wm_option_output', $output, $option_name, $css, $addon );
+					}
+
+				//Alter $wm_theme_options only in Theme Customizer to provide live preview
+					if (
+							isset( $wp_customize )
+							&& $wp_customize->is_preview()
+							&& is_array( get_option( WM_THEME_SETTINGS_SKIN ) )
+						) {
+						$wm_theme_options = get_option( WM_THEME_SETTINGS_SKIN );
+					}
+
+				//Preparing output
+					$options     = ( $wm_theme_options ) ? ( $wm_theme_options ) : ( get_option( WM_THEME_SETTINGS_SKIN ) );
+					$option_name = WM_THEME_SETTINGS_PREFIX . $option_name;
+
+					if (
+							! isset( $options[ $option_name ] )
+							|| ! $options[ $option_name ]
+						) {
+						return;
+					}
+
+					//CSS output helper
+						if ( 'bgimg' === $css ) {
+							$output = 'url(\'' . esc_url( stripslashes( $options[ $option_name ] ) ) . '\')';
+						} elseif ( 'color' === $css ) {
+							$output = '#' . trim( stripslashes( $options[ $option_name ] ), '#' );
+						} else {
+							$output = ( is_array( $options[ $option_name ] ) ) ? ( $options[ $option_name ] ) : ( stripslashes( $options[ $option_name ] ) );
+						}
+
+					//Output addon
+						if ( $output ) {
+							$output .= $addon;
+						}
+
+				//Output
+					return apply_filters( 'wmhook_wm_option_output', $output, $option_name, $css, $addon );
+			}
+		} // /wm_option
+
+
+
+		/**
+		 * Get specific files from specific folder(s)
+		 *
+		 * @since    3.0
+		 * @version  4.0
+		 *
+		 * @param  array $args
+		 *
+		 * @return  array Pairs of file path with capitalized file name with no file extension.
+		 */
+		if ( ! function_exists( 'wm_get_files' ) ) {
+			function wm_get_files( $args = array() ) {
+				//Helper variables
+					$output = array();
+
+					//Parse arguments
+						$args = wp_parse_args( $args, array(
+								'empty_option'   => true,
+								'file_extension' => 'json',
+								'folders'        => array(),
+							) );
+						$args['folders'] = array_unique( $args['folders'] );
+
+						$args = apply_filters( 'wmhook_wm_get_files_args', $args );
+
+					//File name chars replacements
+						$replacements = apply_filters( 'wmhook_wm_get_files_replacements', array(
+								'.' . $args['file_extension'] => '',
+								'-'                           => ' ',
+								'_'                           => ' ',
+							), $args );
+
+				//Requirements check
+					if ( empty( $args['folders'] ) ) {
+						return;
+					}
+
+				//Preparing output
+					if ( $args['empty_option'] ) {
+						$output[''] = ( is_string( $args['empty_option'] ) ) ? ( $args['empty_option'] ) : ( '' );
+					}
+
+					foreach ( $args['folders'] as $folder ) {
+						$folder = trim( $folder );
+						if ( $folder && $dir = @opendir( $folder ) ) {
+							//This is the correct way to loop over the directory
+								while ( false != ( $file = readdir( $dir ) ) ) {
+									if ( strpos( $file, $args['file_extension'] ) ) {
+										$output[ trailingslashit( $folder ) . $file ] = ucwords( str_replace( array_keys( $replacements ), $replacements, $file ) );
+									}
+								}
+							closedir( $dir );
+						}
 					}
 
 				//Output
-					return apply_filters( 'wm_get_stylesheet_directory_uri_output', esc_url( $output ), $file_relative_path );
+					return apply_filters( 'wmhook_wm_get_files_output', $output );
 			}
-		} // /wm_get_stylesheet_directory_uri
+		} // /wm_get_files
 
 
+
+	/**
+	 * CSS functions
+	 */
 
 		/**
 		 * Outputs path to the specific file
@@ -1883,20 +1193,62 @@
 
 
 		/**
+		 * Outputs URL to the specific file
+		 *
+		 * This function looks for the file in the child theme first.
+		 * If the file is not located in child theme, output the URL from parent theme.
+		 *
+		 * @param   string $file_relative_path File to look for (insert also the relative path inside the theme)
+		 *
+		 * @return  string Actual URL to the file
+		 */
+		if ( ! function_exists( 'wm_get_stylesheet_directory_uri' ) ) {
+			function wm_get_stylesheet_directory_uri( $file_relative_path ) {
+				//Helper variables
+					$output = '';
+
+					$file_relative_path = trim( $file_relative_path );
+
+				//Requirements chek
+					if ( ! $file_relative_path ) {
+						return apply_filters( 'wm_get_stylesheet_directory_uri_output', esc_url( $output ), $file_relative_path );
+					}
+
+				//Praparing output
+					if ( file_exists( trailingslashit( get_stylesheet_directory() ) . $file_relative_path ) ) {
+						$output = trailingslashit( get_stylesheet_directory_uri() ) . $file_relative_path;
+					} else {
+						$output = trailingslashit( get_template_directory_uri() ) . $file_relative_path;
+					}
+
+				//Output
+					return apply_filters( 'wm_get_stylesheet_directory_uri_output', esc_url( $output ), $file_relative_path );
+			}
+		} // /wm_get_stylesheet_directory_uri
+
+
+
+		/**
 		 * CSS minifier
 		 *
 		 * @since    3.0
-		 * @version  3.1
+		 * @version  4.0
 		 *
 		 * @param    string $css Code to minimize
 		 */
 		if ( ! function_exists( 'wm_minify_css' ) ) {
 			function wm_minify_css( $css ) {
+				//Requirements check
+					if ( ! is_string( $css ) ) {
+						return $css;
+					}
+
 				//Praparing output
 					//Remove CSS comments
 						$css = preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css );
 					//Remove tabs, spaces, line breaks, etc.
-						$css = str_replace( array( "\r\n", "\r", "\n", "\t", "  ", "    " ), '', $css );
+						$css = str_replace( array( "\r\n", "\r", "\n", "\t", '  ', '   ' ), '', $css );
+						$css = str_replace( array( ' { ', ': ', '; }' ), array( '{', ':', '}' ), $css );
 
 				//Output
 					return apply_filters( 'wmhook_wm_minify_css_output', $css );
@@ -1909,7 +1261,7 @@
 		 * Generate main CSS file
 		 *
 		 * @since    3.0
-		 * @version  3.4
+		 * @version  4.0
 		 *
 		 * @param    boolean $args
 		 */
@@ -1922,7 +1274,6 @@
 
 				//Helper viariables
 					$args = wp_parse_args( $args, apply_filters( 'wmhook_wm_generate_main_css_args', array(
-							'gzip'           => false,
 							'message'        => __( "<big>The main theme CSS stylesheet was regenerated.<br /><strong>Please refresh your web browser's and server's cache</strong> <em>(if you are using a website server caching solution)</em>.</big>", 'wm_domain' ),
 							'message_after'  => '',
 							'message_before' => '',
@@ -1931,22 +1282,11 @@
 
 					$output = $output_min = '';
 
-					if ( ! $args['gzip'] ) {
-						$args['gzip'] = wm_option( 'general-gzip' ) || wm_option( 'skin-gzip' );
-					}
-					$args['gzip'] = apply_filters( 'wmhook_wm_generate_main_css_gzip', $args['gzip'], $args );
-
 					$args['type'] = trim( $args['type'] );
 
 				//Preparing output
 					//Get the file content with output buffering
-						if ( $args['gzip'] ) {
-						//GZIP enabled
-							ob_start( 'ob_gzhandler' );
-						} else {
-						//no GZIP
-							ob_start();
-						}
+						ob_start();
 
 						//Get the file from child theme if exists
 							$css_dir_child      = get_stylesheet_directory() . '/assets/css/';
@@ -1962,26 +1302,29 @@
 								locate_template( 'assets/css/' . $css_generator_file, true );
 							}
 
-						$output = ob_get_clean();
+						$output = trim( ob_get_clean() );
 
-					if ( ! $output ) {
-						return false;
-					}
+					//Requirements check
+						if ( ! $output ) {
+							return false;
+						}
 
 					//Minify output if set
 						$output_min = apply_filters( 'wmhook_wm_generate_main_css_output_min', $output, $args );
 
 				//Output
 					//Create the theme CSS folder
-						$theme_css_dir = wp_upload_dir();
-						$theme_css_url = trailingslashit( $theme_css_dir['baseurl'] ) . 'wmtheme-' . WM_THEME_SHORTNAME;
-						$theme_css_dir = trailingslashit( $theme_css_dir['basedir'] ) . 'wmtheme-' . WM_THEME_SHORTNAME;
+						$wp_upload_dir = wp_upload_dir();
+
+						$theme_css_url = trailingslashit( $wp_upload_dir['baseurl'] ) . 'wmtheme-' . WM_THEME_SHORTNAME;
+						$theme_css_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'wmtheme-' . WM_THEME_SHORTNAME;
 
 						if ( ! wma_create_folder( $theme_css_dir ) ) {
 							set_transient( 'wmamp-admin-notice', array( "<strong>ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.</strong>", 'error', 'switch_themes', 2 ), ( 60 * 60 * 48 ) );
 
 							delete_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-css' );
 							delete_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-files' );
+
 							return false;
 						}
 
@@ -1995,8 +1338,8 @@
 						wma_write_local_file( $global_css_path_dev, $output );
 
 						//Store the CSS files paths and urls in DB
-							update_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-css',   $global_css_url );
-							update_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-files', $theme_css_dir  );
+							update_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-css', $global_css_url );
+							update_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-files', str_replace( $wp_upload_dir['basedir'], '', $theme_css_dir ) );
 
 						//Admin notice
 							set_transient( 'wmamp-admin-notice', array( $args['message_before'] . $args['message'] . $args['message_after'], '', 'switch_themes' ), ( 60 * 60 * 24 ) );
@@ -2009,6 +1352,7 @@
 
 					delete_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-css' );
 					delete_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-files' );
+
 					return false;
 			}
 		} // /wm_generate_main_css
@@ -2050,32 +1394,6 @@
 					}
 				}
 			} // /wm_generate_all_css
-
-
-
-			/**
-			 * Regenerate the CSS when theme updated
-			 */
-			if ( ! function_exists( 'wm_theme_update_regenerate_css' ) ) {
-				function wm_theme_update_regenerate_css() {
-					//Helper variables
-						$current_theme_version = get_option( WM_THEME_SETTINGS_VERSION );
-
-					//Processing
-						if (
-								$current_theme_version
-								&& WM_THEME_VERSION != $current_theme_version
-								&& wm_generate_main_css()
-							) {
-							update_option( WM_THEME_SETTINGS_VERSION, WM_THEME_VERSION );
-
-							wm_generate_main_css( array(
-									'message_before' => '<big><strong>' . __( 'New theme version installed!', 'wm_domain' ) . '</strong></big><br />',
-									'visual_editor'  => true,
-								) );
-						}
-				}
-			} // /wm_theme_update_regenerate_css
 
 
 
@@ -2213,5 +1531,260 @@
 					return apply_filters( 'wmhook_wm_css_background_output', $output[ $args['return'] ], $args );
 			}
 		} // /wm_css_background
+
+
+
+	/**
+	 * Get image ID from its URL
+	 *
+	 * @since    3.0
+	 * @version  4.0
+	 *
+	 * @link   http://pippinsplugins.com/retrieve-attachment-id-from-image-url/
+	 * @link   http://make.wordpress.org/core/2012/12/12/php-warning-missing-argument-2-for-wpdb-prepare/
+	 *
+	 * @param  string $url
+	 */
+	if ( ! function_exists( 'wm_get_image_id_from_url' ) ) {
+		function wm_get_image_id_from_url( $url ) {
+			//Helper variables
+				global $wpdb;
+
+				$output = null;
+
+				$cache = array_filter( (array) get_transient( 'wm-image-ids' ) );
+
+			//Returne cached result if found and relevant
+				if (
+						! empty( $cache )
+						&& isset( $cache[ $url ] )
+						&& wp_get_attachment_url( absint( $cache[ $url ] ) )
+						&& $url == wp_get_attachment_url( absint( $cache[ $url ] ) )
+					) {
+					return absint( apply_filters( 'wmhook_wm_get_image_id_from_url_output', $cache[ $url ] ) );
+				}
+
+			//Preparing output
+				if (
+						is_object( $wpdb )
+						&& isset( $wpdb->prefix )
+					) {
+					$prefix     = $wpdb->prefix;
+					$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM " . $prefix . "posts" . " WHERE guid = %s", esc_url( $url ) ) );
+					$output     = ( isset( $attachment[0] ) ) ? ( $attachment[0] ) : ( null );
+				}
+
+				//Cache the new record
+					$cache[ $url ] = $output;
+					set_transient( 'wm-image-ids', array_filter( (array) $cache ) );
+
+			//Output
+				return absint( apply_filters( 'wmhook_wm_get_image_id_from_url_output', $output ) );
+		}
+	} // /wm_get_image_id_from_url
+
+
+
+		/**
+		 * Flush out the transients used in wm_get_image_id_from_url
+		 *
+		 * @since  4.0
+		 */
+		if ( ! function_exists( 'wm_image_ids_transient_flusher' ) ) {
+			function wm_image_ids_transient_flusher() {
+				delete_transient( 'wm-image-ids' );
+			}
+		} // /wm_image_ids_transient_flusher
+
+
+
+	/**
+	 * Returns true if a blog has more than 1 category
+	 *
+	 * @since  4.0
+	 */
+	if ( ! function_exists( 'wm_is_categorized_blog' ) ) {
+		function wm_is_categorized_blog() {
+			//Preparing output
+				if ( false === ( $all_the_cool_cats = get_transient( 'wm-all-categories' ) ) ) {
+
+					//Create an array of all the categories that are attached to posts
+						$all_the_cool_cats = get_categories( array(
+								'fields'     => 'ids',
+								'hide_empty' => 1,
+								'number'     => 2, //we only need to know if there is more than one category
+							) );
+
+					//Count the number of categories that are attached to the posts
+						$all_the_cool_cats = count( $all_the_cool_cats );
+
+					set_transient( 'wm-all-categories', $all_the_cool_cats );
+
+				}
+
+			//Output
+				if ( $all_the_cool_cats > 1 ) {
+					//This blog has more than 1 category
+						return true;
+				} else {
+					//This blog has only 1 category
+						return false;
+				}
+		}
+	} // /wm_is_categorized_blog
+
+
+
+		/**
+		 * Flush out the transients used in wm_is_categorized_blog
+		 *
+		 * @since  4.0
+		 */
+		if ( ! function_exists( 'wm_all_categories_transient_flusher' ) ) {
+			function wm_all_categories_transient_flusher() {
+				delete_transient( 'wm-all-categories' );
+			}
+		} // /wm_all_categories_transient_flusher
+
+
+
+	/**
+	 * Modify home query
+	 *
+	 * @since    3.0
+	 * @version  4.0
+	 *
+	 * @param  object $query WordPress posts query
+	 */
+	if ( ! function_exists( 'wm_home_query' ) ) {
+		function wm_home_query( $query ) {
+			if (
+					$query->is_home()
+					&& $query->is_main_query()
+					&& function_exists( 'wma_meta_option' )
+				) {
+
+				//Helper variables
+					$page_id       = get_option( 'page_for_posts' );
+					$article_count = ( wma_meta_option( 'blog-posts-count', $page_id ) ) ? ( wma_meta_option( 'blog-posts-count', $page_id ) ) : ( false );
+					$cats_action   = ( wma_meta_option( 'blog-categories-action', $page_id ) ) ? ( wma_meta_option( 'blog-categories-action', $page_id ) ) : ( 'category__in' );
+					$cats          = ( wma_meta_option( 'blog-categories', $page_id ) ) ? ( array_filter( wma_meta_option( 'blog-categories', $page_id ) ) ) : ( array() );
+
+					if ( 0 < count( $cats ) ) {
+						$cat_temp = array();
+
+						foreach ( $cats as $cat ) {
+							if ( isset( $cat['category'] ) && $cat['category'] ) {
+								$cat = $cat['category'];
+
+								if ( ! is_numeric( $cat ) ) {
+								//Category slugs to IDs
+
+									$cat_object = get_category_by_slug( $cat );
+									$cat_temp[] = ( is_object( $cat_object ) && isset( $cat_object->term_id ) ) ? ( $cat_object->term_id ) : ( null );
+
+								} else {
+
+									$cat_temp[] = $cat;
+
+								}
+							}
+						}
+
+						array_filter( $cat_temp ); //remove empty (if any)
+
+						$cats = $cat_temp;
+					}
+
+				//Modify the query
+					do_action( 'wmhook_wm_home_query', $query );
+
+					//Change articles count
+						if ( $article_count ) {
+							$query->set( 'posts_per_page', absint( $article_count ) );
+						}
+
+					//Filter output by catagory
+						if ( 0 < count( $cats ) ) {
+							$query->set( $cats_action, $cats );
+						}
+
+					//Ignore sticky posts
+						$query->set( 'ignore_sticky_posts', 1 );
+			}
+		}
+	} // /wm_home_query
+
+
+
+	/**
+	 * Sets the authordata global when viewing an author archive.
+	 *
+	 * This provides backwards compatibility with
+	 * http://core.trac.wordpress.org/changeset/25574
+	 *
+	 * It removes the need to call the_post() and rewind_posts() in an author
+	 * template to print information about the author.
+	 *
+	 * @since  4.0
+	 *
+	 * @global WP_Query $wp_query WordPress Query object.
+	 * @return void
+	 */
+	if ( ! function_exists( 'wm_setup_author' ) ) {
+		function wm_setup_author() {
+			global $wp_query;
+
+			if ( $wp_query->is_author() && isset( $wp_query->post ) ) {
+				$GLOBALS['authordata'] = get_userdata( $wp_query->post->post_author );
+			}
+		}
+	} // /wm_setup_author
+
+
+
+	/**
+	 * Adds a Theme Options links to WordPress admin bar
+	 *
+	 * @since    3.0
+	 * @version  4.0
+	 */
+	if ( ! function_exists( 'wm_theme_options_admin_bar' ) ) {
+		function wm_theme_options_admin_bar() {
+			//Requirements check
+				if ( ! current_user_can( 'switch_themes' ) ) {
+					return;
+				}
+
+			//Helper variables
+				global $wp_admin_bar;
+
+				//Requirements check
+					if ( ! is_admin_bar_showing() ) {
+						return;
+					}
+
+				$submenu = apply_filters( 'wmhook_wm_theme_options_admin_bar_submenu', array() );
+
+			//Add admin bar links
+				$wp_admin_bar->add_menu( apply_filters( 'wmhook_wm_theme_options_admin_bar_parent', array(
+						'id'    => 'wm_theme_options',
+						'title' => __( 'Theme Options', 'wm_domain' ),
+						'href'  => admin_url( 'customize.php' )
+					) ) );
+
+				//Submenu items
+					if ( is_array( $submenu ) && ! empty( $submenu ) ) {
+						foreach ( $submenu as $title => $url ) {
+							$wp_admin_bar->add_menu( apply_filters( 'wmhook_wm_theme_options_admin_bar_child_wm_theme_options-' . sanitize_title( $title ), array(
+									'parent' => 'wm_theme_options',
+									'id'     => WM_THEME_SHORTNAME . '_theme_options-' . sanitize_title( $title ),
+									'title'  => $title,
+									'href'   => $url,
+								) ) );
+						}
+					}
+		}
+	} // /wm_theme_options_admin_bar
 
 ?>

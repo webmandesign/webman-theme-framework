@@ -1,22 +1,24 @@
 <?php
 /**
- * Skinning System
+ * Theme Customizer
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Skinning System
+ * @subpackage  Theme Customizer
  * @copyright   2014 WebMan - Oliver Juhas
  * @uses        Theme Customizer Options Array
  * @uses        Custom CSS Styles Generator
  *
- * @since       3.0
- * @version     3.4
+ * @since    3.0
+ * @version  4.0
  *
  * CONTENT:
- * - 1) Required files
+ * -  1) Required files
  * - 10) Actions and filters
  * - 20) Helpers
  * - 30) Main customizer function
- * - 40) Saving skins
+ * - 40) CSS styles
+ *
+ * @todo  move something to core.php (like it is in case of wm_generate_css() - think it over!!!)?
  */
 
 
@@ -30,7 +32,9 @@
 	//Include function to generate the WordPress Customizer CSS
 		locate_template( 'assets/css/_custom-styles.php', true );
 	//Include sanitizing functions
-		locate_template( WM_LIBRARY_DIR . 'includes/sanitize.php', true );
+		locate_template( WM_LIBRARY_DIR . 'inc/sanitize.php', true );
+	//Theme options arrays
+		locate_template( WM_SETUP_DIR . 'setup-theme-options.php', true );
 
 
 
@@ -46,12 +50,26 @@
 
 		//Register customizer
 			add_action( 'customize_register', 'wm_theme_customizer' );
-		//Enqueue styles and scripts
-			add_action( 'customize_controls_enqueue_scripts', 'wm_theme_customizer_assets' );
+		//Customizer assets
+			add_action( 'customize_controls_enqueue_scripts', 'wm_customizer_enqueue_assets'         );
+			add_action( 'customize_preview_init',             'wm_customizer_preview_enqueue_assets' );
 		//Save skin
-			add_action( 'customize_save_last-trigger-setting', 'wm_save_skin', 10 );
+			add_action( 'customize_save_last-trigger-setting', 'wm_save_skin',           10 );
+			add_action( 'customize_save_last-trigger-setting', 'wm_custom_styles_cache', 10 );
+		//Flushing transients
+			add_action( 'switch_theme',         'wm_custom_styles_transient_flusher' );
+			add_action( 'wmhook_theme_upgrade', 'wm_custom_styles_transient_flusher' );
 		//Regenerating main stylesheet
 			add_action( 'customize_save_last-trigger-setting', 'wm_generate_all_css', 20 );
+
+
+
+	/**
+	 * Filters
+	 */
+
+		//Minify custom CSS
+			add_filter( 'wmhook_wm_custom_styles_output_cache', 'wm_minify_css' );
 
 
 
@@ -62,33 +80,49 @@
  */
 
 	/**
-	 * Enqueue styles and scripts to main customizer window
+	 * Customizer controls assets enqueue
 	 *
-	 * You can actually control the customizer option fields here.
-	 *
-	 * @version  3.1
+	 * @since    3.0 (named as wm_theme_customizer_assets())
+	 * @version  4.0
 	 */
-	if ( ! function_exists( 'wm_theme_customizer_assets' ) ) {
-		function wm_theme_customizer_assets() {
-			/**
-			 * Scripts
-			 */
+	if ( ! function_exists( 'wm_customizer_enqueue_assets' ) ) {
+		function wm_customizer_enqueue_assets() {
+			//Styles
+				wp_enqueue_style( 'wm-customizer' );
 
+			//Scripts
 				wp_localize_script( 'jquery', 'wmCustomizerHelper', array( 'wmThemeShortname' => WM_THEME_SHORTNAME ) );
 
 				wp_enqueue_script( 'wm-customizer' );
 		}
-	} // /wm_theme_customizer_assets
+	} // /wm_customizer_enqueue_assets
+
+
+
+		/**
+		 * Customizer preview assets enqueue
+		 *
+		 * @since  4.0
+		 */
+		if ( ! function_exists( 'wm_customizer_preview_enqueue_assets' ) ) {
+			function wm_customizer_preview_enqueue_assets() {
+				//Scripts
+					wp_enqueue_script( 'wm-customizer-preview' );
+			}
+		} // /wm_customizer_preview_enqueue_assets
 
 
 
 	/**
 	 * Outputs styles in customizer preview head
+	 *
+	 * @since    3.0
+	 * @version  4.0
 	 */
 	if ( ! function_exists( 'wm_theme_customizer_css' ) ) {
 		function wm_theme_customizer_css() {
 			//Helper variables
-				$output = wm_custom_styles();
+				$output = ( function_exists( 'wm_custom_styles' ) ) ? ( wm_custom_styles() ) : ( '' );
 
 			//Output
 				if ( $output ) {
@@ -110,6 +144,9 @@
 	 * 				),
 	 * 			'custom' => 'your_custom_JavaScript_here',
 	 * 		)
+	 *
+	 * @since    3.0
+	 * @version  4.0
 	 */
 	if ( ! function_exists( 'wm_theme_customizer_js' ) ) {
 		function wm_theme_customizer_js() {
@@ -120,17 +157,24 @@
 
 			//Preparing output
 				if ( is_array( $wm_skin_design ) && ! empty( $wm_skin_design ) ) {
+
 					foreach ( $wm_skin_design as $skin_option ) {
+
 						if ( isset( $skin_option['customizer_js'] ) ) {
+
 							$output_single  = "wp.customize( '" . WM_THEME_SETTINGS_SKIN . "[" . WM_THEME_SETTINGS_PREFIX . $skin_option['id'] . "]" . "', function( value ) {"  . "\r\n";
 							$output_single .= "\t" . 'value.bind( function( newval ) {' . "\r\n";
 
 							if ( ! isset( $skin_option['customizer_js']['custom'] ) ) {
+
 								foreach ( $skin_option['customizer_js']['css'] as $selector => $properties ) {
+
 									if ( is_array( $properties ) ) {
+
 										$output_single_css = '';
 
 										foreach ( $properties as $property ) {
+
 											if ( ! is_array( $property ) ) {
 												$property = array( $property, '' );
 											}
@@ -142,13 +186,19 @@
 											}
 
 											$output_single_css .= '.css( "' . $property[0] . '", newval' . $property[1] . ' )';
-										}
+
+										} // /foreach
+
 									}
 
 									$output_single .= "\t\t" . '$( "' . $selector . '" )' . $output_single_css . ";\r\n";
-								}
+
+								} // /foreach
+
 							} else {
+
 								$output_single .= "\t\t" . $skin_option['customizer_js']['custom'] . "\r\n";
+
 							}
 
 							$output_single .= "\t" . '} );' . "\r\n";
@@ -156,8 +206,11 @@
 							$output_single  = apply_filters( 'wmhook_wm_theme_customizer_js_option_' . $skin_option['id'], $output_single );
 
 							$output .= $output_single;
+
 						}
-					}
+
+					} // /foreach
+
 				}
 
 			//Output
@@ -178,12 +231,21 @@
 	/**
 	 * Registering sections and options for WP Customizer
 	 *
-	 * @version  3.3
+	 * @since    3.0
+	 * @version  4.0
 	 *
 	 * @param  object $wp_customize WP customizer object.
 	 */
 	if ( ! function_exists( 'wm_theme_customizer' ) ) {
 		function wm_theme_customizer( $wp_customize ) {
+
+			//Make predefined controls use live preview JS
+				$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
+				$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
+				$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
+
+
+
 			/**
 			 * Custom customizer controls
 			 *
@@ -191,14 +253,15 @@
 			 * @link  http://ottopress.com/2012/making-a-custom-control-for-the-theme-customizer/
 			 */
 
-				locate_template( WM_LIBRARY_DIR . 'includes/controls/class-WM_Customizer_Hidden.php',      true );
-				locate_template( WM_LIBRARY_DIR . 'includes/controls/class-WM_Customizer_HTML.php',        true );
-				locate_template( WM_LIBRARY_DIR . 'includes/controls/class-WM_Customizer_Image.php',       true );
-				locate_template( WM_LIBRARY_DIR . 'includes/controls/class-WM_Customizer_Multiselect.php', true );
-				locate_template( WM_LIBRARY_DIR . 'includes/controls/class-WM_Customizer_Radiocustom.php', true );
-				locate_template( WM_LIBRARY_DIR . 'includes/controls/class-WM_Customizer_Slider.php',      true );
+				locate_template( WM_LIBRARY_DIR . 'inc/controls/class-WM_Customizer_Hidden.php',      true );
+				locate_template( WM_LIBRARY_DIR . 'inc/controls/class-WM_Customizer_HTML.php',        true );
+				locate_template( WM_LIBRARY_DIR . 'inc/controls/class-WM_Customizer_Image.php',       true );
+				locate_template( WM_LIBRARY_DIR . 'inc/controls/class-WM_Customizer_Multiselect.php', true );
+				locate_template( WM_LIBRARY_DIR . 'inc/controls/class-WM_Customizer_Range.php',       true );
+				locate_template( WM_LIBRARY_DIR . 'inc/controls/class-WM_Customizer_Radiocustom.php', true );
+				locate_template( WM_LIBRARY_DIR . 'inc/controls/class-WM_Customizer_Select.php',      true );
 				if ( ! wm_check_wp_version( 4 ) ) {
-					locate_template( WM_LIBRARY_DIR . 'includes/controls/class-WM_Customizer_Textarea.php',    true );
+					locate_template( WM_LIBRARY_DIR . 'inc/controls/class-WM_Customizer_Textarea.php',  true );
 				}
 
 
@@ -218,8 +281,9 @@
 						'password',
 						'radio',
 						'radiocustom',
+						'range',
 						'select',
-						'slider',
+						'slider', //synonym for 'range'
 						'text',
 						'textarea',
 						'theme-customizer-html',
@@ -231,6 +295,14 @@
 				//Default section name in case not set (should be overwritten anyway)
 					$customizer_panel   = '';
 					$customizer_section = WM_THEME_SHORTNAME;
+
+				/**
+				 * Use add_setting() -> 'type' => 'option' (instead of 'theme_mod') for better
+				 * upgradability from "lite" to "pro" themes.
+				 *
+				 * @link  http://wordpress.stackexchange.com/questions/155072/get-option-vs-get-theme-mod-why-is-one-slower
+				 */
+				$type = apply_filters( 'wmhook_wm_theme_customizer_type', 'option' );
 
 			//Generate customizer options
 				if ( is_array( $wm_skin_design ) && ! empty( $wm_skin_design ) ) {
@@ -249,10 +321,19 @@
 							//Helper variables
 								$priority++;
 
-								$option_id   = ( isset( $skin_option['id'] ) ) ? ( WM_THEME_SETTINGS_PREFIX . $skin_option['id'] ) : ( null );
-								$default     = ( isset( $skin_option['default'] ) ) ? ( $skin_option['default'] ) : ( null );
-								$description = ( isset( $skin_option['description'] ) ) ? ( $skin_option['description'] ) : ( '' );
-								$transport   = ( isset( $skin_option['customizer_js'] ) ) ? ( 'postMessage' ) : ( 'refresh' );
+								$option_id = $default = $description = '';
+
+								if ( isset( $skin_option['id'] ) ) {
+									$option_id = WM_THEME_SETTINGS_PREFIX . $skin_option['id'];
+								}
+								if ( isset( $skin_option['default'] ) ) {
+									$default = $skin_option['default'];
+								}
+								if ( isset( $skin_option['description'] ) ) {
+									$description = $skin_option['description'];
+								}
+
+								$transport = ( isset( $skin_option['customizer_js'] ) ) ? ( 'postMessage' ) : ( 'refresh' );
 
 
 
@@ -264,18 +345,23 @@
 							 * The panel you define in theme options array will be active unless you reset its name.
 							 * Set the panel name in the section declaration with 'theme-customizer-panel' attribute.
 							 *
-							 * @link   http://make.wordpress.org/core/2014/07/08/customizer-improvements-in-4-0/
-							 * @since  3.2, WordPress 4.0
+							 * @link  http://make.wordpress.org/core/2014/07/08/customizer-improvements-in-4-0/
+							 *
+							 * @since    3.2, WordPress 4.0
+							 * @version  4.0
 							 */
 							if (
 									wm_check_wp_version( 4 )
 									&& isset( $skin_option['theme-customizer-panel'] )
 									&& $customizer_panel != $skin_option['theme-customizer-panel']
 								) {
-								$customizer_panel = sanitize_title( trim( $skin_option['theme-customizer-panel'] ) );
+
+								if ( empty( $option_id ) ) {
+									$option_id = sanitize_title( trim( $skin_option['theme-customizer-panel'] ) );
+								}
 
 								$wp_customize->add_panel(
-										$customizer_panel, //panel ID
+										$option_id, //panel ID
 										array(
 											'title'       => $skin_option['theme-customizer-panel'], //panel title
 											'description' => ( isset( $skin_option['theme-customizer-panel-description'] ) ) ? ( $skin_option['theme-customizer-panel-description'] ) : ( '' ), //Displayed at the top of panel
@@ -290,15 +376,19 @@
 							/**
 							 * Sections
 							 *
-							 * @version  3.2
+							 * @version  4.0
 							 */
 							if (
 									isset( $skin_option['theme-customizer-section'] )
 									&& trim( $skin_option['theme-customizer-section'] )
 								) {
 
+								if ( empty( $option_id ) ) {
+									$option_id = sanitize_title( trim( $skin_option['theme-customizer-section'] ) );
+								}
+
 								$customizer_section = array(
-										'id'    => sanitize_title( trim( $skin_option['theme-customizer-section'] ) ),
+										'id'    => $option_id,
 										'setup' => array(
 												'title'       => $skin_option['theme-customizer-section'], //section title
 												'description' => ( isset( $skin_option['theme-customizer-section-description'] ) ) ? ( $skin_option['theme-customizer-section-description'] ) : ( '' ), //Displayed at the top of section
@@ -323,10 +413,7 @@
 
 
 							/**
-							 * Options
-							 *
-							 * With add_setting() use a 'type' => 'option' (available: 'option' and 'theme_mod').
-							 * Read more at @link  http://wordpress.stackexchange.com/questions/155072/get-option-vs-get-theme-mod-why-is-one-slower
+							 * Options generator
 							 */
 							switch ( $skin_option['type'] ) {
 
@@ -338,7 +425,7 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-color]',
 											array(
-												'type'                 => 'option',
+												'type'                 => $type,
 												'default'              => ( isset( $default['color'] ) ) ? ( $default['color'] ) : ( null ),
 												'transport'            => $transport,
 												'sanitize_callback'    => 'sanitize_hex_color_no_hash',
@@ -359,7 +446,7 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-url]',
 											array(
-												'type'                 => 'option',
+												'type'                 => $type,
 												'default'              => ( isset( $default['url'] ) ) ? ( $default['url'] ) : ( null ),
 												'transport'            => $transport,
 												'sanitize_callback'    => 'wm_sanitize_return_value',
@@ -381,7 +468,7 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-url-hidpi]',
 											array(
-												'type'                 => 'option',
+												'type'                 => $type,
 												'default'              => ( isset( $default['url-hidpi'] ) ) ? ( $default['url-hidpi'] ) : ( null ),
 												'transport'            => $transport,
 												'sanitize_callback'    => 'wm_sanitize_return_value',
@@ -405,7 +492,7 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-position]',
 												array(
-													'type'                 => 'option',
+													'type'                 => $type,
 													'default'              => ( isset( $default['position'] ) ) ? ( $default['position'] ) : ( '50% 0' ),
 													'transport'            => $transport,
 													'sanitize_callback'    => 'esc_attr',
@@ -428,7 +515,7 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-repeat]',
 												array(
-													'type'                 => 'option',
+													'type'                 => $type,
 													'default'              => ( isset( $default['repeat'] ) ) ? ( $default['repeat'] ) : ( 'no-repeat' ),
 													'transport'            => $transport,
 													'sanitize_callback'    => 'esc_attr',
@@ -451,7 +538,7 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-attachment]',
 												array(
-													'type'                 => 'option',
+													'type'                 => $type,
 													'default'              => ( isset( $default['attachment'] ) ) ? ( $default['attachment'] ) : ( 'scroll' ),
 													'transport'            => $transport,
 													'sanitize_callback'    => 'esc_attr',
@@ -473,7 +560,7 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-size]',
 												array(
-													'type'                 => 'option',
+													'type'                 => $type,
 													'default'              => ( isset( $default['size'] ) ) ? ( $default['size'] ) : ( '' ),
 													'transport'            => $transport,
 													'sanitize_callback'    => 'esc_attr',
@@ -505,8 +592,8 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'                 => 'option',
-												'default'              => $default,
+												'type'                 => $type,
+												'default'              => trim( $default, '#' ),
 												'transport'            => $transport,
 												'sanitize_callback'    => 'sanitize_hex_color_no_hash',
 												'sanitize_js_callback' => 'maybe_hash_hex_color',
@@ -538,7 +625,7 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 												array(
-													'type'                 => 'option',
+													'type'                 => $type,
 													'default'              => $default,
 													'transport'            => $transport,
 													'sanitize_callback'    => 'wm_sanitize_email',
@@ -569,7 +656,7 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'                 => 'option',
+												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
 												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
@@ -598,8 +685,8 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[custom-title-' . $priority . ']',
 											array(
-												'sanitize_callback'    => 'wm_sanitize_return_value',
-												'sanitize_js_callback' => 'wm_sanitize_return_value',
+												'sanitize_callback'    => 'wm_sanitize_text',
+												'sanitize_js_callback' => 'wm_sanitize_text',
 											)
 										);
 
@@ -623,7 +710,7 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'                 => 'option',
+												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
 												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_return_value' ),
@@ -631,7 +718,7 @@
 											)
 										);
 
-									$wp_customize->add_control( new WM_Customize_Image(
+									$wp_customize->add_control( new WM_Customizer_Image(
 											$wp_customize,
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
@@ -646,16 +733,15 @@
 								break;
 
 								/**
-								 * Checkbox, radio & select
+								 * Checkbox, radio
 								 */
 								case 'checkbox':
 								case 'radio':
-								case 'select':
 
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'                 => 'option',
+												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
 												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
@@ -685,7 +771,7 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'                 => 'option',
+												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
 												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_return_value' ),
@@ -708,6 +794,40 @@
 								break;
 
 								/**
+								 * Range / Slider
+								 *
+								 * Since WP4.0 there is also a "range" native input field. This will output
+								 * HTML5 <input type="range" /> element - thus still using custom one.
+								 */
+								case 'range':
+								case 'slider':
+
+									$wp_customize->add_setting(
+											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											array(
+												'type'                 => $type,
+												'default'              => $default,
+												'transport'            => $transport,
+												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_intval' ),
+												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_intval' ),
+											)
+										);
+
+									$wp_customize->add_control( new WM_Customizer_Range(
+											$wp_customize,
+											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											array(
+												'label'       => $skin_option['label'],
+												'description' => $description,
+												'section'     => $customizer_section,
+												'priority'    => $priority,
+												'json'        => array( $skin_option['min'], $skin_option['max'], $skin_option['step'] ),
+											)
+										) );
+
+								break;
+
+								/**
 								 * Password
 								 *
 								 * @since  3.2, WordPress 4.0
@@ -719,7 +839,7 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 												array(
-													'type'                 => 'option',
+													'type'                 => $type,
 													'default'              => $default,
 													'transport'            => $transport,
 													'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
@@ -750,7 +870,7 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'                 => 'option',
+												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
 												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
@@ -774,25 +894,22 @@
 								break;
 
 								/**
-								 * Slider
-								 *
-								 * Since WP4.0 there is also a "range" native input field. This will output
-								 * HTML5 <input type="range" /> element - thus still using custom one.
+								 * Select (with optgroups)
 								 */
-								case 'slider':
+								case 'select':
 
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'                 => 'option',
+												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_intval' ),
-												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_intval' ),
+												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
 											)
 										);
 
-									$wp_customize->add_control( new WM_Customizer_Slider(
+									$wp_customize->add_control( new WM_Customizer_Select(
 											$wp_customize,
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
@@ -800,7 +917,7 @@
 												'description' => $description,
 												'section'     => $customizer_section,
 												'priority'    => $priority,
-												'json'        => array( $skin_option['min'], $skin_option['max'], $skin_option['step'] ),
+												'choices'     => ( isset( $skin_option['options'] ) ) ? ( $skin_option['options'] ) : ( '' ),
 											)
 										) );
 
@@ -814,7 +931,7 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'                 => 'option',
+												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
 												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_textarea' ),
@@ -844,7 +961,7 @@
 									$wp_customize->add_setting(
 											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
-												'type'                 => 'option',
+												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
 												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_textarea' ),
@@ -893,7 +1010,7 @@
 										$wp_customize->add_setting(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 												array(
-													'type'                 => 'option',
+													'type'                 => $type,
 													'default'              => $default,
 													'transport'            => $transport,
 													'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_url' ),
@@ -946,7 +1063,7 @@
 							$wp_customize->add_setting(
 									'last-trigger-setting',
 									array(
-										'type'                 => 'option',
+										'type'                 => $type,
 										'default'              => 'true',
 										'transport'            => $transport,
 										'sanitize_callback'    => 'esc_attr',
@@ -972,7 +1089,7 @@
 
 			//Assets needed for customizer preview
 				if ( $wp_customize->is_preview() ) {
-					add_action( 'wp_head',   'wm_theme_customizer_css'    );
+					add_action( 'wp_head',   'wm_theme_customizer_css'    ); //@todo is this required still?
 					add_action( 'wp_footer', 'wm_theme_customizer_js', 99 );
 				}
 		}
@@ -983,7 +1100,7 @@
 
 
 /**
- * 40) Saving skins
+ * 40) CSS styles
  */
 
 	/**
@@ -1061,7 +1178,7 @@
 									unset( $skin_settings[ WM_THEME_SETTINGS_PREFIX . 'skin-new' ] );
 									update_option( WM_THEME_SETTINGS_SKIN, $skin_settings );
 
-								update_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . '-skins', array_unique( array( WM_SKINS, WM_SKINS_CHILD, $theme_skin_dir ) ) );
+								update_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . '-skins', array_unique( array( WM_SKINS_DIR, WM_SKINS_DIR_CHILD, $theme_skin_dir ) ) );
 
 								//Run additional actions
 									do_action( 'wmhook_save_skin', $skin_new, $customizer_values );
@@ -1080,7 +1197,7 @@
 							}
 
 						//Get the skin slug
-							$skin_slug = str_replace( array( '.json', WM_SKINS, WM_SKINS_CHILD, $theme_skin_dir ), '', $skin_load );
+							$skin_slug = str_replace( array( '.json', WM_SKINS_DIR, WM_SKINS_DIR_CHILD, $theme_skin_dir ), '', $skin_load );
 
 						//We don't need to write to the file, so just open for reading.
 							$skin_load = wma_read_local_file( $skin_load );
