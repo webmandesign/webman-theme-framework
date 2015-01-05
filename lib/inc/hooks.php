@@ -1,13 +1,13 @@
 <?php
 /**
- * Theme Framework Hooks
+ * Theme framework hooks
  *
  * Compatible with Theme Hook Alliance (v1.0-draft)
  * @link https://github.com/zamoose/themehookalliance
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Theme Framework Hooks
- * @copyright   2014 WebMan - Oliver Juhas
+ * @subpackage  Theme framework hooks
+ * @copyright   2015 WebMan - Oliver Juhas
  *
  * @since    3.0
  * @version  4.0

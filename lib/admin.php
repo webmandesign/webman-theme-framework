@@ -1,10 +1,10 @@
 <?php
 /**
- * Admin Functions
+ * Admin functions
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Admin Functions
- * @copyright   2014 WebMan - Oliver Juhas
+ * @subpackage  Admin functions
+ * @copyright   2015 WebMan - Oliver Juhas
  *
  * @since    3.0
  * @version  4.0
@@ -12,9 +12,8 @@
  * CONTENT:
  * -   1) Required files
  * -  10) Actions and filters
- * -  20) Styles and scripts
- * -  30) Admin customization
- * -  40) Visual editor improvements
+ * -  20) Assets
+ * -  30) Posts list table
  * - 100) Other functions
  */
 
@@ -27,12 +26,7 @@
  */
 
 	//Load the theme About page
-		if (
-				file_exists( WM_SETUP . 'about/about.php' ) )
-				|| file_exists( WM_SETUP_CHILD . 'about/about.php' )
-			) {
-			locate_template( WM_SETUP_DIR . 'about/about.php', true );
-		}
+		locate_template( WM_SETUP_DIR . 'about/about.php', true );
 
 	//Theme Updater
 		if ( apply_filters( 'wmhook_enable_update_notifier', true ) ) {
@@ -51,10 +45,10 @@
 	 * Actions
 	 */
 
-		//Admin customization
+		//Styles and scripts
 			add_action( 'admin_enqueue_scripts', 'wm_assets_admin',        998 );
 			add_action( 'admin_enqueue_scripts', 'wm_admin_inline_styles', 998 );
-		//Display admin notice
+		//Admin notices
 			add_action( 'admin_notices', 'wm_admin_notice', 998 );
 		//Posts list table
 			//Posts
@@ -80,7 +74,7 @@
 
 
 /**
- * 20) Styles and scripts
+ * 20) Assets
  */
 
 	/**
@@ -91,9 +85,6 @@
 	 */
 	if ( ! function_exists( 'wm_assets_admin' ) ) {
 		function wm_assets_admin() {
-			//Helper variables
-				$assets_version = ( defined( 'WM_SCRIPTS_VERSION' ) ) ? ( WM_SCRIPTS_VERSION ) : ( get_bloginfo( 'version' ) );
-
 			/**
 			 * Register
 			 */
@@ -112,7 +103,7 @@
 					foreach ( $register_styles as $handle => $atts ) {
 						$src   = ( isset( $atts['src'] ) ) ? ( $atts['src'] ) : ( $atts[0] );
 						$deps  = ( isset( $atts['deps'] ) ) ? ( $atts['deps'] ) : ( false );
-						$ver   = ( isset( $atts['ver'] ) ) ? ( $atts['ver'] ) : ( $assets_version );
+						$ver   = ( isset( $atts['ver'] ) ) ? ( $atts['ver'] ) : ( WM_SCRIPTS_VERSION );
 						$media = ( isset( $atts['media'] ) ) ? ( $atts['media'] ) : ( 'screen' );
 
 						wp_register_style( $handle, $src, $deps, $ver, $media );
@@ -138,7 +129,7 @@
 					foreach ( $register_scripts as $handle => $atts ) {
 						$src       = ( isset( $atts['src'] ) ) ? ( $atts['src'] ) : ( $atts[0] );
 						$deps      = ( isset( $atts['deps'] ) ) ? ( $atts['deps'] ) : ( false );
-						$ver       = ( isset( $atts['ver'] ) ) ? ( $atts['ver'] ) : ( $assets_version );
+						$ver       = ( isset( $atts['ver'] ) ) ? ( $atts['ver'] ) : ( WM_SCRIPTS_VERSION );
 						$in_footer = ( isset( $atts['in_footer'] ) ) ? ( $atts['in_footer'] ) : ( true );
 
 						wp_register_script( $handle, $src, $deps, $ver, $in_footer );
@@ -178,17 +169,18 @@
 				global $current_screen;
 
 				$output     = '';
-				$no_preview = apply_filters( 'wmhook_wm_admin_inline_styles_no_preview',  array( 'wm_logos', 'wm_modules', 'wm_staff' ) );
+				$no_preview = apply_filters( 'wmhook_wm_admin_inline_styles_no_preview', array( 'wm_logos', 'wm_modules', 'wm_staff' ) );
 
 			//Preparing output
 				//Removing unnecessary view buttons
 					if ( in_array( $current_screen->post_type, $no_preview ) ) {
-						$output .= "\r\n" . '.row-actions .view, #view-post-btn, #preview-action { display: none; }';
+						$output .= '.row-actions .view, #view-post-btn, #preview-action { display: none; }';
 					}
 
 				//Homepage and front page colorize
 					if ( 'edit-page' == $current_screen->id ) {
-						$output .= '.hentry.post-' . get_option( 'page_on_front' ) . ' { background: #d7eef4; }' . "\r\n" . '.hentry.post-' . get_option( 'page_for_posts' ) . ' { background: #d7f4e3; }' . "\r\n";
+						$output .= '.hentry.post-' . get_option( 'page_on_front' ) . ' { background: #d7eef4; }';
+						$output .= '.hentry.post-' . get_option( 'page_for_posts' ) . ' { background: #d7f4e3; }';
 					}
 
 				//WooCommerce pages colorize
@@ -197,22 +189,18 @@
 							&& function_exists( 'wc_get_page_id' )
 							&& 'edit-page' == $current_screen->id
 						) {
-						$output .= //"Products" WC settings tab
-						           '.hentry.post-' . wc_get_page_id( 'shop' )       . ' .check-column { background: #CC99C2; }' . "\r\n" .
-						           //"Checkout" WC settings tab
-						           '.hentry.post-' . wc_get_page_id( 'cart' )       . ' .check-column { background: #CC99C2; }' . "\r\n" .
-						           '.hentry.post-' . wc_get_page_id( 'checkout' )   . ' .check-column { background: #CC99C2; }' . "\r\n" .
-						           '.hentry.post-' . wc_get_page_id( 'terms' )      . ' .check-column { background: #CC99C2; }' . "\r\n" .
-						           //"Accounts" WC settings tab
-						           '.hentry.post-' . wc_get_page_id( 'myaccount' )  . ' .check-column { background: #CC99C2; }' . "\r\n" .
-						           //Other WC pages
-						           '.hentry.post-' . wc_get_page_id( 'view_order' ) . ' .check-column { background: #CC99C2; }' . "\r\n" .
-						           '.hentry.post-' . wc_get_page_id( 'logout' )     . ' .check-column { background: #CC99C2; }' . "\r\n";
+						$output .= '.hentry.post-' . wc_get_page_id( 'cart' ) . ' .check-column { background: #CC99C2; }';
+						$output .= '.hentry.post-' . wc_get_page_id( 'checkout' ) . ' .check-column { background: #CC99C2; }';
+						$output .= '.hentry.post-' . wc_get_page_id( 'logout' ) . ' .check-column { background: #CC99C2; }';
+						$output .= '.hentry.post-' . wc_get_page_id( 'myaccount' ) . ' .check-column { background: #CC99C2; }';
+						$output .= '.hentry.post-' . wc_get_page_id( 'shop' ) . ' .check-column { background: #CC99C2; }';
+						$output .= '.hentry.post-' . wc_get_page_id( 'terms' ) . ' .check-column { background: #CC99C2; }';
+						$output .= '.hentry.post-' . wc_get_page_id( 'view_order' ) . ' .check-column { background: #CC99C2; }';
 					}
 
 			//Output
-				if ( $output ) {
-					wp_add_inline_style( 'wm-admin', apply_filters( 'wmhook_wm_admin_inline_styles_output', $output ) );
+				if ( $output = apply_filters( 'wmhook_wm_admin_inline_styles_output', $output ) ) {
+					wp_add_inline_style( 'wm-admin', $output );
 				}
 		}
 	} // /wm_admin_inline_styles
@@ -222,13 +210,11 @@
 
 
 /**
- * 30) Admin customization
+ * 30) Posts list table
  */
 
 	/**
 	 * Register table columns
-	 *
-	 * Registers admin thumbnail column in posts table.
 	 *
 	 * @since    3.0
 	 * @version  4.0
@@ -238,12 +224,11 @@
 	if ( ! function_exists( 'wm_post_columns_register' ) ) {
 		function wm_post_columns_register( $columns ) {
 			//Preparing output
-				$add                = array_slice( $columns, 0, 1 );
+				$add             = array_slice( $columns, 0, 1 );
 				$add['wm-thumb'] = __( 'Image', 'wm_domain' );
-				$columns            = array_merge( $add, array_slice( $columns, 1 ) );
 
 			//Output
-				return $columns;
+				return apply_filters( 'wmhook_wm_post_columns_register_output', array_merge( $add, array_slice( $columns, 1 ) ) );
 		}
 	} // /wm_post_columns_register
 
@@ -293,7 +278,7 @@
 
 
 /**
- * 40) Visual editor improvements
+ * 100) Other functions
  */
 
 	/**
@@ -323,106 +308,100 @@
 
 
 
-	/**
-	 * Add buttons to visual editor
-	 *
-	 * Second row.
-	 *
-	 * @since  4.0
-	 *
-	 * @param  array $buttons
-	 */
-	if ( ! function_exists( 'wm_add_buttons_row2' ) ) {
-		function wm_add_buttons_row2( $buttons ) {
-			//Inserting buttons at the beginning of the row
-				$buttons = array_merge( array( 'styleselect' ), $buttons );
+		/**
+		 * Add buttons to visual editor
+		 *
+		 * Second row.
+		 *
+		 * @since  4.0
+		 *
+		 * @param  array $buttons
+		 */
+		if ( ! function_exists( 'wm_add_buttons_row2' ) ) {
+			function wm_add_buttons_row2( $buttons ) {
+				//Inserting buttons at the beginning of the row
+					$buttons = array_merge( array( 'styleselect' ), $buttons );
 
-			//Output
-				return $buttons;
-		}
-	} // /wm_add_buttons_row2
+				//Output
+					return $buttons;
+			}
+		} // /wm_add_buttons_row2
 
 
 
-	/**
-	 * Customizing format dropdown items
-	 *
-	 * @link  http://codex.wordpress.org/TinyMCE_Custom_Styles
-	 *
-	 * @since    3.0
-	 * @version  4.0
-	 *
-	 * @param  array $init
-	 */
-	if ( ! function_exists( 'wm_custom_mce_format' ) ) {
-		function wm_custom_mce_format( $init ) {
-			//Preparing output
-				//Merge old & new formats
-					$init['style_formats_merge'] = true;
+		/**
+		 * Customizing format dropdown items
+		 *
+		 * @link  http://codex.wordpress.org/TinyMCE_Custom_Styles
+		 *
+		 * @since    3.0
+		 * @version  4.0
+		 *
+		 * @param  array $init
+		 */
+		if ( ! function_exists( 'wm_custom_mce_format' ) ) {
+			function wm_custom_mce_format( $init ) {
+				//Preparing output
+					//Merge old & new formats
+						$init['style_formats_merge'] = true;
 
-				//Add custom formats
-					$init['style_formats'] = json_encode( apply_filters( 'wmhook_wm_custom_mce_format_style_formats', array(
+					//Add custom formats
+						$init['style_formats'] = json_encode( apply_filters( 'wmhook_wm_custom_mce_format_style_formats', array(
 
-							//Group: Quotes
-								array(
-									'title' => __( 'Quotes', 'wm_domain' ),
-									'items' => array(
+								//Group: Quotes
+									array(
+										'title' => _x( 'Quotes', 'Visual editor blockquote formats group title.', 'wm_domain' ),
+										'items' => array(
 
-										array(
-											'title' => __( 'Blockquote', 'wm_domain' ),
-											'block' => 'blockquote',
+											array(
+												'title' => __( 'Blockquote', 'wm_domain' ),
+												'block' => 'blockquote',
+											),
+											array(
+												'title'   => __( 'Pullquote - align left', 'wm_domain' ),
+												'block'   => 'blockquote',
+												'classes' => 'pullquote alignleft',
+											),
+											array(
+												'title'   => __( 'Pullquote - align right', 'wm_domain' ),
+												'block'   => 'blockquote',
+												'classes' => 'pullquote alignright',
+											),
+											array(
+												'title' => _x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', 'wm_domain' ),
+												'block' => 'cite',
+											),
+
 										),
-										array(
-											'title'   => __( 'Pullquote - align left', 'wm_domain' ),
-											'block'   => 'blockquote',
-											'classes' => 'pullquote alignleft',
-										),
-										array(
-											'title'   => __( 'Pullquote - align right', 'wm_domain' ),
-											'block'   => 'blockquote',
-											'classes' => 'pullquote alignright',
-										),
-										array(
-											'title' => __( 'Cite', 'wm_domain' ),
-											'block' => 'cite',
-										),
-
 									),
-								),
 
-							//Group: Text styles
-								array(
-									'title' => __( 'Text styles', 'wm_domain' ),
-									'items' => array(
+								//Group: Text styles
+									array(
+										'title' => __( 'Text styles', 'wm_domain' ),
+										'items' => array(
 
-										array(
-											'title'    => __( 'Uppercase heading or paragraph', 'wm_domain' ),
-											'selector' => 'h1, h2, h3, h4, h5, h6, p',
-											'classes'  => 'uppercase',
+											array(
+												'title'    => __( 'Uppercase heading or paragraph', 'wm_domain' ),
+												'selector' => 'h1, h2, h3, h4, h5, h6, p',
+												'classes'  => 'uppercase',
+											),
+
+											array(
+												'title'  => __( 'Highlighted (marked) text', 'wm_domain' ),
+												'inline' => 'mark',
+											),
+
 										),
-
-										array(
-											'title'  => __( 'Highlighted (marked) text', 'wm_domain' ),
-											'inline' => 'mark',
-										),
-
 									),
-								),
 
-						) ) );
+							) ) );
 
-			//Output
-				return apply_filters( 'wmhook_wm_custom_mce_format_output', $init );
-		}
-	} // /wm_custom_mce_format
-
+				//Output
+					return apply_filters( 'wmhook_wm_custom_mce_format_output', $init );
+			}
+		} // /wm_custom_mce_format
 
 
-
-
-/**
- * 100) Other functions
- */
 
 	/**
 	 * WordPress admin notices

@@ -1,12 +1,12 @@
 <?php
 /**
- * Theme Customizer Input Fields
+ * Customizer custom controls
  *
  * Customizer range / number slider.
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Theme Customizer
- * @copyright   2014 WebMan - Oliver Juhas
+ * @subpackage  Customizer
+ * @copyright   2015 WebMan - Oliver Juhas
  *
  * @since    3.1
  * @version  4.0
@@ -42,6 +42,7 @@ class WM_Customizer_Range extends WP_Customize_Control {
 
 		<script><!--
 			jQuery( function() {
+
 				if ( jQuery().slider ) {
 					jQuery( '#<?php echo sanitize_title( $this->id ); ?>-slider' ).slider( {
 						value : <?php echo $this->value(); ?>,

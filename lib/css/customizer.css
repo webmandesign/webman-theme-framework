@@ -1,9 +1,9 @@
 /**
- * Theme Customizer Additioanl Styles
+ * Customizer styles
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Theme Customizer
- * @copyright   2014 WebMan - Oliver Juhas
+ * @subpackage  Customizer
+ * @copyright   2015 WebMan - Oliver Juhas
  *
  * @since    3.0
  * @version  4.0
@@ -143,7 +143,7 @@
 	 */
 
 		#accordion-section-credits .accordion-section-title { display: none; }
-		#accordion-section-credits .accordion-section-content { display: block; }
+		#accordion-section-credits .accordion-section-content { display: block !important; }
 
 
 
@@ -152,8 +152,8 @@
 	 */
 
 		.slide-number-wrapper {
-			display: block;
 			float: left;
+			display: block;
 			width: 70%;
 			padding: 0 10px;
 		}
@@ -172,9 +172,7 @@
 			text-align: left;
 			background: #eee;
 			border: 1px solid #ccc;
-			-webkit-border-radius: 10px;
-			   -moz-border-radius: 10px;
-			        border-radius: 10px;
+			border-radius: 10px;
 		}
 			.slide-number-wrapper .ui-slider .ui-slider-handle {
 				position: absolute;
@@ -185,26 +183,19 @@
 				margin: -5px 0 0 -10px;
 				cursor: e-resize;
 				background: #f3f3f3;
-				background-image: -webkit-gradient(linear,left top,left bottom,from(#FEFEFE),to(#F4F4F4));
-				background-image: -webkit-linear-gradient(top,#FEFEFE,#F4F4F4);
-				background-image: -moz-linear-gradient(top,#FEFEFE,#F4F4F4);
-				background-image: linear-gradient(to bottom,#FEFEFE,#F4F4F4);
+				background-image: -webkit-linear-gradient(       top, #FEFEFE, #F4F4F4 );
+				background-image:         linear-gradient( to bottom, #FEFEFE, #F4F4F4 );
 				border: 1px solid #bbb;
 				outline: 0;
-				-webkit-border-radius: 10px;
-				   -moz-border-radius: 10px;
-				        border-radius: 10px;
+				border-radius: 10px;
 				-webkit-box-shadow: 0 1px 3px 0 rgba(0,0,0, .25);
 				        box-shadow: 0 1px 3px 0 rgba(0,0,0, .25);
 			}
 			.slide-number-wrapper .ui-slider .ui-slider-handle:hover,
 			.slide-number-wrapper .ui-slider .ui-slider-handle:active {
 				background-color: #21759B;
-				background-image: -webkit-gradient(linear,left top,left bottom,from(#2A95C5),to(#21759B));
-				background-image: -webkit-linear-gradient(top,#2A95C5,#21759B);
-				background-image: -moz-linear-gradient(top,#2A95C5,#21759B);
-				background-image: -ms-linear-gradient(top,#2A95C5,#21759B);
-				background-image: linear-gradient(to bottom,#2A95C5,#21759B);
+				background-image: -webkit-linear-gradient(       top, #2A95C5, #21759B );
+				background-image:         linear-gradient( to bottom, #2A95C5, #21759B );
 				border-color: #21759B;
 				border-bottom-color: #1E6A8D;
 				-webkit-box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);

@@ -1,10 +1,10 @@
 <?php
 /**
- * Theme Customizer
+ * Customizer
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Theme Customizer
- * @copyright   2014 WebMan - Oliver Juhas
+ * @subpackage  Customizer
+ * @copyright   2015 WebMan - Oliver Juhas
  * @uses        Theme Customizer Options Array
  * @uses        Custom CSS Styles Generator
  *
@@ -15,10 +15,13 @@
  * -  1) Required files
  * - 10) Actions and filters
  * - 20) Helpers
- * - 30) Main customizer function
- * - 40) CSS styles
+ * - 30) Sanitizing functions
+ * - 40) Main customizer function
+ * - 50) CSS styles
  *
  * @todo  move something to core.php (like it is in case of wm_generate_css() - think it over!!!)?
+ * @todo  remove WM_THEME_SETTINGS_PREFIX - allow filterable for backwards compatibility if required
+ * @todo  rename WM_THEME_SETTINGS_SKIN to be compatible with WP theme_mod
  */
 
 
@@ -31,8 +34,6 @@
 
 	//Include function to generate the WordPress Customizer CSS
 		locate_template( 'assets/css/_custom-styles.php', true );
-	//Include sanitizing functions
-		locate_template( WM_LIBRARY_DIR . 'inc/sanitize.php', true );
 	//Theme options arrays
 		locate_template( WM_SETUP_DIR . 'setup-theme-options.php', true );
 
@@ -53,14 +54,13 @@
 		//Customizer assets
 			add_action( 'customize_controls_enqueue_scripts', 'wm_customizer_enqueue_assets'         );
 			add_action( 'customize_preview_init',             'wm_customizer_preview_enqueue_assets' );
-		//Save skin
-			add_action( 'customize_save_last-trigger-setting', 'wm_save_skin',           10 );
-			add_action( 'customize_save_last-trigger-setting', 'wm_custom_styles_cache', 10 );
+		//Customizer saving
+			add_action( 'update_option_' . WM_THEME_SETTINGS_SKIN, 'wm_save_skin'          ,  10 );
+			add_action( 'update_option_' . WM_THEME_SETTINGS_SKIN, 'wm_custom_styles_cache',  20 );
+			add_action( 'update_option_' . WM_THEME_SETTINGS_SKIN, 'wm_generate_all_css'   , 100 );
 		//Flushing transients
 			add_action( 'switch_theme',         'wm_custom_styles_transient_flusher' );
 			add_action( 'wmhook_theme_upgrade', 'wm_custom_styles_transient_flusher' );
-		//Regenerating main stylesheet
-			add_action( 'customize_save_last-trigger-setting', 'wm_generate_all_css', 20 );
 
 
 
@@ -125,8 +125,8 @@
 				$output = ( function_exists( 'wm_custom_styles' ) ) ? ( wm_custom_styles() ) : ( '' );
 
 			//Output
-				if ( $output ) {
-					echo apply_filters( 'wmhook_wm_theme_customizer_css_output', '<style type="text/css" id="' . WM_THEME_SHORTNAME . '-customizer-styles">' . "\r\n" . $output . "\r\n" . '</style>' );
+				if ( $output = apply_filters( 'wmhook_wm_theme_customizer_css_output', $output ) ) {
+					echo '<style type="text/css" id="' . WM_THEME_SHORTNAME . '-customizer-styles">' . "\r\n" . $output . "\r\n" . '</style>';
 				}
 		}
 	} // /wm_theme_customizer_css
@@ -151,7 +151,7 @@
 	if ( ! function_exists( 'wm_theme_customizer_js' ) ) {
 		function wm_theme_customizer_js() {
 			//Helper variables
-				$wm_skin_design = apply_filters( 'wmhook_theme_options_skin_array', array() );
+				$wm_skin_design = apply_filters( 'wmhook_theme_options', array() );
 
 				$output = $output_single = '';
 
@@ -214,8 +214,8 @@
 				}
 
 			//Output
-				if ( trim( $output ) ) {
-					echo apply_filters( 'wmhook_wm_theme_customizer_js_output', '<!-- Theme custom scripts -->' . "\r\n" . '<script type="text/javascript"><!--' . "\r\n" . '( function( $ ) {' . "\r\n\r\n" . $output . "\r\n\r\n" . '} )( jQuery );' . "\r\n" . '//--></script>' );
+				if ( $output = apply_filters( 'wmhook_wm_theme_customizer_js_output', $output ) ) {
+					echo '<!-- Theme custom scripts -->' . "\r\n" . '<script type="text/javascript"><!--' . "\r\n" . '( function( $ ) {' . "\r\n\r\n" . trim( $output ) . "\r\n\r\n" . '} )( jQuery );' . "\r\n" . '//--></script>';
 				}
 		}
 	} // /wm_theme_customizer_js
@@ -225,7 +225,58 @@
 
 
 /**
- * 30) Main customizer function
+ * 30) Sanitizing functions
+ */
+
+	/**
+	 * Sanitize email
+	 *
+	 * @param  mixed $value WP customizer value to sanitize.
+	 */
+	if ( ! function_exists( 'wm_sanitize_email' ) ) {
+		function wm_sanitize_email( $value ) {
+			//Helper variables
+				$value = ( is_email( trim( $value ) ) ) ? ( trim( $value ) ) : ( null );
+
+			//Output
+				return apply_filters( 'wmhook_wm_sanitize_email_output', $value );
+		}
+	} // /wm_sanitize_email
+
+
+
+	/**
+	 * Sanitize texts
+	 *
+	 * @since  4.0
+	 *
+	 * @param  mixed $value WP customizer value to sanitize.
+	 */
+	if ( ! function_exists( 'wm_sanitize_text' ) ) {
+		function wm_sanitize_text( $value ) {
+			return apply_filters( 'wmhook_wm_sanitize_text_output', wp_kses_post( force_balance_tags( $value ) ) );
+		}
+	} // /wm_sanitize_text
+
+
+
+	/**
+	 * No sanitization at all, simply return the value
+	 *
+	 * @param  mixed $value WP customizer value to sanitize.
+	 */
+	if ( ! function_exists( 'wm_sanitize_return_value' ) ) {
+		function wm_sanitize_return_value( $value ) {
+			return apply_filters( 'wmhook_wm_sanitize_return_value_output', $value );
+		}
+	} // /wm_sanitize_return_value
+
+
+
+
+
+/**
+ * 40) Main customizer function
  */
 
 	/**
@@ -261,13 +312,15 @@
 				locate_template( WM_LIBRARY_DIR . 'inc/controls/class-WM_Customizer_Radiocustom.php', true );
 				locate_template( WM_LIBRARY_DIR . 'inc/controls/class-WM_Customizer_Select.php',      true );
 				if ( ! wm_check_wp_version( 4 ) ) {
-					locate_template( WM_LIBRARY_DIR . 'inc/controls/class-WM_Customizer_Textarea.php',  true );
+					locate_template( WM_LIBRARY_DIR . 'inc/controls/class-WM_Customizer_Textarea.php', true );
 				}
+
+				do_action( 'wmhook_wm_theme_customizer_load_controls', $wp_customize );
 
 
 
 			//Helper variables
-				$wm_skin_design = (array) apply_filters( 'wmhook_theme_options_skin_array', array() );
+				$wm_skin_design = (array) apply_filters( 'wmhook_theme_options', array() );
 
 				$allowed_option_types = apply_filters( 'wmhook_wm_theme_customizer_allowed_option_types', array(
 						'background',
@@ -286,7 +339,7 @@
 						'slider', //synonym for 'range'
 						'text',
 						'textarea',
-						'theme-customizer-html',
+						'theme-customizer-html', //synonym for 'html'
 						'url',
 					) );
 
@@ -361,7 +414,7 @@
 								}
 
 								$wp_customize->add_panel(
-										$option_id, //panel ID
+										$option_id,
 										array(
 											'title'       => $skin_option['theme-customizer-panel'], //panel title
 											'description' => ( isset( $skin_option['theme-customizer-panel-description'] ) ) ? ( $skin_option['theme-customizer-panel-description'] ) : ( '' ), //Displayed at the top of panel
@@ -454,7 +507,7 @@
 											)
 										);
 
-										$wp_customize->add_control( new WM_Customize_Image(
+										$wp_customize->add_control( new WM_Customizer_Image(
 												$wp_customize,
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-url]',
 												array(
@@ -476,7 +529,7 @@
 											)
 										);
 
-										$wp_customize->add_control( new WM_Customize_Image(
+										$wp_customize->add_control( new WM_Customizer_Image(
 												$wp_customize,
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-url-hidpi]',
 												array(
@@ -682,8 +735,12 @@
 								case 'html':
 								case 'theme-customizer-html':
 
+									if ( empty( $option_id ) ) {
+										$option_id = 'custom-title-' . $priority;
+									}
+
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[custom-title-' . $priority . ']',
+											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
 												'sanitize_callback'    => 'wm_sanitize_text',
 												'sanitize_js_callback' => 'wm_sanitize_text',
@@ -692,7 +749,7 @@
 
 									$wp_customize->add_control( new WM_Customizer_HTML(
 											$wp_customize,
-											WM_THEME_SETTINGS_SKIN . '[custom-title-' . $priority . ']',
+											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 											array(
 												'label'    => $skin_option['content'],
 												'section'  => $customizer_section,
@@ -808,8 +865,8 @@
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_intval' ),
-												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_intval' ),
+												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'intval' ),
+												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'intval' ),
 											)
 										);
 
@@ -974,6 +1031,7 @@
 										$wp_customize->add_control(
 												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
 												array(
+													'type'        => 'textarea',
 													'label'       => $skin_option['label'],
 													'description' => $description,
 													'section'     => $customizer_section,
@@ -1045,46 +1103,6 @@
 
 					} // /foreach
 
-
-
-					/**
-					 * THE CODE BELOW IS REQUIRED UNTIL WORDPRESS CREATES A HOOK TRIGGERED AFTER SAVING CUSTOMIZER OPTIONS
-					 *
-					 * Last hidden setting that triggers the main CSS file regeneration.
-					 *
-					 * @link  Idea from: http://wordpress.stackexchange.com/questions/57540/wp-3-4-what-action-hook-is-called-when-theme-customisation-is-saved
-					 * @link  Suggested: http://wordpress.org/extend/ideas/topic/do-customize_save-action-hook-after-the-settings-are-saved
-					 */
-
-						/**
-						 * Start of "trigger" option
-						 */
-
-							$wp_customize->add_setting(
-									'last-trigger-setting',
-									array(
-										'type'                 => $type,
-										'default'              => 'true',
-										'transport'            => $transport,
-										'sanitize_callback'    => 'esc_attr',
-										'sanitize_js_callback' => 'esc_attr',
-									)
-								);
-
-							$wp_customize->add_control(
-									'last-trigger-setting',
-									array(
-										'type'     => 'hidden',
-										'label'    => 'TRIGGER OPTION',
-										'section'  => $customizer_section,
-										'priority' => $priority + 999,
-									)
-								);
-
-						/**
-						 * End of "trigger" option
-						 */
-
 				} // /if skin options are non-empty array
 
 			//Assets needed for customizer preview
@@ -1100,7 +1118,7 @@
 
 
 /**
- * 40) CSS styles
+ * 50) CSS styles
  */
 
 	/**

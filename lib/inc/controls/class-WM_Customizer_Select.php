@@ -1,12 +1,12 @@
 <?php
 /**
- * Theme Customizer Input Fields
+ * Customizer custom controls
  *
  * Customizer select field (with optgroups).
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Theme Customizer
- * @copyright   2014 WebMan - Oliver Juhas
+ * @subpackage  Customizer
+ * @copyright   2015 WebMan - Oliver Juhas
  *
  * @since  4.0
  */

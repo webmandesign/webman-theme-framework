@@ -1,12 +1,12 @@
 <?php
 /**
- * Theme Customizer Input Fields
+ * Customizer custom controls
  *
  * Customizer image insert.
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Theme Customizer
- * @copyright   2014 WebMan - Oliver Juhas
+ * @subpackage  Customizer
+ * @copyright   2015 WebMan - Oliver Juhas
  *
  * @since    3.1
  * @version  4.0

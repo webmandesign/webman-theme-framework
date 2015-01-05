@@ -1,8 +1,9 @@
 /**
- * WordPress Admin Styles
+ * Admin styles
  *
- * @package    WebMan WordPress Theme Framework
- * @copyright  2014 WebMan - Oliver Juhas
+ * @package     WebMan WordPress Theme Framework
+ * @subpackage  Admin functions
+ * @copyright   2015 WebMan - Oliver Juhas
  *
  * @since    3.0
  * @version  4.0
@@ -127,13 +128,8 @@
 				border: 1px solid #d9d9d9;
 				border-radius: 3px;
 			}
-				.fixed .wm-image-container.size-jetpack-portfolio-admin-thumb {
-					width: 50px;
-					height: 50px;
-				}
 				.fixed .wm-image-container.has-thumb { height: auto; }
-				.fixed .wm-image-container.no-thumb,
-				.type-jetpack-portfolio .column-thumbnail img {
+				.fixed .wm-image-container.no-thumb {
 					background: #f9f9f9;
 					border-color: #e9e9e9;
 					-webkit-box-shadow: inset 0 1px 5px 0 rgba(0,0,0, .1);
@@ -172,7 +168,7 @@
 			font-style: italic;
 			line-height: 1.25em;
 			color: #666;
-			padding-bottom: .65em !important;
+			padding-bottom: .62em !important;
 			border-bottom: 1px solid #ddd;
 		}
 

@@ -90,4 +90,4 @@
 * Initial release for use with WebMan Amplifier plugin.
 
 
-*WebMan WordPress Theme Framework, (C) 2014 WebMan, www.webmandesign.eu*
+*WebMan WordPress Theme Framework, (C) 2015 WebMan, www.webmandesign.eu*

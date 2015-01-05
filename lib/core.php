@@ -46,7 +46,7 @@
 		if ( ! defined( 'WM_THEME_SETTINGS_SKIN' ) )    define( 'WM_THEME_SETTINGS_SKIN',    WM_THEME_SETTINGS . '-skin'                                  );
 
 	//Dir constants
-		if ( ! defined( 'WM_LIBRARY_DIR' ) )            define( 'WM_LIBRARY_DIR',            trailingslashit( 'library' )                                 );
+		if ( ! defined( 'WM_LIBRARY_DIR' ) )            define( 'WM_LIBRARY_DIR',            trailingslashit( 'lib' )                                     );
 		if ( ! defined( 'WM_SETUP_DIR' ) )              define( 'WM_SETUP_DIR',              trailingslashit( 'setup' )                                   );
 		if ( ! defined( 'WM_SETUP' ) )                  define( 'WM_SETUP',                  trailingslashit( get_template_directory() ) . WM_SETUP_DIR   );
 		if ( ! defined( 'WM_SETUP_CHILD' ) )            define( 'WM_SETUP_CHILD',            trailingslashit( get_stylesheet_directory() ) . WM_SETUP_DIR );
@@ -76,14 +76,14 @@
 			//Plugins suggestions
 				if (
 						apply_filters( 'wmhook_enable_plugins_integration', true )
-						&& (
-							file_exists( WM_SETUP . 'plugins.php' )
-							|| file_exists( WM_SETUP_CHILD . 'plugins.php' )
-						)
+						&& locate_template( WM_SETUP_DIR . 'plugins.php' )
 					) {
 					locate_template( WM_LIBRARY_DIR . 'inc/class-tgm-plugin-activation.php', true );
-					locate_template( WM_SETUP_DIR . 'plugins.php',                                true );
+					locate_template( WM_SETUP_DIR . 'plugins.php',                           true );
 				}
+
+			//Customizer
+				locate_template( WM_LIBRARY_DIR . 'customizer.php', true );
 
 		}
 
@@ -111,7 +111,7 @@
 			add_action( 'pre_get_posts', 'wm_home_query', 10 );
 		//Contextual help
 			add_action( 'contextual_help', 'wm_help', 10, 3 );
-		//Admin bar link (displayed also on admin bar on front end)
+		//Admin bar (displayed also on front end)
 			add_action( 'admin_bar_menu', 'wm_theme_options_admin_bar', 998 );
 
 
@@ -120,21 +120,23 @@
 	 * Filters
 	 */
 
-		//Minify CSS
-			add_filter( 'wmhook_wm_generate_main_css_output_min', 'wm_minify_css', 10 );
 		//HTML in widget title
 			add_filter( 'widget_title', 'wm_html_widget_title' );
 		//Table of contents
 			add_filter( 'the_content', 'wm_nextpage_table_of_contents', 10 );
+		//Minify CSS
+			add_filter( 'wmhook_wm_generate_main_css_output_min', 'wm_minify_css', 10 );
 		//Default WordPress content filters only
-			add_filter( 'wmhook_content_filters',            'wm_default_content_filters', 10 );
-			add_filter( 'wmhook_wm_default_content_filters', 'wptexturize',                10 ); //Default WP
-			add_filter( 'wmhook_wm_default_content_filters', 'convert_smilies',            20 ); //Default WP
-			add_filter( 'wmhook_wm_default_content_filters', 'convert_chars',              30 ); //Default WP
-			add_filter( 'wmhook_wm_default_content_filters', 'do_shortcode',               40 ); //Added by WebMan
-			add_filter( 'wmhook_wm_default_content_filters', 'wpautop',                    50 ); //Default WP
-			add_filter( 'wmhook_wm_default_content_filters', 'shortcode_unautop',          60 ); //Default WP
-			add_filter( 'wmhook_wm_default_content_filters', 'prepend_attachment',         70 ); //Default WP
+			add_filter( 'wmhook_content_filters', 'wm_default_content_filters', 10 );
+			//WP defaults
+				add_filter( 'wmhook_wm_default_content_filters', 'wptexturize',        10 );
+				add_filter( 'wmhook_wm_default_content_filters', 'convert_smilies',    20 );
+				add_filter( 'wmhook_wm_default_content_filters', 'convert_chars',      30 );
+				add_filter( 'wmhook_wm_default_content_filters', 'wpautop',            40 );
+				add_filter( 'wmhook_wm_default_content_filters', 'shortcode_unautop',  50 );
+				add_filter( 'wmhook_wm_default_content_filters', 'prepend_attachment', 60 );
+			//Custom additions
+				add_filter( 'wmhook_wm_default_content_filters', 'do_shortcode',       35 );
 
 
 
@@ -192,7 +194,7 @@
 							$logo_url = wp_get_attachment_image_src( $img_id, 'full' );
 
 							$atts = array(
-									'alt'   => esc_attr( sprintf( __( '%s logo', 'wm_domain' ), trim( $blog_info['name'] ) ) ),
+									'alt'   => esc_attr( sprintf( _x( '%s logo', 'Site logo image "alt" HTML attribute text.', 'wm_domain' ), $blog_info['name'] ) ),
 									'title' => esc_attr( $args['title_att'] ),
 									'class' => '',
 								);
@@ -221,10 +223,6 @@
 									$output .= '<span class="text-logo">' . $blog_info['name'] . '</span>';
 								} else {
 									$output .= $args['logo_image'];
-								}
-
-								if ( $blog_info['description'] ) {
-									$output .= '<span class="description">' . $blog_info['description'] . '</span>';
 								}
 
 						$output .= '</a></h1>';
@@ -309,6 +307,8 @@
 	 * @param   array $args Heading setup arguments
 	 *
 	 * @return  string HTML of post thumbnail in image container
+	 *
+	 * @todo  check this function
 	 */
 	if ( ! function_exists( 'wm_thumb' ) ) {
 		function wm_thumb( $args = array() ) {
@@ -722,7 +722,7 @@
 				}
 
 			//Output
-				return apply_filters( 'wmhook_wm_post_meta_output', $output );
+				return apply_filters( 'wmhook_wm_post_meta_output', $output, $args );
 		}
 	} // /wm_post_meta
 
@@ -767,7 +767,7 @@
 
 			//Preparing output
 				if ( 1 < $paged ) {
-					$output = ' ' . $tag[0] . sprintf( __( '(page %s)', 'wm_domain' ), $paged ) . $tag[1];
+					$output = ' ' . $tag[0] . sprintf( _x( '(page %s)', 'Paginated content title suffix.', 'wm_domain' ), $paged ) . $tag[1];
 				}
 
 			//Output
@@ -817,13 +817,16 @@
 	/**
 	 * Check WordPress version
 	 *
+	 * @since    1.0
+	 * @version  4.0
+	 *
 	 * @param  float $version
 	 */
 	if ( ! function_exists( 'wm_check_wp_version' ) ) {
 		function wm_check_wp_version( $version = WM_WP_COMPATIBILITY ) {
 			global $wp_version;
 
-			return apply_filters( 'wmhook_wm_check_wp_version_output', version_compare( (float) $wp_version, $version, '>=' ) );
+			return apply_filters( 'wmhook_wm_check_wp_version_output', version_compare( (float) $wp_version, $version, '>=' ), $version, $wp_version );
 		}
 	} // /wm_check_wp_version
 
@@ -1175,7 +1178,7 @@
 
 				//Requirements chek
 					if ( ! $file_relative_path ) {
-						return apply_filters( 'wm_get_stylesheet_directory_output', esc_url( $output ), $file_relative_path );
+						return apply_filters( 'wmhook_wm_get_stylesheet_directory_output', esc_url( $output ), $file_relative_path );
 					}
 
 				//Praparing output
@@ -1186,7 +1189,7 @@
 					}
 
 				//Output
-					return apply_filters( 'wm_get_stylesheet_directory_output', $output, $file_relative_path );
+					return apply_filters( 'wmhook_wm_get_stylesheet_directory_output', $output, $file_relative_path );
 			}
 		} // /wm_get_stylesheet_directory
 
@@ -1211,7 +1214,7 @@
 
 				//Requirements chek
 					if ( ! $file_relative_path ) {
-						return apply_filters( 'wm_get_stylesheet_directory_uri_output', esc_url( $output ), $file_relative_path );
+						return apply_filters( 'wmhook_wm_get_stylesheet_directory_uri_output', esc_url( $output ), $file_relative_path );
 					}
 
 				//Praparing output
@@ -1222,7 +1225,7 @@
 					}
 
 				//Output
-					return apply_filters( 'wm_get_stylesheet_directory_uri_output', esc_url( $output ), $file_relative_path );
+					return apply_filters( 'wmhook_wm_get_stylesheet_directory_uri_output', esc_url( $output ), $file_relative_path );
 			}
 		} // /wm_get_stylesheet_directory_uri
 
@@ -1239,11 +1242,16 @@
 		if ( ! function_exists( 'wm_minify_css' ) ) {
 			function wm_minify_css( $css ) {
 				//Requirements check
-					if ( ! is_string( $css ) ) {
+					if (
+							! is_string( $css )
+							&& ! apply_filters( 'wmhook_wm_minify_css_disable', false );
+						) {
 						return $css;
 					}
 
 				//Praparing output
+					$css = apply_filters( 'wmhook_wm_minify_css_preprocess', $css );
+
 					//Remove CSS comments
 						$css = preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css );
 					//Remove tabs, spaces, line breaks, etc.
@@ -1642,6 +1650,10 @@
 		 */
 		if ( ! function_exists( 'wm_all_categories_transient_flusher' ) ) {
 			function wm_all_categories_transient_flusher() {
+				if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+					return;
+				}
+				//Like, beat it. Dig?
 				delete_transient( 'wm-all-categories' );
 			}
 		} // /wm_all_categories_transient_flusher
@@ -1718,32 +1730,6 @@
 
 
 	/**
-	 * Sets the authordata global when viewing an author archive.
-	 *
-	 * This provides backwards compatibility with
-	 * http://core.trac.wordpress.org/changeset/25574
-	 *
-	 * It removes the need to call the_post() and rewind_posts() in an author
-	 * template to print information about the author.
-	 *
-	 * @since  4.0
-	 *
-	 * @global WP_Query $wp_query WordPress Query object.
-	 * @return void
-	 */
-	if ( ! function_exists( 'wm_setup_author' ) ) {
-		function wm_setup_author() {
-			global $wp_query;
-
-			if ( $wp_query->is_author() && isset( $wp_query->post ) ) {
-				$GLOBALS['authordata'] = get_userdata( $wp_query->post->post_author );
-			}
-		}
-	} // /wm_setup_author
-
-
-
-	/**
 	 * Adds a Theme Options links to WordPress admin bar
 	 *
 	 * @since    3.0
@@ -1776,7 +1762,7 @@
 				//Submenu items
 					if ( is_array( $submenu ) && ! empty( $submenu ) ) {
 						foreach ( $submenu as $title => $url ) {
-							$wp_admin_bar->add_menu( apply_filters( 'wmhook_wm_theme_options_admin_bar_child_wm_theme_options-' . sanitize_title( $title ), array(
+							$wp_admin_bar->add_menu( apply_filters( 'wmhook_wm_theme_options_admin_bar_child-' . sanitize_title( $title ), array(
 									'parent' => 'wm_theme_options',
 									'id'     => WM_THEME_SHORTNAME . '_theme_options-' . sanitize_title( $title ),
 									'title'  => $title,

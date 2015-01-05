@@ -1,11 +1,11 @@
 <?php
 /**
- * Theme Update Notifier
+ * Theme update notifier
  *
  * Provides a notification to the user everytime the WordPress theme is updated.
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Theme Update Notifier
+ * @subpackage  Theme update notifier
  * @author      Modifications by WebMan - Oliver Juhas
  * @author      Joao Araujo
  * @link        http://themeforest.net/user/unisphere
