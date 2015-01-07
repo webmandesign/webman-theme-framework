@@ -33,28 +33,27 @@
 		$theme_data = wp_get_theme();
 
 	//Basic constants
-		if ( ! defined( 'WM_THEME_NAME' ) )             define( 'WM_THEME_NAME',             $theme_data->Name                                            );
-		if ( ! defined( 'WM_THEME_SHORTNAME' ) )        define( 'WM_THEME_SHORTNAME',        get_template()                                               );
-		if ( ! defined( 'WM_THEME_VERSION' ) )          define( 'WM_THEME_VERSION',          $theme_data->Version                                         );
+		if ( ! defined( 'WM_THEME_NAME' ) )        define( 'WM_THEME_NAME',        $theme_data->Name                                            );
+		if ( ! defined( 'WM_THEME_SHORTNAME' ) )   define( 'WM_THEME_SHORTNAME',   str_replace( array( '-lite', '-plus' ), '', get_template() ) );
+		if ( ! defined( 'WM_THEME_VERSION' ) )     define( 'WM_THEME_VERSION',     $theme_data->Version                                         );
 
-		if ( ! defined( 'WM_SCRIPTS_VERSION' ) )        define( 'WM_SCRIPTS_VERSION',        esc_attr( trim( WM_THEME_VERSION ) )                         );
+		if ( ! defined( 'WM_SCRIPTS_VERSION' ) )   define( 'WM_SCRIPTS_VERSION',   esc_attr( trim( WM_THEME_VERSION ) )                         );
 
-	//Settings constants
-		if ( ! defined( 'WM_THEME_SETTINGS_PREFIX' ) )  define( 'WM_THEME_SETTINGS_PREFIX',  'wm-'                                                        );
-		if ( ! defined( 'WM_THEME_SETTINGS' ) )         define( 'WM_THEME_SETTINGS',         WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME                );
-		if ( ! defined( 'WM_THEME_SETTINGS_INSTALL' ) ) define( 'WM_THEME_SETTINGS_INSTALL', WM_THEME_SETTINGS . '-install'                               );
-		if ( ! defined( 'WM_THEME_SETTINGS_SKIN' ) )    define( 'WM_THEME_SETTINGS_SKIN',    WM_THEME_SETTINGS . '-skin'                                  );
+	//Options constants
+		if ( ! defined( 'WM_OPTION_PREFIX' ) )     define( 'WM_OPTION_PREFIX',     ''                                                           );
+		if ( ! defined( 'WM_OPTION_INSTALL' ) )    define( 'WM_OPTION_INSTALL',    'wm-' . WM_THEME_SHORTNAME . '-install'                      );
+		if ( ! defined( 'WM_OPTION_CUSTOMIZER' ) ) define( 'WM_OPTION_CUSTOMIZER', 'theme_mods_' . WM_THEME_SHORTNAME                           );
 
 	//Dir constants
-		if ( ! defined( 'WM_LIBRARY_DIR' ) )            define( 'WM_LIBRARY_DIR',            trailingslashit( 'lib' )                                     );
-		if ( ! defined( 'WM_SETUP_DIR' ) )              define( 'WM_SETUP_DIR',              trailingslashit( 'setup' )                                   );
-		if ( ! defined( 'WM_SETUP' ) )                  define( 'WM_SETUP',                  trailingslashit( get_template_directory() ) . WM_SETUP_DIR   );
-		if ( ! defined( 'WM_SETUP_CHILD' ) )            define( 'WM_SETUP_CHILD',            trailingslashit( get_stylesheet_directory() ) . WM_SETUP_DIR );
-		if ( ! defined( 'WM_SKINS_DIR' ) )              define( 'WM_SKINS_DIR',              trailingslashit( WM_SETUP . 'skins' )                        );
-		if ( ! defined( 'WM_SKINS_DIR_CHILD' ) )        define( 'WM_SKINS_DIR_CHILD',        trailingslashit( WM_SETUP_CHILD . 'skins' )                  );
+		if ( ! defined( 'WM_LIBRARY_DIR' ) )       define( 'WM_LIBRARY_DIR',       trailingslashit( 'lib' )                                     );
+		if ( ! defined( 'WM_SETUP_DIR' ) )         define( 'WM_SETUP_DIR',         trailingslashit( 'setup' )                                   );
+		if ( ! defined( 'WM_SETUP' ) )             define( 'WM_SETUP',             trailingslashit( get_template_directory() ) . WM_SETUP_DIR   );
+		if ( ! defined( 'WM_SETUP_CHILD' ) )       define( 'WM_SETUP_CHILD',       trailingslashit( get_stylesheet_directory() ) . WM_SETUP_DIR );
+		if ( ! defined( 'WM_SKINS_DIR' ) )         define( 'WM_SKINS_DIR',         trailingslashit( WM_SETUP . 'skins' )                        );
+		if ( ! defined( 'WM_SKINS_DIR_CHILD' ) )   define( 'WM_SKINS_DIR_CHILD',   trailingslashit( WM_SETUP_CHILD . 'skins' )                  );
 
 	//URL constants
-		if ( ! defined( 'WM_DEVELOPER_URL' ) )          define( 'WM_DEVELOPER_URL',          'http://www.webmandesign.eu'                                 );
+		if ( ! defined( 'WM_DEVELOPER_URL' ) )     define( 'WM_DEVELOPER_URL',     'http://www.webmandesign.eu'                                 );
 
 
 
@@ -1021,7 +1020,7 @@
 		 * @since    3.0
 		 * @version  4.0
 		 *
-		 * @param   string $option_name Option name without WM_THEME_SETTINGS_PREFIX prefix
+		 * @param   string $option_name Option name without WM_OPTION_PREFIX prefix
 		 * @param   string $css         CSS to output ["color" = HEX color, "bgimg" = background image styles]
 		 * @param   string $addon       Will be added to the value if the value is not empty
 		 *
@@ -1054,14 +1053,14 @@
 					if (
 							isset( $wp_customize )
 							&& $wp_customize->is_preview()
-							&& is_array( get_option( WM_THEME_SETTINGS_SKIN ) )
+							&& is_array( get_option( WM_OPTION_CUSTOMIZER ) )
 						) {
-						$wm_theme_options = get_option( WM_THEME_SETTINGS_SKIN );
+						$wm_theme_options = get_option( WM_OPTION_CUSTOMIZER );
 					}
 
 				//Preparing output
-					$options     = ( $wm_theme_options ) ? ( $wm_theme_options ) : ( get_option( WM_THEME_SETTINGS_SKIN ) );
-					$option_name = WM_THEME_SETTINGS_PREFIX . $option_name;
+					$options     = ( $wm_theme_options ) ? ( $wm_theme_options ) : ( get_option( WM_OPTION_CUSTOMIZER ) );
+					$option_name = WM_OPTION_PREFIX . $option_name;
 
 					if (
 							! isset( $options[ $option_name ] )
@@ -1330,8 +1329,8 @@
 						if ( ! wma_create_folder( $theme_css_dir ) ) {
 							set_transient( 'wmamp-admin-notice', array( "<strong>ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.</strong>", 'error', 'switch_themes', 2 ), ( 60 * 60 * 48 ) );
 
-							delete_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-css' );
-							delete_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-files' );
+							delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css' );
+							delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files' );
 
 							return false;
 						}
@@ -1346,8 +1345,8 @@
 						wma_write_local_file( $global_css_path_dev, $output );
 
 						//Store the CSS files paths and urls in DB
-							update_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-css', $global_css_url );
-							update_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-files', str_replace( $wp_upload_dir['basedir'], '', $theme_css_dir ) );
+							update_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css', $global_css_url );
+							update_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files', str_replace( $wp_upload_dir['basedir'], '', $theme_css_dir ) );
 
 						//Admin notice
 							set_transient( 'wmamp-admin-notice', array( $args['message_before'] . $args['message'] . $args['message_after'], '', 'switch_themes' ), ( 60 * 60 * 24 ) );
@@ -1358,8 +1357,8 @@
 						return true;
 					}
 
-					delete_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-css' );
-					delete_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . $args['type'] . '-files' );
+					delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css' );
+					delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files' );
 
 					return false;
 			}

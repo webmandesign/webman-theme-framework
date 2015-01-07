@@ -19,9 +19,7 @@
  * - 40) Main customizer function
  * - 50) CSS styles
  *
- * @todo  move something to core.php (like it is in case of wm_generate_css() - think it over!!!)?
- * @todo  remove WM_THEME_SETTINGS_PREFIX - allow filterable for backwards compatibility if required
- * @todo  rename WM_THEME_SETTINGS_SKIN to be compatible with WP theme_mod
+ * @todo  move something to core.php (like it is in case of wm_generate_css() - think it over!!!)? and make customizer admin only
  */
 
 
@@ -55,9 +53,9 @@
 			add_action( 'customize_controls_enqueue_scripts', 'wm_customizer_enqueue_assets'         );
 			add_action( 'customize_preview_init',             'wm_customizer_preview_enqueue_assets' );
 		//Customizer saving
-			add_action( 'update_option_' . WM_THEME_SETTINGS_SKIN, 'wm_save_skin'          ,  10 );
-			add_action( 'update_option_' . WM_THEME_SETTINGS_SKIN, 'wm_custom_styles_cache',  20 );
-			add_action( 'update_option_' . WM_THEME_SETTINGS_SKIN, 'wm_generate_all_css'   , 100 );
+			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_save_skin'          ,  10 );
+			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_custom_styles_cache',  20 );
+			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_generate_all_css'   , 100 );
 		//Flushing transients
 			add_action( 'switch_theme',         'wm_custom_styles_transient_flusher' );
 			add_action( 'wmhook_theme_upgrade', 'wm_custom_styles_transient_flusher' );
@@ -91,8 +89,6 @@
 				wp_enqueue_style( 'wm-customizer' );
 
 			//Scripts
-				wp_localize_script( 'jquery', 'wmCustomizerHelper', array( 'wmThemeShortname' => WM_THEME_SHORTNAME ) );
-
 				wp_enqueue_script( 'wm-customizer' );
 		}
 	} // /wm_customizer_enqueue_assets
@@ -162,7 +158,7 @@
 
 						if ( isset( $skin_option['customizer_js'] ) ) {
 
-							$output_single  = "wp.customize( '" . WM_THEME_SETTINGS_SKIN . "[" . WM_THEME_SETTINGS_PREFIX . $skin_option['id'] . "]" . "', function( value ) {"  . "\r\n";
+							$output_single  = "wp.customize( '" . WM_OPTION_CUSTOMIZER . "[" . WM_OPTION_PREFIX . $skin_option['id'] . "]" . "', function( value ) {"  . "\r\n";
 							$output_single .= "\t" . 'value.bind( function( newval ) {' . "\r\n";
 
 							if ( ! isset( $skin_option['customizer_js']['custom'] ) ) {
@@ -377,7 +373,7 @@
 								$option_id = $default = $description = '';
 
 								if ( isset( $skin_option['id'] ) ) {
-									$option_id = WM_THEME_SETTINGS_PREFIX . $skin_option['id'];
+									$option_id = WM_OPTION_PREFIX . $skin_option['id'];
 								}
 								if ( isset( $skin_option['default'] ) ) {
 									$default = $skin_option['default'];
@@ -476,7 +472,7 @@
 								case 'background':
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-color]',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-color]',
 											array(
 												'type'                 => $type,
 												'default'              => ( isset( $default['color'] ) ) ? ( $default['color'] ) : ( null ),
@@ -488,7 +484,7 @@
 
 										$wp_customize->add_control( new WP_Customize_Color_Control(
 												$wp_customize,
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-color]',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-color]',
 												array(
 													'label'    => __( 'Background color', 'wm_domain' ),
 													'section'  => $customizer_section,
@@ -497,7 +493,7 @@
 											) );
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-url]',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-url]',
 											array(
 												'type'                 => $type,
 												'default'              => ( isset( $default['url'] ) ) ? ( $default['url'] ) : ( null ),
@@ -509,17 +505,17 @@
 
 										$wp_customize->add_control( new WM_Customizer_Image(
 												$wp_customize,
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-url]',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-url]',
 												array(
 													'label'    => __( 'Background image', 'wm_domain' ),
 													'section'  => $customizer_section,
 													'priority' => ++$priority,
-													'context'  => WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-url]',
+													'context'  => WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-url]',
 												)
 											) );
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-url-hidpi]',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-url-hidpi]',
 											array(
 												'type'                 => $type,
 												'default'              => ( isset( $default['url-hidpi'] ) ) ? ( $default['url-hidpi'] ) : ( null ),
@@ -531,19 +527,19 @@
 
 										$wp_customize->add_control( new WM_Customizer_Image(
 												$wp_customize,
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-url-hidpi]',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-url-hidpi]',
 												array(
 													'label'    => __( 'High DPI background image', 'wm_domain' ),
 													'section'  => $customizer_section,
 													'priority' => ++$priority,
-													'context'  => WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-url-hidpi]',
+													'context'  => WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-url-hidpi]',
 												)
 											) );
 
 									if ( function_exists( 'wm_helper_var' ) ) {
 
 										$wp_customize->add_setting(
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-position]',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-position]',
 												array(
 													'type'                 => $type,
 													'default'              => ( isset( $default['position'] ) ) ? ( $default['position'] ) : ( '50% 0' ),
@@ -555,7 +551,7 @@
 
 											$wp_customize->add_control( new WM_Customizer_Radiocustom(
 													$wp_customize,
-													WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-position]',
+													WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-position]',
 													array(
 														'label'    => __( 'Background position', 'wm_domain' ),
 														'section'  => $customizer_section,
@@ -566,7 +562,7 @@
 												) );
 
 										$wp_customize->add_setting(
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-repeat]',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-repeat]',
 												array(
 													'type'                 => $type,
 													'default'              => ( isset( $default['repeat'] ) ) ? ( $default['repeat'] ) : ( 'no-repeat' ),
@@ -578,7 +574,7 @@
 
 											$wp_customize->add_control( new WM_Customizer_Radiocustom(
 													$wp_customize,
-													WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-repeat]',
+													WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-repeat]',
 													array(
 														'label'    => __( 'Background repeat', 'wm_domain' ),
 														'section'  => $customizer_section,
@@ -589,7 +585,7 @@
 												) );
 
 										$wp_customize->add_setting(
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-attachment]',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-attachment]',
 												array(
 													'type'                 => $type,
 													'default'              => ( isset( $default['attachment'] ) ) ? ( $default['attachment'] ) : ( 'scroll' ),
@@ -600,7 +596,7 @@
 											);
 
 											$wp_customize->add_control(
-													WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-attachment]',
+													WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-attachment]',
 													array(
 														'label'    => __( 'Background attachment', 'wm_domain' ),
 														'section'  => $customizer_section,
@@ -611,7 +607,7 @@
 												);
 
 										$wp_customize->add_setting(
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-size]',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-size]',
 												array(
 													'type'                 => $type,
 													'default'              => ( isset( $default['size'] ) ) ? ( $default['size'] ) : ( '' ),
@@ -623,7 +619,7 @@
 
 											$wp_customize->add_control( new WM_Customizer_Radiocustom(
 													$wp_customize,
-													WM_THEME_SETTINGS_SKIN . '[' . $option_id . '-bg-size]',
+													WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-size]',
 													array(
 														'label'    => __( 'CSS3 background size', 'wm_domain' ),
 														'section'  => $customizer_section,
@@ -643,7 +639,7 @@
 								case 'color':
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'type'                 => $type,
 												'default'              => trim( $default, '#' ),
@@ -655,7 +651,7 @@
 
 									$wp_customize->add_control( new WP_Customize_Color_Control(
 											$wp_customize,
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'label'       => $skin_option['label'],
 												'description' => $description,
@@ -676,7 +672,7 @@
 									if ( wm_check_wp_version( 4 ) ) {
 
 										$wp_customize->add_setting(
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -687,7 +683,7 @@
 											);
 
 										$wp_customize->add_control(
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
 													'type'        => 'email',
 													'label'       => $skin_option['label'],
@@ -707,7 +703,7 @@
 								case 'hidden':
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'type'                 => $type,
 												'default'              => $default,
@@ -719,7 +715,7 @@
 
 									$wp_customize->add_control( new WM_Customizer_Hidden(
 											$wp_customize,
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'label'    => 'HIDDEN FIELD',
 												'section'  => $customizer_section,
@@ -740,7 +736,7 @@
 									}
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'sanitize_callback'    => 'wm_sanitize_text',
 												'sanitize_js_callback' => 'wm_sanitize_text',
@@ -749,7 +745,7 @@
 
 									$wp_customize->add_control( new WM_Customizer_HTML(
 											$wp_customize,
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'label'    => $skin_option['content'],
 												'section'  => $customizer_section,
@@ -765,7 +761,7 @@
 								case 'image':
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'type'                 => $type,
 												'default'              => $default,
@@ -777,13 +773,13 @@
 
 									$wp_customize->add_control( new WM_Customizer_Image(
 											$wp_customize,
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'label'       => $skin_option['label'],
 												'description' => $description,
 												'section'     => $customizer_section,
 												'priority'    => $priority,
-												'context'     => WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+												'context'     => WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											)
 										) );
 
@@ -796,7 +792,7 @@
 								case 'radio':
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'type'                 => $type,
 												'default'              => $default,
@@ -807,7 +803,7 @@
 										);
 
 									$wp_customize->add_control(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'label'       => $skin_option['label'],
 												'description' => $description,
@@ -826,7 +822,7 @@
 								case 'multiselect':
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'type'                 => $type,
 												'default'              => $default,
@@ -838,7 +834,7 @@
 
 									$wp_customize->add_control( new WM_Customizer_Multiselect(
 											$wp_customize,
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'label'       => $skin_option['label'],
 												'description' => $description,
@@ -860,7 +856,7 @@
 								case 'slider':
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'type'                 => $type,
 												'default'              => $default,
@@ -872,7 +868,7 @@
 
 									$wp_customize->add_control( new WM_Customizer_Range(
 											$wp_customize,
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'label'       => $skin_option['label'],
 												'description' => $description,
@@ -894,7 +890,7 @@
 									if ( wm_check_wp_version( 4 ) ) {
 
 										$wp_customize->add_setting(
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -905,7 +901,7 @@
 											);
 
 										$wp_customize->add_control(
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
 													'type'        => 'password',
 													'label'       => $skin_option['label'],
@@ -925,7 +921,7 @@
 								case 'radiocustom':
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'type'                 => $type,
 												'default'              => $default,
@@ -937,7 +933,7 @@
 
 									$wp_customize->add_control( new WM_Customizer_Radiocustom(
 											$wp_customize,
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'label'       => $skin_option['label'],
 												'description' => $description,
@@ -956,7 +952,7 @@
 								case 'select':
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'type'                 => $type,
 												'default'              => $default,
@@ -968,7 +964,7 @@
 
 									$wp_customize->add_control( new WM_Customizer_Select(
 											$wp_customize,
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'label'       => $skin_option['label'],
 												'description' => $description,
@@ -986,7 +982,7 @@
 								case 'text':
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'type'                 => $type,
 												'default'              => $default,
@@ -997,7 +993,7 @@
 										);
 
 									$wp_customize->add_control(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'label'       => $skin_option['label'],
 												'description' => $description,
@@ -1016,7 +1012,7 @@
 								case 'textarea':
 
 									$wp_customize->add_setting(
-											WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
 												'type'                 => $type,
 												'default'              => $default,
@@ -1029,7 +1025,7 @@
 									if ( wm_check_wp_version( 4 ) ) {
 
 										$wp_customize->add_control(
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
 													'type'        => 'textarea',
 													'label'       => $skin_option['label'],
@@ -1043,7 +1039,7 @@
 
 										$wp_customize->add_control( new WM_Customizer_Textarea(
 												$wp_customize,
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
 													'label'       => $skin_option['label'],
 													'description' => $description,
@@ -1066,7 +1062,7 @@
 									if ( wm_check_wp_version( 4 ) ) {
 
 										$wp_customize->add_setting(
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -1077,7 +1073,7 @@
 											);
 
 										$wp_customize->add_control(
-												WM_THEME_SETTINGS_SKIN . '[' . $option_id . ']',
+												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
 													'type'        => 'url',
 													'label'       => $skin_option['label'],
@@ -1148,27 +1144,27 @@
 				//Get customizer $_POST values
 					$customizer_values = json_decode( wp_unslash( $_POST['customized'] ), true );
 
-				//Process the customizer values and get only those from WM_THEME_SETTINGS_SKIN
+				//Process the customizer values and get only those from WM_OPTION_CUSTOMIZER
 					foreach ( $customizer_values as $key => $value ) {
 						if (
-								false !== strpos( $key, WM_THEME_SETTINGS_SKIN )
+								false !== strpos( $key, WM_OPTION_CUSTOMIZER )
 								&& false === strpos( $key, 'custom-title-' ) //ignore Customizer sections titles
 							) {
-							$key = str_replace( array( WM_THEME_SETTINGS_SKIN, '[', ']' ), '', $key );
+							$key = str_replace( array( WM_OPTION_CUSTOMIZER, '[', ']' ), '', $key );
 							$output[ $key ] = $value;
 						}
 					}
 
 				//Set a new skin file name
 					if (
-							isset( $output[ WM_THEME_SETTINGS_PREFIX . 'skin-new' ] )
-							&& isset( $output[ WM_THEME_SETTINGS_PREFIX . 'skin-load' ] )
+							isset( $output[ WM_OPTION_PREFIX . 'skin-new' ] )
+							&& isset( $output[ WM_OPTION_PREFIX . 'skin-load' ] )
 						) {
-						$skin_load = $output[ WM_THEME_SETTINGS_PREFIX . 'skin-load' ];
-						$skin_new  = sanitize_title( $output[ WM_THEME_SETTINGS_PREFIX . 'skin-new' ] );
+						$skin_load = $output[ WM_OPTION_PREFIX . 'skin-load' ];
+						$skin_new  = sanitize_title( $output[ WM_OPTION_PREFIX . 'skin-new' ] );
 
-						unset( $output[ WM_THEME_SETTINGS_PREFIX . 'skin-load' ] );
-						unset( $output[ WM_THEME_SETTINGS_PREFIX . 'skin-new' ] );
+						unset( $output[ WM_OPTION_PREFIX . 'skin-load' ] );
+						unset( $output[ WM_OPTION_PREFIX . 'skin-new' ] );
 					}
 
 				//Create a new skin
@@ -1178,7 +1174,7 @@
 							if ( ! wma_create_folder( $theme_skin_dir ) ) {
 								set_transient( 'wmamp-admin-notice', array( "<strong>ERROR: Wasn't able to create a theme skins folder! Contact the theme support.</strong>", 'error', 'switch_themes', 2 ), ( 60 * 60 * 48 ) );
 
-								delete_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . '-skins' );
+								delete_option( 'wm-' . WM_THEME_SHORTNAME . '-skins' );
 								return false;
 							}
 
@@ -1191,12 +1187,12 @@
 								wma_write_local_file( $json_path, json_encode( $output ) );
 
 								//Remove load/save skin names from settings in DB
-									$skin_settings = get_option( WM_THEME_SETTINGS_SKIN );
-									unset( $skin_settings[ WM_THEME_SETTINGS_PREFIX . 'skin-load' ] );
-									unset( $skin_settings[ WM_THEME_SETTINGS_PREFIX . 'skin-new' ] );
-									update_option( WM_THEME_SETTINGS_SKIN, $skin_settings );
+									$skin_settings = get_option( WM_OPTION_CUSTOMIZER );
+									unset( $skin_settings[ WM_OPTION_PREFIX . 'skin-load' ] );
+									unset( $skin_settings[ WM_OPTION_PREFIX . 'skin-new' ] );
+									update_option( WM_OPTION_CUSTOMIZER, $skin_settings );
 
-								update_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . '-skins', array_unique( array( WM_SKINS_DIR, WM_SKINS_DIR_CHILD, $theme_skin_dir ) ) );
+								update_option( 'wm-' . WM_THEME_SHORTNAME . '-skins', array_unique( array( WM_SKINS_DIR, WM_SKINS_DIR_CHILD, $theme_skin_dir ) ) );
 
 								//Run additional actions
 									do_action( 'wmhook_save_skin', $skin_new, $customizer_values );
@@ -1204,7 +1200,7 @@
 								return true;
 							}
 
-						delete_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . '-skins' );
+						delete_option( 'wm-' . WM_THEME_SHORTNAME . '-skins' );
 
 				//Load a selected skin
 					} elseif ( $skin_load ) {
@@ -1226,8 +1222,8 @@
 						//Decoding new imported skin JSON string and converting object to array
 							if ( ! empty( $skin_load ) ) {
 								$skin_load = json_decode( trim( $skin_load ), true );
-								update_option( WM_THEME_SETTINGS_SKIN, $skin_load );
-								update_option( WM_THEME_SETTINGS_PREFIX . WM_THEME_SHORTNAME . '-skin-used', $skin_slug );
+								update_option( WM_OPTION_CUSTOMIZER, $skin_load );
+								update_option( 'wm-' . WM_THEME_SHORTNAME . '-skin-used', $skin_slug );
 							}
 
 						//Run additional actions
