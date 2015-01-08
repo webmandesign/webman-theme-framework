@@ -62,6 +62,19 @@
 
 
 
+	/**
+	 * Global variables
+	 */
+
+		//Get theme options
+			$wm_theme_options = get_option( WM_OPTION_CUSTOMIZER );
+
+			if ( empty( $wm_theme_options ) ) {
+				$wm_theme_options = array();
+			}
+
+
+
 
 
 /**
