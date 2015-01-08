@@ -7,7 +7,8 @@
  * @package    WebMan WordPress Theme Framework
  * @copyright  2014 WebMan - Oliver Juhas
  * @license    GPL-2.0+, http://www.gnu.org/licenses/gpl-2.0.html
- * @version    4.0
+ *
+ * @version  4.0
  *
  * @link  https://github.com/webmandesign/webman-theme-framework
  * @link  http://www.webmandesign.eu
