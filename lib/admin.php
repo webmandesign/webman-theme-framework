@@ -29,7 +29,7 @@
 		locate_template( WM_SETUP_DIR . 'about/about.php', true );
 
 	//Theme Updater
-		if ( apply_filters( 'wmhook_enable_update_notifier', true ) ) {
+		if ( apply_filters( 'wmhook_enable_update_notifier', false ) ) {
 			locate_template( WM_LIBRARY_DIR . 'inc/update-notifier.php', true );
 		}
 

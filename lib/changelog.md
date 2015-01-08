@@ -2,17 +2,52 @@
 
 ## 4.0
 
-* Added support for optgroups in Customizer select fields
-* Improved code in several functions
-* Updated saving of file paths for easier site transfer
-* Removed obsolete filters
-* Removed obsolete functions
-* Removed GZIP option from generating main CSS file
+* This is a major update/simplification
+* ADDED: WordPress 4.1+ support
+* ADDED: ZillaLikes native support
+* UPDATED: Improved and optimized code
+* UPDATED: Improved conditional loading of files
+* UPDATED: Constants
+* UPDATED: CSS minifier function
+* UPDATED: Theme upgrade function/action
+* UPDATED: Dropped IE8 support, using only modern CSS styles
+* UPDATED: Localization functions and strings
+* UPDATED: Customizer: options saving
+* UPDATED: Customizer: custom controls
+* UPDATED: Customizer: file paths for easier site transfer
+* UPDATED: Customizer: renamed `wmhook_theme_options_skin_array` to `wmhook_theme_options`
+* UPDATED: Theme update notifier: disabled by default
+* UPDATED: Theme update notifier: texts and functions
+* FIXED: Hook names
+* FIXED: Customizer: stylesheet enqueuing
+* FIXED: Customizer: control type setup
+* REMOVED: GZIP option from generating main CSS file
+* REMOVED: Obsolete hooks and filters
+* REMOVED: Obsolete functions (favicons, thumbnails, not-found, search form, comments navigation, integer sanitization, gallery and excerpt modifications)
+* REMOVED: Renamed and/or removed files
 
 #### Files changed:
 	admin.php
 	core.php
-	skinning.php
+	customizer.php
+	css/about.css
+	css/admin.css
+	css/customizer.css
+	css/rtl-about.css
+	css/rtl-admin.css
+	css/rtl-admin-woocommerce.css
+	inc/class-tgm-plugin-activation.php
+	inc/hooks.php
+	inc/update-notifier.php
+	inc/controls/class-WM_Customizer_Hidden.php
+	inc/controls/class-WM_Customizer_HTML.php
+	inc/controls/class-WM_Customizer_Image.php
+	inc/controls/class-WM_Customizer_Multiselect.php
+	inc/controls/class-WM_Customizer_Radiocustom.php
+	inc/controls/class-WM_Customizer_Range.php
+	inc/controls/class-WM_Customizer_Textarea.php
+	js/customizer-preview.js
+	js/customizer.js
 
 
 ## 3.4

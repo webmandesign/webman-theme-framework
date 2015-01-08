@@ -5,11 +5,12 @@
  * A set of core functions.
  *
  * @package    WebMan WordPress Theme Framework
- * @author     WebMan
- * @license    GPL-2.0+
- * @link       http://www.webmandesign.eu
  * @copyright  2014 WebMan - Oliver Juhas
+ * @license    GPL-2.0+, http://www.gnu.org/licenses/gpl-2.0.html
  * @version    4.0
+ *
+ * @link  https://github.com/webmandesign/webman-theme-framework
+ * @link  http://www.webmandesign.eu
  *
  * CONTENT:
  * -   0) Constants
@@ -301,105 +302,6 @@
  */
 
 	/**
-	 * Thumbnail image
-	 *
-	 * @param   array $args Heading setup arguments
-	 *
-	 * @return  string HTML of post thumbnail in image container
-	 *
-	 * @todo  check this function
-	 */
-	if ( ! function_exists( 'wm_thumb' ) ) {
-		function wm_thumb( $args = array() ) {
-			//Helper variables
-				$output = apply_filters( 'wmhook_wm_thumb_preprocess_output', '' );
-
-				//Requirements check
-					if ( $output ) {
-						return apply_filters( 'wmhook_wm_thumb_output', $output );
-					}
-
-				//Parse arguments
-					$args = wp_parse_args( $args, apply_filters( 'wmhook_wm_thumb_defaults', array(
-							'attr-img'    => array(),                                             //array; check WordPress codex on this
-							'attr-link'   => array(),                                             //array; additional link HTML attributes
-							'class'       => 'image-container post-thumbnail',                    //string; image container additional CSS classes
-							'link'        => '',                                                  //string; url
-							'addon'       => '',                                                  //string; such as link overlay content
-							'placeholder' => false,                                               //boolean; whether to display placeholder image if no featured image
-							'post'        => null,                                                //object; WordPress post object
-							'size'        => 'medium',                                            //string; image size
-							'output'      => '<div class="{class}"><a>{image}{addon}</a></div>',  //output markup
-						) ) );
-
-				//Getting parent post ID
-					if ( ! $args['post'] ) {
-						global $post;
-
-						$args['post'] = $post;
-					}
-					$post_id = $args['post']->ID;
-
-				//Getting image
-					$attachment          = ( has_post_thumbnail( $post_id ) ) ? ( get_post( get_post_thumbnail_id( $post_id ) ) ) : ( '' );
-					$attachment_title[0] = ( isset( $attachment->post_title ) ) ? ( trim( strip_tags( $attachment->post_title ) ) ) : ( '' );
-					$attachment_title[1] = ( isset( $attachment->post_excerpt ) ) ? ( trim( strip_tags( $attachment->post_excerpt ) ) ) : ( '' );
-
-					$args['attr-img'] = wp_parse_args( $args['attr-img'], array(
-							'title' => apply_filters( 'wmhook_wm_thumb_attachment_title', esc_attr( implode( ' | ', array_filter( $attachment_title ) ) ) )
-						) );
-
-					$image = '';
-					if ( $attachment ) {
-						$image = get_the_post_thumbnail( $post_id, $args['size'], $args['attr-img'] );
-					} elseif ( $args['placeholder'] ) {
-						$image = apply_filters( 'wmhook_wm_thumb_placeholder_image', '<img src="' . wm_get_stylesheet_directory_uri( 'assets/images/placeholder/' . $args['size'] . '.png' ) . '" alt="" />' );
-					}
-
-				//Setting link
-					if ( trim( $args['link'] ) ) {
-						if ( is_array( $args['attr-link'] ) ) {
-							$attr_link = '';
-							foreach ( $args['attr-link'] as $key => $value ) {
-								$attr_link .= ' ' . $key . '="' . esc_attr( $value ) . '"';
-							}
-							$args['attr-link'] = $attr_link;
-						}
-
-						if ( 0 === strpos( $args['link'], 'bigimage' ) && $attachment ) {
-							$image_size = trim( str_replace( array( 'bigimage', '|' ), '', $args['link'] ) );
-							if ( ! $image_size ) {
-								$image_size = 'full';
-							}
-							$args['link'] = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), $image_size );
-							$args['link'] = $args['link'][0];
-						}
-
-
-						$args['link'] = '<a href="' . esc_url( trim( $args['link'] ) ) . '"' . $args['attr-link'] . '>';
-					}
-
-			//Preparing output
-				if ( $image ) {
-					$replacements = apply_filters( 'wmhook_wm_thumb_replacements', array(
-							'{addon}' => trim( $args['addon'] ),
-							'<a>'     => ( $args['link'] ) ? ( $args['link'] ) : ( '' ),
-							'</a>'    => ( $args['link'] ) ? ( '</a>' ) : ( '' ),
-							'{class}' => esc_attr( trim( $args['class'] ) ),
-							'{image}' => $image,
-						) );
-
-					$output = strtr( $args['output'], $replacements );
-				}
-
-			//Output
-				return apply_filters( 'wmhook_wm_thumb_output', $output );
-		}
-	} // /wm_thumb
-
-
-
-	/**
 	 * Table of contents from <!--nextpage--> tag
 	 *
 	 * Will create a table of content in multipage post from
@@ -416,6 +318,7 @@
 			//Helper variables
 				global $page, $numpages, $multipage, $post;
 
+				//translators: %s will be replaced with parted post title. Copy it, do not translate.
 				$title_text = apply_filters( 'wmhook_wm_nextpage_table_of_contents_title_text', sprintf( __( '"%s" table of contents', 'wm_domain' ), get_the_title() ) );
 				$title      = apply_filters( 'wmhook_wm_nextpage_table_of_contents_title', '<h2 class="screen-reader-text">' . $title_text . '</h2>' );
 
@@ -613,7 +516,7 @@
 									$replacements = array(
 											'{attributes}' => '',
 											'{class}'      => 'comments-link entry-meta-element',
-											'{content}'    => '<a href="' . get_permalink( $args['post_id'] ) . $element_id . '" title="' . esc_attr( sprintf( __( 'Comments: %s', 'wm_domain' ), $helper ) ) . '">' . sprintf( __( '<span class="comments-title">Comments: </span>%s', 'wm_domain' ), '<span class="comments-count">' . $helper . '</span>' ) . '</a>',
+											'{content}'    => '<a href="' . get_permalink( $args['post_id'] ) . $element_id . '" title="' . esc_attr( sprintf( _x( 'Comments: %s', 'Number of comments in post meta.', 'wm_domain' ), $helper ) ) . '">' . sprintf( _x( '<span class="comments-title">Comments: </span>%s', 'Number of comments in post meta (keep the HTML tags).', 'wm_domain' ), '<span class="comments-count">' . $helper . '</span>' ) . '</a>',
 										);
 								}
 
@@ -644,7 +547,7 @@
 									$replacements = array(
 											'{attributes}' => '',
 											'{class}'      => 'entry-edit entry-meta-element',
-											'{content}'    => '<a href="' . esc_url( $helper ) . '" title="' . esc_attr( sprintf( __( 'Edit the "%s"', 'wm_domain' ), the_title_attribute( $the_title_attribute_args ) ) ) . '"><span>' . __( 'Edit', 'wm_domain' ) . '</span></a>',
+											'{content}'    => '<a href="' . esc_url( $helper ) . '" title="' . esc_attr( sprintf( __( 'Edit the "%s"', 'wm_domain' ), the_title_attribute( $the_title_attribute_args ) ) ) . '"><span>' . _x( 'Edit', 'Edit post link.', 'wm_domain' ) . '</span></a>',
 										);
 								}
 
@@ -677,7 +580,7 @@
 									$replacements = array(
 											'{attributes}' => wm_schema_org( 'url' ),
 											'{class}'      => 'entry-permalink entry-meta-element',
-											'{content}'    => '<a href="' . get_permalink( $args['post_id'] ) . '" title="' . esc_attr( sprintf( __( 'Permalink to %s', 'wm_domain' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
+											'{content}'    => '<a href="' . get_permalink( $args['post_id'] ) . '" title="' . esc_attr( sprintf( __( 'Permalink to "%s"', 'wm_domain' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
 										);
 								}
 
@@ -1281,7 +1184,7 @@
 
 				//Helper viariables
 					$args = wp_parse_args( $args, apply_filters( 'wmhook_wm_generate_main_css_args', array(
-							'message'        => __( "<big>The main theme CSS stylesheet was regenerated.<br /><strong>Please refresh your web browser's and server's cache</strong> <em>(if you are using a website server caching solution)</em>.</big>", 'wm_domain' ),
+							'message'        => _x( "The main theme CSS stylesheet was regenerated.<br /><strong>Please refresh your web browser's and server's cache</strong> <em>(if you are using a website server caching solution)</em>.", 'Translators, please, keep the HTML tags.', 'wm_domain' ),
 							'message_after'  => '',
 							'message_before' => '',
 							'type'           => '',
@@ -1754,7 +1657,7 @@
 			//Add admin bar links
 				$wp_admin_bar->add_menu( apply_filters( 'wmhook_wm_theme_options_admin_bar_parent', array(
 						'id'    => 'wm_theme_options',
-						'title' => __( 'Theme Options', 'wm_domain' ),
+						'title' => _x( 'Theme Options', 'WordPress admin bar theme options links group name.', 'wm_domain' ),
 						'href'  => admin_url( 'customize.php' )
 					) ) );
 

@@ -103,9 +103,7 @@
 				margin: 0 -1px -1px 0;
 				text-align: center;
 				border: 1px dotted #ddd;
-				-webkit-box-sizing: border-box;
-				   -moz-box-sizing: border-box;
-				        box-sizing: border-box;
+				box-sizing: border-box;
 			}
 				.matrix label.active { background: #b0dbee; }
 				.matrix label.active:hover { background: #a0cadd; }

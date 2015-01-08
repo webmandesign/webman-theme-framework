@@ -6,10 +6,10 @@
  *
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Theme update notifier
- * @author      Modifications by WebMan - Oliver Juhas
- * @author      Joao Araujo
- * @link        http://themeforest.net/user/unisphere
- * @link        http://twitter.com/unispheredesign
+ * @copyright   Modifications: 2015 WebMan - Oliver Juhas
+ *
+ * @author  Joao Araujo, modified by WebMan
+ * @link    https://github.com/unisphere/unisphere_notifier
  *
  * @since    3.0
  * @version  4.0
@@ -58,9 +58,9 @@
  */
 
 	//The remote notifier XML file containing the latest version of the theme and changelog
-		define( 'NOTIFIER_XML_FILE', WM_DEVELOPER_URL . '/updates/' . WM_THEME_SHORTNAME . '/' . WM_THEME_SHORTNAME . '-version.xml' );
+		if ( ! defined( 'NOTIFIER_XML_FILE' ) )       define( 'NOTIFIER_XML_FILE',       trailingslashit( WM_DEVELOPER_URL ) . 'updates/' . WM_THEME_SHORTNAME . '/' . WM_THEME_SHORTNAME . '-version.xml' );
 	//The time interval for the remote XML cache in the database (86400 seconds = 24 hours)
-		define( 'NOTIFIER_CACHE_INTERVAL', 86400 );
+		if ( ! defined( 'NOTIFIER_CACHE_INTERVAL' ) ) define( 'NOTIFIER_CACHE_INTERVAL', 86400 );
 
 
 
@@ -105,17 +105,14 @@
 			//Get the latest remote XML file on our server
 				$xml = get_latest_theme_version( NOTIFIER_CACHE_INTERVAL );
 
-			$latestVersion    = wm_update_notifier_sanitize_version( $xml->latest );
-			$installedVersion = wm_update_notifier_sanitize_version( WM_THEME_VERSION );
-
 			//Compare current theme version with the remote XML version
-				if ( $latestVersion > $installedVersion ) {
+				if ( version_compare( $xml->latest, WM_THEME_VERSION, '>' ) ) {
 
 					add_theme_page(
 						//page_title
-						sprintf( __( '%s Theme Updates', 'wm_domain' ), WM_THEME_NAME ),
+						sprintf( _x( '%s Theme Updates', '%s stands for the theme name. Just copy it.', 'wm_domain' ), WM_THEME_NAME ),
 						//menu_title
-						__( 'Theme Updates', 'wm_domain' ) . ' <span class="update-plugins count-1"><span class="update-count">1</span></span>',
+						_x( 'Theme Updates', 'Admin menu title.', 'wm_domain' ) . ' <span class="update-plugins count-1"><span class="update-count">1</span></span>',
 						//capability
 						'switch_themes',
 						//menu_slug
@@ -151,20 +148,21 @@
 			//Get the latest remote XML file on our server
 				$xml = get_latest_theme_version( NOTIFIER_CACHE_INTERVAL );
 
-			$latestVersion    = wm_update_notifier_sanitize_version( $xml->latest );
-			$installedVersion = wm_update_notifier_sanitize_version( WM_THEME_VERSION );
-
 			//Compare current theme version with the remote XML version
-				if( $latestVersion > $installedVersion ) {
+				if ( version_compare( $xml->latest, WM_THEME_VERSION, '>' ) ) {
 
 					$adminURL = get_admin_url() . 'themes.php?page=theme-update-notifier';
-					if ( class_exists( 'Envato_WP_Toolkit' ) && ! isset( $xml->noenvato ) ) {
+
+					if (
+							class_exists( 'Envato_WP_Toolkit' )
+							&& ! isset( $xml->noenvato )
+						) {
 						$adminURL = network_admin_url( 'admin.php?page=envato-wordpress-toolkit' );
 					}
 
 					$wp_admin_bar->add_menu( array(
 							'id'    => 'update_notifier',
-							'title' => sprintf( __( '%s update', 'wm_domain' ), WM_THEME_NAME ) . ' <span id="ab-updates">1</span>',
+							'title' => sprintf( _x( '%s update', 'Admin bar notification link. %s stands for the theme name. Just copy it.', 'wm_domain' ), WM_THEME_NAME ) . ' <span id="ab-updates">1</span>',
 							'href'  => $adminURL
 						) );
 
@@ -172,26 +170,6 @@
 
 		}
 	} // /update_notifier_bar_menu
-
-
-
-	/**
-	 * Updater version sanitizer
-	 *
-	 * Support for nested point releases (such as v1.0.1) - works for versions of up to 9.9
-	 *
-	 * @since  4.0
-	 *
-	 * @param  string $version
-	 *
-	 * @return  float Comparable float version number.
-	 */
-	function wm_update_notifier_sanitize_version( $version ) {
-		$version = sanitize_title( str_replace( '.', '', $version ) );     //1.0.1.9 => 1019
-		$version = substr( $version, 0, 1 ) . '.' . substr( $version, 1 ); //1019    => 1.019
-
-		return (float) $version;
-	} // /wm_update_notifier_sanitize_version
 
 
 
@@ -240,9 +218,9 @@
 
 				<h3>Update Download and Instructions</h3>
 
-				<p>To update the theme you need to <strong>re-download it from the marketplace</strong> you have bought it on.</p>
+				<p>First, please, re-download the new theme update from the source where you've originally obtained the theme.</p>
 
-				<p>Use one of these options to update the theme:</p>
+				<p>Use one of these options to update your theme:</p>
 
 				<?php
 				if ( isset( $xml->important ) ) {
@@ -257,19 +235,19 @@
 					}
 					?>
 					<li>
-						<h4>Easier, but might take longer time:</h4>
+						<h4>Preffered, safer, quicker procedure:</h4>
 						<ol>
-							<li>Unzip the zipped theme file (you have just downloaded) on your computer.</li>
-							<li>Upload the unzipped theme folder using FTP client to your server (into <code>YOUR_WORDPRESS_INSTALLATION/wp-content/themes/</code>) overwriting all the current theme files.</li>
+							<li>Upload the theme installation ZIP file using FTP client to your server (into <code>YOUR_WORDPRESS_INSTALLATION/wp-content/themes/</code>).</li>
+							<li>Using your FTP client, rename the old theme folder (for example from <code><?php echo WM_THEME_SHORTNAME; ?></code> to <code><?php echo WM_THEME_SHORTNAME; ?>-bak</code>).</li>
+							<li>When the old theme folder is renamed, unzip the theme installation zip file directly on the server (you might need to use a web-based FTP tool for this - hosting companies provides such tools).</li>
+							<li>After checking whether the theme works fine, delete the renamed old theme folder from the server (the <code><?php echo WM_THEME_SHORTNAME; ?>-bak</code> folder in our case).</li>
 						</ol>
 					</li>
 					<li>
-						<h4>More advanced, quicker:</h4>
+						<h4>Easier, slower procedure:</h4>
 						<ol>
-							<li>Upload the theme installation ZIP file using FTP client to your server (into <code>YOUR_WORDPRESS_INSTALLATION/wp-content/themes/</code>).</li>
-							<li>Using your FTP client, rename the old theme folder (for example from <code><?php echo WM_THEME_SHORTNAME; ?></code> to <code><?php echo WM_THEME_SHORTNAME; ?>-old</code>).</li>
-							<li>When the old theme folder is renamed, unzip the theme installation zip file directly on the server (you might need to use a web-based FTP tool for this; hosting companies provides such tools).</li>
-							<li>After checking whether the theme works fine, delete the renamed old theme folder from the server.</li>
+							<li>Unzip the zipped theme file (you have just downloaded) on your computer.</li>
+							<li>Upload the unzipped theme folder using FTP client to your server (into <code>YOUR_WORDPRESS_INSTALLATION/wp-content/themes/</code>) overwriting all the current theme files. Please note that if some files were removed from the theme in the new update, you will have to delete these files additionally from your server. For removed files please check the changelog on the right.</li>
 						</ol>
 					</li>
 				</ul>
@@ -331,7 +309,7 @@
 						$cache  = '<?xml version="1.0" encoding="UTF-8"?>';
 						$cache .= '<notifier>';
 							$cache .= '<latest>1.0</latest>';
-							$cache .= '<message><![CDATA[<span style="font-size:125%;color:#f33">Something went wrong: ' . $error . '</span>]]></message>';
+							$cache .= '<message><![CDATA[<span style="font-size:125%;color:#f33">Something went wrong: ' . strip_tags( $error, '<a><span><strong>' ) . '</span>]]></message>';
 							$cache .= '<changelog></changelog>';
 							$cache .= '<changefiles></changefiles>';
 						$cache .= '</notifier>';

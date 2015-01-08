@@ -5,8 +5,9 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Customizer
  * @copyright   2015 WebMan - Oliver Juhas
- * @uses        Theme Customizer Options Array
- * @uses        Custom CSS Styles Generator
+ *
+ * @uses  Customizer options array
+ * @uses  Custom CSS styles generator
  *
  * @since    3.0
  * @version  4.0
@@ -18,8 +19,6 @@
  * - 30) Sanitizing functions
  * - 40) Main customizer function
  * - 50) CSS styles
- *
- * @todo  move something to core.php (like it is in case of wm_generate_css() - think it over!!!)? and make customizer admin only
  */
 
 
@@ -30,10 +29,10 @@
  * 1) Required files
  */
 
-	//Include function to generate the WordPress Customizer CSS
-		locate_template( 'assets/css/_custom-styles.php', true );
-	//Theme options arrays
+	//Customizer options array
 		locate_template( WM_SETUP_DIR . 'setup-theme-options.php', true );
+	//Custom CSS styles generator
+		locate_template( 'assets/css/_custom-styles.php', true );
 
 
 
@@ -53,21 +52,11 @@
 			add_action( 'customize_controls_enqueue_scripts', 'wm_customizer_enqueue_assets'         );
 			add_action( 'customize_preview_init',             'wm_customizer_preview_enqueue_assets' );
 		//Customizer saving
-			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_save_skin'          ,  10 );
-			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_custom_styles_cache',  20 );
-			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_generate_all_css'   , 100 );
+			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_save_skin'        ,  10 );
+			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_generate_all_css' , 100 );
 		//Flushing transients
 			add_action( 'switch_theme',         'wm_custom_styles_transient_flusher' );
 			add_action( 'wmhook_theme_upgrade', 'wm_custom_styles_transient_flusher' );
-
-
-
-	/**
-	 * Filters
-	 */
-
-		//Minify custom CSS
-			add_filter( 'wmhook_wm_custom_styles_output_cache', 'wm_minify_css' );
 
 
 
@@ -529,7 +518,7 @@
 												$wp_customize,
 												WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-url-hidpi]',
 												array(
-													'label'    => __( 'High DPI background image', 'wm_domain' ),
+													'label'    => __( 'Background image (HD)', 'wm_domain' ),
 													'section'  => $customizer_section,
 													'priority' => ++$priority,
 													'context'  => WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-url-hidpi]',
@@ -621,7 +610,7 @@
 													$wp_customize,
 													WM_OPTION_CUSTOMIZER . '[' . $option_id . '-bg-size]',
 													array(
-														'label'    => __( 'CSS3 background size', 'wm_domain' ),
+														'label'    => __( 'Background size', 'wm_domain' ),
 														'section'  => $customizer_section,
 														'priority' => ++$priority,
 														'choices'  => wm_helper_var( 'bg-css', 'size' ),
@@ -1103,7 +1092,7 @@
 
 			//Assets needed for customizer preview
 				if ( $wp_customize->is_preview() ) {
-					add_action( 'wp_head',   'wm_theme_customizer_css'    ); //@todo is this required still?
+					add_action( 'wp_head',   'wm_theme_customizer_css'    );
 					add_action( 'wp_footer', 'wm_theme_customizer_js', 99 );
 				}
 		}
