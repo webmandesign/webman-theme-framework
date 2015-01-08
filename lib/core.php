@@ -5,7 +5,7 @@
  * A set of core functions.
  *
  * @package    WebMan WordPress Theme Framework
- * @copyright  2014 WebMan - Oliver Juhas
+ * @copyright  2015 WebMan - Oliver Juhas
  * @license    GPL-2.0+, http://www.gnu.org/licenses/gpl-2.0.html
  *
  * @version  4.0
@@ -56,6 +56,9 @@
 
 	//URL constants
 		if ( ! defined( 'WM_DEVELOPER_URL' ) )     define( 'WM_DEVELOPER_URL',     'http://www.webmandesign.eu'                                 );
+
+	//Required to set up in the theme's functions.php file
+		if ( ! defined( 'WM_WP_COMPATIBILITY' ) )  define( 'WM_WP_COMPATIBILITY',  4.1                                                          );
 
 
 
@@ -168,9 +171,8 @@
 					) );
 
 				$args = apply_filters( 'wmhook_wm_logo_args', array(
-						'logo_image' => ( function_exists( 'jetpack_get_site_logo' ) ) ? ( array( absint( jetpack_get_site_logo( 'id' ) ) ) ) : ( array( wm_option( 'skin-logo' ), wm_option( 'skin-logo-hidpi' ) ) ),
+						'logo_image' => ( function_exists( 'jetpack_get_site_logo' ) ) ? ( array( absint( jetpack_get_site_logo( 'id' ) ) ) ) : ( array( wm_option( 'logo' ), wm_option( 'logo-hidpi' ) ) ),
 						'logo_type'  => 'text',
-						'logo_size'  => explode( 'x', WM_DEFAULT_LOGO_SIZE ),
 						'title_att'  => ( $blog_info['description'] ) ? ( $blog_info['name'] . ' | ' . $blog_info['description'] ) : ( $blog_info['name'] ),
 						'url'        => home_url( '/' ),
 					) );
