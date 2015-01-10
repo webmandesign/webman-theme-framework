@@ -962,7 +962,7 @@
 					}
 
 				//Premature output
-					$output = apply_filters( 'wmhook_wm_option_output_premature', $output, $option_name, $css, $addon );
+					$output = apply_filters( 'wmhook_wm_option_output_pre', $output, $option_name, $css, $addon );
 
 					if ( $output ) {
 						return apply_filters( 'wmhook_wm_option_output', $output, $option_name, $css, $addon );
