@@ -80,7 +80,7 @@
 			 */
 
 				//Styles
-					wp_register_style( 'wm-customizer', wm_get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'css/customizer.css', false, WM_SCRIPTS_VERSION, 'screen' );
+					wp_register_style( 'wm-customizer', wm_get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'css/customizer.css' ), false, WM_SCRIPTS_VERSION, 'screen' );
 
 				//Scripts
 					wp_register_script( 'wm-customizer', wm_get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'js/customizer.js' ), array( 'customize-controls' ), WM_SCRIPTS_VERSION, true );
