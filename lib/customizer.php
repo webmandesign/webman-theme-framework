@@ -74,11 +74,28 @@
 	 */
 	if ( ! function_exists( 'wm_customizer_enqueue_assets' ) ) {
 		function wm_customizer_enqueue_assets() {
-			//Styles
-				wp_enqueue_style( 'wm-customizer' );
 
-			//Scripts
-				wp_enqueue_script( 'wm-customizer' );
+			/**
+			 * Register
+			 */
+
+				//Styles
+					wp_register_style( 'wm-customizer', wm_get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'css/customizer.css', false, WM_SCRIPTS_VERSION, 'screen' );
+
+				//Scripts
+					wp_register_script( 'wm-customizer', wm_get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'js/customizer.js' ), array( 'customize-controls' ), WM_SCRIPTS_VERSION, true );
+					wp_register_script( 'wm-customizer-preview', wm_get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'js/customizer-preview.js' ), array( 'jquery' ), WM_SCRIPTS_VERSION, true );
+
+			/**
+			 * Enqueue
+			 */
+
+				//Styles
+					wp_enqueue_style( 'wm-customizer' );
+
+				//Scripts
+					wp_enqueue_script( 'wm-customizer' );
+
 		}
 	} // /wm_customizer_enqueue_assets
 

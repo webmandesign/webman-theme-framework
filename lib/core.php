@@ -20,6 +20,7 @@
  * -  20) Branding
  * -  30) SEO
  * -  40) Post/page
+ * -  50) Visual Editor addons
  * - 100) Other functions
  */
 
@@ -729,6 +730,28 @@
 
 
 /**
+ * 50) Visual Editor addons
+ */
+
+	/**
+	 * Include Visual Editor addons
+	 *
+	 * This has to be triggered manually via a theme setup, the core
+	 * doesn't include it by default any more.
+	 *
+	 * @since  4.0
+	 */
+	if ( ! function_exists( 'wm_visual_editor_addons' ) ) {
+		function wm_visual_editor_addons() {
+			locate_template( WM_INC_DIR . 'lib/visual-editor.php', true );
+		}
+	} // /wm_visual_editor_addons
+
+
+
+
+
+/**
  * 100) Other functions
  */
 
@@ -1162,7 +1185,7 @@
 				//Requirements check
 					if (
 							! is_string( $css )
-							&& ! apply_filters( 'wmhook_wm_minify_css_disable', false );
+							&& ! apply_filters( 'wmhook_wm_minify_css_disable', false )
 						) {
 						return $css;
 					}
