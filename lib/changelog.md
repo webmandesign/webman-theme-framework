@@ -18,6 +18,7 @@
 * UPDATED: Customizer: renamed `wmhook_theme_options_skin_array` to `wmhook_theme_options`
 * UPDATED: Theme update notifier: disabled by default
 * UPDATED: Theme update notifier: texts and functions
+* UPDATED: Visual editor addons are now optional
 * FIXED: Hook names
 * FIXED: Customizer: stylesheet enqueuing
 * FIXED: Customizer: control type setup
@@ -39,6 +40,7 @@
 	inc/class-tgm-plugin-activation.php
 	inc/hooks.php
 	inc/update-notifier.php
+	inc/visual-editor.php
 	inc/controls/class-WM_Customizer_Hidden.php
 	inc/controls/class-WM_Customizer_HTML.php
 	inc/controls/class-WM_Customizer_Image.php
