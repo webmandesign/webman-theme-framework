@@ -18,6 +18,7 @@
 * UPDATED: Customizer: renamed `wmhook_theme_options_skin_array` to `wmhook_theme_options`
 * UPDATED: Theme update notifier: disabled by default
 * UPDATED: Theme update notifier: texts and functions
+* UPDATED: Visual editor addons are now optional
 * FIXED: Hook names
 * FIXED: Customizer: stylesheet enqueuing
 * FIXED: Customizer: control type setup
