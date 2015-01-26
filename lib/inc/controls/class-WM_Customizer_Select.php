@@ -8,7 +8,8 @@
  * @subpackage  Customizer
  * @copyright   2015 WebMan - Oliver Juhas
  *
- * @since  4.0
+ * @since    4.0
+ * @version  4.0
  */
 
 

@@ -31,6 +31,7 @@
 
 	//Customizer options array
 		locate_template( WM_SETUP_DIR . 'setup-theme-options.php', true );
+
 	//Custom CSS styles generator
 		locate_template( 'assets/css/_custom-styles.php', true );
 
@@ -52,11 +53,8 @@
 			add_action( 'customize_controls_enqueue_scripts', 'wm_customizer_enqueue_assets'         );
 			add_action( 'customize_preview_init',             'wm_customizer_preview_enqueue_assets' );
 		//Customizer saving
-			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_save_skin'        ,  10 );
-			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_generate_all_css' , 100 );
-		//Flushing transients
-			add_action( 'switch_theme',         'wm_custom_styles_transient_flusher' );
-			add_action( 'wmhook_theme_upgrade', 'wm_custom_styles_transient_flusher' );
+			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_save_skin'       ,  10 );
+			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_generate_all_css', 100 );
 
 
 
@@ -104,7 +102,8 @@
 		/**
 		 * Customizer preview assets enqueue
 		 *
-		 * @since  4.0
+		 * @since    4.0
+		 * @version  4.0
 		 */
 		if ( ! function_exists( 'wm_customizer_preview_enqueue_assets' ) ) {
 			function wm_customizer_preview_enqueue_assets() {
@@ -250,7 +249,8 @@
 	/**
 	 * Sanitize texts
 	 *
-	 * @since  4.0
+	 * @since    4.0
+	 * @version  4.0
 	 *
 	 * @param  mixed $value WP customizer value to sanitize.
 	 */
@@ -264,6 +264,8 @@
 
 	/**
 	 * No sanitization at all, simply return the value
+	 *
+	 * Useful for when the value may be of mixed type, such as array-or-string.
 	 *
 	 * @param  mixed $value WP customizer value to sanitize.
 	 */
@@ -397,8 +399,8 @@
 							 *
 							 * Panels were introduced in WordPress 4.0 and are wrappers for customizer sections.
 							 * Note that the panel will not be displayed unless sections are assigned to it.
-							 * The panel you define in theme options array will be active unless you reset its name.
 							 * Set the panel name in the section declaration with 'theme-customizer-panel' attribute.
+							 * Panel has to be defined for each section to prevent all sections residing within a single panel.
 							 *
 							 * @link  http://make.wordpress.org/core/2014/07/08/customizer-improvements-in-4-0/
 							 *
@@ -408,21 +410,24 @@
 							if (
 									wm_check_wp_version( 4 )
 									&& isset( $skin_option['theme-customizer-panel'] )
-									&& $customizer_panel != $skin_option['theme-customizer-panel']
 								) {
 
-								if ( empty( $option_id ) ) {
-									$option_id = sanitize_title( trim( $skin_option['theme-customizer-panel'] ) );
-								}
+								$panel_id = sanitize_title( trim( $skin_option['theme-customizer-panel'] ) );
 
-								$wp_customize->add_panel(
-										$option_id,
-										array(
-											'title'       => $skin_option['theme-customizer-panel'], //panel title
-											'description' => ( isset( $skin_option['theme-customizer-panel-description'] ) ) ? ( $skin_option['theme-customizer-panel-description'] ) : ( '' ), //Displayed at the top of panel
-											'priority'    => $priority,
-										)
-									);
+								if ( $customizer_panel != $panel_id ) {
+
+									$wp_customize->add_panel(
+											$panel_id,
+											array(
+												'title'       => $skin_option['theme-customizer-panel'], //panel title
+												'description' => ( isset( $skin_option['theme-customizer-panel-description'] ) ) ? ( $skin_option['theme-customizer-panel-description'] ) : ( '' ), //Displayed at the top of panel
+												'priority'    => $priority,
+											)
+										);
+
+									$customizer_panel = $panel_id;
+
+								}
 
 							}
 
@@ -461,7 +466,7 @@
 									);
 
 								$customizer_section = $customizer_section['id'];
-								$customizer_panel   = ''; //The panel need to be defined for each section separatelly, otherwise all the sections would reside within a single panel.
+								$customizer_panel   = ''; //Panel has to be defined for each section to prevent all sections residing within a single panel.
 
 							}
 
@@ -1129,6 +1134,7 @@
 	 * Creates a new skin JSON file and/or
 	 * loads a selected skin settings.
 	 *
+	 * @since    3.0
 	 * @version  3.4
 	 */
 	if ( ! function_exists( 'wm_save_skin' ) ) {

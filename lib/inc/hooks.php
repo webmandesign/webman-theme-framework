@@ -266,7 +266,8 @@
 		/**
 		 * Semantic <sidebar> hooks
 		 *
-		 * IMPORTANT: These funcitons can't echo, only return!
+		 * IMPORTANT:
+		 * These functions can both echo and return.
 		 *
 		 * @return  string
 		 */

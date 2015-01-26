@@ -171,8 +171,6 @@
 	 *
 	 * @since    3.0
 	 * @version  4.0
-	 *
-	 * @version  3.1
 	 */
 	if ( ! function_exists( 'wm_logo' ) ) {
 		function wm_logo() {
@@ -266,47 +264,68 @@
 	/**
 	 * SEO website meta title
 	 *
-	 * Not needed since WordPress 4.1, that's why the add_filter()
-	 * is encapsulated in the conditional check.
+	 * Not needed since WordPress 4.1.
+	 *
+	 * @todo Remove this when WordPress 4.3 is released.
 	 *
 	 * @since    3.0 (under wm_seo_title() name)
 	 * @version  4.0
-	 *
-	 * @param  string $title
-	 * @param  string $sep
 	 */
-	if ( ! function_exists( 'wm_title' ) && ! function_exists( '_wp_render_title_tag' ) ) {
+	if ( ! function_exists( '_wp_render_title_tag' ) ) {
 
-		function wm_title( $title, $sep ) {
-			//Requirements check
-				if ( is_feed() ) {
-					return $title;
-				}
-
-			//Helper variables
-				$sep = ' ' . trim( $sep ) . ' ';
-
-			//Preparing output
-				$title .= get_bloginfo( 'name', 'display' );
-
-				//Site description
-					if (
-							( $site_description = get_bloginfo( 'description', 'display' ) )
-							&& ( is_home() || is_front_page() )
-						) {
-						$title .= $sep . $site_description;
+		/**
+		 * SEO website meta title
+		 *
+		 * @param  string $title
+		 * @param  string $sep
+		 */
+		if ( ! function_exists( 'wm_title' ) ) {
+			function wm_title( $title, $sep ) {
+				//Requirements check
+					if ( is_feed() ) {
+						return $title;
 					}
 
-				//Pagination / parts
-					if ( wm_paginated_suffix() && ! is_404() ) {
-						$title .= $sep . wm_paginated_suffix();
-					}
+				//Helper variables
+					$sep = ' ' . trim( $sep ) . ' ';
 
-			//Output
-				return esc_attr( $title );
+				//Preparing output
+					$title .= get_bloginfo( 'name', 'display' );
+
+					//Site description
+						if (
+								( $site_description = get_bloginfo( 'description', 'display' ) )
+								&& ( is_home() || is_front_page() )
+							) {
+							$title .= $sep . $site_description;
+						}
+
+					//Pagination / parts
+						if ( wm_paginated_suffix() && ! is_404() ) {
+							$title .= $sep . wm_paginated_suffix();
+						}
+
+				//Output
+					return esc_attr( $title );
+			}
+
+			add_filter( 'wp_title', 'wm_title', 10, 2 );
+		} // /wm_title
+
+
+
+		/**
+		 * Title shim
+		 *
+		 * @link https://make.wordpress.org/core/2014/10/29/title-tags-in-4-1/
+		 */
+		function _wp_render_title_tag() {
+			?>
+			<title><?php wp_title( '|', true, 'right' ); ?></title>
+			<?php
 		}
 
-		add_filter( 'wp_title', 'wm_title', 10, 2 );
+		add_action( 'wp_head', '_wp_render_title_tag', -99 );
 
 	} // /wm_title
 
@@ -699,7 +718,8 @@
 	/**
 	 * Checks for <!--more--> tag in post content
 	 *
-	 * @since  4.0
+	 * @since    4.0
+	 * @version  4.0
 	 *
 	 * @param  obj/absint $post
 	 */
@@ -739,11 +759,12 @@
 	 * This has to be triggered manually via a theme setup, the core
 	 * doesn't include it by default any more.
 	 *
-	 * @since  4.0
+	 * @since    4.0
+	 * @version  4.0
 	 */
 	if ( ! function_exists( 'wm_visual_editor_addons' ) ) {
 		function wm_visual_editor_addons() {
-			locate_template( WM_INC_DIR . 'lib/visual-editor.php', true );
+			locate_template( WM_LIBRARY_DIR . 'inc/visual-editor.php', true );
 		}
 	} // /wm_visual_editor_addons
 
@@ -776,7 +797,8 @@
 	/**
 	 * Do action on theme version change
 	 *
-	 * @since  4.0
+	 * @since    4.0
+	 * @version  4.0
 	 */
 	if ( ! function_exists( 'wm_theme_upgrade' ) ) {
 		function wm_theme_upgrade() {
@@ -962,9 +984,9 @@
 		 * @since    3.0
 		 * @version  4.0
 		 *
-		 * @param   string $option_name Option name without WM_OPTION_PREFIX prefix
-		 * @param   string $css         CSS to output ["color" = HEX color, "bgimg" = background image styles]
-		 * @param   string $addon       Will be added to the value if the value is not empty
+		 * @param  string $option_name Option name without WM_OPTION_PREFIX prefix
+		 * @param  string $css         CSS to output ["color" = HEX color, "bgimg" = background image styles]
+		 * @param  string $addon       Will be added to the value if the value is not empty
 		 *
 		 * @return  mixed Option value.
 		 */
@@ -1099,14 +1121,36 @@
 	 */
 
 		/**
+		 * CSS escaping
+		 *
+		 * Use this for custom CSS output only!
+		 * Uses `esc_attr()` while keeping quote marks.
+		 *
+		 * @uses  esc_attr()
+		 *
+		 * @since    4.0
+		 * @version  4.0
+		 *
+		 * @param  string $css Code to escape
+		 */
+		if ( ! function_exists( 'wm_esc_css' ) ) {
+			function wm_esc_css( $css ) {
+				return str_replace( array( '&gt;', '&quot;', '&#039;' ), array( '>', '"', '\'' ), esc_attr( (string) $css ) );
+			}
+		} // /wm_esc_css
+
+
+
+		/**
 		 * Outputs path to the specific file
 		 *
 		 * This function looks for the file in the child theme first.
 		 * If the file is not located in child theme, output the path from parent theme.
 		 *
-		 * @since   3.1
+		 * @since    3.1
+		 * @version  3.1
 		 *
-		 * @param   string $file_relative_path File to look for (insert also the relative path inside the theme)
+		 * @param  string $file_relative_path File to look for (insert also the relative path inside the theme)
 		 *
 		 * @return  string Actual path to the file
 		 */
@@ -1142,7 +1186,7 @@
 		 * This function looks for the file in the child theme first.
 		 * If the file is not located in child theme, output the URL from parent theme.
 		 *
-		 * @param   string $file_relative_path File to look for (insert also the relative path inside the theme)
+		 * @param  string $file_relative_path File to look for (insert also the relative path inside the theme)
 		 *
 		 * @return  string Actual URL to the file
 		 */
@@ -1178,7 +1222,7 @@
 		 * @since    3.0
 		 * @version  4.0
 		 *
-		 * @param    string $css Code to minimize
+		 * @param  string $css Code to minimize
 		 */
 		if ( ! function_exists( 'wm_minify_css' ) ) {
 			function wm_minify_css( $css ) {
@@ -1191,12 +1235,12 @@
 					}
 
 				//Praparing output
-					$css = apply_filters( 'wmhook_wm_minify_css_preprocess', $css );
+					$css = apply_filters( 'wmhook_wm_minify_css_pre', $css );
 
 					//Remove CSS comments
 						$css = preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css );
 					//Remove tabs, spaces, line breaks, etc.
-						$css = str_replace( array( "\r\n", "\r", "\n", "\t", '  ', '   ' ), '', $css );
+						$css = str_replace( array( "\r\n", "\r", "\n", "\t", '//', '  ', '   ' ), '', $css );
 						$css = str_replace( array( ' { ', ': ', '; }' ), array( '{', ':', '}' ), $css );
 
 				//Output
@@ -1212,7 +1256,7 @@
 		 * @since    3.0
 		 * @version  4.0
 		 *
-		 * @param    boolean $args
+		 * @param  boolean $args
 		 */
 		if ( ! function_exists( 'wm_generate_main_css' ) ) {
 			function wm_generate_main_css( $args = array() ) {
@@ -1489,8 +1533,8 @@
 	 * @since    3.0
 	 * @version  4.0
 	 *
-	 * @link   http://pippinsplugins.com/retrieve-attachment-id-from-image-url/
-	 * @link   http://make.wordpress.org/core/2012/12/12/php-warning-missing-argument-2-for-wpdb-prepare/
+	 * @link  http://pippinsplugins.com/retrieve-attachment-id-from-image-url/
+	 * @link  http://make.wordpress.org/core/2012/12/12/php-warning-missing-argument-2-for-wpdb-prepare/
 	 *
 	 * @param  string $url
 	 */
@@ -1537,7 +1581,8 @@
 		/**
 		 * Flush out the transients used in wm_get_image_id_from_url
 		 *
-		 * @since  4.0
+		 * @since    4.0
+		 * @version  4.0
 		 */
 		if ( ! function_exists( 'wm_image_ids_transient_flusher' ) ) {
 			function wm_image_ids_transient_flusher() {
@@ -1550,7 +1595,8 @@
 	/**
 	 * Returns true if a blog has more than 1 category
 	 *
-	 * @since  4.0
+	 * @since    4.0
+	 * @version  4.0
 	 */
 	if ( ! function_exists( 'wm_is_categorized_blog' ) ) {
 		function wm_is_categorized_blog() {
@@ -1587,7 +1633,8 @@
 		/**
 		 * Flush out the transients used in wm_is_categorized_blog
 		 *
-		 * @since  4.0
+		 * @since    4.0
+		 * @version  4.0
 		 */
 		if ( ! function_exists( 'wm_all_categories_transient_flusher' ) ) {
 			function wm_all_categories_transient_flusher() {
@@ -1713,5 +1760,109 @@
 					}
 		}
 	} // /wm_theme_options_admin_bar
+
+
+
+	/**
+	 * Shim for `the_archive_title()`.
+	 *
+	 * Display the archive title based on the queried object.
+	 *
+	 * @todo Remove this function when WordPress 4.3 is released.
+	 *
+	 * @since    4.0
+	 * @version  4.0
+	 *
+	 * @param  string $before Optional. Content to prepend to the title. Default empty.
+	 * @param  string $after  Optional. Content to append to the title. Default empty.
+	 */
+	if ( ! function_exists( 'the_archive_title' ) ) {
+		function the_archive_title( $before = '', $after = '' ) {
+			if ( is_category() ) {
+				$title = sprintf( __( 'Category: %s', 'wm_domain' ), single_cat_title( '', false ) );
+			} elseif ( is_tag() ) {
+				$title = sprintf( __( 'Tag: %s', 'wm_domain' ), single_tag_title( '', false ) );
+			} elseif ( is_author() ) {
+				$title = sprintf( __( 'Author: %s', 'wm_domain' ), '<span class="vcard">' . get_the_author() . '</span>' );
+			} elseif ( is_year() ) {
+				$title = sprintf( __( 'Year: %s', 'wm_domain' ), get_the_date( 'Y' ) );
+			} elseif ( is_month() ) {
+				$title = sprintf( __( 'Month: %s', 'wm_domain' ), get_the_date( 'F Y' ) );
+			} elseif ( is_day() ) {
+				$title = sprintf( __( 'Day: %s', 'wm_domain' ), get_the_date() );
+			} elseif ( is_tax( 'post_format' ) ) {
+				if ( is_tax( 'post_format', 'post-format-aside' ) ) {
+					$title = _x( 'Asides', 'post format archive title', 'wm_domain' );
+				} elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
+					$title = _x( 'Galleries', 'post format archive title', 'wm_domain' );
+				} elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
+					$title = _x( 'Images', 'post format archive title', 'wm_domain' );
+				} elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
+					$title = _x( 'Videos', 'post format archive title', 'wm_domain' );
+				} elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
+					$title = _x( 'Quotes', 'post format archive title', 'wm_domain' );
+				} elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
+					$title = _x( 'Links', 'post format archive title', 'wm_domain' );
+				} elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
+					$title = _x( 'Statuses', 'post format archive title', 'wm_domain' );
+				} elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
+					$title = _x( 'Audio', 'post format archive title', 'wm_domain' );
+				} elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
+					$title = _x( 'Chats', 'post format archive title', 'wm_domain' );
+				}
+			} elseif ( is_post_type_archive() ) {
+				$title = sprintf( __( 'Archives: %s', 'wm_domain' ), post_type_archive_title( '', false ) );
+			} elseif ( is_tax() ) {
+				$tax = get_taxonomy( get_queried_object()->taxonomy );
+				/* translators: 1: Taxonomy singular name, 2: Current taxonomy term */
+				$title = sprintf( __( '%1$s: %2$s', 'wm_domain' ), $tax->labels->singular_name, single_term_title( '', false ) );
+			} else {
+				$title = __( 'Archives', 'wm_domain' );
+			}
+
+			/**
+			 * Filter the archive title.
+			 *
+			 * @param string $title Archive title to be displayed.
+			 */
+			$title = apply_filters( 'get_the_archive_title', $title );
+
+			if ( ! empty( $title ) ) {
+				echo $before . $title . $after;
+			}
+		}
+	} // /the_archive_title
+
+
+
+	/**
+	 * Shim for `the_archive_description()`.
+	 *
+	 * Display category, tag, or term description.
+	 *
+	 * @todo Remove this function when WordPress 4.3 is released.
+	 *
+	 * @since    4.0
+	 * @version  4.0
+	 *
+	 * @param  string $before Optional. Content to prepend to the description. Default empty.
+	 * @param  string $after  Optional. Content to append to the description. Default empty.
+	 */
+	if ( ! function_exists( 'the_archive_description' ) ) {
+		function the_archive_description( $before = '', $after = '' ) {
+			$description = apply_filters( 'get_the_archive_description', term_description() );
+
+			if ( ! empty( $description ) ) {
+				/**
+				 * Filter the archive description.
+				 *
+				 * @see term_description()
+				 *
+				 * @param string $description Archive description to be displayed.
+				 */
+				echo $before . $description . $after;
+			}
+		}
+	} // /the_archive_description
 
 ?>

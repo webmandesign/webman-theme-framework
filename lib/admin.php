@@ -180,7 +180,7 @@
 
 			//Output
 				if ( $output = apply_filters( 'wmhook_wm_admin_inline_styles_output', $output ) ) {
-					wp_add_inline_style( 'wm-admin', $output );
+					wp_add_inline_style( 'wm-admin', wm_esc_css( $output ) );
 				}
 		}
 	} // /wm_admin_inline_styles
