@@ -107,30 +107,18 @@
 		 */
 		if ( ! function_exists( 'wm_customizer_preview_enqueue_assets' ) ) {
 			function wm_customizer_preview_enqueue_assets() {
+				//Helper variables
+					$output = ( function_exists( 'wm_custom_styles' ) ) ? ( wm_custom_styles() ) : ( '' );
+
+				//Styles
+					if ( $output = apply_filters( 'wmhook_wm_customizer_preview_enqueue_assets_inline_styles', $output ) ) {
+						wp_add_inline_style( 'wm-stylesheet-global', apply_filters( 'wmhook_esc_css', $output ) );
+					}
+
 				//Scripts
 					wp_enqueue_script( 'wm-customizer-preview' );
 			}
 		} // /wm_customizer_preview_enqueue_assets
-
-
-
-	/**
-	 * Outputs styles in customizer preview head
-	 *
-	 * @since    3.0
-	 * @version  4.0
-	 */
-	if ( ! function_exists( 'wm_theme_customizer_css' ) ) {
-		function wm_theme_customizer_css() {
-			//Helper variables
-				$output = ( function_exists( 'wm_custom_styles' ) ) ? ( wm_custom_styles() ) : ( '' );
-
-			//Output
-				if ( $output = apply_filters( 'wmhook_wm_theme_customizer_css_output', $output ) ) {
-					echo '<style type="text/css" id="' . WM_THEME_SHORTNAME . '-customizer-styles">' . "\r\n" . $output . "\r\n" . '</style>';
-				}
-		}
-	} // /wm_theme_customizer_css
 
 
 
@@ -1114,7 +1102,6 @@
 
 			//Assets needed for customizer preview
 				if ( $wp_customize->is_preview() ) {
-					add_action( 'wp_head',   'wm_theme_customizer_css'    );
 					add_action( 'wp_footer', 'wm_theme_customizer_js', 99 );
 				}
 		}
