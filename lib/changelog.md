@@ -5,6 +5,7 @@
 * This is a major update/simplification
 * ADDED: WordPress 4.1+ support
 * ADDED: ZillaLikes native support
+* ADDED: Post Views Count native support
 * UPDATED: Improved and optimized code
 * UPDATED: Improved conditional loading of files
 * UPDATED: Constants

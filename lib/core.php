@@ -464,6 +464,7 @@
 	 *
 	 * hAtom microformats compatible. @link http://goo.gl/LHi4Dy
 	 * Supports ZillaLikes plugin. @link http://www.themezilla.com/plugins/zillalikes/
+	 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 	 *
 	 * @since    3.0
 	 * @version  4.0
@@ -526,8 +527,8 @@
 							case 'category':
 
 								if (
-										wm_is_categorized_blog()
-										&& apply_filters( 'wmhook_wm_post_meta_enable_' . $meta, true, $args )
+										apply_filters( 'wmhook_wm_post_meta_enable_' . $meta, true, $args )
+										&& wm_is_categorized_blog()
 										&& ( $helper = get_the_category_list( ', ', '', $args['post_id'] ) )
 									) {
 									$replacements = array(
@@ -592,16 +593,16 @@
 							case 'likes':
 
 								if (
-										function_exists( 'zilla_likes' )
-										&& apply_filters( 'wmhook_wm_post_meta_enable_' . $meta, true, $args )
+										apply_filters( 'wmhook_wm_post_meta_enable_' . $meta, true, $args )
+										&& function_exists( 'zilla_likes' )
 									) {
 									global $zilla_likes;
-									$meta_output = $zilla_likes->do_likes();
+									$helper = $zilla_likes->do_likes();
 
 									$replacements = array(
 											'{attributes}' => '',
 											'{class}'      => 'entry-likes entry-meta-element',
-											'{content}'    => $meta_output,
+											'{content}'    => $helper,
 										);
 								}
 
@@ -631,6 +632,21 @@
 									$replacements = array(
 											'{attributes}' => wm_schema_org( 'keywords' ),
 											'{class}'      => 'tags-links entry-meta-element',
+											'{content}'    => $helper,
+										);
+								}
+
+							break;
+							case 'views':
+
+								if (
+										apply_filters( 'wmhook_wm_post_meta_enable_' . $meta, true, $args )
+										&& function_exists( 'bawpvc_views_sc' )
+										&& ( $helper = bawpvc_views_sc( array() ) )
+									) {
+									$replacements = array(
+											'{attributes}' => ' title="' . __( 'Views count', 'wm_domain' ) . '"',
+											'{class}'      => 'entry-views entry-meta-element',
 											'{content}'    => $helper,
 										);
 								}
