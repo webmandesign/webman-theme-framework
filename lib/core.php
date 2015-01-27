@@ -138,6 +138,8 @@
 	 * Filters
 	 */
 
+		//Escape inline CSS
+			add_filter( 'wmhook_esc_css', 'wm_esc_css' );
 		//HTML in widget title
 			add_filter( 'widget_title', 'wm_html_widget_title' );
 		//Table of contents
@@ -1135,7 +1137,7 @@
 		 */
 		if ( ! function_exists( 'wm_esc_css' ) ) {
 			function wm_esc_css( $css ) {
-				return str_replace( array( '&gt;', '&quot;', '&#039;' ), array( '>', '"', '\'' ), esc_attr( (string) $css ) );
+				return apply_filters( 'wmhook_wm_esc_css', str_replace( array( '&gt;', '&quot;', '&#039;' ), array( '>', '"', '\'' ), esc_attr( (string) $css ) ), $css );
 			}
 		} // /wm_esc_css
 
