@@ -94,10 +94,10 @@
 			//Plugins suggestions
 				if (
 						apply_filters( 'wmhook_enable_plugins_integration', true )
-						&& locate_template( WM_SETUP_DIR . 'plugins.php' )
+						&& locate_template( WM_SETUP_DIR . 'tgmpa/plugins.php' )
 					) {
 					locate_template( WM_LIBRARY_DIR . 'inc/class-tgm-plugin-activation.php', true );
-					locate_template( WM_SETUP_DIR . 'plugins.php',                           true );
+					locate_template( WM_SETUP_DIR . 'tgmpa/plugins.php',                           true );
 				}
 
 			//Customizer
