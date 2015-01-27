@@ -296,7 +296,6 @@
 			if (
 					! $last
 					|| ( $now - $last ) > $interval
-					|| 3 > absint( get_option( WM_OPTION_INSTALL ) )
 				) {
 
 				//Cache doesn't exist, or is old, so refresh it
