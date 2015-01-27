@@ -20,7 +20,6 @@
  * -  20) Branding
  * -  30) SEO
  * -  40) Post/page
- * -  50) Visual Editor addons
  * - 100) Other functions
  */
 
@@ -746,29 +745,6 @@
 				return strpos( $post->post_content, '<!--more-->' );
 		}
 	} // /wm_has_more_tag
-
-
-
-
-
-/**
- * 50) Visual Editor addons
- */
-
-	/**
-	 * Include Visual Editor addons
-	 *
-	 * This has to be triggered manually via a theme setup, the core
-	 * doesn't include it by default any more.
-	 *
-	 * @since    4.0
-	 * @version  4.0
-	 */
-	if ( ! function_exists( 'wm_visual_editor_addons' ) ) {
-		function wm_visual_editor_addons() {
-			locate_template( WM_LIBRARY_DIR . 'inc/visual-editor.php', true );
-		}
-	} // /wm_visual_editor_addons
 
 
 
