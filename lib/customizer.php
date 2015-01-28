@@ -33,7 +33,7 @@
 		locate_template( WM_SETUP_DIR . 'setup-theme-options.php', true );
 
 	//Custom CSS styles generator
-		locate_template( 'assets/css/_custom-styles.php', true );
+		locate_template( 'assets/css/_customizer-styles.php', true );
 
 
 
