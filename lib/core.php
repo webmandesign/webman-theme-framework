@@ -157,6 +157,9 @@
 			//Custom additions
 				add_filter( 'wmhook_wm_default_content_filters', 'do_shortcode',       35 );
 
+		//Remove filters
+			remove_filter( 'widget_title', 'esc_html' );
+
 
 
 
