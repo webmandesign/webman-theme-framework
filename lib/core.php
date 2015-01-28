@@ -139,8 +139,9 @@
 
 		//Escape inline CSS
 			add_filter( 'wmhook_esc_css', 'wm_esc_css' );
-		//HTML in widget title
+		//Widgets improvements
 			add_filter( 'widget_title', 'wm_html_widget_title' );
+			add_filter( 'widget_text',  'do_shortcode'         );
 		//Table of contents
 			add_filter( 'the_content', 'wm_nextpage_table_of_contents', 10 );
 		//Minify CSS
