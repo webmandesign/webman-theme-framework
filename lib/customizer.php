@@ -220,6 +220,9 @@
 	/**
 	 * Sanitize email
 	 *
+	 * @since    3.0
+	 * @version  3.0
+	 *
 	 * @param  mixed $value WP customizer value to sanitize.
 	 */
 	if ( ! function_exists( 'wm_sanitize_email' ) ) {
@@ -254,6 +257,9 @@
 	 * No sanitization at all, simply return the value
 	 *
 	 * Useful for when the value may be of mixed type, such as array-or-string.
+	 *
+	 * @since    3.0
+	 * @version  3.0
 	 *
 	 * @param  mixed $value WP customizer value to sanitize.
 	 */

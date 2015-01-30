@@ -20,6 +20,7 @@
  * -  20) Branding
  * -  30) SEO
  * -  40) Post/page
+ * -  50) CSS functions
  * - 100) Other functions
  */
 
@@ -96,7 +97,7 @@
 						&& locate_template( WM_SETUP_DIR . 'tgmpa/plugins.php' )
 					) {
 					locate_template( WM_LIBRARY_DIR . 'inc/class-tgm-plugin-activation.php', true );
-					locate_template( WM_SETUP_DIR . 'tgmpa/plugins.php',                           true );
+					locate_template( WM_SETUP_DIR . 'tgmpa/plugins.php',                     true );
 				}
 
 			//Customizer
@@ -447,6 +448,9 @@
 	/**
 	 * Post/page parts pagination
 	 *
+	 * @since    3.0
+	 * @version  3.0
+	 *
 	 * @param  boolean $echo
 	 */
 	if ( ! function_exists( 'wm_post_parts' ) ) {
@@ -771,6 +775,626 @@
 
 
 /**
+ * 50) CSS functions
+ */
+
+	/**
+	 * CSS escaping
+	 *
+	 * Use this for custom CSS output only!
+	 * Uses `esc_attr()` while keeping quote marks.
+	 *
+	 * @uses  esc_attr()
+	 *
+	 * @since    4.0
+	 * @version  4.0
+	 *
+	 * @param  string $css Code to escape
+	 */
+	if ( ! function_exists( 'wm_esc_css' ) ) {
+		function wm_esc_css( $css ) {
+			return apply_filters( 'wmhook_wm_esc_css', str_replace( array( '&gt;', '&quot;', '&#039;' ), array( '>', '"', '\'' ), esc_attr( (string) $css ) ), $css );
+		}
+	} // /wm_esc_css
+
+
+
+	/**
+	 * Outputs path to the specific file
+	 *
+	 * This function looks for the file in the child theme first.
+	 * If the file is not located in child theme, output the path from parent theme.
+	 *
+	 * @since    3.1
+	 * @version  3.1
+	 *
+	 * @param  string $file_relative_path File to look for (insert also the relative path inside the theme)
+	 *
+	 * @return  string Actual path to the file
+	 */
+	if ( ! function_exists( 'wm_get_stylesheet_directory' ) ) {
+		function wm_get_stylesheet_directory( $file_relative_path ) {
+			//Helper variables
+				$output = '';
+
+				$file_relative_path = trim( $file_relative_path );
+
+			//Requirements chek
+				if ( ! $file_relative_path ) {
+					return apply_filters( 'wmhook_wm_get_stylesheet_directory_output', esc_url( $output ), $file_relative_path );
+				}
+
+			//Praparing output
+				if ( file_exists( trailingslashit( get_stylesheet_directory() ) . $file_relative_path ) ) {
+					$output = trailingslashit( get_stylesheet_directory() ) . $file_relative_path;
+				} else {
+					$output = trailingslashit( get_template_directory() ) . $file_relative_path;
+				}
+
+			//Output
+				return apply_filters( 'wmhook_wm_get_stylesheet_directory_output', $output, $file_relative_path );
+		}
+	} // /wm_get_stylesheet_directory
+
+
+
+	/**
+	 * Outputs URL to the specific file
+	 *
+	 * This function looks for the file in the child theme first.
+	 * If the file is not located in child theme, output the URL from parent theme.
+	 *
+	 * @since    3.0
+	 * @version  3.0
+	 *
+	 * @param  string $file_relative_path File to look for (insert also the relative path inside the theme)
+	 *
+	 * @return  string Actual URL to the file
+	 */
+	if ( ! function_exists( 'wm_get_stylesheet_directory_uri' ) ) {
+		function wm_get_stylesheet_directory_uri( $file_relative_path ) {
+			//Helper variables
+				$output = '';
+
+				$file_relative_path = trim( $file_relative_path );
+
+			//Requirements chek
+				if ( ! $file_relative_path ) {
+					return apply_filters( 'wmhook_wm_get_stylesheet_directory_uri_output', esc_url( $output ), $file_relative_path );
+				}
+
+			//Praparing output
+				if ( file_exists( trailingslashit( get_stylesheet_directory() ) . $file_relative_path ) ) {
+					$output = trailingslashit( get_stylesheet_directory_uri() ) . $file_relative_path;
+				} else {
+					$output = trailingslashit( get_template_directory_uri() ) . $file_relative_path;
+				}
+
+			//Output
+				return apply_filters( 'wmhook_wm_get_stylesheet_directory_uri_output', esc_url( $output ), $file_relative_path );
+		}
+	} // /wm_get_stylesheet_directory_uri
+
+
+
+	/**
+	 * CSS minifier
+	 *
+	 * @since    3.0
+	 * @version  4.0
+	 *
+	 * @param  string $css Code to minimize
+	 */
+	if ( ! function_exists( 'wm_minify_css' ) ) {
+		function wm_minify_css( $css ) {
+			//Requirements check
+				if (
+						! is_string( $css )
+						&& ! apply_filters( 'wmhook_wm_minify_css_disable', false )
+					) {
+					return $css;
+				}
+
+			//Praparing output
+				$css = apply_filters( 'wmhook_wm_minify_css_pre', $css );
+
+				//Remove CSS comments
+					$css = preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css );
+				//Remove tabs, spaces, line breaks, etc.
+					$css = str_replace( array( "\r\n", "\r", "\n", "\t", '//', '  ', '   ' ), '', $css );
+					$css = str_replace( array( ' { ', ': ', '; }' ), array( '{', ':', '}' ), $css );
+
+			//Output
+				return apply_filters( 'wmhook_wm_minify_css_output', $css );
+		}
+	} // /wm_minify_css
+
+
+
+	/**
+	 * Hex color to RGBA
+	 *
+	 * @since    4.0
+	 * @version  4.0
+	 *
+	 * @param  string $hex
+	 * @param  absint $alpha [0-100]
+	 *
+	 * @return  string Color in rgb() or rgba() format to use in CSS.
+	 */
+	if ( ! function_exists( 'wm_color_hex_to_rgba' ) ) {
+		function wm_color_hex_to_rgba( $hex, $alpha = 100 ) {
+			//Helper variables
+				$alpha = absint( $alpha );
+
+				$output = ( 100 === $alpha ) ? ( 'rgb(' ) : ( 'rgba(' );
+
+				$rgb = array();
+
+				$hex = trim( $hex, '#' );
+				$hex = preg_replace( '/[^0-9A-Fa-f]/', '', $hex );
+				$hex = substr( $hex, 0, 6 );
+
+			//Preparing output
+				//Converting hex color into rgb
+					if ( $hex ) {
+						if ( 6 == strlen( $hex ) ) {
+							$rgb['r'] = hexdec( substr( $hex, 0, 2 ) );
+							$rgb['g'] = hexdec( substr( $hex, 2, 2 ) );
+							$rgb['b'] = hexdec( substr( $hex, 4, 2 ) );
+						} else {
+						//If shorthand notation, we need some string manipulations
+							$rgb['r'] = hexdec( str_repeat( substr( $hex, 0, 1 ), 2 ) );
+							$rgb['g'] = hexdec( str_repeat( substr( $hex, 1, 1 ), 2 ) );
+							$rgb['b'] = hexdec( str_repeat( substr( $hex, 2, 1 ), 2 ) );
+						}
+					}
+
+				//Using alpha (rgba)?
+					$output .= implode( ',', $rgb );
+
+					if ( 100 > $alpha ) {
+						$output .= ',' . ( $alpha / 100 );
+					}
+
+			//Output
+				return apply_filters( 'wmhook_wm_color_hex_to_rgba' . '_output', $output . ')', $hex, $alpha );
+		}
+	} // /wm_color_hex_to_rgba
+
+
+
+	/**
+	 * Get background CSS styles
+	 *
+	 * @since    3.0
+	 * @version  3.0
+	 *
+	 * @param  array $args
+	 */
+	if ( ! function_exists( 'wm_css_background' ) ) {
+		function wm_css_background( $args = array() ) {
+			//Helper variables
+				$args = wp_parse_args( $args, apply_filters( 'wmhook_wm_css_background_defaults', array(
+						'option_base' => '',       //Option full name minus function suffixes (bg-color, bg-url,...)
+						'high_dpi'    => false,    //Whether to output high DPI image
+						'post'        => null,     //If set, the post background will be outputted instead (from post meta). Can be number or object.
+						'return'      => 'output', //What to return (see the $output array keys below for values)
+					) ) );
+				$args = apply_filters( 'wmhook_wm_css_background_args', $args );
+
+				if ( $args['post'] && is_object( $args['post'] ) && isset( $args['post']->ID ) ) {
+					$args['post'] = $args['post']->ID;
+				} else {
+					$args['post'] = absint( $args['post'] );
+				}
+
+				//Requirements check
+					if ( $args['post'] && ! function_exists( 'wma_meta_option' ) ) {
+						return;
+					}
+
+				$output = $output_defaults = array(
+						'attachment' => '', //image attachment (none/scroll/fixed)
+						'color'      => '', //color
+						'image'      => '', //image URL
+						'output'     => '', //actual output string (the CSS "background:" styles (if size set, the "background-size: styles" will be appended))
+						'position'   => '', //image position
+						'repeat'     => '', //image repeat
+						'size'       => '', //image size
+					);
+
+			//Preparing output
+				//Background color
+					$output['color'] = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-color' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-color', $args['post'] ) );
+					if ( $output['color'] ) {
+						$output['color'] = '#' . str_replace( '#', '', $output['color'] );
+					}
+
+				//Background image
+					$output['image'] = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-url' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-url', $args['post'] ) );
+
+					if ( is_array( $output['image'] ) && isset( $output['image']['id'] ) ) {
+
+						$attachment = (array) wp_get_attachment_image_src( $output['image']['id'], 'full' );
+
+						$output['image']  = ( isset( $attachment[0] ) ) ? ( $attachment[0] ) : ( '' );
+						$output['size']   = ( isset( $attachment[1] ) ) ? ( $attachment[1] . 'px' ) : ( '' );
+						$output['size']  .= ( isset( $attachment[2] ) ) ? ( ' ' . $attachment[2] . 'px' ) : ( '' );
+
+						if ( $args['high_dpi'] ) {
+							$attachment = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-url-hidpi' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-url-hidpi', $args['post'] ) );
+							$attachment = ( $attachment && isset( $attachment['id'] ) ) ? ( (array) wp_get_attachment_image_src( $attachment['id'], 'full' ) ) : ( false );
+							if ( $attachment && isset( $attachment[0] ) ) {
+								$output['image'] = $attachment[0];
+							}
+						}
+
+					} elseif ( $output['image'] ) {
+
+						$attachment_id = wm_get_image_id_from_url( $output['image'] );
+
+						if ( $attachment_id ) {
+							$attachment      = (array) wp_get_attachment_image_src( $attachment_id, 'full' );
+							$output['size']  = ( isset( $attachment[1] ) ) ? ( $attachment[1] . 'px' ) : ( '' );
+							$output['size'] .= ( isset( $attachment[2] ) ) ? ( ' ' . $attachment[2] . 'px' ) : ( '' );
+						}
+
+						if ( $args['high_dpi'] ) {
+							$output['image'] = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-url-hidpi' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-url-hidpi', $args['post'] ) );
+						}
+
+					}
+
+					if ( $output['image'] ) {
+						$output['image'] = ' url(' . trim( $output['image'] ) . ')';
+					}
+
+				//Background repeat
+					if ( $output['image'] ) {
+						$output['repeat'] = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-repeat' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-repeat', $args['post'] ) );
+						if ( trim( $output['repeat'] ) ) {
+							$output['repeat'] = ' ' . trim( $output['repeat'] );
+						}
+					}
+
+				//Background attachment
+					if ( $output['image'] ) {
+						$output['attachment'] = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-attachment' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-attachment', $args['post'] ) );
+						if ( trim( $output['attachment'] ) ) {
+							$output['attachment'] = ' ' . trim( $output['attachment'] );
+						}
+					}
+
+				//Background position
+					if ( $output['image'] ) {
+						$output['position'] = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-position' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-position', $args['post'] ) );
+						if ( trim( $output['position'] ) ) {
+							$output['position'] = ' ' . trim( $output['position'] );
+						}
+					}
+
+				//Background size
+					if ( $output['image'] ) {
+						$image_size = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-size' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-size', $args['post'] ) );
+						if ( $image_size ) {
+							$output['size'] = $image_size;
+						}
+					}
+					$output['size'] = trim( $output['size'] );
+					if ( $output['size'] ) {
+						$output['size'] = '; background-size: ' . $output['size'];
+					}
+
+				//Output string setup
+					$output['output'] = $output['color'] . $output['image'] . $output['repeat'] . $output['attachment'] . $output['position'] . $output['size'];
+
+				//If outputing high DPI image, check if image set, if not output nothing (not even background-size)!
+					if ( $args['high_dpi'] && ! $output['image'] ) {
+						$output = $output_defaults;
+					}
+
+				//Filter $output array
+					$output = apply_filters( 'wmhook_wm_css_background_output_array', $output, $args );
+
+			//Output
+				return apply_filters( 'wmhook_wm_css_background_output', $output[ $args['return'] ], $args );
+		}
+	} // /wm_css_background
+
+
+
+	/**
+	 * Generate main CSS file
+	 *
+	 * @since    3.0
+	 * @version  4.0
+	 *
+	 * @param  boolean $args
+	 */
+	if ( ! function_exists( 'wm_generate_main_css' ) ) {
+		function wm_generate_main_css( $args = array() ) {
+			//Requirements check
+				if ( ! function_exists( 'wma_amplifier' ) ) {
+					return false;
+				}
+
+			//Helper viariables
+				$args = wp_parse_args( $args, apply_filters( 'wmhook_wm_generate_main_css_args', array(
+						'message'        => _x( "The main theme CSS stylesheet was regenerated.<br /><strong>Please refresh your web browser's and server's cache</strong> <em>(if you are using a website server caching solution)</em>.", 'Translators, please, keep the HTML tags.', 'wm_domain' ),
+						'message_after'  => '',
+						'message_before' => '',
+						'type'           => '',
+					) ) );
+
+				$output = $output_min = '';
+
+				$args['type'] = trim( $args['type'] );
+
+			//Preparing output
+				//Get the file content with output buffering
+					ob_start();
+
+					//Get the file from child theme if exists
+						$css_dir_child      = get_stylesheet_directory() . '/assets/css/';
+						$css_generator_file = '_generate' . $args['type'] . '-css.php';
+
+						if ( file_exists( $css_dir_child . $css_generator_file ) ) {
+							$css_generator_file_check = $css_dir_child . $css_generator_file;
+						} else {
+							$css_generator_file_check = get_template_directory() . '/assets/css/' . $css_generator_file;
+						}
+
+						if ( file_exists( $css_generator_file_check ) ) {
+							locate_template( 'assets/css/' . $css_generator_file, true );
+						}
+
+					$output = trim( ob_get_clean() );
+
+				//Requirements check
+					if ( ! $output ) {
+						return false;
+					}
+
+				//Minify output if set
+					$output_min = apply_filters( 'wmhook_wm_generate_main_css_output_min', $output, $args );
+
+			//Output
+				//Create the theme CSS folder
+					$wp_upload_dir = wp_upload_dir();
+
+					$theme_css_url = trailingslashit( $wp_upload_dir['baseurl'] ) . 'wmtheme-' . WM_THEME_SHORTNAME;
+					$theme_css_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'wmtheme-' . WM_THEME_SHORTNAME;
+
+					if ( ! wma_create_folder( $theme_css_dir ) ) {
+						set_transient( 'wmamp-admin-notice', array( "<strong>ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.</strong>", 'error', 'switch_themes', 2 ), ( 60 * 60 * 48 ) );
+
+						delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css' );
+						delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files' );
+
+						return false;
+					}
+
+				$css_file_name       = apply_filters( 'wmhook_wm_generate_main_css_css_file_name',       'global' . $args['type'],                                        $args                 );
+				$global_css_path     = apply_filters( 'wmhook_wm_generate_main_css_global_css_path',     trailingslashit( $theme_css_dir ) . $css_file_name . '.css',     $args, $css_file_name );
+				$global_css_url      = apply_filters( 'wmhook_wm_generate_main_css_global_css_url',      trailingslashit( $theme_css_url ) . $css_file_name . '.css',     $args, $css_file_name );
+				$global_css_path_dev = apply_filters( 'wmhook_wm_generate_main_css_global_css_path_dev', trailingslashit( $theme_css_dir ) . $css_file_name . '.dev.css', $args, $css_file_name );
+
+				if ( $output ) {
+					wma_write_local_file( $global_css_path, $output_min );
+					wma_write_local_file( $global_css_path_dev, $output );
+
+					//Store the CSS files paths and urls in DB
+						update_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css', $global_css_url );
+						update_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files', str_replace( $wp_upload_dir['basedir'], '', $theme_css_dir ) );
+
+					//Admin notice
+						set_transient( 'wmamp-admin-notice', array( $args['message_before'] . $args['message'] . $args['message_after'], '', 'switch_themes' ), ( 60 * 60 * 24 ) );
+
+					//Run custom actions
+						do_action( 'wmhook_wm_generate_main_css', $args );
+
+					return true;
+				}
+
+				delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css' );
+				delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files' );
+
+				return false;
+		}
+	} // /wm_generate_main_css
+
+
+
+		/**
+		 * Generate visual editor CSS file
+		 *
+		 * @since    3.0
+		 * @version  3.0
+		 */
+		if ( ! function_exists( 'wm_generate_ve_css' ) ) {
+			function wm_generate_ve_css() {
+				return wm_generate_main_css( array( 'type' => '-ve' ) );
+			}
+		} // /wm_generate_ve_css
+
+
+
+		/**
+		 * Generate RTL CSS file
+		 *
+		 * @since    3.0
+		 * @version  3.0
+		 */
+		if ( ! function_exists( 'wm_generate_rtl_css' ) ) {
+			function wm_generate_rtl_css() {
+				if ( is_rtl() ) {
+					return wm_generate_main_css( array( 'type' => '-rtl' ) );
+				}
+			}
+		} // /wm_generate_rtl_css
+
+
+
+		/**
+		 * Generate all CSS files
+		 *
+		 * @since    3.0
+		 * @version  3.0
+		 */
+		if ( ! function_exists( 'wm_generate_all_css' ) ) {
+			function wm_generate_all_css() {
+				if ( wm_generate_main_css() ) {
+					wm_generate_rtl_css();
+					wm_generate_ve_css();
+				}
+			}
+		} // /wm_generate_all_css
+
+
+
+	/**
+	 * Replace variables in the custom CSS
+	 *
+	 * Just use a '[[customizer-option-id]]' tags in your custom CSS
+	 * styles string where the specific option value should be used.
+	 *
+	 * @since    4.0
+	 * @version  4.0
+	 *
+	 * @param  string $css CSS string with variables to replace.
+	 */
+	if ( ! function_exists( 'wm_custom_styles_replace' ) ) {
+		function wm_custom_styles_replace( $css ) {
+			//Requirement check
+				if ( ! ( $css = trim( $css ) ) ) {
+					return;
+				}
+
+			//Helper variables
+				$output           = (string) apply_filters( 'wm_custom_styles_replace', $css );
+				$wm_theme_options = (array) apply_filters( 'wmhook_theme_options', array() );
+
+				$replacements = array();
+
+			//Preparing output
+					if ( ! empty( $wm_theme_options ) ) {
+
+						foreach ( $wm_theme_options as $option ) {
+
+							//Reset variables
+								$option_id = $value = '';
+
+							//Set option ID
+								if ( isset( $option['id'] ) ) {
+									$option_id = $option['id'];
+								}
+
+							//If no option ID set, jump to next option
+								if ( empty( $option_id ) ) {
+									continue;
+								}
+
+							//If we have an ID, get the default value if set
+								if ( isset( $option['default'] ) ) {
+									$value = $option['default'];
+								}
+
+							//Get the option value saved in database and apply it when exists
+								if ( $mod = wm_option( $option_id ) ) {
+									$value = $mod;
+								}
+
+							//Make sure the color value contains '#'
+								if ( 'color' === $option['type'] ) {
+									$value = '#' . trim( $value, '#' );
+								}
+
+							//Make sure the image URL is used in CSS format
+								if ( 'image' === $option['type'] ) {
+									if ( is_array( $value ) && isset( $value['id'] ) ) {
+										$value = absint( $value['id'] );
+									}
+									if ( is_numeric( $value ) ) {
+										$value = wp_get_attachment_image_src( $value, 'full' );
+										$value = $value[0];
+									}
+									if ( ! empty( $value ) ) {
+										$value = "url('" . esc_url( $value ) . "')";
+									} else {
+										$value = 'none';
+									}
+								}
+
+							//Value filtering
+								$value = apply_filters( 'wmhook_wm_custom_styles_replace_value', $value, $option );
+
+							//Make array to string as otherwise the strtr() function throws error
+								if ( is_array( $value ) ) {
+									$value = (string) implode( ',', (array) $value );
+								}
+
+							//Finally modify the output string
+								$replacements['[[' . $option_id . ']]'] = $value;
+
+								/**
+								 * Add also rgba() color interpratation
+								 *
+								 * Note that only alpha=0 is added as replacement option.
+								 * Other alpha values has to be added via custom function
+								 * hooked onto the $replacements filter below.
+								 */
+								if ( 'color' === $option['type'] ) {
+									$replacements['[[' . $option_id . '|alpha=0]]'] = wm_color_hex_to_rgba( $value, 0 );
+								}
+
+						} // /foreach
+
+						//Add WordPress Custom Background and Header support
+							if ( ! empty( $replacements ) ) {
+								//Background color
+									if ( $value = get_background_color() ) {
+										$replacements['[[background_color]]'] = '#' . trim( $value, '#' );
+										$replacements['[[background_color|alpha=0]]'] = wm_color_hex_to_rgba( $value, 0 );
+									}
+								//Background image
+									if ( $value = esc_url( get_background_image() ) ) {
+										$replacements['[[background_image]]'] = "url('" . $value . "')";
+									} else {
+										$replacements['[[background_image]]'] = 'none';
+									}
+								//Header text color
+									if ( $value = get_header_textcolor() ) {
+										$replacements['[[header_textcolor]]'] = '#' . trim( $value, '#' );
+										$replacements['[[header_textcolor|alpha=0]]'] = wm_color_hex_to_rgba( $value, 0 );
+									}
+								//Header image
+									if ( $value = esc_url( get_header_image() ) ) {
+										$replacements['[[header_image]]'] = "url('" . $value . "')";
+									} else {
+										$replacements['[[header_image]]'] = 'none';
+									}
+							}
+
+						$replacements = apply_filters( 'wmhook_wm_custom_styles_replace_replacements', $replacements, $wm_theme_options, $output );
+
+					}
+
+				//Replace tags in custom CSS strings with actual values
+					$output = strtr( $output, $replacements );
+
+			//Output
+				if ( $output = apply_filters( 'wmhook_wm_custom_styles_replace_output', trim( $output ) ) ) {
+					return (string) $output;
+				}
+		}
+	} // /wm_custom_styles_replace
+
+
+
+
+
+/**
  * 100) Other functions
  */
 
@@ -824,6 +1448,9 @@
 	 * sections of the website (such as excerpt...).
 	 * Use apply_filters( 'wmhook_content_filters', $content ) to prevent this.
 	 *
+	 * @since    3.0
+	 * @version  3.0
+	 *
 	 * @param  string $content
 	 */
 	if ( ! function_exists( 'wm_default_content_filters' ) ) {
@@ -839,6 +1466,9 @@
 	 *
 	 * This function keeps the text between shortcodes,
 	 * unlike WordPress native strip_shortcodes() function.
+	 *
+	 * @since    3.0
+	 * @version  3.0
 	 *
 	 * @param  string $content
 	 */
@@ -857,6 +1487,9 @@
 	 * Examples:
 	 * "[em][/em]" will output "<em></em>"
 	 * "[br /]" will output "<br />"
+	 *
+	 * @since    3.0
+	 * @version  3.0
 	 *
 	 * @param  string $title
 	 */
@@ -880,6 +1513,9 @@
 
 	/**
 	 * Remove "recent comments" <style> from HTML head
+	 *
+	 * @since    3.0
+	 * @version  3.0
 	 *
 	 * @param  integer $page_id
 	 */
@@ -935,6 +1571,9 @@
 	 *           			)
 	 *           		)
 	 *           );
+	 *
+	 * @since    3.0
+	 * @version  3.0
 	 *
 	 * @param  string    $contextual_help  Help text that appears on the screen.
 	 * @param  string    $screen_id        Screen ID.
@@ -1115,417 +1754,6 @@
 
 
 	/**
-	 * CSS functions
-	 */
-
-		/**
-		 * CSS escaping
-		 *
-		 * Use this for custom CSS output only!
-		 * Uses `esc_attr()` while keeping quote marks.
-		 *
-		 * @uses  esc_attr()
-		 *
-		 * @since    4.0
-		 * @version  4.0
-		 *
-		 * @param  string $css Code to escape
-		 */
-		if ( ! function_exists( 'wm_esc_css' ) ) {
-			function wm_esc_css( $css ) {
-				return apply_filters( 'wmhook_wm_esc_css', str_replace( array( '&gt;', '&quot;', '&#039;' ), array( '>', '"', '\'' ), esc_attr( (string) $css ) ), $css );
-			}
-		} // /wm_esc_css
-
-
-
-		/**
-		 * Outputs path to the specific file
-		 *
-		 * This function looks for the file in the child theme first.
-		 * If the file is not located in child theme, output the path from parent theme.
-		 *
-		 * @since    3.1
-		 * @version  3.1
-		 *
-		 * @param  string $file_relative_path File to look for (insert also the relative path inside the theme)
-		 *
-		 * @return  string Actual path to the file
-		 */
-		if ( ! function_exists( 'wm_get_stylesheet_directory' ) ) {
-			function wm_get_stylesheet_directory( $file_relative_path ) {
-				//Helper variables
-					$output = '';
-
-					$file_relative_path = trim( $file_relative_path );
-
-				//Requirements chek
-					if ( ! $file_relative_path ) {
-						return apply_filters( 'wmhook_wm_get_stylesheet_directory_output', esc_url( $output ), $file_relative_path );
-					}
-
-				//Praparing output
-					if ( file_exists( trailingslashit( get_stylesheet_directory() ) . $file_relative_path ) ) {
-						$output = trailingslashit( get_stylesheet_directory() ) . $file_relative_path;
-					} else {
-						$output = trailingslashit( get_template_directory() ) . $file_relative_path;
-					}
-
-				//Output
-					return apply_filters( 'wmhook_wm_get_stylesheet_directory_output', $output, $file_relative_path );
-			}
-		} // /wm_get_stylesheet_directory
-
-
-
-		/**
-		 * Outputs URL to the specific file
-		 *
-		 * This function looks for the file in the child theme first.
-		 * If the file is not located in child theme, output the URL from parent theme.
-		 *
-		 * @param  string $file_relative_path File to look for (insert also the relative path inside the theme)
-		 *
-		 * @return  string Actual URL to the file
-		 */
-		if ( ! function_exists( 'wm_get_stylesheet_directory_uri' ) ) {
-			function wm_get_stylesheet_directory_uri( $file_relative_path ) {
-				//Helper variables
-					$output = '';
-
-					$file_relative_path = trim( $file_relative_path );
-
-				//Requirements chek
-					if ( ! $file_relative_path ) {
-						return apply_filters( 'wmhook_wm_get_stylesheet_directory_uri_output', esc_url( $output ), $file_relative_path );
-					}
-
-				//Praparing output
-					if ( file_exists( trailingslashit( get_stylesheet_directory() ) . $file_relative_path ) ) {
-						$output = trailingslashit( get_stylesheet_directory_uri() ) . $file_relative_path;
-					} else {
-						$output = trailingslashit( get_template_directory_uri() ) . $file_relative_path;
-					}
-
-				//Output
-					return apply_filters( 'wmhook_wm_get_stylesheet_directory_uri_output', esc_url( $output ), $file_relative_path );
-			}
-		} // /wm_get_stylesheet_directory_uri
-
-
-
-		/**
-		 * CSS minifier
-		 *
-		 * @since    3.0
-		 * @version  4.0
-		 *
-		 * @param  string $css Code to minimize
-		 */
-		if ( ! function_exists( 'wm_minify_css' ) ) {
-			function wm_minify_css( $css ) {
-				//Requirements check
-					if (
-							! is_string( $css )
-							&& ! apply_filters( 'wmhook_wm_minify_css_disable', false )
-						) {
-						return $css;
-					}
-
-				//Praparing output
-					$css = apply_filters( 'wmhook_wm_minify_css_pre', $css );
-
-					//Remove CSS comments
-						$css = preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css );
-					//Remove tabs, spaces, line breaks, etc.
-						$css = str_replace( array( "\r\n", "\r", "\n", "\t", '//', '  ', '   ' ), '', $css );
-						$css = str_replace( array( ' { ', ': ', '; }' ), array( '{', ':', '}' ), $css );
-
-				//Output
-					return apply_filters( 'wmhook_wm_minify_css_output', $css );
-			}
-		} // /wm_minify_css
-
-
-
-		/**
-		 * Generate main CSS file
-		 *
-		 * @since    3.0
-		 * @version  4.0
-		 *
-		 * @param  boolean $args
-		 */
-		if ( ! function_exists( 'wm_generate_main_css' ) ) {
-			function wm_generate_main_css( $args = array() ) {
-				//Requirements check
-					if ( ! function_exists( 'wma_amplifier' ) ) {
-						return false;
-					}
-
-				//Helper viariables
-					$args = wp_parse_args( $args, apply_filters( 'wmhook_wm_generate_main_css_args', array(
-							'message'        => _x( "The main theme CSS stylesheet was regenerated.<br /><strong>Please refresh your web browser's and server's cache</strong> <em>(if you are using a website server caching solution)</em>.", 'Translators, please, keep the HTML tags.', 'wm_domain' ),
-							'message_after'  => '',
-							'message_before' => '',
-							'type'           => '',
-						) ) );
-
-					$output = $output_min = '';
-
-					$args['type'] = trim( $args['type'] );
-
-				//Preparing output
-					//Get the file content with output buffering
-						ob_start();
-
-						//Get the file from child theme if exists
-							$css_dir_child      = get_stylesheet_directory() . '/assets/css/';
-							$css_generator_file = '_generate' . $args['type'] . '-css.php';
-
-							if ( file_exists( $css_dir_child . $css_generator_file ) ) {
-								$css_generator_file_check = $css_dir_child . $css_generator_file;
-							} else {
-								$css_generator_file_check = get_template_directory() . '/assets/css/' . $css_generator_file;
-							}
-
-							if ( file_exists( $css_generator_file_check ) ) {
-								locate_template( 'assets/css/' . $css_generator_file, true );
-							}
-
-						$output = trim( ob_get_clean() );
-
-					//Requirements check
-						if ( ! $output ) {
-							return false;
-						}
-
-					//Minify output if set
-						$output_min = apply_filters( 'wmhook_wm_generate_main_css_output_min', $output, $args );
-
-				//Output
-					//Create the theme CSS folder
-						$wp_upload_dir = wp_upload_dir();
-
-						$theme_css_url = trailingslashit( $wp_upload_dir['baseurl'] ) . 'wmtheme-' . WM_THEME_SHORTNAME;
-						$theme_css_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'wmtheme-' . WM_THEME_SHORTNAME;
-
-						if ( ! wma_create_folder( $theme_css_dir ) ) {
-							set_transient( 'wmamp-admin-notice', array( "<strong>ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.</strong>", 'error', 'switch_themes', 2 ), ( 60 * 60 * 48 ) );
-
-							delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css' );
-							delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files' );
-
-							return false;
-						}
-
-					$css_file_name       = apply_filters( 'wmhook_wm_generate_main_css_css_file_name',       'global' . $args['type'],                                        $args                 );
-					$global_css_path     = apply_filters( 'wmhook_wm_generate_main_css_global_css_path',     trailingslashit( $theme_css_dir ) . $css_file_name . '.css',     $args, $css_file_name );
-					$global_css_url      = apply_filters( 'wmhook_wm_generate_main_css_global_css_url',      trailingslashit( $theme_css_url ) . $css_file_name . '.css',     $args, $css_file_name );
-					$global_css_path_dev = apply_filters( 'wmhook_wm_generate_main_css_global_css_path_dev', trailingslashit( $theme_css_dir ) . $css_file_name . '.dev.css', $args, $css_file_name );
-
-					if ( $output ) {
-						wma_write_local_file( $global_css_path, $output_min );
-						wma_write_local_file( $global_css_path_dev, $output );
-
-						//Store the CSS files paths and urls in DB
-							update_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css', $global_css_url );
-							update_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files', str_replace( $wp_upload_dir['basedir'], '', $theme_css_dir ) );
-
-						//Admin notice
-							set_transient( 'wmamp-admin-notice', array( $args['message_before'] . $args['message'] . $args['message_after'], '', 'switch_themes' ), ( 60 * 60 * 24 ) );
-
-						//Run custom actions
-							do_action( 'wmhook_wm_generate_main_css', $args );
-
-						return true;
-					}
-
-					delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css' );
-					delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files' );
-
-					return false;
-			}
-		} // /wm_generate_main_css
-
-
-
-			/**
-			 * Generate visual editor CSS file
-			 */
-			if ( ! function_exists( 'wm_generate_ve_css' ) ) {
-				function wm_generate_ve_css() {
-					return wm_generate_main_css( array( 'type' => '-ve' ) );
-				}
-			} // /wm_generate_ve_css
-
-
-
-			/**
-			 * Generate RTL CSS file
-			 */
-			if ( ! function_exists( 'wm_generate_rtl_css' ) ) {
-				function wm_generate_rtl_css() {
-					if ( is_rtl() ) {
-						return wm_generate_main_css( array( 'type' => '-rtl' ) );
-					}
-				}
-			} // /wm_generate_rtl_css
-
-
-
-			/**
-			 * Generate all CSS files
-			 */
-			if ( ! function_exists( 'wm_generate_all_css' ) ) {
-				function wm_generate_all_css() {
-					if ( wm_generate_main_css() ) {
-						wm_generate_rtl_css();
-						wm_generate_ve_css();
-					}
-				}
-			} // /wm_generate_all_css
-
-
-
-		/**
-		 * Get background CSS styles
-		 *
-		 * @param  array $args
-		 */
-		if ( ! function_exists( 'wm_css_background' ) ) {
-			function wm_css_background( $args = array() ) {
-				//Helper variables
-					$args = wp_parse_args( $args, apply_filters( 'wmhook_wm_css_background_defaults', array(
-							'option_base' => '',       //Option full name minus function suffixes (bg-color, bg-url,...)
-							'high_dpi'    => false,    //Whether to output high DPI image
-							'post'        => null,     //If set, the post background will be outputted instead (from post meta). Can be number or object.
-							'return'      => 'output', //What to return (see the $output array keys below for values)
-						) ) );
-					$args = apply_filters( 'wmhook_wm_css_background_args', $args );
-
-					if ( $args['post'] && is_object( $args['post'] ) && isset( $args['post']->ID ) ) {
-						$args['post'] = $args['post']->ID;
-					} else {
-						$args['post'] = absint( $args['post'] );
-					}
-
-					//Requirements check
-						if ( $args['post'] && ! function_exists( 'wma_meta_option' ) ) {
-							return;
-						}
-
-					$output = $output_defaults = array(
-							'attachment' => '', //image attachment (none/scroll/fixed)
-							'color'      => '', //color
-							'image'      => '', //image URL
-							'output'     => '', //actual output string (the CSS "background:" styles (if size set, the "background-size: styles" will be appended))
-							'position'   => '', //image position
-							'repeat'     => '', //image repeat
-							'size'       => '', //image size
-						);
-
-				//Preparing output
-					//Background color
-						$output['color'] = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-color' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-color', $args['post'] ) );
-						if ( $output['color'] ) {
-							$output['color'] = '#' . str_replace( '#', '', $output['color'] );
-						}
-
-					//Background image
-						$output['image'] = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-url' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-url', $args['post'] ) );
-
-						if ( is_array( $output['image'] ) && isset( $output['image']['id'] ) ) {
-
-							$attachment = (array) wp_get_attachment_image_src( $output['image']['id'], 'full' );
-
-							$output['image']  = ( isset( $attachment[0] ) ) ? ( $attachment[0] ) : ( '' );
-							$output['size']   = ( isset( $attachment[1] ) ) ? ( $attachment[1] . 'px' ) : ( '' );
-							$output['size']  .= ( isset( $attachment[2] ) ) ? ( ' ' . $attachment[2] . 'px' ) : ( '' );
-
-							if ( $args['high_dpi'] ) {
-								$attachment = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-url-hidpi' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-url-hidpi', $args['post'] ) );
-								$attachment = ( $attachment && isset( $attachment['id'] ) ) ? ( (array) wp_get_attachment_image_src( $attachment['id'], 'full' ) ) : ( false );
-								if ( $attachment && isset( $attachment[0] ) ) {
-									$output['image'] = $attachment[0];
-								}
-							}
-
-						} elseif ( $output['image'] ) {
-
-							$attachment_id = wm_get_image_id_from_url( $output['image'] );
-
-							if ( $attachment_id ) {
-								$attachment      = (array) wp_get_attachment_image_src( $attachment_id, 'full' );
-								$output['size']  = ( isset( $attachment[1] ) ) ? ( $attachment[1] . 'px' ) : ( '' );
-								$output['size'] .= ( isset( $attachment[2] ) ) ? ( ' ' . $attachment[2] . 'px' ) : ( '' );
-							}
-
-							if ( $args['high_dpi'] ) {
-								$output['image'] = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-url-hidpi' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-url-hidpi', $args['post'] ) );
-							}
-
-						}
-
-						if ( $output['image'] ) {
-							$output['image'] = ' url(' . trim( $output['image'] ) . ')';
-						}
-
-					//Background repeat
-						if ( $output['image'] ) {
-							$output['repeat'] = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-repeat' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-repeat', $args['post'] ) );
-							if ( trim( $output['repeat'] ) ) {
-								$output['repeat'] = ' ' . trim( $output['repeat'] );
-							}
-						}
-
-					//Background attachment
-						if ( $output['image'] ) {
-							$output['attachment'] = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-attachment' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-attachment', $args['post'] ) );
-							if ( trim( $output['attachment'] ) ) {
-								$output['attachment'] = ' ' . trim( $output['attachment'] );
-							}
-						}
-
-					//Background position
-						if ( $output['image'] ) {
-							$output['position'] = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-position' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-position', $args['post'] ) );
-							if ( trim( $output['position'] ) ) {
-								$output['position'] = ' ' . trim( $output['position'] );
-							}
-						}
-
-					//Background size
-						if ( $output['image'] ) {
-							$image_size = ( ! $args['post'] ) ? ( wm_option( $args['option_base'] . 'bg-size' ) ) : ( wma_meta_option( $args['option_base'] . 'bg-size', $args['post'] ) );
-							if ( $image_size ) {
-								$output['size'] = $image_size;
-							}
-						}
-						$output['size'] = trim( $output['size'] );
-						if ( $output['size'] ) {
-							$output['size'] = '; background-size: ' . $output['size'];
-						}
-
-					//Output string setup
-						$output['output'] = $output['color'] . $output['image'] . $output['repeat'] . $output['attachment'] . $output['position'] . $output['size'];
-
-					//If outputing high DPI image, check if image set, if not output nothing (not even background-size)!
-						if ( $args['high_dpi'] && ! $output['image'] ) {
-							$output = $output_defaults;
-						}
-
-					//Filter $output array
-						$output = apply_filters( 'wmhook_wm_css_background_output_array', $output, $args );
-
-				//Output
-					return apply_filters( 'wmhook_wm_css_background_output', $output[ $args['return'] ], $args );
-			}
-		} // /wm_css_background
-
-
-
-	/**
 	 * Get image ID from its URL
 	 *
 	 * @since    3.0
@@ -1643,75 +1871,6 @@
 				delete_transient( 'wm-all-categories' );
 			}
 		} // /wm_all_categories_transient_flusher
-
-
-
-	/**
-	 * Modify home query
-	 *
-	 * @since    3.0
-	 * @version  4.0
-	 *
-	 * @param  object $query WordPress posts query
-	 */
-	if ( ! function_exists( 'wm_home_query' ) ) {
-		function wm_home_query( $query ) {
-			if (
-					$query->is_home()
-					&& $query->is_main_query()
-					&& function_exists( 'wma_meta_option' )
-				) {
-
-				//Helper variables
-					$page_id       = get_option( 'page_for_posts' );
-					$article_count = ( wma_meta_option( 'blog-posts-count', $page_id ) ) ? ( wma_meta_option( 'blog-posts-count', $page_id ) ) : ( false );
-					$cats_action   = ( wma_meta_option( 'blog-categories-action', $page_id ) ) ? ( wma_meta_option( 'blog-categories-action', $page_id ) ) : ( 'category__in' );
-					$cats          = ( wma_meta_option( 'blog-categories', $page_id ) ) ? ( array_filter( wma_meta_option( 'blog-categories', $page_id ) ) ) : ( array() );
-
-					if ( 0 < count( $cats ) ) {
-						$cat_temp = array();
-
-						foreach ( $cats as $cat ) {
-							if ( isset( $cat['category'] ) && $cat['category'] ) {
-								$cat = $cat['category'];
-
-								if ( ! is_numeric( $cat ) ) {
-								//Category slugs to IDs
-
-									$cat_object = get_category_by_slug( $cat );
-									$cat_temp[] = ( is_object( $cat_object ) && isset( $cat_object->term_id ) ) ? ( $cat_object->term_id ) : ( null );
-
-								} else {
-
-									$cat_temp[] = $cat;
-
-								}
-							}
-						}
-
-						array_filter( $cat_temp ); //remove empty (if any)
-
-						$cats = $cat_temp;
-					}
-
-				//Modify the query
-					do_action( 'wmhook_wm_home_query', $query );
-
-					//Change articles count
-						if ( $article_count ) {
-							$query->set( 'posts_per_page', absint( $article_count ) );
-						}
-
-					//Filter output by catagory
-						if ( 0 < count( $cats ) ) {
-							$query->set( $cats_action, $cats );
-						}
-
-					//Ignore sticky posts
-						$query->set( 'ignore_sticky_posts', 1 );
-			}
-		}
-	} // /wm_home_query
 
 
 

@@ -92,6 +92,9 @@
 
 	/**
 	 * Adds an update notification to the WordPress Dashboard menu
+	 *
+	 * @since    3.0
+	 * @version  4.0
 	 */
 	function update_notifier_menu() {
 		if ( function_exists( 'simplexml_load_string' ) ) {
@@ -130,6 +133,9 @@
 
 	/**
 	 * Adds an update notification to the WordPress 3.1+ Admin Bar
+	 *
+	 * @since    3.0
+	 * @version  4.0
 	 */
 	function update_notifier_bar_menu() {
 		if ( function_exists( 'simplexml_load_string' ) ) {
@@ -181,6 +187,9 @@
 
 	/**
 	 * Notifier page renderer
+	 *
+	 * @since    3.0
+	 * @version  4.0
 	 */
 	function update_notifier() {
 		//Requirements check
@@ -277,6 +286,9 @@
 	 *
 	 * Get the remote XML file contents and return its data (Version and Changelog).
 	 * Uses the cached version if available and inside the time interval defined.
+	 *
+	 * @since    3.0
+	 * @version  4.0
 	 *
 	 * @param  integer $interval
 	 */

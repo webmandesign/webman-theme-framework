@@ -6,6 +6,7 @@
 * ADDED: WordPress 4.1+ support
 * ADDED: ZillaLikes native support
 * ADDED: Post Views Count native support
+* ADDED: Custom CSS variables replacer function
 * UPDATED: Improved and optimized code
 * UPDATED: Improved conditional loading of files
 * UPDATED: Constants
@@ -25,7 +26,7 @@
 * FIXED: Customizer: control type setup
 * REMOVED: GZIP option from generating main CSS file
 * REMOVED: Obsolete hooks and filters
-* REMOVED: Obsolete functions (favicons, thumbnails, not-found, search form, comments navigation, integer sanitization, gallery and excerpt modifications)
+* REMOVED: Obsolete functions (favicons, thumbnails, home query, not-found, search form, comments navigation, integer sanitization, gallery and excerpt modifications)
 * REMOVED: Renamed and/or removed files
 
 #### Files changed:

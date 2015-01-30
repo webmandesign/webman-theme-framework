@@ -40,9 +40,86 @@
  */
 
 	/**
+	 * Customizing format dropdown items
+	 *
+	 * @link  http://codex.wordpress.org/TinyMCE_Custom_Styles
+	 *
+	 * @since    4.0
+	 * @version  4.0
+	 *
+	 * @param  array $init
+	 */
+	if ( ! function_exists( 'wm_custom_mce_format' ) ) {
+		function wm_custom_mce_format( $init ) {
+			//Preparing output
+				//Merge old & new formats
+					$init['style_formats_merge'] = true;
+
+				//Add custom formats
+					$init['style_formats'] = json_encode( apply_filters( 'wmhook_wm_custom_mce_format_style_formats', array(
+
+							//Group: Quotes
+								array(
+									'title' => _x( 'Quotes', 'Visual editor blockquote formats group title.', 'wm_domain' ),
+									'items' => array(
+
+										array(
+											'title' => __( 'Blockquote', 'wm_domain' ),
+											'block' => 'blockquote',
+										),
+										array(
+											'title'   => __( 'Pullquote - align left', 'wm_domain' ),
+											'block'   => 'blockquote',
+											'classes' => 'pullquote alignleft',
+										),
+										array(
+											'title'   => __( 'Pullquote - align right', 'wm_domain' ),
+											'block'   => 'blockquote',
+											'classes' => 'pullquote alignright',
+										),
+										array(
+											'title' => _x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', 'wm_domain' ),
+											'block' => 'cite',
+										),
+
+									),
+								),
+
+							//Group: Text styles
+								array(
+									'title' => __( 'Text styles', 'wm_domain' ),
+									'items' => array(
+
+										array(
+											'title'    => __( 'Uppercase heading or paragraph', 'wm_domain' ),
+											'selector' => 'h1, h2, h3, h4, h5, h6, p',
+											'classes'  => 'uppercase',
+										),
+
+										array(
+											'title'  => __( 'Highlighted (marked) text', 'wm_domain' ),
+											'inline' => 'mark',
+										),
+
+									),
+								),
+
+						) ) );
+
+			//Output
+				return apply_filters( 'wmhook_wm_custom_mce_format_output', $init );
+		}
+	} // /wm_custom_mce_format
+
+
+
+	/**
 	 * Add buttons to visual editor
 	 *
 	 * First row.
+	 *
+	 * @since    4.0
+	 * @version  4.0
 	 *
 	 * @param  array $buttons
 	 */
@@ -68,6 +145,9 @@
 		 *
 		 * Second row.
 		 *
+		 * @since    4.0
+		 * @version  4.0
+		 *
 		 * @param  array $buttons
 		 */
 		if ( ! function_exists( 'wm_add_buttons_row2' ) ) {
@@ -79,76 +159,5 @@
 					return $buttons;
 			}
 		} // /wm_add_buttons_row2
-
-
-
-		/**
-		 * Customizing format dropdown items
-		 *
-		 * @link  http://codex.wordpress.org/TinyMCE_Custom_Styles
-		 *
-		 * @param  array $init
-		 */
-		if ( ! function_exists( 'wm_custom_mce_format' ) ) {
-			function wm_custom_mce_format( $init ) {
-				//Preparing output
-					//Merge old & new formats
-						$init['style_formats_merge'] = true;
-
-					//Add custom formats
-						$init['style_formats'] = json_encode( apply_filters( 'wmhook_wm_custom_mce_format_style_formats', array(
-
-								//Group: Quotes
-									array(
-										'title' => _x( 'Quotes', 'Visual editor blockquote formats group title.', 'wm_domain' ),
-										'items' => array(
-
-											array(
-												'title' => __( 'Blockquote', 'wm_domain' ),
-												'block' => 'blockquote',
-											),
-											array(
-												'title'   => __( 'Pullquote - align left', 'wm_domain' ),
-												'block'   => 'blockquote',
-												'classes' => 'pullquote alignleft',
-											),
-											array(
-												'title'   => __( 'Pullquote - align right', 'wm_domain' ),
-												'block'   => 'blockquote',
-												'classes' => 'pullquote alignright',
-											),
-											array(
-												'title' => _x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', 'wm_domain' ),
-												'block' => 'cite',
-											),
-
-										),
-									),
-
-								//Group: Text styles
-									array(
-										'title' => __( 'Text styles', 'wm_domain' ),
-										'items' => array(
-
-											array(
-												'title'    => __( 'Uppercase heading or paragraph', 'wm_domain' ),
-												'selector' => 'h1, h2, h3, h4, h5, h6, p',
-												'classes'  => 'uppercase',
-											),
-
-											array(
-												'title'  => __( 'Highlighted (marked) text', 'wm_domain' ),
-												'inline' => 'mark',
-											),
-
-										),
-									),
-
-							) ) );
-
-				//Output
-					return apply_filters( 'wmhook_wm_custom_mce_format_output', $init );
-			}
-		} // /wm_custom_mce_format
 
 ?>
