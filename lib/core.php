@@ -361,7 +361,7 @@
 				global $page, $numpages, $multipage, $post;
 
 				//translators: %s will be replaced with parted post title. Copy it, do not translate.
-				$title_text = apply_filters( 'wmhook_wm_nextpage_table_of_contents_title_text', sprintf( __( '"%s" table of contents', 'wm_domain' ), get_the_title() ) );
+				$title_text = apply_filters( 'wmhook_wm_nextpage_table_of_contents_title_text', sprintf( __( '"%s" table of contents', 'wm_domain' ), the_title_attribute( 'echo=0' ) ) );
 				$title      = apply_filters( 'wmhook_wm_nextpage_table_of_contents_title', '<h2 class="screen-reader-text">' . $title_text . '</h2>' );
 
 				//Requirements check
@@ -398,7 +398,7 @@
 						//Get title for post part
 							if ( $args['disable_first'] && 1 === $i ) {
 
-								$part_title = get_the_title();
+								$part_title = the_title_attribute( 'echo=0' );
 
 							} else {
 
