@@ -1271,8 +1271,8 @@
 				$replacements = array();
 
 			//Preparing output
+				//Setting up replacements array
 					if ( ! empty( $wm_theme_options ) ) {
-
 						foreach ( $wm_theme_options as $option ) {
 
 							//Reset variables
@@ -1342,36 +1342,33 @@
 								}
 
 						} // /foreach
+					}
 
-						//Add WordPress Custom Background and Header support
-							if ( ! empty( $replacements ) ) {
-								//Background color
-									if ( $value = get_background_color() ) {
-										$replacements['[[background_color]]'] = '#' . trim( $value, '#' );
-										$replacements['[[background_color|alpha=0]]'] = wm_color_hex_to_rgba( $value, 0 );
-									}
-								//Background image
-									if ( $value = esc_url( get_background_image() ) ) {
-										$replacements['[[background_image]]'] = "url('" . $value . "')";
-									} else {
-										$replacements['[[background_image]]'] = 'none';
-									}
-								//Header text color
-									if ( $value = get_header_textcolor() ) {
-										$replacements['[[header_textcolor]]'] = '#' . trim( $value, '#' );
-										$replacements['[[header_textcolor|alpha=0]]'] = wm_color_hex_to_rgba( $value, 0 );
-									}
-								//Header image
-									if ( $value = esc_url( get_header_image() ) ) {
-										$replacements['[[header_image]]'] = "url('" . $value . "')";
-									} else {
-										$replacements['[[header_image]]'] = 'none';
-									}
+					//Add WordPress Custom Background and Header support
+						//Background color
+							if ( $value = get_background_color() ) {
+								$replacements['[[background_color]]'] = '#' . trim( $value, '#' );
+								$replacements['[[background_color|alpha=0]]'] = wm_color_hex_to_rgba( $value, 0 );
+							}
+						//Background image
+							if ( $value = esc_url( get_background_image() ) ) {
+								$replacements['[[background_image]]'] = "url('" . $value . "')";
+							} else {
+								$replacements['[[background_image]]'] = 'none';
+							}
+						//Header text color
+							if ( $value = get_header_textcolor() ) {
+								$replacements['[[header_textcolor]]'] = '#' . trim( $value, '#' );
+								$replacements['[[header_textcolor|alpha=0]]'] = wm_color_hex_to_rgba( $value, 0 );
+							}
+						//Header image
+							if ( $value = esc_url( get_header_image() ) ) {
+								$replacements['[[header_image]]'] = "url('" . $value . "')";
+							} else {
+								$replacements['[[header_image]]'] = 'none';
 							}
 
-						$replacements = apply_filters( 'wmhook_wm_custom_styles_replace_replacements', $replacements, $wm_theme_options, $output );
-
-					}
+					$replacements = apply_filters( 'wmhook_wm_custom_styles_replace_replacements', $replacements, $wm_theme_options, $output );
 
 				//Replace tags in custom CSS strings with actual values
 					$output = strtr( $output, $replacements );
