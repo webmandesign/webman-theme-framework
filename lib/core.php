@@ -953,7 +953,7 @@
 					}
 
 			//Output
-				return apply_filters( 'wmhook_wm_color_hex_to_rgba' . '_output', $output . ')', $hex, $alpha );
+				return apply_filters( 'wmhook_wm_color_hex_to_rgba_output', $output . ')', $hex, $alpha );
 		}
 	} // /wm_color_hex_to_rgba
 
