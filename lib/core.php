@@ -125,8 +125,6 @@
 			add_action( 'switch_theme',  'wm_image_ids_transient_flusher'      );
 			add_action( 'edit_category', 'wm_all_categories_transient_flusher' );
 			add_action( 'save_post',     'wm_all_categories_transient_flusher' );
-		//Home query modification
-			add_action( 'pre_get_posts', 'wm_home_query', 10 );
 		//Contextual help
 			add_action( 'contextual_help', 'wm_help', 10, 3 );
 		//Admin bar (displayed also on front end)

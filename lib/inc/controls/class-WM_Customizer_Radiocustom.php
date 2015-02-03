@@ -62,7 +62,7 @@ class WM_Customizer_Radiocustom extends WP_Customize_Control {
 			</div>
 
 			<?php
-		}
+		endif;
 	}
 
 } // /WM_Customizer_Radiocustom
