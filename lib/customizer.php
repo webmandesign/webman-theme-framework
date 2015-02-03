@@ -32,9 +32,6 @@
 	//Customizer options array
 		locate_template( WM_SETUP_DIR . 'setup-theme-options.php', true );
 
-	//Custom CSS styles generator
-		locate_template( 'assets/css/_customizer-styles.php', true );
-
 
 
 
@@ -50,8 +47,7 @@
 		//Register customizer
 			add_action( 'customize_register', 'wm_theme_customizer' );
 		//Customizer assets
-			add_action( 'customize_controls_enqueue_scripts', 'wm_customizer_enqueue_assets'         );
-			add_action( 'customize_preview_init',             'wm_customizer_preview_enqueue_assets' );
+			add_action( 'customize_controls_enqueue_scripts', 'wm_customizer_enqueue_assets' );
 		//Customizer saving
 			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_save_skin',         10 );
 			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_generate_all_css', 100 );
@@ -83,7 +79,6 @@
 
 				//Scripts
 					wp_register_script( 'wm-customizer', wm_get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'js/customizer.js' ), array( 'customize-controls' ), WM_SCRIPTS_VERSION, true );
-					wp_register_script( 'wm-customizer-preview', wm_get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'js/customizer-preview.js' ), array( 'jquery' ), WM_SCRIPTS_VERSION, true );
 
 			/**
 			 * Enqueue
@@ -97,29 +92,6 @@
 
 		}
 	} // /wm_customizer_enqueue_assets
-
-
-
-		/**
-		 * Customizer preview assets enqueue
-		 *
-		 * @since    4.0
-		 * @version  4.0
-		 */
-		if ( ! function_exists( 'wm_customizer_preview_enqueue_assets' ) ) {
-			function wm_customizer_preview_enqueue_assets() {
-				//Helper variables
-					$output = ( function_exists( 'wm_custom_styles' ) ) ? ( wm_custom_styles() ) : ( '' );
-
-				//Styles
-					if ( $output = apply_filters( 'wmhook_wm_customizer_preview_enqueue_assets_inline_styles', $output ) ) {
-						wp_add_inline_style( 'wm-stylesheet-global', apply_filters( 'wmhook_esc_css', $output ) );
-					}
-
-				//Scripts
-					wp_enqueue_script( 'wm-customizer-preview' );
-			}
-		} // /wm_customizer_preview_enqueue_assets
 
 
 
