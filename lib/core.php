@@ -917,6 +917,8 @@
 	 * @since    4.0
 	 * @version  4.0
 	 *
+	 * @link  http://php.net/manual/en/function.hexdec.php
+	 *
 	 * @param  string $hex
 	 * @param  absint $alpha [0-100]
 	 *
@@ -937,18 +939,11 @@
 
 			//Preparing output
 				//Converting hex color into rgb
-					if ( $hex ) {
-						if ( 6 == strlen( $hex ) ) {
-							$rgb['r'] = hexdec( substr( $hex, 0, 2 ) );
-							$rgb['g'] = hexdec( substr( $hex, 2, 2 ) );
-							$rgb['b'] = hexdec( substr( $hex, 4, 2 ) );
-						} else {
-						//If shorthand notation, we need some string manipulations
-							$rgb['r'] = hexdec( str_repeat( substr( $hex, 0, 1 ), 2 ) );
-							$rgb['g'] = hexdec( str_repeat( substr( $hex, 1, 1 ), 2 ) );
-							$rgb['b'] = hexdec( str_repeat( substr( $hex, 2, 1 ), 2 ) );
-						}
-					}
+					$color = (int) hexdec( $hex );
+
+					$rgb['red']   = (int) 0xFF & ( $color >> 0x10 );
+					$rgb['green'] = (int) 0xFF & ( $color >> 0x8 );
+					$rgb['blue']  = (int) 0xFF & $color;
 
 				//Using alpha (rgba)?
 					$output .= implode( ',', $rgb );

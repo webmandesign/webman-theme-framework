@@ -234,11 +234,6 @@
 		} // /wmhook_entry_bottom
 
 
-		function wmhook_entry_container_atts() {
-			do_action( 'wmhook_entry_container_atts' );
-		} // /wmhook_entry_container_atts
-
-
 
 	/**
 	 * $tha_supports[] = 'comments';
