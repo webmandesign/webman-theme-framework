@@ -939,9 +939,9 @@
 				//Converting hex color into rgb
 					$color = (int) hexdec( $hex );
 
-					$rgb['red']   = (int) 0xFF & ( $color >> 0x10 );
-					$rgb['green'] = (int) 0xFF & ( $color >> 0x8 );
-					$rgb['blue']  = (int) 0xFF & $color;
+					$rgb['r'] = (int) 0xFF & ( $color >> 0x10 );
+					$rgb['g'] = (int) 0xFF & ( $color >> 0x8 );
+					$rgb['b'] = (int) 0xFF & $color;
 
 				//Using alpha (rgba)?
 					$output .= implode( ',', $rgb );
