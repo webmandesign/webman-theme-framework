@@ -791,7 +791,7 @@
 	 */
 	if ( ! function_exists( 'wm_esc_css' ) ) {
 		function wm_esc_css( $css ) {
-			return apply_filters( 'wmhook_wm_esc_css', str_replace( array( '&gt;', '&quot;', '&#039;' ), array( '>', '"', '\'' ), esc_attr( (string) $css ) ), $css );
+			return str_replace( array( '&gt;', '&quot;', '&#039;' ), array( '>', '"', '\'' ), esc_attr( (string) $css ) );
 		}
 	} // /wm_esc_css
 
