@@ -50,8 +50,8 @@
 			add_action( 'customize_controls_enqueue_scripts', 'wm_customizer_enqueue_assets' );
 		//Customizer saving
 			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_save_skin',         10 );
-			add_action( 'update_option_' . WM_OPTION_CUSTOMIZER, 'wm_generate_all_css', 100 );
-			add_action( 'update_option_' . 'background_color',   'wm_generate_all_css', 100 );
+			add_action( 'customize_save_after',                  'wm_generate_all_css', 100 );
+
 
 
 
