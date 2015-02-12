@@ -244,7 +244,7 @@
 					if ( get_edit_post_link() ) {
 						edit_post_link( $image );
 					} else {
-						echo '<a href="' . get_permalink() . '">' . $image . '</a>';
+						echo '<a href="' . esc_url( get_permalink() ) . '">' . $image . '</a>';
 					}
 
 					echo '</span>';

@@ -1932,11 +1932,11 @@
 			} elseif ( is_author() ) {
 				$title = sprintf( __( 'Author: %s', 'wm_domain' ), '<span class="vcard">' . get_the_author() . '</span>' );
 			} elseif ( is_year() ) {
-				$title = sprintf( __( 'Year: %s', 'wm_domain' ), get_the_date( 'Y' ) );
+				$title = sprintf( __( 'Year: %s', 'wm_domain' ), esc_html( get_the_date( 'Y' ) ) );
 			} elseif ( is_month() ) {
-				$title = sprintf( __( 'Month: %s', 'wm_domain' ), get_the_date( 'F Y' ) );
+				$title = sprintf( __( 'Month: %s', 'wm_domain' ), esc_html( get_the_date( 'F Y' ) ) );
 			} elseif ( is_day() ) {
-				$title = sprintf( __( 'Day: %s', 'wm_domain' ), get_the_date() );
+				$title = sprintf( __( 'Day: %s', 'wm_domain' ), esc_html( get_the_date() ) );
 			} elseif ( is_tax( 'post_format' ) ) {
 				if ( is_tax( 'post_format', 'post-format-aside' ) ) {
 					$title = _x( 'Asides', 'post format archive title', 'wm_domain' );
