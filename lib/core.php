@@ -85,6 +85,9 @@
 	//Main theme action hooks
 		locate_template( WM_LIBRARY_DIR . 'inc/hooks.php', true );
 
+	//Customizer (has to be fontend accessible, otherwise it hides theme settings)
+		locate_template( WM_LIBRARY_DIR . 'customizer.php', true );
+
 	//Admin required files
 		if ( is_admin() ) {
 
@@ -99,9 +102,6 @@
 					locate_template( WM_LIBRARY_DIR . 'inc/class-tgm-plugin-activation.php', true );
 					locate_template( WM_SETUP_DIR . 'tgmpa/plugins.php',                     true );
 				}
-
-			//Customizer
-				locate_template( WM_LIBRARY_DIR . 'customizer.php', true );
 
 		}
 
