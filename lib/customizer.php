@@ -103,6 +103,8 @@
 			//Helper variables
 				$wm_skin_design = apply_filters( 'wmhook_theme_options', array() );
 
+				ksort( $wm_skin_design );
+
 				$output = $output_single = '';
 
 			//Preparing output
@@ -280,6 +282,8 @@
 
 			//Helper variables
 				$wm_skin_design = (array) apply_filters( 'wmhook_theme_options', array() );
+
+				ksort( $wm_skin_design );
 
 				$allowed_option_types = apply_filters( 'wmhook_wm_theme_customizer_allowed_option_types', array(
 						'background',
