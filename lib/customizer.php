@@ -44,7 +44,6 @@
 
 
 
-
 /**
  * 20) Helpers
  */
@@ -101,25 +100,25 @@
 	if ( ! function_exists( 'wm_theme_customizer_js' ) ) {
 		function wm_theme_customizer_js() {
 			//Helper variables
-				$wm_skin_design = apply_filters( 'wmhook_theme_options', array() );
+				$theme_options = apply_filters( 'wmhook_theme_options', array() );
 
-				ksort( $wm_skin_design );
+				ksort( $theme_options );
 
 				$output = $output_single = '';
 
 			//Preparing output
-				if ( is_array( $wm_skin_design ) && ! empty( $wm_skin_design ) ) {
+				if ( is_array( $theme_options ) && ! empty( $theme_options ) ) {
 
-					foreach ( $wm_skin_design as $skin_option ) {
+					foreach ( $theme_options as $theme_option ) {
 
-						if ( isset( $skin_option['customizer_js'] ) ) {
+						if ( isset( $theme_option['customizer_js'] ) ) {
 
-							$output_single  = "wp.customize( '" . WM_OPTION_CUSTOMIZER . "[" . WM_OPTION_PREFIX . $skin_option['id'] . "]" . "', function( value ) {"  . "\r\n";
+							$output_single  = "wp.customize( '" . WM_OPTION_CUSTOMIZER . "[" . WM_OPTION_PREFIX . $theme_option['id'] . "]" . "', function( value ) {"  . "\r\n";
 							$output_single .= "\t" . 'value.bind( function( newval ) {' . "\r\n";
 
-							if ( ! isset( $skin_option['customizer_js']['custom'] ) ) {
+							if ( ! isset( $theme_option['customizer_js']['custom'] ) ) {
 
-								foreach ( $skin_option['customizer_js']['css'] as $selector => $properties ) {
+								foreach ( $theme_option['customizer_js']['css'] as $selector => $properties ) {
 
 									if ( is_array( $properties ) ) {
 
@@ -149,13 +148,13 @@
 
 							} else {
 
-								$output_single .= "\t\t" . $skin_option['customizer_js']['custom'] . "\r\n";
+								$output_single .= "\t\t" . $theme_option['customizer_js']['custom'] . "\r\n";
 
 							}
 
 							$output_single .= "\t" . '} );' . "\r\n";
 							$output_single .= '} );'. "\r\n";
-							$output_single  = apply_filters( 'wmhook_wm_theme_customizer_js_option_' . $skin_option['id'], $output_single );
+							$output_single  = apply_filters( 'wmhook_wm_theme_customizer_js_option_' . $theme_option['id'], $output_single );
 
 							$output .= $output_single;
 
@@ -281,9 +280,9 @@
 
 
 			//Helper variables
-				$wm_skin_design = (array) apply_filters( 'wmhook_theme_options', array() );
+				$theme_options = (array) apply_filters( 'wmhook_theme_options', array() );
 
-				ksort( $wm_skin_design );
+				ksort( $theme_options );
 
 				$allowed_option_types = apply_filters( 'wmhook_wm_theme_customizer_allowed_option_types', array(
 						'background',
@@ -321,16 +320,16 @@
 				$type = apply_filters( 'wmhook_wm_theme_customizer_type', 'option' );
 
 			//Generate customizer options
-				if ( is_array( $wm_skin_design ) && ! empty( $wm_skin_design ) ) {
+				if ( is_array( $theme_options ) && ! empty( $theme_options ) ) {
 
-					foreach ( $wm_skin_design as $skin_option ) {
+					foreach ( $theme_options as $theme_option ) {
 
 						if (
-								is_array( $skin_option )
-								&& isset( $skin_option['type'] )
+								is_array( $theme_option )
+								&& isset( $theme_option['type'] )
 								&& (
-										in_array( $skin_option['type'], $allowed_option_types )
-										|| isset( $skin_option['theme-customizer-section'] )
+										in_array( $theme_option['type'], $allowed_option_types )
+										|| isset( $theme_option['theme-customizer-section'] )
 									)
 							) {
 
@@ -339,17 +338,17 @@
 
 								$option_id = $default = $description = '';
 
-								if ( isset( $skin_option['id'] ) ) {
-									$option_id = WM_OPTION_PREFIX . $skin_option['id'];
+								if ( isset( $theme_option['id'] ) ) {
+									$option_id = WM_OPTION_PREFIX . $theme_option['id'];
 								}
-								if ( isset( $skin_option['default'] ) ) {
-									$default = $skin_option['default'];
+								if ( isset( $theme_option['default'] ) ) {
+									$default = $theme_option['default'];
 								}
-								if ( isset( $skin_option['description'] ) ) {
-									$description = $skin_option['description'];
+								if ( isset( $theme_option['description'] ) ) {
+									$description = $theme_option['description'];
 								}
 
-								$transport = ( isset( $skin_option['customizer_js'] ) ) ? ( 'postMessage' ) : ( 'refresh' );
+								$transport = ( isset( $theme_option['customizer_js'] ) ) ? ( 'postMessage' ) : ( 'refresh' );
 
 
 
@@ -368,18 +367,18 @@
 							 */
 							if (
 									wm_check_wp_version( 4 )
-									&& isset( $skin_option['theme-customizer-panel'] )
+									&& isset( $theme_option['theme-customizer-panel'] )
 								) {
 
-								$panel_id = sanitize_title( trim( $skin_option['theme-customizer-panel'] ) );
+								$panel_id = sanitize_title( trim( $theme_option['theme-customizer-panel'] ) );
 
 								if ( $customizer_panel != $panel_id ) {
 
 									$wp_customize->add_panel(
 											$panel_id,
 											array(
-												'title'       => $skin_option['theme-customizer-panel'], //panel title
-												'description' => ( isset( $skin_option['theme-customizer-panel-description'] ) ) ? ( $skin_option['theme-customizer-panel-description'] ) : ( '' ), //Displayed at the top of panel
+												'title'       => $theme_option['theme-customizer-panel'], //panel title
+												'description' => ( isset( $theme_option['theme-customizer-panel-description'] ) ) ? ( $theme_option['theme-customizer-panel-description'] ) : ( '' ), //Displayed at the top of panel
 												'priority'    => $priority,
 											)
 										);
@@ -398,19 +397,19 @@
 							 * @version  4.0
 							 */
 							if (
-									isset( $skin_option['theme-customizer-section'] )
-									&& trim( $skin_option['theme-customizer-section'] )
+									isset( $theme_option['theme-customizer-section'] )
+									&& trim( $theme_option['theme-customizer-section'] )
 								) {
 
 								if ( empty( $option_id ) ) {
-									$option_id = sanitize_title( trim( $skin_option['theme-customizer-section'] ) );
+									$option_id = sanitize_title( trim( $theme_option['theme-customizer-section'] ) );
 								}
 
 								$customizer_section = array(
 										'id'    => $option_id,
 										'setup' => array(
-												'title'       => $skin_option['theme-customizer-section'], //section title
-												'description' => ( isset( $skin_option['theme-customizer-section-description'] ) ) ? ( $skin_option['theme-customizer-section-description'] ) : ( '' ), //Displayed at the top of section
+												'title'       => $theme_option['theme-customizer-section'], //section title
+												'description' => ( isset( $theme_option['theme-customizer-section-description'] ) ) ? ( $theme_option['theme-customizer-section-description'] ) : ( '' ), //Displayed at the top of section
 												'priority'    => $priority,
 											)
 									);
@@ -434,7 +433,7 @@
 							/**
 							 * Options generator
 							 */
-							switch ( $skin_option['type'] ) {
+							switch ( $theme_option['type'] ) {
 
 								/**
 								 * Background combo options
@@ -623,7 +622,7 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $skin_option['label'],
+												'label'       => $theme_option['label'],
 												'description' => $description,
 												'section'     => $customizer_section,
 												'priority'    => $priority,
@@ -656,7 +655,7 @@
 												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
 													'type'        => 'email',
-													'label'       => $skin_option['label'],
+													'label'       => $theme_option['label'],
 													'description' => $description,
 													'section'     => $customizer_section,
 													'priority'    => $priority,
@@ -678,8 +677,8 @@
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
-												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
 											)
 										);
 
@@ -717,7 +716,7 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'    => $skin_option['content'],
+												'label'    => $theme_option['content'],
 												'section'  => $customizer_section,
 												'priority' => $priority,
 											)
@@ -736,8 +735,8 @@
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_return_value' ),
-												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_return_value' ),
+												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'wm_sanitize_return_value' ),
+												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'wm_sanitize_return_value' ),
 											)
 										);
 
@@ -745,7 +744,7 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $skin_option['label'],
+												'label'       => $theme_option['label'],
 												'description' => $description,
 												'section'     => $customizer_section,
 												'priority'    => $priority,
@@ -767,20 +766,20 @@
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
-												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
 											)
 										);
 
 									$wp_customize->add_control(
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $skin_option['label'],
+												'label'       => $theme_option['label'],
 												'description' => $description,
 												'section'     => $customizer_section,
 												'priority'    => $priority,
-												'type'        => $skin_option['type'],
-												'choices'     => ( isset( $skin_option['options'] ) ) ? ( $skin_option['options'] ) : ( '' ),
+												'type'        => $theme_option['type'],
+												'choices'     => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
 											)
 										);
 
@@ -797,8 +796,8 @@
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_return_value' ),
-												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'wm_sanitize_return_value' ),
+												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'wm_sanitize_return_value' ),
+												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'wm_sanitize_return_value' ),
 											)
 										);
 
@@ -806,11 +805,11 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $skin_option['label'],
+												'label'       => $theme_option['label'],
 												'description' => $description,
 												'section'     => $customizer_section,
 												'priority'    => $priority,
-												'choices'     => ( isset( $skin_option['options'] ) ) ? ( $skin_option['options'] ) : ( '' ),
+												'choices'     => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
 											)
 										) );
 
@@ -831,8 +830,8 @@
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'intval' ),
-												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'intval' ),
+												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'intval' ),
+												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'intval' ),
 											)
 										);
 
@@ -840,11 +839,11 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $skin_option['label'],
+												'label'       => $theme_option['label'],
 												'description' => $description,
 												'section'     => $customizer_section,
 												'priority'    => $priority,
-												'json'        => array( $skin_option['min'], $skin_option['max'], $skin_option['step'] ),
+												'json'        => array( $theme_option['min'], $theme_option['max'], $theme_option['step'] ),
 											)
 										) );
 
@@ -865,8 +864,8 @@
 													'type'                 => $type,
 													'default'              => $default,
 													'transport'            => $transport,
-													'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
-													'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
+													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
+													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
 												)
 											);
 
@@ -874,7 +873,7 @@
 												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
 													'type'        => 'password',
-													'label'       => $skin_option['label'],
+													'label'       => $theme_option['label'],
 													'description' => $description,
 													'section'     => $customizer_section,
 													'priority'    => $priority,
@@ -896,8 +895,8 @@
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
-												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
 											)
 										);
 
@@ -905,12 +904,12 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $skin_option['label'],
+												'label'       => $theme_option['label'],
 												'description' => $description,
 												'section'     => $customizer_section,
 												'priority'    => $priority,
-												'choices'     => ( isset( $skin_option['options'] ) ) ? ( $skin_option['options'] ) : ( '' ),
-												'class'       => ( isset( $skin_option['class'] ) ) ? ( $skin_option['class'] ) : ( '' ),
+												'choices'     => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
+												'class'       => ( isset( $theme_option['class'] ) ) ? ( $theme_option['class'] ) : ( '' ),
 											)
 										) );
 
@@ -927,8 +926,8 @@
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
-												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
 											)
 										);
 
@@ -936,11 +935,11 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $skin_option['label'],
+												'label'       => $theme_option['label'],
 												'description' => $description,
 												'section'     => $customizer_section,
 												'priority'    => $priority,
-												'choices'     => ( isset( $skin_option['options'] ) ) ? ( $skin_option['options'] ) : ( '' ),
+												'choices'     => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
 											)
 										) );
 
@@ -957,15 +956,15 @@
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_textarea' ),
-												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_textarea' ),
+												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_textarea' ),
+												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_textarea' ),
 											)
 										);
 
 									$wp_customize->add_control(
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $skin_option['label'],
+												'label'       => $theme_option['label'],
 												'description' => $description,
 												'section'     => $customizer_section,
 												'priority'    => $priority,
@@ -987,8 +986,8 @@
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_textarea' ),
-												'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_textarea' ),
+												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_textarea' ),
+												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_textarea' ),
 											)
 										);
 
@@ -998,7 +997,7 @@
 												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
 													'type'        => 'textarea',
-													'label'       => $skin_option['label'],
+													'label'       => $theme_option['label'],
 													'description' => $description,
 													'section'     => $customizer_section,
 													'priority'    => $priority,
@@ -1011,7 +1010,7 @@
 												$wp_customize,
 												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
-													'label'       => $skin_option['label'],
+													'label'       => $theme_option['label'],
 													'description' => $description,
 													'section'     => $customizer_section,
 													'priority'    => $priority,
@@ -1037,8 +1036,8 @@
 													'type'                 => $type,
 													'default'              => $default,
 													'transport'            => $transport,
-													'sanitize_callback'    => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_url' ),
-													'sanitize_js_callback' => ( isset( $skin_option['validate'] ) ) ? ( $skin_option['validate'] ) : ( 'esc_url' ),
+													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_url' ),
+													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_url' ),
 												)
 											);
 
@@ -1046,7 +1045,7 @@
 												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
 													'type'        => 'url',
-													'label'       => $skin_option['label'],
+													'label'       => $theme_option['label'],
 													'description' => $description,
 													'section'     => $customizer_section,
 													'priority'    => $priority,

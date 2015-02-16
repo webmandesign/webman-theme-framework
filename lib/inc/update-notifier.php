@@ -58,7 +58,7 @@
  */
 
 	//The remote notifier XML file containing the latest version of the theme and changelog
-		if ( ! defined( 'NOTIFIER_XML_FILE' ) )       define( 'NOTIFIER_XML_FILE',       trailingslashit( WM_DEVELOPER_URL ) . 'updates/' . WM_THEME_SHORTNAME . '/' . WM_THEME_SHORTNAME . '-version.xml' );
+		if ( ! defined( 'NOTIFIER_XML_FILE' ) )       define( 'NOTIFIER_XML_FILE',       trailingslashit( WM_THEME_AUTHOR_URI ) . 'updates/' . WM_THEME_SHORTNAME . '/' . WM_THEME_SHORTNAME . '-version.xml' );
 	//The time interval for the remote XML cache in the database (86400 seconds = 24 hours)
 		if ( ! defined( 'NOTIFIER_CACHE_INTERVAL' ) ) define( 'NOTIFIER_CACHE_INTERVAL', 86400 );
 

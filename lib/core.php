@@ -36,9 +36,11 @@
 		$theme_data = wp_get_theme();
 
 	//Basic constants
-		if ( ! defined( 'WM_THEME_NAME' ) )        define( 'WM_THEME_NAME',        $theme_data->Name                                            );
+		if ( ! defined( 'WM_THEME_NAME' ) )        define( 'WM_THEME_NAME',        $theme_data->get( 'Name' )                                   );
 		if ( ! defined( 'WM_THEME_SHORTNAME' ) )   define( 'WM_THEME_SHORTNAME',   str_replace( array( '-lite', '-plus' ), '', get_template() ) );
-		if ( ! defined( 'WM_THEME_VERSION' ) )     define( 'WM_THEME_VERSION',     $theme_data->Version                                         );
+		if ( ! defined( 'WM_THEME_VERSION' ) )     define( 'WM_THEME_VERSION',     $theme_data->get( 'Version' )                                );
+		if ( ! defined( 'WM_THEME_AUTHOR_URI' ) )  define( 'WM_THEME_AUTHOR_URI',  esc_url( $theme_data->get( 'AuthorURI' ) )                   );
+		if ( ! defined( 'WM_THEME_URI' ) )         define( 'WM_THEME_URI',         esc_url( $theme_data->get( 'ThemeURI' ) )                    );
 
 		if ( ! defined( 'WM_SCRIPTS_VERSION' ) )   define( 'WM_SCRIPTS_VERSION',   esc_attr( trim( WM_THEME_VERSION ) )                         );
 
@@ -54,9 +56,6 @@
 		if ( ! defined( 'WM_SETUP_CHILD' ) )       define( 'WM_SETUP_CHILD',       trailingslashit( get_stylesheet_directory() ) . WM_SETUP_DIR );
 		if ( ! defined( 'WM_SKINS_DIR' ) )         define( 'WM_SKINS_DIR',         trailingslashit( WM_SETUP . 'skins' )                        );
 		if ( ! defined( 'WM_SKINS_DIR_CHILD' ) )   define( 'WM_SKINS_DIR_CHILD',   trailingslashit( WM_SETUP_CHILD . 'skins' )                  );
-
-	//URL constants
-		if ( ! defined( 'WM_DEVELOPER_URL' ) )     define( 'WM_DEVELOPER_URL',     'http://www.webmandesign.eu'                                 );
 
 	//Required to set up in the theme's functions.php file
 		if ( ! defined( 'WM_WP_COMPATIBILITY' ) )  define( 'WM_WP_COMPATIBILITY',  4.1                                                          );
