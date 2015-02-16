@@ -13,24 +13,12 @@
  * @version  4.0
  *
  * CONTENT:
- * -  1) Required files
  * - 10) Actions and filters
  * - 20) Helpers
  * - 30) Sanitizing functions
  * - 40) Main customizer function
  * - 50) CSS styles
  */
-
-
-
-
-
-/**
- * 1) Required files
- */
-
-	//Customizer options array
-		locate_template( WM_SETUP_DIR . 'setup-theme-options.php', true );
 
 
 
