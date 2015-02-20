@@ -1910,20 +1910,15 @@
 
 
 	/**
-	 * Shim for `the_archive_title()`.
-	 *
-	 * Display the archive title based on the queried object.
+	 * Shim for `get_the_archive_title()`.
 	 *
 	 * @todo Remove this function when WordPress 4.3 is released.
 	 *
 	 * @since    4.0
 	 * @version  4.0
-	 *
-	 * @param  string $before Optional. Content to prepend to the title. Default empty.
-	 * @param  string $after  Optional. Content to append to the title. Default empty.
 	 */
-	if ( ! function_exists( 'the_archive_title' ) ) {
-		function the_archive_title( $before = '', $after = '' ) {
+	if ( ! function_exists( 'get_the_archive_title' ) ) {
+		function get_the_archive_title() {
 			if ( is_category() ) {
 				$title = sprintf( __( 'Category: %s', 'wm_domain' ), single_cat_title( '', false ) );
 			} elseif ( is_tag() ) {
@@ -1931,11 +1926,11 @@
 			} elseif ( is_author() ) {
 				$title = sprintf( __( 'Author: %s', 'wm_domain' ), '<span class="vcard">' . get_the_author() . '</span>' );
 			} elseif ( is_year() ) {
-				$title = sprintf( __( 'Year: %s', 'wm_domain' ), esc_html( get_the_date( 'Y' ) ) );
+				$title = sprintf( __( 'Year: %s', 'wm_domain' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
 			} elseif ( is_month() ) {
-				$title = sprintf( __( 'Month: %s', 'wm_domain' ), esc_html( get_the_date( 'F Y' ) ) );
+				$title = sprintf( __( 'Month: %s', 'wm_domain' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
 			} elseif ( is_day() ) {
-				$title = sprintf( __( 'Day: %s', 'wm_domain' ), esc_html( get_the_date() ) );
+				$title = sprintf( __( 'Day: %s', 'wm_domain' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
 			} elseif ( is_tax( 'post_format' ) ) {
 				if ( is_tax( 'post_format', 'post-format-aside' ) ) {
 					$title = _x( 'Asides', 'post format archive title', 'wm_domain' );
@@ -1967,48 +1962,85 @@
 			}
 
 			/**
-			 * Filter the archive title.
-			 *
-			 * @param string $title Archive title to be displayed.
-			 */
-			$title = apply_filters( 'get_the_archive_title', $title );
-
-			if ( ! empty( $title ) ) {
-				echo $before . $title . $after;
-			}
+			* Filter the archive title.
+			*
+			* @param string $title Archive title to be displayed.
+			*/
+			return apply_filters( 'get_the_archive_title', $title );
 		}
-	} // /the_archive_title
+	} // /get_the_archive_title
+
+
+
+		/**
+		 * Shim for `the_archive_title()`.
+		 *
+		 * Display the archive title based on the queried object.
+		 *
+		 * @todo Remove this function when WordPress 4.3 is released.
+		 *
+		 * @since    4.0
+		 * @version  4.0
+		 *
+		 * @param  string $before Optional. Content to prepend to the title. Default empty.
+		 * @param  string $after  Optional. Content to append to the title. Default empty.
+		 */
+		if ( ! function_exists( 'the_archive_title' ) ) {
+			function the_archive_title( $before = '', $after = '' ) {
+				$title = get_the_archive_title();
+
+				if ( ! empty( $title ) ) {
+					echo $before . $title . $after;
+				}
+			}
+		} // /the_archive_title
 
 
 
 	/**
-	 * Shim for `the_archive_description()`.
-	 *
-	 * Display category, tag, or term description.
+	 * Shim for `get_the_archive_description()`.
 	 *
 	 * @todo Remove this function when WordPress 4.3 is released.
 	 *
 	 * @since    4.0
 	 * @version  4.0
-	 *
-	 * @param  string $before Optional. Content to prepend to the description. Default empty.
-	 * @param  string $after  Optional. Content to append to the description. Default empty.
 	 */
-	if ( ! function_exists( 'the_archive_description' ) ) {
-		function the_archive_description( $before = '', $after = '' ) {
-			$description = apply_filters( 'get_the_archive_description', term_description() );
-
-			if ( ! empty( $description ) ) {
-				/**
-				 * Filter the archive description.
-				 *
-				 * @see term_description()
-				 *
-				 * @param string $description Archive description to be displayed.
-				 */
-				echo $before . $description . $after;
-			}
+	if ( ! function_exists( 'get_the_archive_description' ) ) {
+		function get_the_archive_description() {
+			/**
+			 * Filter the archive description.
+			 *
+			 * @see term_description()
+			 *
+			 * @param string $description Archive description to be displayed.
+			 */
+			return apply_filters( 'get_the_archive_description', term_description() );
 		}
-	} // /the_archive_description
+	} // /get_the_archive_description
+
+
+
+		/**
+		 * Shim for `the_archive_description()`.
+		 *
+		 * Display category, tag, or term description.
+		 *
+		 * @todo Remove this function when WordPress 4.3 is released.
+		 *
+		 * @since    4.0
+		 * @version  4.0
+		 *
+		 * @param  string $before Optional. Content to prepend to the description. Default empty.
+		 * @param  string $after  Optional. Content to append to the description. Default empty.
+		 */
+		if ( ! function_exists( 'the_archive_description' ) ) {
+			function the_archive_description( $before = '', $after = '' ) {
+				$description = get_the_archive_description();
+
+				if ( $description ) {
+					echo $before . $description . $after;
+				}
+			}
+		} // /the_archive_description
 
 ?>
