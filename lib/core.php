@@ -1669,7 +1669,7 @@
 						}
 
 					//Output addon
-						if ( $output ) {
+						if ( is_string( $output ) && $output ) {
 							$output .= (string) $addon;
 						}
 
