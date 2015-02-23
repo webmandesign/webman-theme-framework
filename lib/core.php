@@ -1670,7 +1670,7 @@
 
 					//Output addon
 						if ( $output ) {
-							$output .= $addon;
+							$output .= (string) $addon;
 						}
 
 				//Output
