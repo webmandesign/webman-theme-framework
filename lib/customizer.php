@@ -820,6 +820,8 @@
 								 *
 								 * Since WP4.0 there is also a "range" native input field. This will output
 								 * HTML5 <input type="range" /> element - thus still using custom one.
+								 *
+								 * intva() as sanitize callback causes PHP errors!
 								 */
 								case 'range':
 								case 'slider':
@@ -830,8 +832,8 @@
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'intval' ),
-												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'intval' ),
+												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'absint' ),
+												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'absint' ),
 											)
 										);
 
