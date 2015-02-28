@@ -898,7 +898,7 @@
 				//Remove CSS comments
 					$css = preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css );
 				//Remove tabs, spaces, line breaks, etc.
-					$css = str_replace( array( "\r\n", "\r", "\n", "\t", '//', '  ', '   ' ), '', $css );
+					$css = str_replace( array( "\r\n", "\r", "\n", "\t", '  ', '   ' ), '', $css );
 					$css = str_replace( array( ' { ', ': ', '; }' ), array( '{', ':', '}' ), $css );
 
 			//Output
