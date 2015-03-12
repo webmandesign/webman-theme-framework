@@ -8,7 +8,7 @@
  * @copyright  2015 WebMan - Oliver Juhas
  * @license    GPL-2.0+, http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version  4.0
+ * @version  4.0.1
  *
  * @link  https://github.com/webmandesign/webman-theme-framework
  * @link  http://www.webmandesign.eu
@@ -348,7 +348,7 @@
 	 * Appends the output at the top and bottom of post content.
 	 *
 	 * @since    3.0
-	 * @version  4.0
+	 * @version  4.0.1
 	 *
 	 * @param  string $content
 	 */
@@ -358,7 +358,7 @@
 				global $page, $numpages, $multipage, $post;
 
 				//translators: %s will be replaced with parted post title. Copy it, do not translate.
-				$title_text = apply_filters( 'wmhook_wm_nextpage_table_of_contents_title_text', sprintf( __( '"%s" table of contents', 'wm_domain' ), the_title_attribute( 'echo=0' ) ) );
+				$title_text = apply_filters( 'wmhook_wm_nextpage_table_of_contents_title_text', sprintf( _x( '"%s" table of contents', 'Parted/paginated post table of content title. %s = post title.', 'wm_domain' ), the_title_attribute( 'echo=0' ) ) );
 				$title      = apply_filters( 'wmhook_wm_nextpage_table_of_contents_title', '<h2 class="screen-reader-text">' . $title_text . '</h2>' );
 
 				//Requirements check
@@ -472,7 +472,7 @@
 	 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 	 *
 	 * @since    3.0
-	 * @version  4.0
+	 * @version  4.0.1
 	 *
 	 * @param  array $args
 	 */
@@ -559,7 +559,7 @@
 									$replacements = array(
 											'{attributes}' => '',
 											'{class}'      => 'comments-link entry-meta-element',
-											'{content}'    => '<a href="' . get_permalink( $args['post_id'] ) . $element_id . '" title="' . esc_attr( sprintf( _x( 'Comments: %s', 'Number of comments in post meta.', 'wm_domain' ), $helper ) ) . '">' . sprintf( _x( '<span class="comments-title">Comments: </span>%s', 'Number of comments in post meta (keep the HTML tags).', 'wm_domain' ), '<span class="comments-count">' . $helper . '</span>' ) . '</a>',
+											'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . $element_id . '" title="' . esc_attr( sprintf( _x( 'Comments: %s', 'Number of comments in post meta.', 'wm_domain' ), $helper ) ) . '">' . sprintf( _x( '<span class="comments-title">Comments: </span>%s', 'Number of comments in post meta (keep the HTML tags).', 'wm_domain' ), '<span class="comments-count">' . $helper . '</span>' ) . '</a>',
 										);
 								}
 
@@ -623,7 +623,7 @@
 									$replacements = array(
 											'{attributes}' => wm_schema_org( 'url' ),
 											'{class}'      => 'entry-permalink entry-meta-element',
-											'{content}'    => '<a href="' . get_permalink( $args['post_id'] ) . '" title="' . esc_attr( sprintf( __( 'Permalink to "%s"', 'wm_domain' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
+											'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" title="' . esc_attr( sprintf( __( 'Permalink to "%s"', 'wm_domain' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
 										);
 								}
 
@@ -1916,7 +1916,7 @@
 	 * @todo Remove this function when WordPress 4.3 is released.
 	 *
 	 * @since    4.0
-	 * @version  4.0
+	 * @version  4.0.1
 	 */
 	if ( ! function_exists( 'get_the_archive_title' ) ) {
 		function get_the_archive_title() {
@@ -1927,11 +1927,11 @@
 			} elseif ( is_author() ) {
 				$title = sprintf( __( 'Author: %s', 'wm_domain' ), '<span class="vcard">' . get_the_author() . '</span>' );
 			} elseif ( is_year() ) {
-				$title = sprintf( __( 'Year: %s', 'wm_domain' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
+				$title = sprintf( __( 'Year: %s', 'wm_domain' ), get_the_date( _x( 'Y', 'yearly archives date format', 'wm_domain' ) ) );
 			} elseif ( is_month() ) {
-				$title = sprintf( __( 'Month: %s', 'wm_domain' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
+				$title = sprintf( __( 'Month: %s', 'wm_domain' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'wm_domain' ) ) );
 			} elseif ( is_day() ) {
-				$title = sprintf( __( 'Day: %s', 'wm_domain' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
+				$title = sprintf( __( 'Day: %s', 'wm_domain' ), get_the_date( _x( 'F j, Y', 'daily archives date format', 'wm_domain' ) ) );
 			} elseif ( is_tax( 'post_format' ) ) {
 				if ( is_tax( 'post_format', 'post-format-aside' ) ) {
 					$title = _x( 'Asides', 'post format archive title', 'wm_domain' );

@@ -1,5 +1,20 @@
 # Changelog
 
+## 4.0.1
+
+* UPDATED: Wrapping `get_permalink()` in `esc_url()`
+* UPDATED: Optimized Customizer custom option JS handling
+* UPDATED: Customizer sanitize functions improved
+* UPDATED: Visual editor script improved
+* FIXED: Localization
+
+#### Files changed:
+
+	core.php
+	customizer.php
+	inc/visual-editor.php
+
+
 ## 4.0
 
 * This is a major update/simplification
@@ -30,6 +45,7 @@
 * REMOVED: Renamed and/or removed files
 
 #### Files changed:
+
 	admin.php
 	core.php
 	customizer.php
@@ -59,6 +75,7 @@
 * Improved admin notices
 
 #### Files changed:
+
 	admin.php
 	core.php
 	skinning.php
@@ -69,6 +86,7 @@
 * Theme customizer improved
 
 #### Files changed:
+
 	skinning.php
 	includes/sanitize.php
 
@@ -80,6 +98,7 @@
 * TGM-Plugin-Activation removed support for old WordPress versions
 
 #### Files changed:
+
 	skinning.php
 	assets/css/theme-customizer.css
 	includes/class-tgm-plugin-activation.php
@@ -98,6 +117,7 @@
 * `[caption]` shortcode modification removed
 
 #### Files changed:
+
 	admin.php
 	core.php
 	skinning.php

@@ -10,7 +10,7 @@
  * @uses  Custom CSS styles generator
  *
  * @since    3.0
- * @version  4.0
+ * @version  4.0.1
  *
  * CONTENT:
  * - 10) Actions and filters
@@ -95,7 +95,7 @@
 	 * 		)
 	 *
 	 * @since    3.0
-	 * @version  4.0
+	 * @version  4.0.1
 	 */
 	if ( ! function_exists( 'wm_theme_customizer_js' ) ) {
 		function wm_theme_customizer_js() {
@@ -113,10 +113,15 @@
 
 						if ( isset( $theme_option['customizer_js'] ) ) {
 
-							$output_single  = "wp.customize( '" . WM_OPTION_CUSTOMIZER . "[" . WM_OPTION_PREFIX . $theme_option['id'] . "]" . "', function( value ) {"  . "\r\n";
-							$output_single .= "\t" . 'value.bind( function( newval ) {' . "\r\n";
+							$output_single  = "wp.customize("  . "\r\n";
+							$output_single .= "\t" . "'" . WM_OPTION_CUSTOMIZER . "[" . WM_OPTION_PREFIX . $theme_option['id'] . "]" . "',"  . "\r\n";
+							$output_single .= "\t" . "function( value ) {"  . "\r\n";
+							$output_single .= "\t\t" . 'value.bind( function( to ) {' . "\r\n";
 
 							if ( ! isset( $theme_option['customizer_js']['custom'] ) ) {
+
+								$output_single .= "\t\t\t" . "var newCss = '';" . "\r\n\r\n";
+								$output_single .= "\t\t\t" . "if ( jQuery( '#jscss-" . WM_OPTION_PREFIX . $theme_option['id'] . "' ).length ) { jQuery( '#jscss-" . WM_OPTION_PREFIX . $theme_option['id'] . "' ).remove() }" . "\r\n\r\n";
 
 								foreach ( $theme_option['customizer_js']['css'] as $selector => $properties ) {
 
@@ -132,17 +137,19 @@
 											if ( ! isset( $property[1] ) ) {
 												$property[1] = '';
 											}
-											if ( trim( $property[1] ) ) {
-												$property[1] = ' + "' . $property[1] . '"';
-											}
 
-											$output_single_css .= '.css( "' . $property[0] . '", newval' . $property[1] . ' )';
+											/**
+											 * $property[0] = CSS style property
+											 * $property[1] = suffix (such as CSS unit)
+											 */
+
+											$output_single_css .= $property[0] . ": ' + to + '" . $property[1] . "; ";
 
 										} // /foreach
 
 									}
 
-									$output_single .= "\t\t" . '$( "' . $selector . '" )' . $output_single_css . ";\r\n";
+									$output_single .= "\t\t\t" . "newCss += '" . $selector . " { " . $output_single_css . "} ';" . "\r\n";
 
 								} // /foreach
 
@@ -152,8 +159,10 @@
 
 							}
 
-							$output_single .= "\t" . '} );' . "\r\n";
-							$output_single .= '} );'. "\r\n";
+							$output_single .= "\r\n\t\t\t" . "jQuery( document ).find( 'head' ).append( jQuery( '<style id=\'jscss-" . WM_OPTION_PREFIX . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . "\r\n";
+							$output_single .= "\t\t" . '} );' . "\r\n";
+							$output_single .= "\t" . '}'. "\r\n";
+							$output_single .= ');'. "\r\n";
 							$output_single  = apply_filters( 'wmhook_wm_theme_customizer_js_option_' . $theme_option['id'], $output_single );
 
 							$output .= $output_single;
@@ -165,7 +174,7 @@
 				}
 
 			//Output
-				if ( $output = apply_filters( 'wmhook_wm_theme_customizer_js_output', $output ) ) {
+				if ( $output = trim( apply_filters( 'wmhook_wm_theme_customizer_js_output', $output ) ) ) {
 					echo '<!-- Theme custom scripts -->' . "\r\n" . '<script type="text/javascript"><!--' . "\r\n" . '( function( $ ) {' . "\r\n\r\n" . trim( $output ) . "\r\n\r\n" . '} )( jQuery );' . "\r\n" . '//--></script>';
 				}
 		}
@@ -216,18 +225,28 @@
 
 
 	/**
-	 * No sanitization at all, simply return the value
+	 * No sanitization at all, simply return the value in appropriate format
 	 *
 	 * Useful for when the value may be of mixed type, such as array-or-string.
 	 *
 	 * @since    3.0
-	 * @version  3.0
+	 * @version  4.0.1
 	 *
 	 * @param  mixed $value WP customizer value to sanitize.
 	 */
 	if ( ! function_exists( 'wm_sanitize_return_value' ) ) {
 		function wm_sanitize_return_value( $value ) {
-			return apply_filters( 'wmhook_wm_sanitize_return_value_output', $value );
+			//Preparing output
+				if ( is_array( $value ) ) {
+					$value = (array) $value;
+				} elseif ( is_numeric( $value ) ) {
+					$value = intval( $value );
+				} elseif ( is_string( $value ) ) {
+					$value = (string) $value;
+				}
+
+			//Output
+				return apply_filters( 'wmhook_wm_sanitize_return_value_output', $value );
 		}
 	} // /wm_sanitize_return_value
 

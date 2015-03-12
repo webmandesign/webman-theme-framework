@@ -7,7 +7,7 @@
  * @copyright   2015 WebMan - Oliver Juhas
  *
  * @since    4.0
- * @version  4.0
+ * @version  4.0.1
  *
  * CONTENT:
  * - 10) Actions and filters
@@ -38,6 +38,55 @@
 /**
  * 20) Visual editor addons
  */
+
+	/**
+	 * Add buttons to visual editor
+	 *
+	 * First row.
+	 *
+	 * @since    4.0
+	 * @version  4.0
+	 *
+	 * @param  array $buttons
+	 */
+	if ( ! function_exists( 'wm_add_buttons_row1' ) ) {
+		function wm_add_buttons_row1( $buttons ) {
+			//Inserting buttons after "more" button
+				$pos = array_search( 'wp_more', $buttons, true );
+				if ( false !== $pos ) {
+					$add     = array_slice( $buttons, 0, $pos + 1 );
+					$add[]   = 'wp_page';
+					$buttons = array_merge( $add, array_slice( $buttons, $pos + 1 ) );
+				}
+
+			//Output
+				return $buttons;
+		}
+	} // /wm_add_buttons_row1
+
+
+
+		/**
+		 * Add buttons to visual editor
+		 *
+		 * Second row.
+		 *
+		 * @since    4.0
+		 * @version  4.0.1
+		 *
+		 * @param  array $buttons
+		 */
+		if ( ! function_exists( 'wm_add_buttons_row2' ) ) {
+			function wm_add_buttons_row2( $buttons ) {
+				//Inserting buttons at the beginning of the row
+					array_unshift( $buttons, 'styleselect' );
+
+				//Output
+					return $buttons;
+			}
+		} // /wm_add_buttons_row2
+
+
 
 	/**
 	 * Customizing format dropdown items
@@ -110,54 +159,5 @@
 				return apply_filters( 'wmhook_wm_custom_mce_format_output', $init );
 		}
 	} // /wm_custom_mce_format
-
-
-
-	/**
-	 * Add buttons to visual editor
-	 *
-	 * First row.
-	 *
-	 * @since    4.0
-	 * @version  4.0
-	 *
-	 * @param  array $buttons
-	 */
-	if ( ! function_exists( 'wm_add_buttons_row1' ) ) {
-		function wm_add_buttons_row1( $buttons ) {
-			//Inserting buttons after "more" button
-				$pos = array_search( 'wp_more', $buttons, true );
-				if ( false !== $pos ) {
-					$add     = array_slice( $buttons, 0, $pos + 1 );
-					$add[]   = 'wp_page';
-					$buttons = array_merge( $add, array_slice( $buttons, $pos + 1 ) );
-				}
-
-			//Output
-				return $buttons;
-		}
-	} // /wm_add_buttons_row1
-
-
-
-		/**
-		 * Add buttons to visual editor
-		 *
-		 * Second row.
-		 *
-		 * @since    4.0
-		 * @version  4.0
-		 *
-		 * @param  array $buttons
-		 */
-		if ( ! function_exists( 'wm_add_buttons_row2' ) ) {
-			function wm_add_buttons_row2( $buttons ) {
-				//Inserting buttons at the beginning of the row
-					$buttons = array_merge( array( 'styleselect' ), $buttons );
-
-				//Output
-					return $buttons;
-			}
-		} // /wm_add_buttons_row2
 
 ?>
