@@ -8,7 +8,7 @@
  * @copyright  2015 WebMan - Oliver Juhas
  * @license    GPL-2.0+, http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version  4.0.1
+ * @version  4.0.2
  *
  * @link  https://github.com/webmandesign/webman-theme-framework
  * @link  http://www.webmandesign.eu

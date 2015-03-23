@@ -1,5 +1,16 @@
 # Changelog
 
+## 4.0.2
+
+* UPDATED: Adding support for `active_callback` in Customizer generator
+* UPDATED: Removed obsolete Customizer custom textarea control
+
+#### Files changed:
+
+	core.php
+	customizer.php
+
+
 ## 4.0.1
 
 * UPDATED: Wrapping `get_permalink()` in `esc_url()`

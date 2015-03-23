@@ -10,7 +10,7 @@
  * @uses  Custom CSS styles generator
  *
  * @since    3.0
- * @version  4.0.1
+ * @version  4.0.2
  *
  * CONTENT:
  * - 10) Actions and filters
@@ -262,7 +262,7 @@
 	 * Registering sections and options for WP Customizer
 	 *
 	 * @since    3.0
-	 * @version  4.0
+	 * @version  4.0.2
 	 *
 	 * @param  object $wp_customize WP customizer object.
 	 */
@@ -641,10 +641,11 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $theme_option['label'],
-												'description' => $description,
-												'section'     => $customizer_section,
-												'priority'    => $priority,
+												'label'           => $theme_option['label'],
+												'description'     => $description,
+												'section'         => $customizer_section,
+												'priority'        => $priority,
+												'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 											)
 										) );
 
@@ -673,11 +674,12 @@
 										$wp_customize->add_control(
 												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
-													'type'        => 'email',
-													'label'       => $theme_option['label'],
-													'description' => $description,
-													'section'     => $customizer_section,
-													'priority'    => $priority,
+													'type'            => 'email',
+													'label'           => $theme_option['label'],
+													'description'     => $description,
+													'section'         => $customizer_section,
+													'priority'        => $priority,
+													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 												)
 											);
 
@@ -735,9 +737,10 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'    => $theme_option['content'],
-												'section'  => $customizer_section,
-												'priority' => $priority,
+												'label'           => $theme_option['content'],
+												'section'         => $customizer_section,
+												'priority'        => $priority,
+												'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 											)
 										) );
 
@@ -763,11 +766,12 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $theme_option['label'],
-												'description' => $description,
-												'section'     => $customizer_section,
-												'priority'    => $priority,
-												'context'     => WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												'label'           => $theme_option['label'],
+												'description'     => $description,
+												'section'         => $customizer_section,
+												'priority'        => $priority,
+												'context'         => WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 											)
 										) );
 
@@ -793,12 +797,13 @@
 									$wp_customize->add_control(
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $theme_option['label'],
-												'description' => $description,
-												'section'     => $customizer_section,
-												'priority'    => $priority,
-												'type'        => $theme_option['type'],
-												'choices'     => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
+												'label'           => $theme_option['label'],
+												'description'     => $description,
+												'section'         => $customizer_section,
+												'priority'        => $priority,
+												'type'            => $theme_option['type'],
+												'choices'         => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
+												'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 											)
 										);
 
@@ -824,11 +829,12 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $theme_option['label'],
-												'description' => $description,
-												'section'     => $customizer_section,
-												'priority'    => $priority,
-												'choices'     => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
+												'label'           => $theme_option['label'],
+												'description'     => $description,
+												'section'         => $customizer_section,
+												'priority'        => $priority,
+												'choices'         => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
+												'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 											)
 										) );
 
@@ -860,11 +866,12 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $theme_option['label'],
-												'description' => $description,
-												'section'     => $customizer_section,
-												'priority'    => $priority,
-												'json'        => array( $theme_option['min'], $theme_option['max'], $theme_option['step'] ),
+												'label'           => $theme_option['label'],
+												'description'     => $description,
+												'section'         => $customizer_section,
+												'priority'        => $priority,
+												'json'            => array( $theme_option['min'], $theme_option['max'], $theme_option['step'] ),
+												'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 											)
 										) );
 
@@ -893,11 +900,12 @@
 										$wp_customize->add_control(
 												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
-													'type'        => 'password',
-													'label'       => $theme_option['label'],
-													'description' => $description,
-													'section'     => $customizer_section,
-													'priority'    => $priority,
+													'type'            => 'password',
+													'label'           => $theme_option['label'],
+													'description'     => $description,
+													'section'         => $customizer_section,
+													'priority'        => $priority,
+													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 												)
 											);
 
@@ -925,12 +933,13 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $theme_option['label'],
-												'description' => $description,
-												'section'     => $customizer_section,
-												'priority'    => $priority,
-												'choices'     => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
-												'class'       => ( isset( $theme_option['class'] ) ) ? ( $theme_option['class'] ) : ( '' ),
+												'label'           => $theme_option['label'],
+												'description'     => $description,
+												'section'         => $customizer_section,
+												'priority'        => $priority,
+												'choices'         => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
+												'class'           => ( isset( $theme_option['class'] ) ) ? ( $theme_option['class'] ) : ( '' ),
+												'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 											)
 										) );
 
@@ -956,11 +965,12 @@
 											$wp_customize,
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $theme_option['label'],
-												'description' => $description,
-												'section'     => $customizer_section,
-												'priority'    => $priority,
-												'choices'     => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
+												'label'           => $theme_option['label'],
+												'description'     => $description,
+												'section'         => $customizer_section,
+												'priority'        => $priority,
+												'choices'         => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
+												'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 											)
 										) );
 
@@ -985,10 +995,11 @@
 									$wp_customize->add_control(
 											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 											array(
-												'label'       => $theme_option['label'],
-												'description' => $description,
-												'section'     => $customizer_section,
-												'priority'    => $priority,
+												'label'           => $theme_option['label'],
+												'description'     => $description,
+												'section'         => $customizer_section,
+												'priority'        => $priority,
+												'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 											)
 										);
 
@@ -996,8 +1007,6 @@
 
 								/**
 								 * Textarea
-								 *
-								 * Since WordPress 4.0 this is native input field.
 								 */
 								case 'textarea':
 
@@ -1012,33 +1021,17 @@
 											)
 										);
 
-									if ( wm_check_wp_version( 4 ) ) {
-
-										$wp_customize->add_control(
-												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'type'        => 'textarea',
-													'label'       => $theme_option['label'],
-													'description' => $description,
-													'section'     => $customizer_section,
-													'priority'    => $priority,
-												)
-											);
-
-									} else {
-
-										$wp_customize->add_control( new WM_Customizer_Textarea(
-												$wp_customize,
-												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'label'       => $theme_option['label'],
-													'description' => $description,
-													'section'     => $customizer_section,
-													'priority'    => $priority,
-												)
-											) );
-
-									}
+									$wp_customize->add_control(
+											WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+											array(
+												'type'            => 'textarea',
+												'label'           => $theme_option['label'],
+												'description'     => $description,
+												'section'         => $customizer_section,
+												'priority'        => $priority,
+												'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
+											)
+										);
 
 								break;
 
@@ -1065,11 +1058,12 @@
 										$wp_customize->add_control(
 												WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
-													'type'        => 'url',
-													'label'       => $theme_option['label'],
-													'description' => $description,
-													'section'     => $customizer_section,
-													'priority'    => $priority,
+													'type'            => 'url',
+													'label'           => $theme_option['label'],
+													'description'     => $description,
+													'section'         => $customizer_section,
+													'priority'        => $priority,
+													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 												)
 											);
 
