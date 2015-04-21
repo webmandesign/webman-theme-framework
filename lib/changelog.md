@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.0.3
+
+* UPDATED: TGMPA library `add_query_arg()` escaping fixed
+
+#### Files changed:
+
+	inc/class-tgm-plugin-activation.php
+
+
 ## 4.0.2
 
 * UPDATED: Adding support for `active_callback` in Customizer generator
