@@ -7,7 +7,7 @@
  * @copyright   2015 WebMan - Oliver Juhas
  *
  * @since    3.0
- * @version  4.0
+ * @version  4.0.3
  *
  * CONTENT:
  * -   1) Required files
@@ -221,7 +221,7 @@
 	 * use the standard WordPress 'thumbnail' image size.
 	 *
 	 * @since    3.0
-	 * @version  4.0
+	 * @version  4.0.3
 	 *
 	 * @param  string $column
 	 * @param  absint $post_id
@@ -231,7 +231,7 @@
 			//Thumbnail renderer
 				if ( 'wm-thumb' === $column ) {
 
-					$size  = ( defined( 'WMAMP_HOOK_PREFIX' ) ) ? ( apply_filters( WMAMP_HOOK_PREFIX . 'cp_admin_thumb_size', 'admin-thumbnail' ) ) : ( 'thumbnail' );
+					$size  = ( class_exists( 'WM_Amplifier' ) ) ? ( apply_filters( 'wmhook_wmamp_cp_admin_thumb_size', 'admin-thumbnail' ) ) : ( 'thumbnail' );
 					$size  = apply_filters( 'wmhook_wm_post_columns_render_wm-thumb_size', $size );
 
 					$image = ( has_post_thumbnail() ) ? ( get_the_post_thumbnail( $post_id, $size ) ) : ( '' );
