@@ -1,5 +1,14 @@
 # Changelog
 
+## 5.0
+
+* UPDATED: Code organized into PHP classes
+
+#### Files changed:
+
+
+
+
 ## 4.0.4
 
 * UPDATED: TGMPA library

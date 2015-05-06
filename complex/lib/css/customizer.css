@@ -2,11 +2,10 @@
  * Customizer styles
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Customizer
- * @copyright   2015 WebMan - Oliver Juhas
+ * @subpackage  Customize
  *
  * @since    3.0
- * @version  4.0
+ * @version  5.0
  */
 
 
@@ -22,8 +21,8 @@
 			margin: 2em 0 .5em;
 			text-transform: uppercase;
 			font-size: 1em;
-			color: #aaa;
-			border-bottom: 2px solid #d3d3d3;
+			color: #aaacae;
+			border-bottom: 2px solid #dadcde;
 		}
 
 		.customize-control h4 {
@@ -35,7 +34,7 @@
 			margin: 1em 0;
 			background: transparent;
 			border: 0;
-			border-top: 1px dashed #d3d3d3;
+			border-top: 1px dashed #dadcde;
 		}
 
 		.donation-link,
@@ -61,8 +60,11 @@
 
 		.customize-control select,
 		.customize-control textarea { width: 100%; }
+
 		.customize-control select[multiple] { height: 8em; }
+
 		.customize-control textarea { resize: vertical; }
+
 		.customize-control-hidden { display: none !important; }
 
 		#customize-control-page_on_front,
@@ -70,9 +72,9 @@
 			padding: 10px;
 			margin-left: -10px;
 			border-radius: 5px;
-			background: #d7eef4;
+			background: #daecfe;
 		}
-		#customize-control-page_for_posts { background: #d7f4e3; }
+		#customize-control-page_for_posts { background: #dafcee; }
 
 
 
@@ -83,8 +85,9 @@
 		.accordion-section .customize-control-image .dropdown-content,
 		.accordion-section .customize-control-image .preview-thumbnail {
 			width: 100%;
-			background: #eee;
+			background: #eaecee;
 		}
+
 			.accordion-section .customize-control-image .preview-thumbnail img { width: auto; }
 
 
@@ -96,11 +99,13 @@
 		.matrix {
 			padding: 2px 0 3px 2px;
 			margin-bottom: .5em;
-			border: 2px solid #ddd;
+			border: 2px solid #dadcde;
 			overflow: hidden;
 		}
+
 			.matrix span,
 			.image-radio span { display: none; }
+
 			.matrix label {
 				float: left;
 				display: block;
@@ -111,9 +116,12 @@
 				border: 1px dotted #ddd;
 				box-sizing: border-box;
 			}
-				.matrix label.active { background: #b0dbee; }
-				.matrix label.active:hover { background: #a0cadd; }
-				.matrix label:hover { background: #f6f6f6; }
+
+				.matrix label.active { background: #badcee; }
+
+				.matrix label.active:hover { background: #aaccde; }
+
+				.matrix label:hover { background: #fafcfe; }
 
 
 
@@ -127,16 +135,19 @@
 			margin: 4px;
 			text-align: center;
 		}
+
 			.image-radio img {
 				display: block;
 				width: 42px;
 				opacity: .5;
 			}
+
 			.image-radio input {
 				position: relative;
 				top: -.75em;
 				margin: 0;
 			}
+
 			.image-radio label.active img,
 			.image-radio label:hover img { opacity: 1; }
 
@@ -147,6 +158,7 @@
 	 */
 
 		#accordion-section-credits .accordion-section-title { display: none; }
+
 		#accordion-section-credits .accordion-section-content { display: block !important; }
 
 
@@ -161,6 +173,7 @@
 			width: 70%;
 			padding: 0 10px;
 		}
+
 		.customize-control .slide-number-wrapper + input[type="text"] {
 			float: right;
 			width: 20%;
@@ -174,10 +187,11 @@
 			height: 2px;
 			margin: 10px 0;
 			text-align: left;
-			background: #eee;
-			border: 1px solid #ccc;
+			background: #eaecee;
+			border: 1px solid #caccce;
 			border-radius: 10px;
 		}
+
 			.slide-number-wrapper .ui-slider .ui-slider-handle {
 				position: absolute;
 				z-index: 2;
@@ -186,25 +200,27 @@
 				top: 0;
 				margin: -5px 0 0 -10px;
 				cursor: e-resize;
-				background: #f3f3f3;
-				background-image: -webkit-linear-gradient(       top, #FEFEFE, #F4F4F4 );
-				background-image:         linear-gradient( to bottom, #FEFEFE, #F4F4F4 );
-				border: 1px solid #bbb;
+				background: #fafcfe;
+				background-image: -webkit-linear-gradient(       top, #fafcfe, #f5f7f9 );
+				background-image:         linear-gradient( to bottom, #fafcfe, #f5f7f9 );
+				border: 1px solid #babcbe;
 				outline: 0;
 				border-radius: 10px;
 				-webkit-box-shadow: 0 1px 3px 0 rgba(0,0,0, .25);
 				        box-shadow: 0 1px 3px 0 rgba(0,0,0, .25);
 			}
+
 			.slide-number-wrapper .ui-slider .ui-slider-handle:hover,
 			.slide-number-wrapper .ui-slider .ui-slider-handle:active {
-				background-color: #21759B;
-				background-image: -webkit-linear-gradient(       top, #2A95C5, #21759B );
-				background-image:         linear-gradient( to bottom, #2A95C5, #21759B );
-				border-color: #21759B;
-				border-bottom-color: #1E6A8D;
+				background-color: #2a7c9e;
+				background-image: -webkit-linear-gradient(       top, #2a7c9e, #257799 );
+				background-image:         linear-gradient( to bottom, #2a7c9e, #257799 );
+				border-color: #2a7c9e;
+				border-bottom-color: #1a6c8e;
 				-webkit-box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
 				        box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
 			}
+
 			.slide-number-wrapper .ui-slider .ui-slider-range-min { left: 0; }
 			.slide-number-wrapper .ui-slider .ui-slider-range-max { right: 0; }
 

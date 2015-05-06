@@ -3,10 +3,9 @@
  *
  * @package     WebMan WordPress Theme Framework
  * @subpackage  About page
- * @copyright   2015 WebMan - Oliver Juhas
  *
  * @since    3.0
- * @version  4.0
+ * @version  5.0
  */
 
 
@@ -26,22 +25,15 @@
 			margin-left: 0;
 			margin-right: 0;
 		}
-			.about-wrap .about-text a { color: #666; }
+			.about-wrap .about-text a { color: #6a6c6e; }
 
 	.about-wrap hr {
 		height: 0;
 		margin: 2em 0;
 		border: 0;
-		border-top: 1px solid #ccc;
+		border-top: 1px solid #caccce;
 	}
 	.about-wrap .feature-section.col h4 { margin: 1em 0; }
-
-	.wm-badge {
-		position: absolute;
-		right: 0;
-		top: -20px;
-	}
-		.wm-badge img { max-width: 160px; }
 
 	.wm-actions { margin-top: 2em; }
 		.about-wrap .twitter-share-button {
@@ -55,7 +47,7 @@
 		line-height: 1.4em;
 		font-size: .8em;
 		font-style: italic;
-		background: #fff;
+		background: #fafcfe;
 		-webkit-box-shadow: 0 1px 20px rgba(0,0,0, .5);
 		        box-shadow: 0 1px 20px rgba(0,0,0, .5);
 		border-radius: 1em;
@@ -71,8 +63,8 @@
 		margin: 0 .5em .25em 0;
 		font-size: 1.8em;
 		font-weight: bold;
-		background: #333;
-		color: #fff;
+		background: #3a3c3e;
+		color: #fafcfe;
 		border-radius: .5em;
 	}
 

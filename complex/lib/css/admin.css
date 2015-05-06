@@ -2,11 +2,10 @@
  * Admin styles
  *
  * @package     WebMan WordPress Theme Framework
- * @subpackage  Admin functions
- * @copyright   2015 WebMan - Oliver Juhas
+ * @subpackage  Admin
  *
  * @since    3.0
- * @version  4.0
+ * @version  5.0
  */
 
 
@@ -18,6 +17,7 @@
 		.text-center { text-align: center !important; }
 
 		.wm-table th { text-align: left; }
+
 		.wm-table thead th {
 			padding-top: 1em;
 			padding-bottom: .5em;
@@ -31,12 +31,13 @@
 	 */
 
 		#front-static-pages li + li { margin-top: 15px; }
+
 		#front-static-pages label {
 			padding: 10px;
 			border-radius: 5px;
 		}
-		#front-static-pages label[for="page_on_front"] { background: #d7eef4; }
-		#front-static-pages label[for="page_for_posts"] { background: #d7f4e3; }
+		#front-static-pages label[for="page_on_front"] { background: #daecfe; }
+		#front-static-pages label[for="page_for_posts"] { background: #dafcee; }
 
 
 
@@ -45,56 +46,66 @@
 	 */
 
 		.update-notifier { line-height: 1.5em; }
+
 			.update-notifier hr {
 				margin: 10px 0 20px;
 				border: 0;
-				border-top: 1px solid #ddd;
+				border-top: 1px solid #dadcde;
 			}
+
 			.update-notifier #instructions {
 				max-width: 640px;
 				margin-right: 40px;
 				float: left;
 			}
+
 			.update-notifier .theme-img {
 				float: left;
 				width: 33%;
 				margin: 10px 20px 20px 0;
 			}
+
 			.update-notifier ul {
 				clear: both;
-				border-top: 1px solid #ddd;
+				border-top: 1px solid #dadcde;
 			}
+
 				.update-notifier ul > li {
 					padding: 20px;
-					border-bottom: 1px solid #ddd;
+					border-bottom: 1px solid #dadcde;
 				}
+
 					.update-notifier .note ul > li {
 						padding: 5px 0;
 						margin: 0;
 					}
+
 				.update-notifier li h4 {
 					margin-top: 0;
 					margin-left: -20px;
 					text-transform: uppercase;
 					font-size: 1.17em;
 				}
+
 			.update-notifier .note {
 				padding: 10px 20px;
 				font-size: .9em;
 				background: #f3f3f3;
 				border: 1px solid #ccc;
 			}
+
 			.update-notifier .important-note {
 				clear: both;
 				padding: 20px;
 				margin: 20px 0;
 				line-height: 1.5em;
 				font-size: 1.17em;
-				background: #ff7373;
-				color: #fff;
-				border: 2px solid #ee6262;
+				background: #fa7c7e;
+				color: #fafcfe;
+				border: 2px solid #ea6c6e;
 				border-radius: 2px;
 			}
+
 			.update-notifier #changelog {
 				float: left;
 				max-width: 400px;
@@ -109,6 +120,7 @@
 	 */
 
 		select.widefat { background-color: #fff; }
+
 		select[multiple] { height: 80px !important; }
 
 
@@ -121,6 +133,7 @@
 			width: 80px;
 			text-align: center;
 		}
+
 			.fixed .wm-image-container {
 				display: block;
 				position: relative;
@@ -128,21 +141,22 @@
 				height: 32px;
 				padding: 2px;
 				margin: -3px auto 0;
-				background: #fff;
-				border: 1px solid #d9d9d9;
+				background: #fafcfe;
+				border: 1px solid #dadcde;
 				border-radius: 3px;
 			}
 				.fixed .wm-image-container.has-thumb { height: auto; }
 				.fixed .wm-image-container.no-thumb {
-					background: #f9f9f9;
-					border-color: #e9e9e9;
+					background: #eaecee;
 					-webkit-box-shadow: inset 0 1px 5px 0 rgba(0,0,0, .1);
 					        box-shadow: inset 0 1px 5px 0 rgba(0,0,0, .1);
 				}
+
 					.fixed .wm-image-container a {
 						display: block;
 						outline: 0;
 					}
+
 					.fixed .wm-image-container img {
 						width: 100%;
 						height: auto;
@@ -150,6 +164,7 @@
 						max-height: 100%;
 						vertical-align: top;
 					}
+
 					.fixed .wm-image-container i {
 						font-size: 30px;
 						vertical-align: middle;
@@ -171,9 +186,9 @@
 			font-size: 11px;
 			font-style: italic;
 			line-height: 1.25em;
-			color: #666;
+			color: #6a6c6e;
 			padding-bottom: .62em !important;
-			border-bottom: 1px solid #ddd;
+			border-bottom: 1px solid #dadcde;
 		}
 
 		.widget-content textarea { max-width: 100%; }
@@ -185,7 +200,7 @@
 	 */
 
 		#wpadminbar #wp-admin-bar-wm_theme_options > .ab-item:before { content: '\f111'; }
-		#wpadminbar #wp-admin-bar-update_notifier > .ab-item:before { content: '\f107'; }
+		#wpadminbar #wp-admin-bar-update_notifier > .ab-item:before  { content: '\f107'; }
 
 
 

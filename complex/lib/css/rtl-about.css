@@ -3,20 +3,14 @@
  *
  * @package     WebMan WordPress Theme Framework
  * @subpackage  About page
- * @copyright   2015 WebMan - Oliver Juhas
  *
  * @since    3.0
- * @version  4.0
+ * @version  5.0
  */
 
 
 
-	.about-wrap {direction: rtl}
-
-	.wm-badge {
-		right: auto;
-		left: 0;
-	}
+	.about-wrap { direction: rtl; }
 
 	.about-wrap .twitter-share-button {
 		margin-left: 0;

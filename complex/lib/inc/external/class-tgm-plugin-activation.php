@@ -4,10 +4,9 @@
  *
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Plugins
- * @copyright   2015 WebMan - Oliver Juhas
  *
  * @since    3.2
- * @version  4.0.4
+ * @version  5.0
  */
 
 
