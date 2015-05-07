@@ -46,7 +46,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 
 					//Styles
 
-						$register_styles = apply_filters( 'wmhook_wm_assets_admin_register_styles', array(
+						$register_styles = apply_filters( 'wmhook_wmtf_admin_assets_register_styles', array(
 								'wmtf-about'     => array( WM_Theme_Framework::get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'css/about.css' ) ),
 								'wmtf-about-rtl' => array( WM_Theme_Framework::get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'css/rtl-about.css' ) ),
 								'wmtf-admin'     => array( WM_Theme_Framework::get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'css/admin.css' ) ),
@@ -64,7 +64,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 
 					//Scripts
 
-						$register_scripts = apply_filters( 'wmhook_wm_assets_admin_register_scripts', array(
+						$register_scripts = apply_filters( 'wmhook_wmtf_admin_assets_register_scripts', array(
 								'wmtf-admin' => array( WM_Theme_Framework::get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'js/scripts.js' ) ),
 							) );
 
@@ -133,10 +133,10 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 							$output .= '.hentry.post-' . absint( get_option( 'page_for_posts' ) ) . ' { background: #dafcee; }';
 						}
 
-
-				//Output
-
-					return wp_add_inline_style( 'wmtf-admin', apply_filters( 'wmhook_esc_css', $output ) );
+						wp_add_inline_style(
+								'wmtf-admin',
+								apply_filters( 'wmhook_esc_css', $output )
+							);
 
 			} // /styles_inline
 

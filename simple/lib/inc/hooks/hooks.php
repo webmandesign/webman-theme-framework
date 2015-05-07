@@ -1,25 +1,47 @@
 <?php
 /**
- * Main Theme Hooks
+ * Theme framework hooks
  *
  * Compatible with Theme Hook Alliance (v1.0-draft)
- * @link https://github.com/zamoose/themehookalliance
  *
- * @package    Receptar
- * @copyright  2015 WebMan - Oliver Juhas
+ * @link  https://github.com/zamoose/themehookalliance
+ *
+ * @package     WebMan WordPress Theme Framework (Simple)
+ * @subpackage  Hooks
  *
  * @since    1.0
- * @version  1.0
+ * @version  2.0
  */
+
 
 
 
 
 
 /**
- * Theme Hook Alliance basics
+ * Theme Hook Alliance hook stub list.
+ *
+ * @package  themehookalliance
+ * @version  1.0-draft
+ * @since    1.0-draft
+ * @license  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License, v2 (or newer)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  */
 
+
+
+	/**
+	 * Define the version of THA support, in case that becomes useful down the road.
+	 */
 	define( 'THA_HOOKS_VERSION', '1.0-draft' );
 
 
@@ -74,13 +96,13 @@
  */
 
 	/**
+	 * HTML <html> hook
+	 *
+	 * Special case, useful for <DOCTYPE>, etc.
+	 *
 	 * $tha_supports[] = 'html';
 	 */
 
-		/**
-		 * HTML <html> hook
-		 * Special case, useful for <DOCTYPE>, etc.
-		 */
 		function wmhook_html_before() {
 			do_action( 'wmhook_html_before' );
 			do_action( 'tha_html_before' );
@@ -89,12 +111,11 @@
 
 
 	/**
+	 * HTML <body> hooks
+	 *
 	 * $tha_supports[] = 'body';
 	 */
 
-		/**
-		 * HTML <body> hooks
-		 */
 		function wmhook_body_top() {
 			do_action( 'wmhook_body_top' );
 			do_action( 'tha_body_top' );
@@ -108,12 +129,11 @@
 
 
 	/**
+	 * HTML <head> hooks
+	 *
 	 * $tha_supports[] = 'head';
 	 */
 
-		/**
-		 * HTML <head> hooks
-		 */
 		function wmhook_head_top() {
 			do_action( 'wmhook_head_top' );
 			do_action( 'tha_head_top' );
@@ -127,12 +147,11 @@
 
 
 	/**
+	 * Semantic <header> hooks
+	 *
 	 * $tha_supports[] = 'header';
 	 */
 
-		/**
-		 * Semantic <header> hooks
-		 */
 		function wmhook_header_before() {
 			do_action( 'wmhook_header_before' );
 			do_action( 'tha_header_before' );
@@ -160,12 +179,11 @@
 
 
 	/**
+	 * Semantic <content> hooks
+	 *
 	 * $tha_supports[] = 'content';
 	 */
 
-		/**
-		 * Semantic <content> hooks
-		 */
 		function wmhook_content_before() {
 			do_action( 'wmhook_content_before' );
 			do_action( 'tha_content_before' );
@@ -187,6 +205,14 @@
 		} // /wmhook_content_bottom
 
 
+
+	/**
+	 * Posts list (loop) hooks
+	 *
+	 * WebMan custom hooks.
+	 * Not part of Theme Hook Alliance hooks.
+	 */
+
 		function wmhook_postslist_before() {
 			do_action( 'wmhook_postslist_before' );
 		} // /wmhook_postslist_before
@@ -206,12 +232,11 @@
 
 
 	/**
+	 * Semantic <entry> hooks
+	 *
 	 * $tha_supports[] = 'entry';
 	 */
 
-		/**
-		 * Semantic <entry> hooks
-		 */
 		function wmhook_entry_before() {
 			do_action( 'wmhook_entry_before' );
 			do_action( 'tha_entry_before' );
@@ -235,12 +260,11 @@
 
 
 	/**
+	 * Comments block hooks
+	 *
 	 * $tha_supports[] = 'comments';
 	 */
 
-		/**
-		 * Comments block hooks
-		 */
 		function wmhook_comments_before() {
 			do_action( 'wmhook_comments_before' );
 			do_action( 'tha_comments_before' );
@@ -254,12 +278,11 @@
 
 
 	/**
+	 * Semantic <sidebar> hooks
+	 *
 	 * $tha_supports[] = 'sidebar';
 	 */
 
-		/**
-		 * Semantic <sidebar> hooks
-		 */
 		function wmhook_sidebars_before() {
 			do_action( 'wmhook_sidebars_before' );
 			do_action( 'tha_sidebars_before' );
@@ -283,12 +306,11 @@
 
 
 	/**
+	 * Semantic <footer> hooks
+	 *
 	 * $tha_supports[] = 'footer';
 	 */
 
-		/**
-		 * Semantic <footer> hooks
-		 */
 		function wmhook_footer_before() {
 			do_action( 'wmhook_footer_before' );
 			do_action( 'tha_footer_before' );

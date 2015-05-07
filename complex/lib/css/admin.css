@@ -199,7 +199,7 @@
 	 * Admin bar
 	 */
 
-		#wpadminbar #wp-admin-bar-wm_theme_options > .ab-item:before { content: '\f111'; }
+		#wpadminbar #wp-admin-bar-theme_options_links > .ab-item:before { content: '\f111'; }
 		#wpadminbar #wp-admin-bar-update_notifier > .ab-item:before  { content: '\f107'; }
 
 

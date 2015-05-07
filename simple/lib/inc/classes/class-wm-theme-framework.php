@@ -2,11 +2,11 @@
 /**
  * Core class
  *
- * @package     WebMan WordPress Theme Framework
+ * @package     WebMan WordPress Theme Framework (Simple)
  * @subpackage  Core
  *
- * @since    5.0
- * @version  5.0
+ * @since    2.0
+ * @version  2.0
  */
 
 
@@ -21,9 +21,9 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 		 *
 		 *   0) Theme upgrade action
 		 *  10) Branding
-		 *  20) Post/page
-		 *  30) CSS functions
-		 *  40) Options
+		 *  20) SEO
+		 *  30) Post/page
+		 *  40) CSS functions
 		 * 100) Helpers
 		 */
 
@@ -38,8 +38,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			/**
 			 * Do action on theme version change
 			 *
-			 * @since    4.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 */
 			static public function theme_upgrade() {
 
@@ -76,8 +76,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * Supports Jetpack Site Logo module.
 			 *
-			 * @since    3.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 */
 			static public function get_the_logo() {
 
@@ -101,7 +101,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 						) );
 
 					$args = apply_filters( 'wmhook_wmtf_get_the_logo_args', array(
-							'logo_image' => ( function_exists( 'jetpack_get_site_logo' ) ) ? ( array( absint( jetpack_get_site_logo( 'id' ) ) ) ) : ( array( self::get_theme_mod( 'logo' ), self::get_theme_mod( 'logo-hidpi' ) ) ),
+							'logo_image' => ( function_exists( 'jetpack_get_site_logo' ) ) ? ( absint( jetpack_get_site_logo( 'id' ) ) ) : ( false ),
 							'logo_type'  => 'text',
 							'title_att'  => ( $blog_info['description'] ) ? ( $blog_info['name'] . ' | ' . $blog_info['description'] ) : ( $blog_info['name'] ),
 							'url'        => home_url( '/' ),
@@ -112,36 +112,19 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					//Logo image
 
-						if ( $args['logo_image'][0] ) {
+						if ( ! empty( $args['logo_image'] ) ) {
 
-							$img_id = ( is_numeric( $args['logo_image'][0] ) ) ? ( absint( $args['logo_image'][0] ) ) : ( self::get_image_id_from_url( $args['logo_image'][0] ) );
-
-							//High resolution support
-
-								if ( isset( $args['logo_image'][1] ) && is_numeric( $args['logo_image'][1] ) ) {
-									$img_id_hidpi = absint( $args['logo_image'][1] );
-								} elseif ( isset( $args['logo_image'][1] ) ) {
-									$img_id_hidpi = self::get_image_id_from_url( $args['logo_image'][1] );
-								} else {
-									$img_id_hidpi = false;
-								}
+							$img_id = ( is_numeric( $args['logo_image'] ) ) ? ( absint( $args['logo_image'] ) ) : ( self::get_image_id_from_url( $args['logo_image'] ) );
 
 							if ( $img_id ) {
 
 								$logo_url = wp_get_attachment_image_src( $img_id, 'full' );
 
-								$atts = array(
+								$atts = (array) apply_filters( 'wmhook_wmtf_get_the_logo_image_atts', array(
 										'alt'   => esc_attr( sprintf( _x( '%s logo', 'Site logo image "alt" HTML attribute text.', 'wmtf_domain' ), $blog_info['name'] ) ),
 										'title' => esc_attr( $args['title_att'] ),
 										'class' => '',
-									);
-
-								if ( $img_id_hidpi ) {
-									$logo_url_hidpi     = wp_get_attachment_image_src( $img_id_hidpi, 'full' );
-									$atts['data-hidpi'] = $logo_url_hidpi[0];
-								}
-
-								$atts = (array) apply_filters( 'wmhook_wmtf_get_the_logo_image_atts', $atts, $img_id, $img_id_hidpi );
+									), $img_id );
 
 								$args['logo_image'] = wp_get_attachment_image( absint( $img_id ), 'full', false, $atts );
 
@@ -185,8 +168,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				/**
 				 * Display the logo
 				 *
-				 * @since    5.0
-				 * @version  5.0
+				 * @since    2.0
+				 * @version  2.0
 				 */
 				static public function the_logo() {
 
@@ -208,7 +191,175 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 
 		/**
-		 * 20) Post/page
+		 * 20) SEO
+		 */
+
+			/**
+			 * Schema.org markup on HTML tags
+			 *
+			 * @uses    schema.org
+			 * @link    http://schema.org/docs/gs.html
+			 * @link    http://leaves-and-love.net/how-to-improve-wordpress-seo-with-schema-org/
+			 *
+			 * @since    1.0
+			 * @version  2.0
+			 *
+			 * @param   string  $element
+			 * @param   boolean $output_meta_tag  Wraps output in a <meta> tag.
+			 *
+			 * @return  string Schema.org HTML attributes
+			 */
+			static public function schema_org( $element = '', $output_meta_tag = false ) {
+
+				//Pre
+
+					$pre = apply_filters( 'wmhook_wmtf_schema_org_pre', false, $element, $output_meta_tag );
+
+					if ( false !== $pre ) {
+						return $pre;
+					}
+
+
+				//Requirements check
+
+					if ( empty( $element ) ) {
+						return;
+					} else if ( function_exists( 'wma_schema_org' ) ) {
+						return wma_schema_org( $element, $output_meta_tag );
+					}
+
+
+				//Helper variables
+
+					$output = '';
+
+					$base    = esc_attr( apply_filters( 'wmhook_wmtf_schema_org_base', 'http://schema.org/', $element, $output_meta_tag ) );
+					$post_id = ( is_home() ) ? ( get_option( 'page_for_posts' ) ) : ( null );
+					$type    = get_post_meta( $post_id, 'schemaorg_type', true );
+
+					//Add custom post types that describe a single item to this array
+
+						$itempage_array = (array) apply_filters( 'wmhook_wmtf_schema_org_itempage_array', array( 'jetpack-portfolio' ), $element, $output_meta_tag );
+
+
+				//Processing
+
+					switch ( $element ) {
+
+						case 'author':
+								$output = 'itemprop="author"';
+							break;
+
+						case 'datePublished':
+								$output = 'itemprop="datePublished"';
+							break;
+
+						case 'entry':
+								$output = 'itemscope ';
+
+								if ( is_page() ) {
+									$output .= 'itemtype="' . $base . 'WebPage"';
+
+								} elseif ( is_singular( 'jetpack-portfolio' ) ) {
+									$output .= 'itemprop="workExample" itemtype="' . $base . 'CreativeWork"';
+
+								} elseif ( 'audio' === get_post_format() ) {
+									$output .= 'itemtype="' . $base . 'AudioObject"';
+
+								} elseif ( 'gallery' === get_post_format() ) {
+									$output .= 'itemprop="ImageGallery" itemtype="' . $base . 'ImageGallery"';
+
+								} elseif ( 'video' === get_post_format() ) {
+									$output .= 'itemprop="video" itemtype="' . $base . 'VideoObject"';
+
+								} else {
+									$output .= 'itemprop="blogPost" itemtype="' . $base . 'BlogPosting"';
+
+								}
+							break;
+
+						case 'entry_body':
+								if ( ! is_single() ) {
+									$output = 'itemprop="description"';
+
+								} elseif ( is_page() ) {
+									$output = 'itemprop="mainContentOfPage"';
+
+								} else {
+									$output = 'itemprop="articleBody"';
+
+								}
+							break;
+
+						case 'image':
+								$output = 'itemprop="image"';
+							break;
+
+						case 'ItemList':
+								$output = 'itemscope itemtype="' . $base . 'ItemList"';
+							break;
+
+						case 'keywords':
+								$output = 'itemprop="keywords"';
+							break;
+
+						case 'name':
+								$output = 'itemprop="name"';
+							break;
+
+						case 'Person':
+								$output = 'itemscope itemtype="' . $base . 'Person"';
+							break;
+
+						case 'SiteNavigationElement':
+								$output = 'itemscope itemtype="' . $base . 'SiteNavigationElement"';
+							break;
+
+						case 'url':
+								$output = 'itemprop="url"';
+							break;
+
+						case 'WPFooter':
+								$output = 'itemscope itemtype="' . $base . 'WPFooter"';
+							break;
+
+						case 'WPSideBar':
+								$output = 'itemscope itemtype="' . $base . 'WPSideBar"';
+							break;
+
+						case 'WPHeader':
+								$output = 'itemscope itemtype="' . $base . 'WPHeader"';
+							break;
+
+						default:
+								$output = $element;
+							break;
+
+					} // /switch
+
+					$output = ' ' . $output;
+
+					//Output in <meta> tag
+
+						if ( $output_meta_tag ) {
+							if ( false === strpos( $output, 'content=' ) ) {
+								$output .= ' content="true"';
+							}
+							$output = '<meta ' . trim( $output ) . ' />';
+						}
+
+				//Output
+
+					return $output;
+
+			} // /schema_org
+
+
+
+
+
+		/**
+		 * 30) Post/page
 		 */
 
 			/**
@@ -218,8 +369,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 * the first H2 heading in each post part.
 			 * Appends the output at the top and bottom of post content.
 			 *
-			 * @since    3.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 *
 			 * @param  string $content
 			 */
@@ -337,8 +488,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 * Supports ZillaLikes plugin. @link http://www.themezilla.com/plugins/zillalikes/
 			 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 			 *
-			 * @since    3.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 *
 			 * @param  array $args
 			 */
@@ -581,8 +732,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				/**
 				 * Display the post meta info
 				 *
-				 * @since    5.0
-				 * @version  5.0
+				 * @since    2.0
+				 * @version  2.0
 				 *
 				 * @param  array $args
 				 */
@@ -606,8 +757,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			/**
 			 * Get the paginated heading suffix
 			 *
-			 * @since    3.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 *
 			 * @param  string $tag           Wrapper tag
 			 * @param  string $singular_only Display only on singular posts of specific type
@@ -674,8 +825,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				/**
 				 * Display the paginated heading suffix
 				 *
-				 * @since    5.0
-				 * @version  5.0
+				 * @since    2.0
+				 * @version  2.0
 				 *
 				 * @param  string $tag           Wrapper tag
 				 * @param  string $singular_only Display only on singular posts of specific type
@@ -700,8 +851,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			/**
 			 * Checks for <!--more--> tag in post content
 			 *
-			 * @since    4.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 *
 			 * @param  mixed $post
 			 */
@@ -746,7 +897,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 
 		/**
-		 * 30) CSS functions
+		 * 40) CSS functions
 		 */
 
 			/**
@@ -757,8 +908,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @uses  esc_attr()
 			 *
-			 * @since    4.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 *
 			 * @param  string $css Code to escape
 			 */
@@ -787,8 +938,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 * This function looks for the file in the child theme first.
 			 * If the file is not located in child theme, outputs the path from parent theme.
 			 *
-			 * @since    3.1
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 *
 			 * @param  string $file_relative_path File to look for (insert also the theme structure relative path)
 			 *
@@ -842,8 +993,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 * This function looks for the file in the child theme first.
 			 * If the file is not located in child theme, output the URL from parent theme.
 			 *
-			 * @since    3.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 *
 			 * @param  string $file_relative_path File to look for (insert also the theme structure relative path)
 			 *
@@ -894,8 +1045,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			/**
 			 * CSS minifier
 			 *
-			 * @since    3.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 *
 			 * @param  string $css Code to minimize
 			 */
@@ -941,8 +1092,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			/**
 			 * Hex color to RGBA
 			 *
-			 * @since    4.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 *
 			 * @link  http://php.net/manual/en/function.hexdec.php
 			 *
@@ -1001,507 +1152,6 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 
 
-			/**
-			 * Replace variables in the custom CSS
-			 *
-			 * Just use a '[[customizer-option-id]]' tags in your custom CSS
-			 * styles string where the specific option value should be used.
-			 *
-			 * @since    4.0
-			 * @version  5.0
-			 *
-			 * @param  string $css CSS string with variables to replace.
-			 */
-			static public function custom_styles_replace( $css ) {
-
-				//Pre
-
-					$pre = apply_filters( 'wmhook_wmtf_custom_styles_replace_pre', false, $css );
-
-					if ( false !== $pre ) {
-						return $pre;
-					}
-
-
-				//Requirement check
-
-					if ( ! ( $css = trim( (string) $css ) ) ) {
-						return;
-					}
-
-
-				//Helper variables
-
-					$output = $css;
-
-					$theme_options = (array) apply_filters( 'wmhook_theme_options', array() );
-					$alphas        = (array) apply_filters( 'wmhook_wmtf_custom_styles_replace_alpha', array( 0 ), $option );
-
-					$replacements = array();
-
-
-				//Processing
-
-					//Setting up replacements array
-
-						if ( ! empty( $theme_options ) ) {
-							foreach ( $theme_options as $option ) {
-
-								//Reset variables
-
-									$option_id = $value = '';
-
-								//Set option ID
-
-									if ( isset( $option['id'] ) ) {
-										$option_id = $option['id'];
-									}
-
-								//If no option ID set, jump to next option
-
-									if ( empty( $option_id ) ) {
-										continue;
-									}
-
-								//If we have an ID, get the default value if set
-
-									if ( isset( $option['default'] ) ) {
-										$value = $option['default'];
-									}
-
-								//Get the option value saved in database and apply it when exists
-
-									if ( $mod = self::get_theme_mod( $option_id ) ) {
-										$value = $mod;
-									}
-
-								//Make sure the color value contains '#'
-
-									if ( 'color' === $option['type'] ) {
-										$value = '#' . trim( $value, '#' );
-									}
-
-								//Make sure the image URL is used in CSS format
-
-									if ( 'image' === $option['type'] ) {
-										if ( is_array( $value ) && isset( $value['id'] ) ) {
-											$value = absint( $value['id'] );
-										}
-										if ( is_numeric( $value ) ) {
-											$value = wp_get_attachment_image_src( $value, 'full' );
-											$value = $value[0];
-										}
-										if ( ! empty( $value ) ) {
-											$value = "url('" . esc_url( $value ) . "')";
-										} else {
-											$value = 'none';
-										}
-									}
-
-								//Value filtering
-
-									$value = apply_filters( 'wmhook_wmtf_custom_styles_replace_value', $value, $option );
-
-								//Convert array to string as otherwise the strtr() function throws error
-
-									if ( is_array( $value ) ) {
-										$value = (string) implode( ',', (array) $value );
-									}
-
-								//Finally, modify the output string
-
-									$replacements['[[' . $option_id . ']]'] = $value;
-
-									//Add also rgba() color interpratation
-
-										if ( 'color' === $option['type'] ) {
-											foreach ( $alphas as $alpha ) {
-												$replacements['[[' . $option_id . '|alpha=' . absint( $alpha ) . ']]'] = WM_Theme_Framework::color_hex_to_rgba( $value, absint( $alpha ) );
-											} // /foreach
-										}
-
-							} // /foreach
-						}
-
-						//Add WordPress Custom Background and Header support
-
-							//Background color
-
-								if ( $value = get_background_color() ) {
-									$replacements['[[background_color]]'] = '#' . trim( $value, '#' );
-
-									foreach ( $alphas as $alpha ) {
-										$replacements['[[background_color|alpha=' . absint( $alpha ) . ']]'] = WM_Theme_Framework::color_hex_to_rgba( $value, absint( $alpha ) );
-									} // /foreach
-								}
-
-							//Background image
-
-								if ( $value = esc_url( get_background_image() ) ) {
-									$replacements['[[background_image]]'] = "url('" . $value . "')";
-								} else {
-									$replacements['[[background_image]]'] = 'none';
-								}
-
-							//Header text color
-
-								if ( $value = get_header_textcolor() ) {
-									$replacements['[[header_textcolor]]'] = '#' . trim( $value, '#' );
-
-									foreach ( $alphas as $alpha ) {
-										$replacements['[[header_textcolor|alpha=' . absint( $alpha ) . ']]'] = WM_Theme_Framework::color_hex_to_rgba( $value, absint( $alpha ) );
-									} // /foreach
-								}
-
-							//Header image
-
-								if ( $value = esc_url( get_header_image() ) ) {
-									$replacements['[[header_image]]'] = "url('" . $value . "')";
-								} else {
-									$replacements['[[header_image]]'] = 'none';
-								}
-
-						$replacements = apply_filters( 'wmhook_wmtf_custom_styles_replace_replacements', $replacements, $theme_options, $output );
-
-					//Replace tags in custom CSS strings with actual values
-
-						$output = strtr( $output, $replacements );
-
-
-				//Output
-
-					return trim( (string) $output );
-
-			} // /custom_styles_replace
-
-
-
-			/**
-			 * Generate main CSS file
-			 *
-			 * @since    3.0
-			 * @version  5.0
-			 *
-			 * @param  array $args
-			 */
-			static public function generate_main_css( $args = array() ) {
-
-				//Pre
-
-					$pre = apply_filters( 'wmhook_wmtf_generate_main_css_pre', false, $args );
-
-					if ( false !== $pre ) {
-						return $pre;
-					}
-
-
-				//Requirements check
-
-					if ( ! function_exists( 'wma_amplifier' ) ) {
-						return;
-					}
-
-
-				//Helper viariables
-
-					$args = wp_parse_args( $args, apply_filters( 'wmhook_wmtf_generate_main_css_defaults', array(
-							'message'        => _x( "The main theme CSS stylesheet was regenerated.<br /><strong>Please refresh your web browser's and server's cache</strong> <em>(if you are using a website server caching solution)</em>.", 'Translators, please, keep the HTML tags.', 'wmtf_domain' ),
-							'message_after'  => '',
-							'message_before' => '',
-							'type'           => '',
-						) ) );
-					$args = apply_filters( 'wmhook_wmtf_generate_main_css_args', $args );
-
-					$output = $output_min = '';
-
-					$args['type'] = trim( $args['type'] );
-
-
-				//Processing
-
-					//Get the file content with output buffering
-
-						ob_start();
-
-						locate_template( 'assets/css/' . $css_generator_file, true );
-
-						$output = trim( ob_get_clean() );
-
-					//Requirements check
-
-						if ( ! $output ) {
-							return;
-						}
-
-					//Minify output if set
-
-						$output_min = apply_filters( 'wmhook_wmtf_generate_main_css_output_min', $output, $args );
-
-					//Create the theme CSS folder
-
-						$wp_upload_dir = wp_upload_dir();
-
-						$theme_css_url = trailingslashit( $wp_upload_dir['baseurl'] ) . 'wmtheme-' . WM_THEME_SHORTNAME;
-						$theme_css_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'wmtheme-' . WM_THEME_SHORTNAME;
-
-						if ( ! wma_create_folder( $theme_css_dir ) ) {
-							set_transient( 'wmamp-admin-notice', array( "<strong>ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.</strong>", 'error', 'switch_themes', 2 ), ( 60 * 60 * 48 ) );
-
-							delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css' );
-							delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files' );
-
-							return false;
-						}
-
-					$css_file_name       = apply_filters( 'wmhook_wmtf_generate_main_css_css_file_name',       'global' . $args['type'],                                        $args                 );
-					$global_css_path     = apply_filters( 'wmhook_wmtf_generate_main_css_global_css_path',     trailingslashit( $theme_css_dir ) . $css_file_name . '.css',     $args, $css_file_name );
-					$global_css_url      = apply_filters( 'wmhook_wmtf_generate_main_css_global_css_url',      trailingslashit( $theme_css_url ) . $css_file_name . '.css',     $args, $css_file_name );
-					$global_css_path_dev = apply_filters( 'wmhook_wmtf_generate_main_css_global_css_path_dev', trailingslashit( $theme_css_dir ) . $css_file_name . '.dev.css', $args, $css_file_name );
-
-					if ( $output ) {
-
-						wma_write_local_file( $global_css_path, $output_min );
-						wma_write_local_file( $global_css_path_dev, $output );
-
-						//Store the CSS files paths and urls in DB
-
-							update_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css', $global_css_url );
-							update_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files', str_replace( $wp_upload_dir['basedir'], '', $theme_css_dir ) );
-
-						//Admin notice
-
-							set_transient( 'wmamp-admin-notice', array( $args['message_before'] . $args['message'] . $args['message_after'], '', 'switch_themes' ), ( 60 * 60 * 24 ) );
-
-						//Run custom actions
-
-							do_action( 'wmhook_wmtf_generate_main_css', $args );
-
-						return true;
-
-					}
-
-					delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css' );
-					delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files' );
-
-					return false;
-
-			} // /generate_main_css
-
-
-
-				/**
-				 * Generate visual editor CSS file
-				 *
-				 * @since    3.0
-				 * @version  5.0
-				 */
-				static public function generate_ve_css() {
-
-					//Output
-
-						return self::generate_main_css( array( 'type' => '-ve' ) );
-
-				} // /generate_ve_css
-
-
-
-				/**
-				 * Generate RTL CSS file
-				 *
-				 * @since    3.0
-				 * @version  5.0
-				 */
-				static public function generate_rtl_css() {
-
-					//Output
-
-						if ( is_rtl() ) {
-							return self::generate_main_css( array( 'type' => '-rtl' ) );
-						}
-
-				} // /generate_rtl_css
-
-
-
-				/**
-				 * Generate all CSS files
-				 *
-				 * @since    3.0
-				 * @version  5.0
-				 */
-				static public function generate_all_css() {
-
-					//Output
-
-						if ( self::generate_main_css() ) {
-							self::generate_rtl_css();
-							self::generate_ve_css();
-						}
-
-				} // /generate_all_css
-
-
-
-
-
-		/**
-		 * 40) Options
-		 */
-
-			/**
-			 * Get the theme option
-			 *
-			 * Note: Do not use get_theme_mod() as it is not
-			 * transferable from "lite" to "pro" themes.
-			 *
-			 * @since    3.0
-			 * @version  5.0
-			 *
-			 * @param  string $id     Option ID
-			 * @param  string $type   Output format
-			 * @param  string $suffix
-			 *
-			 * @return  mixed Option value.
-			 */
-			static public function get_theme_mod( $id, $type = '', $suffix = '' ) {
-
-				//Pre
-
-					$pre = apply_filters( 'wmhook_wmtf_get_theme_mod_pre', false, $id, $type, $suffix );
-
-					if ( false !== $pre ) {
-						return $pre;
-					}
-
-
-				//Requirements check
-
-					$id = trim( $id );
-
-					if ( ! $id ) {
-						return;
-					}
-
-
-				//Helper variables
-
-					global $wmtf_theme_options, $wp_customize;
-
-					$output = '';
-
-					if (
-							! isset( $wmtf_theme_options )
-							|| (
-									isset( $wp_customize )
-									&& $wp_customize->is_preview()
-								)
-						) {
-						$wmtf_theme_options = null;
-					}
-
-					$options = ( $wmtf_theme_options ) ? ( $wmtf_theme_options ) : ( (array) get_option( WM_OPTION_CUSTOMIZER ) );
-
-					$id = WM_OPTION_PREFIX . $id;
-
-
-				//Processing
-
-					if (
-							! isset( $options[ $id ] )
-							|| ! $options[ $id ]
-						) {
-						return;
-					}
-
-					//Output formatter
-
-						if ( 'css_image_url' === $type ) {
-							$output = "url('" . esc_url( stripslashes( $options[ $id ] ) ) . "')";
-						} elseif ( 'color_hex' === $type ) {
-							$output = '#' . trim( stripslashes( $options[ $id ] ), '#' );
-						} else {
-							$output = ( is_array( $options[ $id ] ) ) ? ( $options[ $id ] ) : ( stripslashes( $options[ $id ] ) );
-						}
-
-					//Add suffix
-
-						if ( is_string( $output ) && $output ) {
-							$output .= (string) $suffix;
-						}
-
-
-				//Output
-
-					return apply_filters( 'wmhook_wmtf_get_theme_mod_output', $output, $id, $type, $suffix );
-
-			} // /get_theme_mod
-
-
-
-			/**
-			 * Adds a Theme Options links to WordPress toolbar (admin bar)
-			 *
-			 * @since    3.0
-			 * @version  5.0
-			 */
-			static public function toolbar() {
-
-				//Pre
-
-					$pre = apply_filters( 'wmhook_wmtf_toolbar_pre', false );
-
-					if ( false !== $pre ) {
-						return $pre;
-					}
-
-
-				//Requirements check
-
-					if ( ! current_user_can( 'switch_themes' ) ) {
-						return;
-					}
-
-
-				//Helper variables
-
-					global $wp_admin_bar;
-
-					//Requirements check
-
-						if ( ! is_admin_bar_showing() ) {
-							return;
-						}
-
-					$submenu = apply_filters( 'wmhook_wmtf_toolbar_submenu', array() );
-
-
-				//Processing
-
-					$wp_admin_bar->add_menu( apply_filters( 'wmhook_wmtf_toolbar_parent', array(
-							'id'    => 'theme_options_links',
-							'title' => _x( 'Theme Options', 'WordPress toolbar (admin bar) theme options links group name.', 'wmtf_domain' ),
-							'href'  => esc_url( admin_url( 'customize.php' ) )
-						) ) );
-
-					//Submenu items
-
-						if ( is_array( $submenu ) && ! empty( $submenu ) ) {
-							foreach ( $submenu as $title => $url ) {
-
-								$wp_admin_bar->add_menu( apply_filters( 'wmhook_wmtf_toolbar_child-' . sanitize_title( $title ), array(
-										'parent' => 'theme_options_links',
-										'id'     => WM_THEME_SHORTNAME . '_theme_options-' . sanitize_title( $title ),
-										'title'  => $title,
-										'href'   => esc_url( $url ),
-									) ) );
-
-							} // /foreach
-						}
-
-			} // /toolbar
-
-
-
 
 
 		/**
@@ -1509,13 +1159,83 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 		 */
 
 			/**
+			 * Get Google Fonts link
+			 *
+			 * Returns a string such as:
+			 * //fonts.googleapis.com/css?family=Alegreya+Sans:300,400|Exo+2:400,700|Allan&subset=latin,latin-ext
+			 *
+			 * @since    1.0
+			 * @version  2.0
+			 *
+			 * @param  array $fonts Fallback fonts.
+			 */
+			static public function google_fonts_url( $fonts = array() ) {
+
+				//Pre
+
+					$pre = apply_filters( 'wmhook_wmtf_google_fonts_url_pre', false, $fonts );
+
+					if ( false !== $pre ) {
+						return $pre;
+					}
+
+
+				//Helper variables
+
+					$output = '';
+					$family = array();
+					$subset = get_theme_mod( 'font-subset' );
+
+					$fonts_setup = array_unique( array_filter( (array) apply_filters( 'wmhook_wmtf_google_fonts_url_fonts_setup', array() ) ) );
+
+					if ( empty( $fonts_setup ) && ! empty( $fonts ) ) {
+						$fonts_setup = (array) $fonts;
+					}
+
+
+				//Requirements check
+
+					if ( empty( $fonts_setup ) ) {
+						return;
+					}
+
+
+				//Processing
+
+					foreach ( $fonts_setup as $section ) {
+
+						$font = trim( $section );
+
+						if ( $font ) {
+							$family[] = str_replace( ' ', '+', $font );
+						}
+
+					} // /foreach
+
+					if ( ! empty( $family ) ) {
+						$output = esc_url( add_query_arg( array(
+								'family' => implode( '|', (array) array_unique( $family ) ),
+								'subset' => implode( ',', (array) $subset ), //Subset can be array if multiselect Customizer input field used
+							), '//fonts.googleapis.com/css' ) );
+					}
+
+
+				//Output
+
+					return preg_replace( '|\[(.+?)\]|s', '', $content );
+
+			} // /google_fonts_url
+
+
+
+			/**
 			 * Remove shortcodes from string
 			 *
 			 * This function keeps the text between shortcodes,
 			 * unlike WordPress native strip_shortcodes() function.
 			 *
-			 * @since    3.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 *
 			 * @param  string $content
 			 */
@@ -1546,8 +1266,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 * "[em][/em]" will output "<em></em>"
 			 * "[br /]" will output "<br />"
 			 *
-			 * @since    3.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 *
 			 * @param  string $title
 			 */
@@ -1581,8 +1301,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			/**
 			 * Accessibility skip links
 			 *
-			 * @since    3.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 *
 			 * @param  string $type
 			 */
@@ -1616,86 +1336,10 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 
 			/**
-			 * Contextual help text
-			 *
-			 * Hook onto `wmhook_contextual_help_texts_array` to add help texts.
-			 *
-			 * @example
-			 *   $texts_array = array(
-			 *     $screen_id => array(
-			 *       array(
-			 *         'tab-id'      => 'TAB_ID_1',
-			 *         'tab-title'   => 'TAB_TITLE_1',
-			 *         'tab-content' => 'TAB_CONTENT_1',
-			 *       ),
-			 *       array(
-			 *         'tab-id'      => 'TAB_ID_2',
-			 *         'tab-title'   => 'TAB_TITLE_2',
-			 *         'tab-content' => 'TAB_CONTENT_2',
-			 *       )
-			 *     )
-			 *   );
-			 *
-			 * @since    3.0
-			 * @version  5.0
-			 *
-			 * @param  string    $contextual_help  Help text that appears on the screen.
-			 * @param  string    $screen_id        Screen ID.
-			 * @param  WP_Screen $screen           Current WP_Screen instance.
-			 */
-			static public function contextual_help( $contextual_help, $screen_id, $screen ) {
-
-				//Pre
-
-					$pre = apply_filters( 'wmhook_wmtf_contextual_help_pre', false, $contextual_help, $screen_id, $screen );
-
-					if ( false !== $pre ) {
-						return $pre;
-					}
-
-
-				//Helper variables
-
-					$texts_array = array_filter( (array) apply_filters( 'wmhook_contextual_help_texts_array', array() ) );
-
-
-				//Requirements check
-
-					if ( empty( $texts_array ) ) {
-						return;
-					}
-
-
-				//Processing
-
-					if (
-							isset( $texts_array[ $screen_id ] )
-							&& is_array( $texts_array[ $screen_id ] )
-						) {
-
-						$help_tabs = $texts_array[ $screen_id ];
-
-						foreach ( $help_tabs as $tab ) {
-
-							$screen->add_help_tab( array(
-								'id'      => $tab['tab-id'],
-								'title'   => $tab['tab-title'],
-								'content' => $tab['tab-content']
-							) );
-
-						} // /foreach
-
-					}
-
-			} // /contextual_help
-
-
-
-			/**
 			 * Get image ID from its URL
 			 *
-			 * @since    3.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 *
 			 * @link  http://pippinsplugins.com/retrieve-attachment-id-from-image-url/
 			 * @link  http://make.wordpress.org/core/2012/12/12/php-warning-missing-argument-2-for-wpdb-prepare/
@@ -1769,8 +1413,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				/**
 				 * Flush out the transients used in `get_image_id_from_url`
 				 *
-				 * @since    4.0
-				 * @version  5.0
+				 * @since    1.0
+				 * @version  2.0
 				 */
 				static public function image_ids_transient_flusher() {
 
@@ -1785,8 +1429,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			/**
 			 * Returns true if a blog has more than 1 category
 			 *
-			 * @since    4.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  2.0
 			 */
 			static public function is_categorized_blog() {
 
@@ -1843,8 +1487,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				/**
 				 * Flush out the transients used in `is_categorized_blog`
 				 *
-				 * @since    4.0
-				 * @version  5.0
+				 * @since    1.0
+				 * @version  2.0
 				 */
 				static public function all_categories_transient_flusher() {
 
