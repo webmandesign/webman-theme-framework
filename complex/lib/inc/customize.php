@@ -8,14 +8,6 @@
  * @since    3.0
  * @version  5.0
  *
- * CONTENT:
- * - 10) Hooks
- * - 20) Helpers
- * - 30) Sanitizing functions
- * - 40) Main customizer function
- * - 50) CSS styles
- *
- *
  * Contents:
  *
  *  1) Required files
@@ -56,4 +48,4 @@
 
 		//Customizer saving
 
-			add_action( 'customize_save_after', 'wm_generate_all_css', 100 );
+			add_action( 'customize_save_after', 'WM_Theme_Framework::generate_all_css', 98 );

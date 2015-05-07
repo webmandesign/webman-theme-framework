@@ -149,25 +149,25 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 								//Group: Quotes
 
 									array(
-										'title' => _x( 'Quotes', 'Visual editor blockquote formats group title.', 'wm_domain' ),
+										'title' => _x( 'Quotes', 'Visual editor blockquote formats group title.', 'wmtf_domain' ),
 										'items' => array(
 
 											array(
-												'title' => __( 'Blockquote', 'wm_domain' ),
+												'title' => __( 'Blockquote', 'wmtf_domain' ),
 												'block' => 'blockquote',
 											),
 											array(
-												'title'   => __( 'Pullquote - align left', 'wm_domain' ),
+												'title'   => __( 'Pullquote - align left', 'wmtf_domain' ),
 												'block'   => 'blockquote',
 												'classes' => 'pullquote alignleft',
 											),
 											array(
-												'title'   => __( 'Pullquote - align right', 'wm_domain' ),
+												'title'   => __( 'Pullquote - align right', 'wmtf_domain' ),
 												'block'   => 'blockquote',
 												'classes' => 'pullquote alignright',
 											),
 											array(
-												'title' => _x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', 'wm_domain' ),
+												'title' => _x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', 'wmtf_domain' ),
 												'block' => 'cite',
 											),
 
@@ -177,17 +177,17 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 								//Group: Text styles
 
 									array(
-										'title' => __( 'Text styles', 'wm_domain' ),
+										'title' => __( 'Text styles', 'wmtf_domain' ),
 										'items' => array(
 
 											array(
-												'title'    => __( 'Uppercase heading or paragraph', 'wm_domain' ),
+												'title'    => __( 'Uppercase heading or paragraph', 'wmtf_domain' ),
 												'selector' => 'h1, h2, h3, h4, h5, h6, p',
 												'classes'  => 'uppercase',
 											),
 
 											array(
-												'title'  => __( 'Highlighted (marked) text', 'wm_domain' ),
+												'title'  => __( 'Highlighted (marked) text', 'wmtf_domain' ),
 												'inline' => 'mark',
 											),
 

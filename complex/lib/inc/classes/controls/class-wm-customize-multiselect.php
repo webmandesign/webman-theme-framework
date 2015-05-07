@@ -38,7 +38,7 @@ if ( ! class_exists( 'WM_Customize_Multiselect' ) ) {
 						?>
 
 					</select>
-					<em><?php _e( 'Press CTRL key for multiple selection.', 'wm_domain' ); ?></em>
+					<em><?php _e( 'Press CTRL key for multiple selection.', 'wmtf_domain' ); ?></em>
 				</label>
 
 				<?php

@@ -171,7 +171,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 
 					$add = array_slice( $columns, 0, 1 );
 
-					$add['wm-thumb'] = __( 'Image', 'wm_domain' );
+					$add['wm-thumb'] = __( 'Image', 'wmtf_domain' );
 
 
 				//Output

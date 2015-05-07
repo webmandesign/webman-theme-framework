@@ -18,7 +18,7 @@ jQuery( function() {
 	 * WooSidebars specific
 	 *
 	 * @since    3.0
-	 * @version  3.0
+	 * @version  5.0
 	 */
 
 		//Remove line breaks in sidebars admin list
