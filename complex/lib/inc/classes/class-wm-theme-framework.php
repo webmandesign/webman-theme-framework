@@ -45,7 +45,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				//Helper variables
 
-					$current_theme_version = get_transient( WM_THEME_SHORTNAME . '-version' );
+					$current_theme_version = get_transient( WM_THEME_SHORTNAME . '_version' );
 
 
 				//Processing
@@ -57,7 +57,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 						do_action( 'wmhook_theme_upgrade' );
 
-						set_transient( WM_THEME_SHORTNAME . '-version', WM_THEME_VERSION );
+						set_transient( WM_THEME_SHORTNAME . '_version', WM_THEME_VERSION );
 
 					}
 
@@ -1012,11 +1012,11 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @param  string $css CSS string with variables to replace.
 			 */
-			static public function custom_styles_replace( $css ) {
+			static public function custom_styles( $css ) {
 
 				//Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_custom_styles_replace_pre', false, $css );
+					$pre = apply_filters( 'wmhook_wmtf_custom_styles_pre', false, $css );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -1035,7 +1035,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 					$output = $css;
 
 					$theme_options = (array) apply_filters( 'wmhook_theme_options', array() );
-					$alphas        = (array) apply_filters( 'wmhook_wmtf_custom_styles_replace_alpha', array( 0 ), $option );
+					$alphas        = (array) apply_filters( 'wmhook_wmtf_custom_styles_alphas', array( 0 ), $option );
 
 					$replacements = array();
 
@@ -1100,7 +1100,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 								//Value filtering
 
-									$value = apply_filters( 'wmhook_wmtf_custom_styles_replace_value', $value, $option );
+									$value = apply_filters( 'wmhook_wmtf_custom_styles_value', $value, $option );
 
 								//Convert array to string as otherwise the strtr() function throws error
 
@@ -1161,7 +1161,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 									$replacements['[[header_image]]'] = 'none';
 								}
 
-						$replacements = apply_filters( 'wmhook_wmtf_custom_styles_replace_replacements', $replacements, $theme_options, $output );
+						$replacements = apply_filters( 'wmhook_wmtf_custom_styles_replacements', $replacements, $theme_options, $output );
 
 					//Replace tags in custom CSS strings with actual values
 
@@ -1172,7 +1172,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					return trim( (string) $output );
 
-			} // /custom_styles_replace
+			} // /custom_styles
 
 
 
@@ -1253,10 +1253,10 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 							return false;
 						}
 
-					$css_file_name       = apply_filters( 'wmhook_wmtf_generate_main_css_css_file_name',       'global' . $args['type'],                                        $args                 );
-					$global_css_path     = apply_filters( 'wmhook_wmtf_generate_main_css_global_css_path',     trailingslashit( $theme_css_dir ) . $css_file_name . '.css',     $args, $css_file_name );
-					$global_css_url      = apply_filters( 'wmhook_wmtf_generate_main_css_global_css_url',      trailingslashit( $theme_css_url ) . $css_file_name . '.css',     $args, $css_file_name );
-					$global_css_path_dev = apply_filters( 'wmhook_wmtf_generate_main_css_global_css_path_dev', trailingslashit( $theme_css_dir ) . $css_file_name . '.dev.css', $args, $css_file_name );
+					$file_name           = apply_filters( 'wmhook_wmtf_generate_main_css_file_name',           'global' . $args['type'],                                    $args             );
+					$global_css_path     = apply_filters( 'wmhook_wmtf_generate_main_css_global_css_path',     trailingslashit( $theme_css_dir ) . $file_name . '.css',     $args, $file_name );
+					$global_css_url      = apply_filters( 'wmhook_wmtf_generate_main_css_global_css_url',      trailingslashit( $theme_css_url ) . $file_name . '.css',     $args, $file_name );
+					$global_css_path_dev = apply_filters( 'wmhook_wmtf_generate_main_css_global_css_path_dev', trailingslashit( $theme_css_dir ) . $file_name . '.dev.css', $args, $file_name );
 
 					if ( $output ) {
 
@@ -1656,7 +1656,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				//Helper variables
 
-					$texts_array = array_filter( (array) apply_filters( 'wmhook_contextual_help_texts_array', array() ) );
+					$texts_array = array_filter( (array) apply_filters( 'wmhook_wmtf_contextual_help_texts_array', array() ) );
 
 
 				//Requirements check

@@ -45,7 +45,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				//Helper variables
 
-					$current_theme_version = get_transient( WM_THEME_SHORTNAME . '-version' );
+					$current_theme_version = get_transient( WM_THEME_SHORTNAME . '_version' );
 
 
 				//Processing
@@ -57,7 +57,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 						do_action( 'wmhook_theme_upgrade' );
 
-						set_transient( WM_THEME_SHORTNAME . '-version', WM_THEME_VERSION );
+						set_transient( WM_THEME_SHORTNAME . '_version', WM_THEME_VERSION );
 
 					}
 
@@ -1149,6 +1149,277 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 					return $output;
 
 			} // /color_hex_to_rgba
+
+			/**
+			 * Outputs custom CSS styles set via Customizer
+			 *
+			 * This function allows you to hook your custom CSS styles string
+			 * onto 'wmhook_custom_styles' filter hook.
+			 * Then just use a '[[skin-option-id]]' tags in your custom CSS
+			 * styles string where the specific option value should be used.
+			 *
+			 * Caching $replacement into 'WM_THEME_SHORTNAME_customizer_values' transient.
+			 * Caching $output into 'WM_THEME_SHORTNAME_custom_css' transient.
+			 *
+			 * @since    1.0
+			 * @version  2.0
+			 *
+			 * @param  bool $set_cache  Determines whether the results should be cached or not.
+			 * @param  bool $return     Whether to return a value or just run the process.
+			 */
+			static public function custom_styles( $set_cache = false, $return = true ) {
+
+				//Pre
+
+					$pre = apply_filters( 'wmhook_wmtf_custom_styles_pre', false, $set_cache, $return );
+
+					if ( false !== $pre ) {
+						return $pre;
+					}
+
+
+				//Helper variables
+
+					global $wp_customize;
+
+					if ( ! isset( $wp_customize ) || ! is_object( $wp_customize ) ) {
+						$wp_customize = null;
+					}
+
+					$output        = (string) apply_filters( 'wmhook_custom_styles', '' );
+					$theme_options = (array) apply_filters( 'wmhook_theme_options', array() );
+					$alphas        = (array) apply_filters( 'wmhook_wmtf_custom_styles_alphas', array( 0 ), $option );
+
+					$replacements  = array_unique( array_filter( (array) get_transient( WM_THEME_SHORTNAME . '_customizer_values' ) ) ); //There have to be values (defaults) set!
+
+					/**
+					 * Force caching during the first theme display when no cache set (default
+					 * values will be used).
+					 * Cache is being set only after saving Customizer.
+					 */
+					if ( empty( $replacements ) ) {
+						$set_cache = true;
+					}
+
+
+				//Processing
+
+					/**
+					 * Setting up replacements array when no cache exists.
+					 * Also, creates a new cache for replacements values.
+					 * The cache is being created only when saving the Customizer settings.
+					 */
+
+						if (
+								! empty( $theme_options )
+								&& (
+									( $wp_customize && $wp_customize->is_preview() )
+									|| empty( $replacements )
+								)
+							) {
+
+							foreach ( $theme_options as $option ) {
+
+								//Reset variables
+
+									$option_id = $value = '';
+
+								//Set option ID
+
+									if ( isset( $option['id'] ) ) {
+										$option_id = $option['id'];
+									}
+
+								//If no option ID set, jump to next option
+
+									if ( empty( $option_id ) ) {
+										continue;
+									}
+
+								//If we have an ID, get the default value if set
+
+									if ( isset( $option['default'] ) ) {
+										$value = $option['default'];
+									}
+
+								//Get the option value saved in database and apply it when exists
+
+									if ( $mod = get_theme_mod( $option_id ) ) {
+										$value = $mod;
+									}
+
+								//Make sure the color value contains '#'
+
+									if ( 'color' === $option['type'] ) {
+										$value = '#' . trim( $value, '#' );
+									}
+
+								//Make sure the image URL is used in CSS format
+
+									if ( 'image' === $option['type'] ) {
+										if ( is_array( $value ) && isset( $value['id'] ) ) {
+											$value = absint( $value['id'] );
+										}
+										if ( is_numeric( $value ) ) {
+											$value = wp_get_attachment_image_src( $value, 'full' );
+											$value = $value[0];
+										}
+										if ( ! empty( $value ) ) {
+											$value = "url('" . esc_url( $value ) . "')";
+										} else {
+											$value = 'none';
+										}
+									}
+
+								//Value filtering
+
+									$value = apply_filters( 'wmhook_wmtf_custom_styles_value', $value, $option );
+
+								//Convert array to string as otherwise the strtr() function throws error
+
+									if ( is_array( $value ) ) {
+										$value = (string) implode( ',', (array) $value );
+									}
+
+								//Finally, modify the output string
+
+									$replacements['[[' . $option_id . ']]'] = $value;
+
+									//Add also rgba() color interpratation
+
+										if ( 'color' === $option['type'] ) {
+											foreach ( $alphas as $alpha ) {
+												$replacements['[[' . $option_id . '|alpha=' . absint( $alpha ) . ']]'] = WM_Theme_Framework::color_hex_to_rgba( $value, absint( $alpha ) );
+											} // /foreach
+										}
+
+							} // /foreach
+
+							//Add WordPress Custom Background and Header support
+
+								//Background color
+
+									if ( $value = get_background_color() ) {
+										$replacements['[[background_color]]'] = '#' . trim( $value, '#' );
+
+										foreach ( $alphas as $alpha ) {
+											$replacements['[[background_color|alpha=' . absint( $alpha ) . ']]'] = WM_Theme_Framework::color_hex_to_rgba( $value, absint( $alpha ) );
+										} // /foreach
+									}
+
+								//Background image
+
+									if ( $value = esc_url( get_background_image() ) ) {
+										$replacements['[[background_image]]'] = "url('" . $value . "')";
+									} else {
+										$replacements['[[background_image]]'] = 'none';
+									}
+
+								//Header text color
+
+									if ( $value = get_header_textcolor() ) {
+										$replacements['[[header_textcolor]]'] = '#' . trim( $value, '#' );
+
+										foreach ( $alphas as $alpha ) {
+											$replacements['[[header_textcolor|alpha=' . absint( $alpha ) . ']]'] = WM_Theme_Framework::color_hex_to_rgba( $value, absint( $alpha ) );
+										} // /foreach
+									}
+
+								//Header image
+
+									if ( $value = esc_url( get_header_image() ) ) {
+										$replacements['[[header_image]]'] = "url('" . $value . "')";
+									} else {
+										$replacements['[[header_image]]'] = 'none';
+									}
+
+							$replacements = apply_filters( 'wmhook_wmtf_custom_styles_replacements', $replacements, $theme_options, $output );
+
+							if (
+									$set_cache
+									&& ! empty( $replacements )
+								) {
+								set_transient( WM_THEME_SHORTNAME . '_customizer_values', $replacements );
+							}
+
+						}
+
+					//Prepare output and cache
+
+						$output_cached = (string) get_transient( WM_THEME_SHORTNAME . '_custom_css' );
+
+						//Debugging set (via "debug" URL parameter)
+
+							if ( isset( $_GET['debug'] ) ) {
+								$output_cached = (string) get_transient( WM_THEME_SHORTNAME . '_custom_css_debug' );
+							}
+
+						if (
+								empty( $output_cached )
+								|| ( $wp_customize && $wp_customize->is_preview() )
+							) {
+
+							//Replace tags in custom CSS strings with actual values
+
+								$output = strtr( $output, $replacements );
+
+							if ( $set_cache ) {
+								set_transient( WM_THEME_SHORTNAME . '_custom_css_debug', apply_filters( 'wmhook_wmtf_custom_styles_output_cache_debug', $output ) );
+								set_transient( WM_THEME_SHORTNAME . '_custom_css', apply_filters( 'wmhook_wmtf_custom_styles_output_cache', $output ) );
+							}
+
+						} else {
+
+							$output = $output_cached;
+
+						}
+
+
+				//Output
+
+					if ( $output && $return ) {
+						return trim( (string) $output );
+					}
+
+			} // /custom_styles
+
+
+
+				/**
+				 * Flush out the transients used in `custom_styles`
+				 *
+				 * @since    1.0
+				 * @version  2.0
+				 */
+				static public function custom_styles_transient_flusher() {
+
+					//Processing
+
+						delete_transient( WM_THEME_SHORTNAME . '_customizer_values' );
+						delete_transient( WM_THEME_SHORTNAME . '_custom_css_debug' );
+						delete_transient( WM_THEME_SHORTNAME . '_custom_css' );
+
+				} // /custom_styles_transient_flusher
+
+
+
+				/**
+				 * Force cache only for the above function
+				 *
+				 * Useful to pass into the action hooks.
+				 *
+				 * @since    1.0
+				 * @version  2.0
+				 */
+				static public function custom_styles_cache() {
+
+					//Processing
+
+						//Set cache, do not return
+
+							self::custom_styles( true, false );
+
+				} // /custom_styles_cache
 
 
 

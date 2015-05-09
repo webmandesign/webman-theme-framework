@@ -50,8 +50,7 @@
 
 		//Styles and scripts
 
-			add_action( 'admin_enqueue_scripts', 'WM_Theme_Framework_Admin::assets',        998 );
-			add_action( 'admin_enqueue_scripts', 'WM_Theme_Framework_Admin::styles_inline', 998 );
+			add_action( 'admin_enqueue_scripts', 'WM_Theme_Framework_Admin::assets', 998 );
 
 		//Admin notices
 

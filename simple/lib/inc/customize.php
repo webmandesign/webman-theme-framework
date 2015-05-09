@@ -44,16 +44,16 @@
 
 		//Register customizer
 
-			add_action( 'customize_register', 'WM_Theme_Framework_Customize::customize' );
+			add_action( 'customize_register', 'WM_Theme_Framework_Customize::init' );
 
 		//Customizer saving
 
-			add_action( 'customize_save_after', 'WM_Theme_Framework_Customize::custom_styles_cache' );
+			add_action( 'customize_save_after', 'WM_Theme_Framework::custom_styles_cache' );
 
 		//Flushing transients
 
-			add_action( 'switch_theme',         'WM_Theme_Framework_Customize::custom_styles_transient_flusher' );
-			add_action( 'wmhook_theme_upgrade', 'WM_Theme_Framework_Customize::custom_styles_transient_flusher' );
+			add_action( 'switch_theme',         'WM_Theme_Framework::custom_styles_transient_flusher' );
+			add_action( 'wmhook_theme_upgrade', 'WM_Theme_Framework::custom_styles_transient_flusher' );
 
 
 
@@ -63,4 +63,4 @@
 
 		//Minify custom CSS
 
-			add_filter( 'wmhook_wmtf_customize_custom_styles_output_cache', 'WM_Theme_Framework::minify_css' );
+			add_filter( 'wmhook_wmtf_custom_styles_output_cache', 'WM_Theme_Framework::minify_css' );

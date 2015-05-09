@@ -10,8 +10,8 @@
 * UPDATED: Simplified code
 * UPDATED: Renamed textdomain to `wmtf_domain`
 * UPDATED: WordPress 4.1+ compatible only
-* UPDATED: Removed automated TGM Plugin Activation inclusion
 * UPDATED: Renamed hooks
+* UPDATED: Removed TGM Plugin Activation script
 * UPDATED: Packed customizer into the library folder
 
 #### Files changed:

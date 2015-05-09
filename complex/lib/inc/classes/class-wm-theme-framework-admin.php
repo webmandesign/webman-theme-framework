@@ -100,48 +100,6 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 
 
 
-			/**
-			 * Admin inline styles
-			 *
-			 * @since    3.0
-			 * @version  5.0
-			 */
-			static public function styles_inline() {
-
-				//Pre
-
-					$pre = apply_filters( 'wmhook_wmtf_admin_styles_inline_pre', false );
-
-					if ( false !== $pre ) {
-						return $pre;
-					}
-
-
-				//Helper variables
-
-					global $current_screen;
-
-					$output = '';
-
-
-				//Processing
-
-					//Front and blog page color
-
-						if ( 'edit-page' == $current_screen->id ) {
-							$output .= '.hentry.post-' . absint( get_option( 'page_on_front' ) ). ' { background: #daecfe; }';
-							$output .= '.hentry.post-' . absint( get_option( 'page_for_posts' ) ) . ' { background: #dafcee; }';
-						}
-
-						wp_add_inline_style(
-								'wmtf-admin',
-								apply_filters( 'wmhook_esc_css', $output )
-							);
-
-			} // /styles_inline
-
-
-
 
 
 		/**

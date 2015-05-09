@@ -175,7 +175,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 				//Output
 
 					if ( $output = trim( $output ) ) ) {
-						echo '<!-- Theme custom scripts -->' . "\r\n" . '<script type="text/javascript"><!--' . "\r\n" . '( function( $ ) {' . "\r\n\r\n" . trim( $output ) . "\r\n\r\n" . '} )( jQuery );' . "\r\n" . '//--></script>';
+						echo apply_filters( 'wmhook_wmtf_customize_preview_scripts_output', '<!-- Theme custom scripts -->' . "\r\n" . '<script type="text/javascript"><!--' . "\r\n" . '( function( $ ) {' . "\r\n\r\n" . trim( $output ) . "\r\n\r\n" . '} )( jQuery );' . "\r\n" . '//--></script>' );
 					}
 
 			} // /preview_scripts
@@ -301,11 +301,11 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 *
 			 * @param  object $wp_customize WP customizer object.
 			 */
-			static public function customize( $wp_customize ) {
+			static public function init( $wp_customize ) {
 
 				//Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_customize_pre', false, $wp_customize );
+					$pre = apply_filters( 'wmhook_wmtf_customize_init_pre', false, $wp_customize );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -318,7 +318,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 					ksort( $theme_options );
 
-					$allowed_option_types = apply_filters( 'wmhook_wmtf_customize_allowed_option_types', array(
+					$allowed_option_types = apply_filters( 'wmhook_wmtf_customize_init_allowed_option_types', array(
 							'checkbox',
 							'color',
 							'email',
@@ -338,7 +338,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 					//To make sure our customizer sections start after WordPress default ones
 
-						$priority = apply_filters( 'wmhook_wmtf_customize_priority', 900 );
+						$priority = apply_filters( 'wmhook_wmtf_customize_init_priority', 900 );
 
 					//Default section name in case not set (should be overwritten anyway)
 
@@ -351,7 +351,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 					 *
 					 * @link  http://wordpress.stackexchange.com/questions/155072/get-option-vs-get-theme-mod-why-is-one-slower
 					 */
-					$type = apply_filters( 'wmhook_wmtf_customize_type', 'option' );
+					$type = apply_filters( 'wmhook_wmtf_customize_init_type', 'option' );
 
 
 				//Processing
@@ -377,7 +377,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-range.php',        true );
 						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-select.php',       true );
 
-						do_action( 'wmhook_wmtf_customize_load_controls', $wp_customize );
+						do_action( 'wmhook_wmtf_customize_init_load_controls', $wp_customize );
 
 					//Generate customizer options
 
@@ -934,7 +934,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 						}
 
-			} // /customize
+			} // /init
 
 	}
 } // /WM_Theme_Framework_Customize

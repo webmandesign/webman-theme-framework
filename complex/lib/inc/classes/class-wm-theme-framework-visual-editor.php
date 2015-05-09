@@ -45,7 +45,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 
 				//Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_customize_add_buttons_row1_pre', false, $buttons );
+					$pre = apply_filters( 'wmhook_wmtf_editor_add_buttons_row1_pre', false, $buttons );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -87,7 +87,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 
 				//Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_customize_add_buttons_row2_pre', false, $buttons );
+					$pre = apply_filters( 'wmhook_wmtf_editor_add_buttons_row2_pre', false, $buttons );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -129,7 +129,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 
 				//Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_customize_custom_mce_format_pre', false, $init );
+					$pre = apply_filters( 'wmhook_wmtf_editor_custom_mce_format_pre', false, $init );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -144,7 +144,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 
 					//Add custom formats
 
-						$init['style_formats'] = json_encode( apply_filters( 'wmhook_wmtf_customize_custom_mce_format', array(
+						$init['style_formats'] = json_encode( apply_filters( 'wmhook_wmtf_editor_custom_mce_format', array(
 
 								//Group: Quotes
 

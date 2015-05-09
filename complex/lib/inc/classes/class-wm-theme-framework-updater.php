@@ -333,7 +333,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 				//Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_admin_get_remote_xml_data_pre', false, $interval );
+					$pre = apply_filters( 'wmhook_wmtf_updater_get_remote_xml_data_pre', false, $interval );
 
 					if ( false !== $pre ) {
 						return $pre;

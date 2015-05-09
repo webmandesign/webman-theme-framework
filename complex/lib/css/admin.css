@@ -27,21 +27,6 @@
 
 
 	/**
-	 * Home and blog page admin styling
-	 */
-
-		#front-static-pages li + li { margin-top: 15px; }
-
-		#front-static-pages label {
-			padding: 10px;
-			border-radius: 5px;
-		}
-		#front-static-pages label[for="page_on_front"] { background: #daecfe; }
-		#front-static-pages label[for="page_for_posts"] { background: #dafcee; }
-
-
-
-	/**
 	 * Update notifier
 	 */
 

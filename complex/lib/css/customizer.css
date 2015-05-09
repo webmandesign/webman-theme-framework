@@ -67,15 +67,6 @@
 
 		.customize-control-hidden { display: none !important; }
 
-		#customize-control-page_on_front,
-		#customize-control-page_for_posts {
-			padding: 10px;
-			margin-left: -10px;
-			border-radius: 5px;
-			background: #daecfe;
-		}
-		#customize-control-page_for_posts { background: #dafcee; }
-
 
 
 	/**

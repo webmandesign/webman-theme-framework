@@ -4,6 +4,15 @@
  *
  * Textdomain used in the framework: wmtf_domain
  *
+ * Custom hooks naming convention:
+ * - `wmhook_` - global (and other, such as plugins related) hooks
+ * - `wmhook_wmtf_` - theme framework specific hooks (core specific)
+ * - `wmhook_wmtf_admin_`,  `wmhook_wmtf_customize_`,  `wmhook_wmtf_editor_` - class method specific hooks
+ *
+ * Used global hooks:
+ * - `wmhook_theme_options`
+ * - `wmhook_custom_styles`
+ *
  * @copyright  2015 WebMan - Oliver Juhas
  * @license    GPL-2.0+, http://www.gnu.org/licenses/gpl-2.0.html
  *
@@ -42,8 +51,6 @@
 		if ( ! defined( 'WM_THEME_AUTHOR_URI' ) ) define( 'WM_THEME_AUTHOR_URI', esc_url( $theme_data->get( 'AuthorURI' ) )                   );
 		if ( ! defined( 'WM_THEME_URI' ) )        define( 'WM_THEME_URI',        esc_url( $theme_data->get( 'ThemeURI' ) )                    );
 		if ( ! defined( 'WM_SCRIPTS_VERSION' ) )  define( 'WM_SCRIPTS_VERSION',  esc_attr( trim( WM_THEME_VERSION ) )                         );
-
-		if ( ! defined( 'WM_WP_COMPATIBILITY' ) ) define( 'WM_WP_COMPATIBILITY', 4.1                                                          );
 
 	//Dir constants
 

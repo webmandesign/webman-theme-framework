@@ -40,7 +40,7 @@
 
 		//Register customizer
 
-			add_action( 'customize_register', 'WM_Theme_Framework_Customize::customize' );
+			add_action( 'customize_register', 'WM_Theme_Framework_Customize::init' );
 
 		//Customizer assets
 

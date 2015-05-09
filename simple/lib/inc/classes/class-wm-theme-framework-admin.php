@@ -62,15 +62,6 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 									'screen'
 								);
 
-						//Styles - inline
-							$custom_styles .= '#post-' . get_option( 'page_on_front' ) . ' { background: #daecfe; }';
-							$custom_styles .= '#post-' . get_option( 'page_for_posts' ) . ' { background: #dafcee; }';
-
-							wp_add_inline_style(
-									'receptar-admin-styles',
-									apply_filters( 'wmhook_esc_css', $custom_styles )
-								);
-
 					}
 
 			} // /assets
