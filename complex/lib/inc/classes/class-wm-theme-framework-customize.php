@@ -38,7 +38,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 * @since    3.0
 			 * @version  5.0
 			 */
-			static public function assets() {
+			public static function assets() {
 
 				/**
 				 * Enqueue
@@ -48,9 +48,9 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 						wp_enqueue_style(
 								'wmtf-customizer',
-								WM_Theme_Framework::get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'css/customizer.css' ),
+								WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'css/customizer.css' ),
 								false,
-								WM_SCRIPTS_VERSION,
+								WMTF_SCRIPTS_VERSION,
 								'screen'
 							);
 
@@ -58,9 +58,9 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 						wp_register_script(
 								'wmtf-customizer',
-								WM_Theme_Framework::get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'js/customizer.js' ),
+								WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'js/customizer.js' ),
 								array( 'customize-controls' ),
-								WM_SCRIPTS_VERSION,
+								WMTF_SCRIPTS_VERSION,
 								true
 							);
 
@@ -83,7 +83,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 * @since    3.0
 			 * @version  5.0
 			 */
-			static public function preview_scripts() {
+			public static function preview_scripts() {
 
 				//Pre
 
@@ -112,14 +112,14 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 							if ( isset( $theme_option['customizer_js'] ) ) {
 
 								$output_single  = "wp.customize("  . "\r\n";
-								$output_single .= "\t" . "'" . WM_OPTION_CUSTOMIZER . "[" . WM_OPTION_PREFIX . $theme_option['id'] . "]" . "',"  . "\r\n";
+								$output_single .= "\t" . "'" . WMTF_OPTION_CUSTOMIZER . "[" . WMTF_OPTION_PREFIX . $theme_option['id'] . "]" . "',"  . "\r\n";
 								$output_single .= "\t" . "function( value ) {"  . "\r\n";
 								$output_single .= "\t\t" . 'value.bind( function( to ) {' . "\r\n";
 
 								if ( ! isset( $theme_option['customizer_js']['custom'] ) ) {
 
 									$output_single .= "\t\t\t" . "var newCss = '';" . "\r\n\r\n";
-									$output_single .= "\t\t\t" . "if ( jQuery( '#jscss-" . WM_OPTION_PREFIX . $theme_option['id'] . "' ).length ) { jQuery( '#jscss-" . WM_OPTION_PREFIX . $theme_option['id'] . "' ).remove() }" . "\r\n\r\n";
+									$output_single .= "\t\t\t" . "if ( jQuery( '#jscss-" . WMTF_OPTION_PREFIX . $theme_option['id'] . "' ).length ) { jQuery( '#jscss-" . WMTF_OPTION_PREFIX . $theme_option['id'] . "' ).remove() }" . "\r\n\r\n";
 
 									foreach ( $theme_option['customizer_js']['css'] as $selector => $properties ) {
 
@@ -157,7 +157,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 								}
 
-								$output_single .= "\r\n\t\t\t" . "jQuery( document ).find( 'head' ).append( jQuery( '<style id=\'jscss-" . WM_OPTION_PREFIX . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . "\r\n";
+								$output_single .= "\r\n\t\t\t" . "jQuery( document ).find( 'head' ).append( jQuery( '<style id=\'jscss-" . WMTF_OPTION_PREFIX . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . "\r\n";
 								$output_single .= "\t\t" . '} );' . "\r\n";
 								$output_single .= "\t" . '}'. "\r\n";
 								$output_single .= ');'. "\r\n";
@@ -196,7 +196,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 *
 			 * @param  mixed $value WP customizer value to sanitize.
 			 */
-			static public function sanitize_email( $value ) {
+			public static function sanitize_email( $value ) {
 
 				//Pre
 
@@ -228,7 +228,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 *
 			 * @param  mixed $value WP customizer value to sanitize.
 			 */
-			static public function sanitize_text( $value ) {
+			public static function sanitize_text( $value ) {
 
 				//Pre
 
@@ -257,7 +257,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 *
 			 * @param  mixed $value WP customizer value to sanitize.
 			 */
-			static public function sanitize_return_value( $value ) {
+			public static function sanitize_return_value( $value ) {
 
 				//Pre
 
@@ -301,7 +301,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 *
 			 * @param  object $wp_customize WP customizer object.
 			 */
-			static public function init( $wp_customize ) {
+			public static function init( $wp_customize ) {
 
 				//Pre
 
@@ -343,7 +343,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 					//Default section name in case not set (should be overwritten anyway)
 
 						$customizer_panel   = '';
-						$customizer_section = WM_THEME_SHORTNAME;
+						$customizer_section = WMTF_THEME_SHORTNAME;
 
 					/**
 					 * Use add_setting() -> 'type' => 'option' (instead of 'theme_mod')
@@ -369,13 +369,13 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 						 * @link  http://ottopress.com/2012/making-a-custom-control-for-the-theme-customizer/
 						 */
 
-						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-hidden.php',       true );
-						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-html.php',         true );
-						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-image.php',        true );
-						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-multiselect.php',  true );
-						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-radio-matrix.php', true );
-						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-range.php',        true );
-						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-select.php',       true );
+						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-hidden.php',       true );
+						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-html.php',         true );
+						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-image.php',        true );
+						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-multiselect.php',  true );
+						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-radio-matrix.php', true );
+						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-range.php',        true );
+						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-select.php',       true );
 
 						do_action( 'wmhook_wmtf_customize_init_load_controls', $wp_customize );
 
@@ -401,7 +401,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										$option_id = $default = $description = '';
 
 										if ( isset( $theme_option['id'] ) ) {
-											$option_id = WM_OPTION_PREFIX . $theme_option['id'];
+											$option_id = WMTF_OPTION_PREFIX . $theme_option['id'];
 										}
 										if ( isset( $theme_option['default'] ) ) {
 											$default = $theme_option['default'];
@@ -489,7 +489,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										case 'radio':
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'                 => $type,
 														'default'              => $default,
@@ -500,7 +500,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 												);
 
 											$wp_customize->add_control(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'label'           => $theme_option['label'],
 														'description'     => $description,
@@ -520,7 +520,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										case 'color':
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'                 => $type,
 														'default'              => trim( $default, '#' ),
@@ -532,7 +532,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 											$wp_customize->add_control( new WP_Customize_Color_Control(
 													$wp_customize,
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'label'           => $theme_option['label'],
 														'description'     => $description,
@@ -550,7 +550,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										case 'email':
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'                 => $type,
 														'default'              => $default,
@@ -561,7 +561,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 												);
 
 											$wp_customize->add_control(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'            => 'email',
 														'label'           => $theme_option['label'],
@@ -580,7 +580,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										case 'hidden':
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'                 => $type,
 														'default'              => $default,
@@ -592,7 +592,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 											$wp_customize->add_control( new WM_Customize_Hidden(
 													$wp_customize,
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'label'    => 'HIDDEN FIELD',
 														'section'  => $customizer_section,
@@ -612,7 +612,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 											}
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'sanitize_callback'    => 'WM_Theme_Framework_Customize::sanitize_text',
 														'sanitize_js_callback' => 'WM_Theme_Framework_Customize::sanitize_text',
@@ -621,7 +621,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 											$wp_customize->add_control( new WM_Customize_HTML(
 													$wp_customize,
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'label'           => $theme_option['content'],
 														'section'         => $customizer_section,
@@ -638,7 +638,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										case 'image':
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'                 => $type,
 														'default'              => $default,
@@ -650,13 +650,13 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 											$wp_customize->add_control( new WM_Customize_Image(
 													$wp_customize,
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'label'           => $theme_option['label'],
 														'description'     => $description,
 														'section'         => $customizer_section,
 														'priority'        => $priority,
-														'context'         => WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+														'context'         => WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 														'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 													)
 												) );
@@ -669,7 +669,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										case 'multiselect':
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'                 => $type,
 														'default'              => $default,
@@ -681,7 +681,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 											$wp_customize->add_control( new WM_Customize_Multiselect(
 													$wp_customize,
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'label'           => $theme_option['label'],
 														'description'     => $description,
@@ -705,7 +705,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										case 'range':
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'                 => $type,
 														'default'              => $default,
@@ -717,7 +717,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 											$wp_customize->add_control( new WM_Customize_Range(
 													$wp_customize,
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'label'           => $theme_option['label'],
 														'description'     => $description,
@@ -736,7 +736,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										case 'password':
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'                 => $type,
 														'default'              => $default,
@@ -747,7 +747,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 												);
 
 											$wp_customize->add_control(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'            => 'password',
 														'label'           => $theme_option['label'],
@@ -766,7 +766,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										case 'radiomatrix':
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'                 => $type,
 														'default'              => $default,
@@ -778,7 +778,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 											$wp_customize->add_control( new WM_Customize_Radio_Matrix(
 													$wp_customize,
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'label'           => $theme_option['label'],
 														'description'     => $description,
@@ -798,7 +798,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										case 'select':
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'                 => $type,
 														'default'              => $default,
@@ -810,7 +810,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 											$wp_customize->add_control( new WM_Customize_Select(
 													$wp_customize,
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'label'           => $theme_option['label'],
 														'description'     => $description,
@@ -829,7 +829,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										case 'text':
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'                 => $type,
 														'default'              => $default,
@@ -840,7 +840,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 												);
 
 											$wp_customize->add_control(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'label'           => $theme_option['label'],
 														'description'     => $description,
@@ -858,7 +858,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										case 'textarea':
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'                 => $type,
 														'default'              => $default,
@@ -869,7 +869,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 												);
 
 											$wp_customize->add_control(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'            => 'textarea',
 														'label'           => $theme_option['label'],
@@ -888,7 +888,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										case 'url':
 
 											$wp_customize->add_setting(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'                 => $type,
 														'default'              => $default,
@@ -899,7 +899,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 												);
 
 											$wp_customize->add_control(
-													WM_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
 														'type'            => 'url',
 														'label'           => $theme_option['label'],

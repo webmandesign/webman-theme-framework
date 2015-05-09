@@ -41,7 +41,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 			 *
 			 * @param  array $buttons
 			 */
-			static public function add_buttons_row1( $buttons ) {
+			public static function add_buttons_row1( $buttons ) {
 
 				//Pre
 
@@ -83,7 +83,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 			 *
 			 * @param  array $buttons
 			 */
-			static public function add_buttons_row2( $buttons ) {
+			public static function add_buttons_row2( $buttons ) {
 
 				//Pre
 
@@ -125,7 +125,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 			 *
 			 * @param  array $init
 			 */
-			static public function custom_mce_format( $init ) {
+			public static function custom_mce_format( $init ) {
 
 				//Pre
 

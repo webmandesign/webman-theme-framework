@@ -24,7 +24,7 @@
 
 	//Admin class
 
-		locate_template( WM_LIBRARY_DIR . 'inc/classes/class-wm-theme-framework-admin.php', true );
+		locate_template( WMTF_LIBRARY_DIR . 'inc/classes/class-wm-theme-framework-admin.php', true );
 
 
 

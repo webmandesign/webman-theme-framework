@@ -41,23 +41,23 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 * @since    4.0
 			 * @version  5.0
 			 */
-			static public function theme_upgrade() {
+			public static function theme_upgrade() {
 
 				//Helper variables
 
-					$current_theme_version = get_transient( WM_THEME_SHORTNAME . '_version' );
+					$current_theme_version = get_transient( WMTF_THEME_SHORTNAME . '_version' );
 
 
 				//Processing
 
 					if (
 							empty( $current_theme_version )
-							|| WM_THEME_VERSION != $current_theme_version
+							|| WMTF_THEME_VERSION != $current_theme_version
 						) {
 
 						do_action( 'wmhook_theme_upgrade' );
 
-						set_transient( WM_THEME_SHORTNAME . '_version', WM_THEME_VERSION );
+						set_transient( WMTF_THEME_SHORTNAME . '_version', WMTF_THEME_VERSION );
 
 					}
 
@@ -79,7 +79,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 * @since    3.0
 			 * @version  5.0
 			 */
-			static public function get_the_logo() {
+			public static function get_the_logo() {
 
 				//Pre
 
@@ -188,7 +188,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				 * @since    5.0
 				 * @version  5.0
 				 */
-				static public function the_logo() {
+				public static function the_logo() {
 
 					//Helper variables
 
@@ -223,7 +223,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @param  string $content
 			 */
-			static public function add_table_of_contents( $content = '' ) {
+			public static function add_table_of_contents( $content = '' ) {
 
 				//Pre
 
@@ -342,7 +342,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @param  array $args
 			 */
-			static public function get_the_post_meta_info( $args = array() ) {
+			public static function get_the_post_meta_info( $args = array() ) {
 
 				//Pre
 
@@ -586,7 +586,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				 *
 				 * @param  array $args
 				 */
-				static public function the_post_meta_info( $args = array() ) {
+				public static function the_post_meta_info( $args = array() ) {
 
 					//Helper variables
 
@@ -612,7 +612,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 * @param  string $tag           Wrapper tag
 			 * @param  string $singular_only Display only on singular posts of specific type
 			 */
-			static public function get_the_paginated_suffix( $tag = '', $singular_only = false ) {
+			public static function get_the_paginated_suffix( $tag = '', $singular_only = false ) {
 
 				//Pre
 
@@ -667,7 +667,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					return $output;
 
-			} // /paginated_suffix
+			} // /get_the_paginated_suffix
 
 
 
@@ -680,7 +680,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				 * @param  string $tag           Wrapper tag
 				 * @param  string $singular_only Display only on singular posts of specific type
 				 */
-				static public function the_paginated_suffix( $tag = '', $singular_only = false ) {
+				public static function the_paginated_suffix( $tag = '', $singular_only = false ) {
 
 					//Helper variables
 
@@ -705,7 +705,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @param  mixed $post
 			 */
-			static public function has_more_tag( $post = null ) {
+			public static function has_more_tag( $post = null ) {
 
 				//Pre
 
@@ -762,7 +762,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @param  string $css Code to escape
 			 */
-			static public function esc_css( $css ) {
+			public static function esc_css( $css ) {
 
 				//Pre
 
@@ -794,7 +794,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @return  string Actual path to the file
 			 */
-			static public function get_stylesheet_directory( $file_relative_path ) {
+			public static function get_stylesheet_directory( $file_relative_path ) {
 
 				//Pre
 
@@ -849,7 +849,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @return  string Actual URL to the file
 			 */
-			static public function get_stylesheet_directory_uri( $file_relative_path ) {
+			public static function get_stylesheet_directory_uri( $file_relative_path ) {
 
 				//Pre
 
@@ -899,7 +899,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @param  string $css Code to minimize
 			 */
-			static public function minify_css( $css ) {
+			public static function minify_css( $css ) {
 
 				//Pre
 
@@ -951,7 +951,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @return  string Color in rgb() or rgba() format to use in CSS.
 			 */
-			static public function color_hex_to_rgba( $hex, $alpha = 100 ) {
+			public static function color_hex_to_rgba( $hex, $alpha = 100 ) {
 
 				//Pre
 
@@ -1012,7 +1012,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @param  string $css CSS string with variables to replace.
 			 */
-			static public function custom_styles( $css ) {
+			public static function custom_styles( $css ) {
 
 				//Pre
 
@@ -1184,7 +1184,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @param  array $args
 			 */
-			static public function generate_main_css( $args = array() ) {
+			public static function generate_main_css( $args = array() ) {
 
 				//Pre
 
@@ -1241,14 +1241,14 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 						$wp_upload_dir = wp_upload_dir();
 
-						$theme_css_url = trailingslashit( $wp_upload_dir['baseurl'] ) . 'wmtheme-' . WM_THEME_SHORTNAME;
-						$theme_css_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'wmtheme-' . WM_THEME_SHORTNAME;
+						$theme_css_url = trailingslashit( $wp_upload_dir['baseurl'] ) . 'wmtheme-' . WMTF_THEME_SHORTNAME;
+						$theme_css_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'wmtheme-' . WMTF_THEME_SHORTNAME;
 
 						if ( ! wma_create_folder( $theme_css_dir ) ) {
 							set_transient( 'wmamp-admin-notice', array( "<strong>ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.</strong>", 'error', 'switch_themes', 2 ), ( 60 * 60 * 48 ) );
 
-							delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css' );
-							delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files' );
+							delete_option( 'wm-' . WMTF_THEME_SHORTNAME . $args['type'] . '-css' );
+							delete_option( 'wm-' . WMTF_THEME_SHORTNAME . $args['type'] . '-files' );
 
 							return false;
 						}
@@ -1265,8 +1265,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 						//Store the CSS files paths and urls in DB
 
-							update_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css', $global_css_url );
-							update_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files', str_replace( $wp_upload_dir['basedir'], '', $theme_css_dir ) );
+							update_option( 'wm-' . WMTF_THEME_SHORTNAME . $args['type'] . '-css', $global_css_url );
+							update_option( 'wm-' . WMTF_THEME_SHORTNAME . $args['type'] . '-files', str_replace( $wp_upload_dir['basedir'], '', $theme_css_dir ) );
 
 						//Admin notice
 
@@ -1280,8 +1280,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					}
 
-					delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-css' );
-					delete_option( 'wm-' . WM_THEME_SHORTNAME . $args['type'] . '-files' );
+					delete_option( 'wm-' . WMTF_THEME_SHORTNAME . $args['type'] . '-css' );
+					delete_option( 'wm-' . WMTF_THEME_SHORTNAME . $args['type'] . '-files' );
 
 					return false;
 
@@ -1295,7 +1295,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				 * @since    3.0
 				 * @version  5.0
 				 */
-				static public function generate_ve_css() {
+				public static function generate_ve_css() {
 
 					//Output
 
@@ -1311,7 +1311,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				 * @since    3.0
 				 * @version  5.0
 				 */
-				static public function generate_rtl_css() {
+				public static function generate_rtl_css() {
 
 					//Output
 
@@ -1329,7 +1329,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				 * @since    3.0
 				 * @version  5.0
 				 */
-				static public function generate_all_css() {
+				public static function generate_all_css() {
 
 					//Output
 
@@ -1363,7 +1363,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @return  mixed Option value.
 			 */
-			static public function get_theme_mod( $id, $type = '', $suffix = '' ) {
+			public static function get_theme_mod( $id, $type = '', $suffix = '' ) {
 
 				//Pre
 
@@ -1399,9 +1399,9 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 						$wmtf_theme_options = null;
 					}
 
-					$options = ( $wmtf_theme_options ) ? ( $wmtf_theme_options ) : ( (array) get_option( WM_OPTION_CUSTOMIZER ) );
+					$options = ( $wmtf_theme_options ) ? ( $wmtf_theme_options ) : ( (array) get_option( WMTF_OPTION_CUSTOMIZER ) );
 
-					$id = WM_OPTION_PREFIX . $id;
+					$id = WMTF_OPTION_PREFIX . $id;
 
 
 				//Processing
@@ -1444,7 +1444,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 * @since    3.0
 			 * @version  5.0
 			 */
-			static public function toolbar() {
+			public static function toolbar() {
 
 				//Pre
 
@@ -1490,7 +1490,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 								$wp_admin_bar->add_menu( apply_filters( 'wmhook_wmtf_toolbar_child-' . sanitize_title( $title ), array(
 										'parent' => 'theme_options_links',
-										'id'     => WM_THEME_SHORTNAME . '_theme_options-' . sanitize_title( $title ),
+										'id'     => WMTF_THEME_SHORTNAME . '_theme_options-' . sanitize_title( $title ),
 										'title'  => $title,
 										'href'   => esc_url( $url ),
 									) ) );
@@ -1519,7 +1519,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @param  string $content
 			 */
-			static public function remove_shortcodes( $content ) {
+			public static function remove_shortcodes( $content ) {
 
 				//Pre
 
@@ -1551,7 +1551,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @param  string $title
 			 */
-			static public function html_widget_title( $title ) {
+			public static function html_widget_title( $title ) {
 
 				//Pre
 
@@ -1586,7 +1586,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @param  string $type
 			 */
-			static public function accessibility_skip_link( $type ) {
+			public static function accessibility_skip_link( $type ) {
 
 				//Pre
 
@@ -1643,7 +1643,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 * @param  string    $screen_id        Screen ID.
 			 * @param  WP_Screen $screen           Current WP_Screen instance.
 			 */
-			static public function contextual_help( $contextual_help, $screen_id, $screen ) {
+			public static function contextual_help( $contextual_help, $screen_id, $screen ) {
 
 				//Pre
 
@@ -1702,7 +1702,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * @param  string $url
 			 */
-			static public function get_image_id_from_url( $url ) {
+			public static function get_image_id_from_url( $url ) {
 
 				//Pre
 
@@ -1772,7 +1772,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				 * @since    4.0
 				 * @version  5.0
 				 */
-				static public function image_ids_transient_flusher() {
+				public static function image_ids_transient_flusher() {
 
 					//Processing
 
@@ -1788,7 +1788,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 * @since    4.0
 			 * @version  5.0
 			 */
-			static public function is_categorized_blog() {
+			public static function is_categorized_blog() {
 
 				//Pre
 
@@ -1846,7 +1846,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				 * @since    4.0
 				 * @version  5.0
 				 */
-				static public function all_categories_transient_flusher() {
+				public static function all_categories_transient_flusher() {
 
 					//Requirements check
 

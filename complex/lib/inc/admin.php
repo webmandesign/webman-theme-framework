@@ -24,17 +24,17 @@
 
 	//Load the theme About page
 
-		locate_template( WM_SETUP_DIR . 'about/about.php', true );
+		locate_template( WMTF_SETUP_DIR . 'about/about.php', true );
 
 	//Theme Updater
 
 		if ( apply_filters( 'wmhook_enable_update_notifier', false ) ) {
-			locate_template( WM_LIBRARY_DIR . 'inc/update-notifier.php', true );
+			locate_template( WMTF_LIBRARY_DIR . 'inc/update-notifier.php', true );
 		}
 
 	//Admin class
 
-		locate_template( WM_LIBRARY_DIR . 'inc/classes/class-wm-theme-framework-admin.php', true );
+		locate_template( WMTF_LIBRARY_DIR . 'inc/classes/class-wm-theme-framework-admin.php', true );
 
 
 

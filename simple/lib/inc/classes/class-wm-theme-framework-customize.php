@@ -47,7 +47,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 * @since    1.0
 			 * @version  2.0
 			 */
-			static public function preview_scripts() {
+			public static function preview_scripts() {
 
 				//Pre
 
@@ -160,7 +160,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 *
 			 * @param  mixed $value WP customizer value to sanitize.
 			 */
-			static public function sanitize_text( $value ) {
+			public static function sanitize_text( $value ) {
 
 				//Pre
 
@@ -189,7 +189,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 *
 			 * @param  mixed $value WP customizer value to sanitize.
 			 */
-			static public function sanitize_return_value( $value ) {
+			public static function sanitize_return_value( $value ) {
 
 				//Pre
 
@@ -233,7 +233,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 *
 			 * @param  object $wp_customize WP customizer object.
 			 */
-			static public function init( $wp_customize ) {
+			public static function init( $wp_customize ) {
 
 				//Pre
 
@@ -271,7 +271,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 					//Default section name in case not set (should be overwritten anyway)
 
 						$customizer_panel   = '';
-						$customizer_section = WM_THEME_SHORTNAME;
+						$customizer_section = WMTF_THEME_SHORTNAME;
 
 
 					/**
@@ -295,11 +295,11 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 						 * @link  http://ottopress.com/2012/making-a-custom-control-for-the-theme-customizer/
 						 */
 
-						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-hidden.php',      true );
-						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-html.php',        true );
-						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-image.php',       true );
-						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-multiselect.php', true );
-						locate_template( WM_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-select.php',      true );
+						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-hidden.php',      true );
+						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-html.php',        true );
+						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-image.php',       true );
+						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-multiselect.php', true );
+						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-select.php',      true );
 
 						do_action( 'wmhook_wmtf_customize_init_load_controls', $wp_customize );
 

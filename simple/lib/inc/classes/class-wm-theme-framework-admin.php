@@ -37,7 +37,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			 * @since    1.0
 			 * @version  2.0
 			 */
-			static public function assets() {
+			public static function assets() {
 
 				//Helper variables
 
@@ -58,7 +58,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 									'wmtf-admin-styles',
 									WM_Theme_Framework::get_stylesheet_directory_uri( 'css/admin.css' ),
 									false,
-									WM_SCRIPTS_VERSION,
+									WMTF_SCRIPTS_VERSION,
 									'screen'
 								);
 
@@ -82,7 +82,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			 *
 			 * @param  array $columns
 			 */
-			static public function post_columns_register( $columns ) {
+			public static function post_columns_register( $columns ) {
 
 				//Pre
 
@@ -124,7 +124,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			 * @param  string $column
 			 * @param  absint $post_id
 			 */
-			static public function post_columns_render( $column, $post_id ) {
+			public static function post_columns_render( $column, $post_id ) {
 
 				//Pre
 

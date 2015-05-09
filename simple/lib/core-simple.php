@@ -12,6 +12,7 @@
  * Used global hooks:
  * - `wmhook_theme_options`
  * - `wmhook_custom_styles`
+ * - `wmhook_esc_css`
  *
  * @copyright  2015 WebMan - Oliver Juhas
  * @license    GPL-2.0+, http://www.gnu.org/licenses/gpl-2.0.html
@@ -45,21 +46,21 @@
 
 	//Basic constants
 
-		if ( ! defined( 'WM_THEME_NAME' ) )       define( 'WM_THEME_NAME',       $theme_data->get( 'Name' )                                   );
-		if ( ! defined( 'WM_THEME_SHORTNAME' ) )  define( 'WM_THEME_SHORTNAME',  str_replace( array( '-lite', '-plus' ), '', get_template() ) );
-		if ( ! defined( 'WM_THEME_VERSION' ) )    define( 'WM_THEME_VERSION',    $theme_data->get( 'Version' )                                );
-		if ( ! defined( 'WM_THEME_AUTHOR_URI' ) ) define( 'WM_THEME_AUTHOR_URI', esc_url( $theme_data->get( 'AuthorURI' ) )                   );
-		if ( ! defined( 'WM_THEME_URI' ) )        define( 'WM_THEME_URI',        esc_url( $theme_data->get( 'ThemeURI' ) )                    );
-		if ( ! defined( 'WM_SCRIPTS_VERSION' ) )  define( 'WM_SCRIPTS_VERSION',  esc_attr( trim( WM_THEME_VERSION ) )                         );
+		if ( ! defined( 'WMTF_THEME_NAME' ) )       define( 'WMTF_THEME_NAME',       $theme_data->get( 'Name' )                                   );
+		if ( ! defined( 'WMTF_THEME_SHORTNAME' ) )  define( 'WMTF_THEME_SHORTNAME',  str_replace( array( '-lite', '-plus' ), '', get_template() ) );
+		if ( ! defined( 'WMTF_THEME_VERSION' ) )    define( 'WMTF_THEME_VERSION',    $theme_data->get( 'Version' )                                );
+		if ( ! defined( 'WMTF_THEME_AUTHOR_URI' ) ) define( 'WMTF_THEME_AUTHOR_URI', esc_url( $theme_data->get( 'AuthorURI' ) )                   );
+		if ( ! defined( 'WMTF_THEME_URI' ) )        define( 'WMTF_THEME_URI',        esc_url( $theme_data->get( 'ThemeURI' ) )                    );
+		if ( ! defined( 'WMTF_SCRIPTS_VERSION' ) )  define( 'WMTF_SCRIPTS_VERSION',  esc_attr( trim( WMTF_THEME_VERSION ) )                       );
 
 	//Dir constants
 
-		if ( ! defined( 'WM_INC_DIR' ) )     define( 'WM_INC_DIR',     trailingslashit( 'inc' )     );
-		if ( ! defined( 'WM_LIBRARY_DIR' ) ) define( 'WM_LIBRARY_DIR', trailingslashit( 'inc/lib' ) );
+		if ( ! defined( 'WMTF_INC_DIR' ) )     define( 'WMTF_INC_DIR',     trailingslashit( 'inc' )     );
+		if ( ! defined( 'WMTF_LIBRARY_DIR' ) ) define( 'WMTF_LIBRARY_DIR', trailingslashit( 'inc/lib' ) );
 
 	//Required to set up in the theme's functions.php file
 
-		if ( ! defined( 'WM_WP_COMPATIBILITY' ) ) define( 'WM_WP_COMPATIBILITY', 4.1 );
+		if ( ! defined( 'WMTF_WP_COMPATIBILITY' ) ) define( 'WMTF_WP_COMPATIBILITY', 4.1 );
 
 
 
@@ -71,7 +72,7 @@
 
 	//Main theme action hooks
 
-		locate_template( WM_LIBRARY_DIR . 'inc/hooks/hooks.php', true );
+		locate_template( WMTF_LIBRARY_DIR . 'inc/hooks/hooks.php', true );
 
 	//Admin required files
 
@@ -79,13 +80,13 @@
 
 			//WP admin functionality
 
-				locate_template( WM_LIBRARY_DIR . 'inc/admin.php', true );
+				locate_template( WMTF_LIBRARY_DIR . 'inc/admin.php', true );
 
 		}
 
 	//Main class
 
-		locate_template( WM_LIBRARY_DIR . 'inc/classes/class-wm-theme-framework.php', true );
+		locate_template( WMTF_LIBRARY_DIR . 'inc/classes/class-wm-theme-framework.php', true );
 
 
 

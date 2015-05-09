@@ -24,7 +24,7 @@
 
 	//Visual Editor class
 
-		locate_template( WM_LIBRARY_DIR . 'inc/classes/class-wm-theme-framework-customize.php', true );
+		locate_template( WMTF_LIBRARY_DIR . 'inc/classes/class-wm-theme-framework-customize.php', true );
 
 
 

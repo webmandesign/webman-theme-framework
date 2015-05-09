@@ -41,7 +41,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 			 * @since    3.0
 			 * @version  5.0
 			 */
-			static public function menu() {
+			public static function menu() {
 
 				//Requirements check
 
@@ -61,12 +61,12 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 						if (
 								isset( $xml->latest )
-								&& version_compare( $xml->latest, WM_THEME_VERSION, '>' )
+								&& version_compare( $xml->latest, WMTF_THEME_VERSION, '>' )
 							) {
 
 							add_theme_page(
 								//page_title
-								sprintf( _x( '%s Theme Updates', '%s stands for the theme name. Just copy it.', 'wmtf_domain' ), WM_THEME_NAME ),
+								sprintf( _x( '%s Theme Updates', '%s stands for the theme name. Just copy it.', 'wmtf_domain' ), WMTF_THEME_NAME ),
 								//menu_title
 								_x( 'Theme Updates', 'Admin menu title.', 'wmtf_domain' ) . ' <span class="update-plugins count-1"><span class="update-count">1</span></span>',
 								//capability
@@ -91,7 +91,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 			 * @since    3.0
 			 * @version  5.0
 			 */
-			static public function toolbar() {
+			public static function toolbar() {
 
 				//Requirements check
 
@@ -114,7 +114,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 						if (
 								isset( $xml->latest )
-								&& version_compare( $xml->latest, WM_THEME_VERSION, '>' )
+								&& version_compare( $xml->latest, WMTF_THEME_VERSION, '>' )
 							) {
 
 							if (
@@ -128,7 +128,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 							$wp_admin_bar->add_menu( array(
 									'id'    => 'update_notifier',
-									'title' => sprintf( _x( '%s update', 'Admin bar notification link. %s stands for the theme name. Just copy it.', 'wmtf_domain' ), WM_THEME_NAME ) . ' <span id="ab-updates">1</span>',
+									'title' => sprintf( _x( '%s update', 'Admin bar notification link. %s stands for the theme name. Just copy it.', 'wmtf_domain' ), WMTF_THEME_NAME ) . ' <span id="ab-updates">1</span>',
 									'href'  => esc_url( $admin_url )
 								) );
 
@@ -152,7 +152,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 			 * @since    3.0
 			 * @version  5.0
 			 */
-			static public function page() {
+			public static function page() {
 
 				//Pre
 
@@ -185,7 +185,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 					<div class="wrap update-notifier">
 
 						<div id="icon-tools" class="icon32"></div>
-						<h2><strong><?php echo WM_THEME_NAME; ?></strong> Theme Updates</h2>
+						<h2><strong><?php echo WMTF_THEME_NAME; ?></strong> Theme Updates</h2>
 
 						<br />
 
@@ -197,7 +197,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 								echo '<strong>' . trim( $xml->message ) . '</strong><br />';
 							}
 
-							echo 'You have version ' . WM_THEME_VERSION . ' installed. <strong>Update to version ' . trim( $xml->latest ) . ' now.</strong>';
+							echo 'You have version ' . WMTF_THEME_VERSION . ' installed. <strong>Update to version ' . trim( $xml->latest ) . ' now.</strong>';
 
 							?></p>
 
@@ -249,9 +249,9 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 										<ol>
 											<li>Upload the theme installation ZIP file using FTP client to your server (into <code>YOUR_WORDPRESS_INSTALLATION/wp-content/themes/</code>).</li>
-											<li>Using your FTP client, rename the old theme folder (for example from <code><?php echo WM_THEME_SHORTNAME; ?></code> to <code><?php echo WM_THEME_SHORTNAME; ?>-bak</code>).</li>
+											<li>Using your FTP client, rename the old theme folder (for example from <code><?php echo WMTF_THEME_SHORTNAME; ?></code> to <code><?php echo WMTF_THEME_SHORTNAME; ?>-bak</code>).</li>
 											<li>When the old theme folder is renamed, unzip the theme installation zip file directly on the server (you might need to use a web-based FTP tool for this - hosting companies provides such tools).</li>
-											<li>After checking whether the theme works fine, delete the renamed old theme folder from the server (the <code><?php echo WM_THEME_SHORTNAME; ?>-bak</code> folder in our case).</li>
+											<li>After checking whether the theme works fine, delete the renamed old theme folder from the server (the <code><?php echo WMTF_THEME_SHORTNAME; ?>-bak</code> folder in our case).</li>
 										</ol>
 
 									</li>
@@ -329,7 +329,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 			 *
 			 * @param  int $interval
 			 */
-			static public function get_remote_xml_data( $interval ) {
+			public static function get_remote_xml_data( $interval ) {
 
 				//Pre
 
@@ -349,8 +349,8 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 				//Helper variables
 
-					$db_cache_field              = 'wmtf_notifier_cache_' . WM_THEME_SHORTNAME;
-					$db_cache_field_last_updated = 'wmtf_notifier_cache_' . WM_THEME_SHORTNAME . '_last_updated';
+					$db_cache_field              = 'wmtf_notifier_cache_' . WMTF_THEME_SHORTNAME;
+					$db_cache_field_last_updated = 'wmtf_notifier_cache_' . WMTF_THEME_SHORTNAME . '_last_updated';
 					$last                        = get_transient( $db_cache_field_last_updated );
 
 					//Check the cache
@@ -362,7 +362,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 							//Cache doesn't exist, or is old, so refresh it
 
-								$response = wp_remote_get( esc_url( trailingslashit( WM_THEME_AUTHOR_URI ) . 'updates/' . WM_THEME_SHORTNAME . '/' . WM_THEME_SHORTNAME . '-version.xml' ) );
+								$response = wp_remote_get( esc_url( trailingslashit( WMTF_THEME_AUTHOR_URI ) . 'updates/' . WMTF_THEME_SHORTNAME . '/' . WMTF_THEME_SHORTNAME . '-version.xml' ) );
 
 								if ( is_wp_error( $response ) ) {
 

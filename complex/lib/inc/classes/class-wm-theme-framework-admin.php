@@ -38,7 +38,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			 * @since    3.0
 			 * @version  5.0
 			 */
-			static public function assets() {
+			public static function assets() {
 
 				/**
 				 * Register
@@ -47,16 +47,16 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 					//Styles
 
 						$register_styles = apply_filters( 'wmhook_wmtf_admin_assets_register_styles', array(
-								'wmtf-about'     => array( WM_Theme_Framework::get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'css/about.css' ) ),
-								'wmtf-about-rtl' => array( WM_Theme_Framework::get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'css/rtl-about.css' ) ),
-								'wmtf-admin'     => array( WM_Theme_Framework::get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'css/admin.css' ) ),
-								'wmtf-admin-rtl' => array( WM_Theme_Framework::get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'css/rtl-admin.css' ) ),
+								'wmtf-about'     => array( WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'css/about.css' ) ),
+								'wmtf-about-rtl' => array( WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'css/rtl-about.css' ) ),
+								'wmtf-admin'     => array( WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'css/admin.css' ) ),
+								'wmtf-admin-rtl' => array( WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'css/rtl-admin.css' ) ),
 							) );
 
 						foreach ( $register_styles as $handle => $atts ) {
 							$src   = ( isset( $atts['src'] )   ) ? ( $atts['src']   ) : ( $atts[0]           );
 							$deps  = ( isset( $atts['deps'] )  ) ? ( $atts['deps']  ) : ( false              );
-							$ver   = ( isset( $atts['ver'] )   ) ? ( $atts['ver']   ) : ( WM_SCRIPTS_VERSION );
+							$ver   = ( isset( $atts['ver'] )   ) ? ( $atts['ver']   ) : ( WMTF_SCRIPTS_VERSION );
 							$media = ( isset( $atts['media'] ) ) ? ( $atts['media'] ) : ( 'screen'           );
 
 							wp_register_style( $handle, $src, $deps, $ver, $media );
@@ -65,13 +65,13 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 					//Scripts
 
 						$register_scripts = apply_filters( 'wmhook_wmtf_admin_assets_register_scripts', array(
-								'wmtf-admin' => array( WM_Theme_Framework::get_stylesheet_directory_uri( WM_LIBRARY_DIR . 'js/scripts.js' ) ),
+								'wmtf-admin' => array( WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'js/scripts.js' ) ),
 							) );
 
 						foreach ( $register_scripts as $handle => $atts ) {
 							$src       = ( isset( $atts['src'] )       ) ? ( $atts['src']       ) : ( $atts[0]           );
 							$deps      = ( isset( $atts['deps'] )      ) ? ( $atts['deps']      ) : ( array( 'jquery' )  );
-							$ver       = ( isset( $atts['ver'] )       ) ? ( $atts['ver']       ) : ( WM_SCRIPTS_VERSION );
+							$ver       = ( isset( $atts['ver'] )       ) ? ( $atts['ver']       ) : ( WMTF_SCRIPTS_VERSION );
 							$in_footer = ( isset( $atts['in_footer'] ) ) ? ( $atts['in_footer'] ) : ( true               );
 
 							wp_register_script( $handle, $src, $deps, $ver, $in_footer );
@@ -114,7 +114,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			 *
 			 * @param  array $columns
 			 */
-			static public function post_columns_register( $columns ) {
+			public static function post_columns_register( $columns ) {
 
 				//Pre
 
@@ -152,7 +152,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			 * @param  string $column
 			 * @param  absint $post_id
 			 */
-			static public function post_columns_render( $column, $post_id ) {
+			public static function post_columns_render( $column, $post_id ) {
 
 				//Pre
 
@@ -214,7 +214,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			 * @since    3.0
 			 * @version  5.0
 			 */
-			static public function message() {
+			public static function message() {
 
 				//Pre
 
