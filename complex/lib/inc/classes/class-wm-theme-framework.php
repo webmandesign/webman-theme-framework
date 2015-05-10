@@ -2,6 +2,8 @@
 /**
  * Core class
  *
+ * @uses  `wmhook_theme_options` global hook
+ *
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
  *
@@ -1006,6 +1008,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * Just use a '[[customizer-option-id]]' tags in your custom CSS
 			 * styles string where the specific option value should be used.
+			 *
+			 * @uses  `wmhook_theme_options` global hook
 			 *
 			 * @since    4.0
 			 * @version  5.0

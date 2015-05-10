@@ -7,11 +7,14 @@
  * Custom hooks naming convention:
  * - `wmhook_` - global (and other, such as plugins related) hooks
  * - `wmhook_wmtf_` - theme framework specific hooks (core specific)
- * - `wmhook_wmtf_admin_`,  `wmhook_wmtf_customize_`,  `wmhook_wmtf_editor_`,  `wmhook_wmtf_updater_` - class method specific hooks
+ * - `wmhook_wmtf_admin_` - class method specific hooks
+ * - `wmhook_wmtf_customize_` - class method specific hooks
+ * - `wmhook_wmtf_editor_` - class method specific hooks
+ * - `wmhook_wmtf_updater_` - class method specific hooks
  *
  * Used global hooks:
+ * - `wmhook_theme_upgrade`
  * - `wmhook_theme_options`
- * - `wmhook_custom_styles`
  * - `wmhook_esc_css`
  *
  * @copyright  2015 WebMan - Oliver Juhas

@@ -2,6 +2,8 @@
 /**
  * Customize class
  *
+ * @uses  `wmhook_theme_options` global hook
+ *
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Customize
  *
@@ -84,6 +86,8 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 *       ),
 			 *     'custom' => 'your_custom_JavaScript_here',
 			 *   )
+			 *
+			 * @uses  `wmhook_theme_options` global hook
 			 *
 			 * @since    3.0
 			 * @version  5.0
@@ -300,6 +304,8 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 			/**
 			 * Registering sections and options for WP Customizer
+			 *
+			 * @uses  `wmhook_theme_options` global hook
 			 *
 			 * @since    3.0
 			 * @version  5.0

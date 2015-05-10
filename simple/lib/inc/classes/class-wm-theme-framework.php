@@ -2,6 +2,9 @@
 /**
  * Core class
  *
+ * @uses  `wmhook_theme_options` global hook
+ * @uses  `wmhook_custom_styles` global hook
+ *
  * @package     WebMan WordPress Theme Framework (Simple)
  * @subpackage  Core
  *
@@ -1150,6 +1153,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 			} // /color_hex_to_rgba
 
+
+
 			/**
 			 * Outputs custom CSS styles set via Customizer
 			 *
@@ -1160,6 +1165,9 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 *
 			 * Caching $replacement into 'WMTF_THEME_SHORTNAME_customizer_values' transient.
 			 * Caching $output into 'WMTF_THEME_SHORTNAME_custom_css' transient.
+			 *
+			 * @uses  `wmhook_theme_options` global hook
+			 * @uses  `wmhook_custom_styles` global hook
 			 *
 			 * @since    1.0
 			 * @version  2.0
