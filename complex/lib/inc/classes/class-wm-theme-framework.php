@@ -52,12 +52,12 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					if (
 							empty( $current_theme_version )
-							|| WMTF_THEME_VERSION != $current_theme_version
+							|| wp_get_theme()->get( 'Version' ) != $current_theme_version
 						) {
 
 						do_action( 'wmhook_theme_upgrade' );
 
-						set_transient( WMTF_THEME_SHORTNAME . '_version', WMTF_THEME_VERSION );
+						set_transient( WMTF_THEME_SHORTNAME . '_version', wp_get_theme()->get( 'Version' ) );
 
 					}
 
@@ -1401,8 +1401,6 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					$options = ( $wmtf_theme_options ) ? ( $wmtf_theme_options ) : ( (array) get_option( WMTF_OPTION_CUSTOMIZER ) );
 
-					$id = WMTF_OPTION_PREFIX . $id;
-
 
 				//Processing
 
@@ -1466,13 +1464,16 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					global $wp_admin_bar;
 
+					$submenu = (array) apply_filters( 'wmhook_wmtf_toolbar_submenu', array() );
+
 					//Requirements check
 
-						if ( ! is_admin_bar_showing() ) {
+						if (
+								empty( $submenu )
+								|| ! is_admin_bar_showing()
+							) {
 							return;
 						}
-
-					$submenu = apply_filters( 'wmhook_wmtf_toolbar_submenu', array() );
 
 
 				//Processing

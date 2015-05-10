@@ -52,12 +52,12 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					if (
 							empty( $current_theme_version )
-							|| WMTF_THEME_VERSION != $current_theme_version
+							|| wp_get_theme()->get( 'Version' ) != $current_theme_version
 						) {
 
 						do_action( 'wmhook_theme_upgrade' );
 
-						set_transient( WMTF_THEME_SHORTNAME . '_version', WMTF_THEME_VERSION );
+						set_transient( WMTF_THEME_SHORTNAME . '_version', wp_get_theme()->get( 'Version' ) );
 
 					}
 

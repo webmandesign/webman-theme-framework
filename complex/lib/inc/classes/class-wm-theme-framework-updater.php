@@ -61,12 +61,12 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 						if (
 								isset( $xml->latest )
-								&& version_compare( $xml->latest, WMTF_THEME_VERSION, '>' )
+								&& version_compare( $xml->latest, wp_get_theme()->get( 'Version' ), '>' )
 							) {
 
 							add_theme_page(
 								//page_title
-								sprintf( _x( '%s Theme Updates', '%s stands for the theme name. Just copy it.', 'wmtf_domain' ), WMTF_THEME_NAME ),
+								sprintf( _x( '%s Theme Updates', '%s stands for the theme name. Just copy it.', 'wmtf_domain' ), wp_get_theme()->get( 'Name' ) ),
 								//menu_title
 								_x( 'Theme Updates', 'Admin menu title.', 'wmtf_domain' ) . ' <span class="update-plugins count-1"><span class="update-count">1</span></span>',
 								//capability
@@ -114,7 +114,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 						if (
 								isset( $xml->latest )
-								&& version_compare( $xml->latest, WMTF_THEME_VERSION, '>' )
+								&& version_compare( $xml->latest, wp_get_theme()->get( 'Version' ), '>' )
 							) {
 
 							if (
@@ -128,7 +128,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 							$wp_admin_bar->add_menu( array(
 									'id'    => 'update_notifier',
-									'title' => sprintf( _x( '%s update', 'Admin bar notification link. %s stands for the theme name. Just copy it.', 'wmtf_domain' ), WMTF_THEME_NAME ) . ' <span id="ab-updates">1</span>',
+									'title' => sprintf( _x( '%s update', 'Admin bar notification link. %s stands for the theme name. Just copy it.', 'wmtf_domain' ), wp_get_theme()->get( 'Name' ) ) . ' <span id="ab-updates">1</span>',
 									'href'  => esc_url( $admin_url )
 								) );
 
@@ -185,7 +185,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 					<div class="wrap update-notifier">
 
 						<div id="icon-tools" class="icon32"></div>
-						<h2><strong><?php echo WMTF_THEME_NAME; ?></strong> Theme Updates</h2>
+						<h2><strong><?php echo wp_get_theme()->get( 'Name' ); ?></strong> Theme Updates</h2>
 
 						<br />
 
@@ -197,7 +197,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 								echo '<strong>' . trim( $xml->message ) . '</strong><br />';
 							}
 
-							echo 'You have version ' . WMTF_THEME_VERSION . ' installed. <strong>Update to version ' . trim( $xml->latest ) . ' now.</strong>';
+							echo 'You have version ' . wp_get_theme()->get( 'Version' ) . ' installed. <strong>Update to version ' . trim( $xml->latest ) . ' now.</strong>';
 
 							?></p>
 
@@ -362,7 +362,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 							//Cache doesn't exist, or is old, so refresh it
 
-								$response = wp_remote_get( esc_url( trailingslashit( WMTF_THEME_AUTHOR_URI ) . 'updates/' . WMTF_THEME_SHORTNAME . '/' . WMTF_THEME_SHORTNAME . '-version.xml' ) );
+								$response = wp_remote_get( esc_url( trailingslashit( wp_get_theme()->get( 'AuthorURI' ) ) . 'updates/' . WMTF_THEME_SHORTNAME . '/' . WMTF_THEME_SHORTNAME . '-version.xml' ) );
 
 								if ( is_wp_error( $response ) ) {
 

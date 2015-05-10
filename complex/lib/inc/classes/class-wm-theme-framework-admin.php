@@ -40,6 +40,11 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			 */
 			public static function assets() {
 
+				//Helper variables
+
+					$version = esc_attr( trim( wp_get_theme()->get( 'Version' ) ) );
+
+
 				/**
 				 * Register
 				 */
@@ -54,10 +59,10 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 							) );
 
 						foreach ( $register_styles as $handle => $atts ) {
-							$src   = ( isset( $atts['src'] )   ) ? ( $atts['src']   ) : ( $atts[0]           );
-							$deps  = ( isset( $atts['deps'] )  ) ? ( $atts['deps']  ) : ( false              );
-							$ver   = ( isset( $atts['ver'] )   ) ? ( $atts['ver']   ) : ( WMTF_SCRIPTS_VERSION );
-							$media = ( isset( $atts['media'] ) ) ? ( $atts['media'] ) : ( 'screen'           );
+							$src   = ( isset( $atts['src'] )   ) ? ( $atts['src']   ) : ( $atts[0] );
+							$deps  = ( isset( $atts['deps'] )  ) ? ( $atts['deps']  ) : ( false    );
+							$ver   = ( isset( $atts['ver'] )   ) ? ( $atts['ver']   ) : ( $version );
+							$media = ( isset( $atts['media'] ) ) ? ( $atts['media'] ) : ( 'screen' );
 
 							wp_register_style( $handle, $src, $deps, $ver, $media );
 						}
@@ -71,7 +76,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 						foreach ( $register_scripts as $handle => $atts ) {
 							$src       = ( isset( $atts['src'] )       ) ? ( $atts['src']       ) : ( $atts[0]           );
 							$deps      = ( isset( $atts['deps'] )      ) ? ( $atts['deps']      ) : ( array( 'jquery' )  );
-							$ver       = ( isset( $atts['ver'] )       ) ? ( $atts['ver']       ) : ( WMTF_SCRIPTS_VERSION );
+							$ver       = ( isset( $atts['ver'] )       ) ? ( $atts['ver']       ) : ( $version           );
 							$in_footer = ( isset( $atts['in_footer'] ) ) ? ( $atts['in_footer'] ) : ( true               );
 
 							wp_register_script( $handle, $src, $deps, $ver, $in_footer );

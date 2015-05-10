@@ -40,6 +40,11 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 */
 			public static function assets() {
 
+				//Helper variables
+
+					$version = esc_attr( trim( wp_get_theme()->get( 'Version' ) ) );
+
+
 				/**
 				 * Enqueue
 				 */
@@ -50,7 +55,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 								'wmtf-customizer',
 								WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'css/customizer.css' ),
 								false,
-								WMTF_SCRIPTS_VERSION,
+								$version,
 								'screen'
 							);
 
@@ -60,7 +65,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 								'wmtf-customizer',
 								WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'js/customizer.js' ),
 								array( 'customize-controls' ),
-								WMTF_SCRIPTS_VERSION,
+								$version,
 								true
 							);
 
@@ -112,14 +117,14 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 							if ( isset( $theme_option['customizer_js'] ) ) {
 
 								$output_single  = "wp.customize("  . "\r\n";
-								$output_single .= "\t" . "'" . WMTF_OPTION_CUSTOMIZER . "[" . WMTF_OPTION_PREFIX . $theme_option['id'] . "]" . "',"  . "\r\n";
+								$output_single .= "\t" . "'" . WMTF_OPTION_CUSTOMIZER . "[" . $theme_option['id'] . "]" . "',"  . "\r\n";
 								$output_single .= "\t" . "function( value ) {"  . "\r\n";
 								$output_single .= "\t\t" . 'value.bind( function( to ) {' . "\r\n";
 
 								if ( ! isset( $theme_option['customizer_js']['custom'] ) ) {
 
 									$output_single .= "\t\t\t" . "var newCss = '';" . "\r\n\r\n";
-									$output_single .= "\t\t\t" . "if ( jQuery( '#jscss-" . WMTF_OPTION_PREFIX . $theme_option['id'] . "' ).length ) { jQuery( '#jscss-" . WMTF_OPTION_PREFIX . $theme_option['id'] . "' ).remove() }" . "\r\n\r\n";
+									$output_single .= "\t\t\t" . "if ( jQuery( '#jscss-" . $theme_option['id'] . "' ).length ) { jQuery( '#jscss-" . $theme_option['id'] . "' ).remove() }" . "\r\n\r\n";
 
 									foreach ( $theme_option['customizer_js']['css'] as $selector => $properties ) {
 
@@ -157,7 +162,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 								}
 
-								$output_single .= "\r\n\t\t\t" . "jQuery( document ).find( 'head' ).append( jQuery( '<style id=\'jscss-" . WMTF_OPTION_PREFIX . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . "\r\n";
+								$output_single .= "\r\n\t\t\t" . "jQuery( document ).find( 'head' ).append( jQuery( '<style id=\'jscss-" . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . "\r\n";
 								$output_single .= "\t\t" . '} );' . "\r\n";
 								$output_single .= "\t" . '}'. "\r\n";
 								$output_single .= ');'. "\r\n";
@@ -401,7 +406,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										$option_id = $default = $description = '';
 
 										if ( isset( $theme_option['id'] ) ) {
-											$option_id = WMTF_OPTION_PREFIX . $theme_option['id'];
+											$option_id = $theme_option['id'];
 										}
 										if ( isset( $theme_option['default'] ) ) {
 											$default = $theme_option['default'];

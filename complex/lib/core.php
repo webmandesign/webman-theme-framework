@@ -40,34 +40,18 @@
  * 0) Constants
  */
 
-	//Helper variables
-
-		$theme_data = wp_get_theme();
-
 	//Basic constants
 
-		if ( ! defined( 'WMTF_THEME_NAME' ) )       define( 'WMTF_THEME_NAME',       $theme_data->get( 'Name' )                                   );
-		if ( ! defined( 'WMTF_THEME_SHORTNAME' ) )  define( 'WMTF_THEME_SHORTNAME',  str_replace( array( '-lite', '-plus' ), '', get_template() ) );
-		if ( ! defined( 'WMTF_THEME_VERSION' ) )    define( 'WMTF_THEME_VERSION',    $theme_data->get( 'Version' )                                );
-		if ( ! defined( 'WMTF_THEME_AUTHOR_URI' ) ) define( 'WMTF_THEME_AUTHOR_URI', esc_url( $theme_data->get( 'AuthorURI' ) )                   );
-		if ( ! defined( 'WMTF_THEME_URI' ) )        define( 'WMTF_THEME_URI',        esc_url( $theme_data->get( 'ThemeURI' ) )                    );
-		if ( ! defined( 'WMTF_SCRIPTS_VERSION' ) )  define( 'WMTF_SCRIPTS_VERSION',  esc_attr( trim( WMTF_THEME_VERSION ) )                       );
+		if ( ! defined( 'WMTF_THEME_SHORTNAME' ) ) define( 'WMTF_THEME_SHORTNAME',  str_replace( array( '-lite', '-plus' ), '', get_template() ) );
 
 	//Options constants
 
-		if ( ! defined( 'WMTF_OPTION_PREFIX' ) )     define( 'WMTF_OPTION_PREFIX',     ''                                   );
 		if ( ! defined( 'WMTF_OPTION_CUSTOMIZER' ) ) define( 'WMTF_OPTION_CUSTOMIZER', 'theme_mods_' . WMTF_THEME_SHORTNAME );
 
 	//Dir constants
 
-		if ( ! defined( 'WMTF_LIBRARY_DIR' ) ) define( 'WMTF_LIBRARY_DIR', trailingslashit( 'lib' )                                       );
-		if ( ! defined( 'WMTF_SETUP_DIR' ) )   define( 'WMTF_SETUP_DIR',   trailingslashit( 'setup' )                                     );
-		if ( ! defined( 'WMTF_SETUP' ) )       define( 'WMTF_SETUP',       trailingslashit( get_template_directory() ) . WMTF_SETUP_DIR   );
-		if ( ! defined( 'WMTF_SETUP_CHILD' ) ) define( 'WMTF_SETUP_CHILD', trailingslashit( get_stylesheet_directory() ) . WMTF_SETUP_DIR );
-
-	//Required to set up in the theme's functions.php file
-
-		if ( ! defined( 'WMTF_WP_COMPATIBILITY' ) ) define( 'WMTF_WP_COMPATIBILITY', 4.1 );
+		if ( ! defined( 'WMTF_LIBRARY_DIR' ) ) define( 'WMTF_LIBRARY_DIR', trailingslashit( 'lib' )   );
+		if ( ! defined( 'WMTF_SETUP_DIR' ) )   define( 'WMTF_SETUP_DIR',   trailingslashit( 'setup' ) );
 
 
 

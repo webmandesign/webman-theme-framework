@@ -58,7 +58,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 									'wmtf-admin-styles',
 									WM_Theme_Framework::get_stylesheet_directory_uri( 'css/admin.css' ),
 									false,
-									WMTF_SCRIPTS_VERSION,
+									esc_attr( trim( wp_get_theme()->get( 'Version' ) ) ),
 									'screen'
 								);
 
