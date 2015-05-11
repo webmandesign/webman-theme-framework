@@ -1297,7 +1297,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 										if ( 'color' === $option['type'] ) {
 											foreach ( $alphas as $alpha ) {
-												$replacements['[[' . $option_id . '|alpha=' . absint( $alpha ) . ']]'] = WM_Theme_Framework::color_hex_to_rgba( $value, absint( $alpha ) );
+												$replacements['[[' . $option_id . '|alpha=' . absint( $alpha ) . ']]'] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 											} // /foreach
 										}
 
@@ -1311,7 +1311,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 										$replacements['[[background_color]]'] = '#' . trim( $value, '#' );
 
 										foreach ( $alphas as $alpha ) {
-											$replacements['[[background_color|alpha=' . absint( $alpha ) . ']]'] = WM_Theme_Framework::color_hex_to_rgba( $value, absint( $alpha ) );
+											$replacements['[[background_color|alpha=' . absint( $alpha ) . ']]'] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 										} // /foreach
 									}
 
@@ -1329,7 +1329,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 										$replacements['[[header_textcolor]]'] = '#' . trim( $value, '#' );
 
 										foreach ( $alphas as $alpha ) {
-											$replacements['[[header_textcolor|alpha=' . absint( $alpha ) . ']]'] = WM_Theme_Framework::color_hex_to_rgba( $value, absint( $alpha ) );
+											$replacements['[[header_textcolor|alpha=' . absint( $alpha ) . ']]'] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 										} // /foreach
 									}
 

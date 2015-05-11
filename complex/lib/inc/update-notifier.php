@@ -29,7 +29,7 @@
 
 	//The time interval for the remote XML cache in the database (86400 seconds = 24 hours)
 
-		if ( ! defined( 'WM_UPDATE_NOTIFIER_CACHE_INTERVAL' ) ) define( 'WM_UPDATE_NOTIFIER_CACHE_INTERVAL', 86400 );
+		if ( ! defined( 'WMTF_UPDATE_NOTIFIER_CACHE_INTERVAL' ) ) define( 'WMTF_UPDATE_NOTIFIER_CACHE_INTERVAL', 86400 );
 
 
 

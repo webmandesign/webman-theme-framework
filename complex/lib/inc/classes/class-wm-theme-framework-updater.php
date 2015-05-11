@@ -57,7 +57,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 					if ( function_exists( 'simplexml_load_string' ) ) {
 
-						$xml = self::get_remote_xml_data( WM_UPDATE_NOTIFIER_CACHE_INTERVAL );
+						$xml = self::get_remote_xml_data( WMTF_UPDATE_NOTIFIER_CACHE_INTERVAL );
 
 						if (
 								isset( $xml->latest )
@@ -110,7 +110,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 						global $wp_admin_bar;
 
-						$xml = self::get_remote_xml_data( WM_UPDATE_NOTIFIER_CACHE_INTERVAL );
+						$xml = self::get_remote_xml_data( WMTF_UPDATE_NOTIFIER_CACHE_INTERVAL );
 
 						if (
 								isset( $xml->latest )
@@ -172,7 +172,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 				//Helper variables
 
-					$xml = self::get_remote_xml_data( WM_UPDATE_NOTIFIER_CACHE_INTERVAL );
+					$xml = self::get_remote_xml_data( WMTF_UPDATE_NOTIFIER_CACHE_INTERVAL );
 
 
 				//Processing
