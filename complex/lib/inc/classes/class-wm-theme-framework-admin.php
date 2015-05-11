@@ -20,8 +20,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 		 * Contents:
 		 *
 		 * 10) Assets
-		 * 20) Posts list table
-		 * 30) Messages
+		 * 20) Messages
 		 */
 
 
@@ -45,11 +44,11 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 					$version = esc_attr( trim( wp_get_theme()->get( 'Version' ) ) );
 
 
-				/**
-				 * Register
-				 */
+				//Register
 
-					//Styles
+					/**
+					 * Styles
+					 */
 
 						$register_styles = apply_filters( 'wmhook_wmtf_admin_assets_register_styles', array(
 								'wmtf-about'     => array( WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'css/about.css' ) ),
@@ -67,27 +66,12 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 							wp_register_style( $handle, $src, $deps, $ver, $media );
 						}
 
-					//Scripts
 
-						$register_scripts = apply_filters( 'wmhook_wmtf_admin_assets_register_scripts', array(
-								'wmtf-admin' => array( WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'js/scripts.js' ) ),
-							) );
+				//Enqueue
 
-						foreach ( $register_scripts as $handle => $atts ) {
-							$src       = ( isset( $atts['src'] )       ) ? ( $atts['src']       ) : ( $atts[0]           );
-							$deps      = ( isset( $atts['deps'] )      ) ? ( $atts['deps']      ) : ( array( 'jquery' )  );
-							$ver       = ( isset( $atts['ver'] )       ) ? ( $atts['ver']       ) : ( $version           );
-							$in_footer = ( isset( $atts['in_footer'] ) ) ? ( $atts['in_footer'] ) : ( true               );
-
-							wp_register_script( $handle, $src, $deps, $ver, $in_footer );
-						}
-
-
-				/**
-				 * Enqueue
-				 */
-
-					//Styles
+					/**
+					 * Styles
+					 */
 
 						wp_enqueue_style( 'wmtf-admin' );
 
@@ -97,10 +81,6 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 								wp_enqueue_style( 'wmtf-admin-rtl' );
 							}
 
-					//Scripts
-
-						wp_enqueue_script( 'wmtf-admin' );
-
 			} // /assets
 
 
@@ -108,100 +88,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 
 
 		/**
-		 * 20) Posts list table
-		 */
-
-			/**
-			 * Register table columns
-			 *
-			 * @since    3.0
-			 * @version  5.0
-			 *
-			 * @param  array $columns
-			 */
-			public static function post_columns_register( $columns ) {
-
-				//Pre
-
-					$pre = apply_filters( 'wmhook_wmtf_admin_post_columns_register_pre', false, $columns );
-
-					if ( false !== $pre ) {
-						return $pre;
-					}
-
-
-				//Processing
-
-					$add = array_slice( $columns, 0, 1 );
-
-					$add['wm-thumb'] = __( 'Image', 'wmtf_domain' );
-
-
-				//Output
-
-					return array_merge( $add, array_slice( $columns, 1 ) );
-
-			} // /post_columns_register
-
-
-
-			/**
-			 * Admin post list columns content
-			 *
-			 * If WebMan Amplifier's 'admin-thumbnail' image size not supplied,
-			 * use the standard WordPress 'thumbnail' image size.
-			 *
-			 * @since    3.0
-			 * @version  5.0
-			 *
-			 * @param  string $column
-			 * @param  absint $post_id
-			 */
-			public static function post_columns_render( $column, $post_id ) {
-
-				//Pre
-
-					$pre = apply_filters( 'wmhook_wmtf_admin_post_columns_render_pre', false, $column, $post_id );
-
-					if ( false !== $pre ) {
-						return $pre;
-					}
-
-
-				//Processing
-
-					//Thumbnail renderer
-
-						if ( 'wm-thumb' === $column ) {
-
-							$size = ( class_exists( 'WM_Amplifier' ) ) ? ( apply_filters( 'wmhook_wmamp_cp_admin_thumb_size', 'admin-thumbnail' ) ) : ( 'thumbnail' );
-							$size = (string) apply_filters( 'wmhook_wmtf_admin_post_columns_render_thumb_size', $size );
-
-							$image = ( has_post_thumbnail() ) ? ( get_the_post_thumbnail( $post_id, $size ) ) : ( '' );
-
-							$thumb_class  = ( $image ) ? ( ' has-thumb' ) : ( ' no-thumb' );
-							$thumb_class .= ' size-' . sanitize_html_class( $size );
-
-							echo '<span class="wm-image-container' . esc_attr( $thumb_class ) . '">';
-
-								if ( get_edit_post_link() ) {
-									edit_post_link( $image );
-								} else {
-									echo '<a href="' . esc_url( get_permalink() ) . '">' . $image . '</a>';
-								}
-
-							echo '</span>';
-
-						}
-
-			} // /post_columns_render
-
-
-
-
-
-		/**
-		 * 30) Messages
+		 * 20) Messages
 		 */
 
 			/**

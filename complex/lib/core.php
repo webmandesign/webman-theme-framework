@@ -62,7 +62,7 @@
 
 		//Theme options
 
-			$wmtf_theme_options = get_option( WMTF_OPTION_CUSTOMIZER );
+			$wmtf_theme_options = (array) get_option( WMTF_OPTION_CUSTOMIZER );
 
 			if ( empty( $wmtf_theme_options ) ) {
 				$wmtf_theme_options = array();

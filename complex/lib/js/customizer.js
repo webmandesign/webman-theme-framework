@@ -10,7 +10,11 @@
 
 
 
+
+
 ( function( exports, $ ) {
+
+
 
 
 
@@ -30,6 +34,8 @@
 					.removeClass( 'active' );
 
 		} );
+
+
 
 
 

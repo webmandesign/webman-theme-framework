@@ -10,17 +10,33 @@
 
 
 
+
+
+/**
+ * Basic styles
+ */
+
 	.about-wrap { direction: rtl; }
+
+	.about-wrap .dropcap {
+		float: right;
+		margin: 0 0 .25em .5em;
+	}
+
+
+
+
+
+/**
+ * Header
+ */
 
 	.about-wrap .twitter-share-button {
 		margin-left: 0;
 		margin-right: 3px;
 	}
 
-	.about-wrap .dropcap {
-		float: right;
-		margin: 0 0 .25em .5em;
-	}
+
 
 
 

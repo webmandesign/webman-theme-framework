@@ -4,6 +4,10 @@
  *
  * Textdomain used in the framework: wmtf_domain
  *
+ * Theme options with `__` prefix (`get_theme_mod( '__option_id' )`) are theme
+ * settup related options and can not be edited via customizer. Using this method
+ * not to create non-sense multiple options in a database.
+ *
  * Custom hooks naming convention:
  * - `wmhook_` - global (and other, such as plugins related) hooks
  * - `wmhook_wmtf_` - theme framework specific hooks (core specific)
@@ -63,16 +67,6 @@
 	//Main theme action hooks
 
 		locate_template( WMTF_LIBRARY_DIR . 'inc/hooks/hooks.php', true );
-
-	//Admin required files
-
-		if ( is_admin() ) {
-
-			//WP admin functionality
-
-				locate_template( WMTF_LIBRARY_DIR . 'inc/admin.php', true );
-
-		}
 
 	//Main class
 

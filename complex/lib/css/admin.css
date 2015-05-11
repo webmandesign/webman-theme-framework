@@ -10,203 +10,178 @@
 
 
 
-	/**
-	 * General classes
-	 */
 
-		.text-center { text-align: center !important; }
 
-		.wm-table th { text-align: left; }
+/**
+ * Basic styles
+ */
 
-		.wm-table thead th {
-			padding-top: 1em;
-			padding-bottom: .5em;
-			font-size: 1.17em;
+	.text-center { text-align: center !important; }
+
+	.wm-table th { text-align: left; }
+
+	.wm-table thead th {
+		padding-top: 1em;
+		padding-bottom: .5em;
+		font-size: 1.17em;
+	}
+
+
+
+
+
+/**
+ * Update notifier
+ */
+
+	.update-notifier { line-height: 1.5em; }
+
+		.update-notifier hr {
+			margin: 10px 0 20px;
+			border: 0;
+			border-top: 1px solid #dadcde;
 		}
 
+		.update-notifier #instructions {
+			max-width: 640px;
+			margin-right: 40px;
+			float: left;
+		}
 
+		.update-notifier .theme-img {
+			float: left;
+			width: 33%;
+			margin: 10px 20px 20px 0;
+		}
 
-	/**
-	 * Update notifier
-	 */
+		.update-notifier ul {
+			clear: both;
+			border-top: 1px solid #dadcde;
+		}
 
-		.update-notifier { line-height: 1.5em; }
-
-			.update-notifier hr {
-				margin: 10px 0 20px;
-				border: 0;
-				border-top: 1px solid #dadcde;
-			}
-
-			.update-notifier #instructions {
-				max-width: 640px;
-				margin-right: 40px;
-				float: left;
-			}
-
-			.update-notifier .theme-img {
-				float: left;
-				width: 33%;
-				margin: 10px 20px 20px 0;
-			}
-
-			.update-notifier ul {
-				clear: both;
-				border-top: 1px solid #dadcde;
-			}
-
-				.update-notifier ul > li {
-					padding: 20px;
-					border-bottom: 1px solid #dadcde;
-				}
-
-					.update-notifier .note ul > li {
-						padding: 5px 0;
-						margin: 0;
-					}
-
-				.update-notifier li h4 {
-					margin-top: 0;
-					margin-left: -20px;
-					text-transform: uppercase;
-					font-size: 1.17em;
-				}
-
-			.update-notifier .note {
-				padding: 10px 20px;
-				font-size: .9em;
-				background: #f3f3f3;
-				border: 1px solid #ccc;
-			}
-
-			.update-notifier .important-note {
-				clear: both;
+			.update-notifier ul > li {
 				padding: 20px;
-				margin: 20px 0;
-				line-height: 1.5em;
+				border-bottom: 1px solid #dadcde;
+			}
+
+				.update-notifier .note ul > li {
+					padding: 5px 0;
+					margin: 0;
+				}
+
+			.update-notifier li h4 {
+				margin-top: 0;
+				margin-left: -20px;
+				text-transform: uppercase;
 				font-size: 1.17em;
-				background: #fa7c7e;
-				color: #fafcfe;
-				border: 2px solid #ea6c6e;
-				border-radius: 2px;
 			}
 
-			.update-notifier #changelog {
-				float: left;
-				max-width: 400px;
-				margin-top: 30px;
-				padding: 20px;
-			}
-
-
-
-	/**
-	 * Forms
-	 */
-
-		select.widefat { background-color: #fff; }
-
-		select[multiple] { height: 80px !important; }
-
-
-
-	/**
-	 * Posts table
-	 */
-
-		.fixed [class*="column-wm-thumb"] {
-			width: 80px;
-			text-align: center;
+		.update-notifier .note {
+			padding: 10px 20px;
+			font-size: .9em;
+			background: #f3f3f3;
+			border: 1px solid #ccc;
 		}
 
-			.fixed .wm-image-container {
-				display: block;
-				position: relative;
-				width: 64px;
-				height: 32px;
-				padding: 2px;
-				margin: -3px auto 0;
-				background: #fafcfe;
-				border: 1px solid #dadcde;
-				border-radius: 3px;
-			}
-				.fixed .wm-image-container.has-thumb { height: auto; }
-				.fixed .wm-image-container.no-thumb {
-					background: #eaecee;
-					-webkit-box-shadow: inset 0 1px 5px 0 rgba(0,0,0, .1);
-					        box-shadow: inset 0 1px 5px 0 rgba(0,0,0, .1);
-				}
-
-					.fixed .wm-image-container a {
-						display: block;
-						outline: 0;
-					}
-
-					.fixed .wm-image-container img {
-						width: 100%;
-						height: auto;
-						max-width: 100%;
-						max-height: 100%;
-						vertical-align: top;
-					}
-
-					.fixed .wm-image-container i {
-						font-size: 30px;
-						vertical-align: middle;
-					}
-
-		/* Colorize posts by status */
-
-			.status-draft,
-			.status-pending { background: #fff url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHklEQVQIW2NkQAXGjEh8YyD7LEwAzAFJggTgHJAAAE+uAzjGgU3wAAAAAElFTkSuQmCC') repeat; }
-
-
-
-	/**
-	 * Widgets admin
-	 */
-
-		.wm-desc {
-			font-family: Georgia, Times, serif;
-			font-size: 11px;
-			font-style: italic;
-			line-height: 1.25em;
-			color: #6a6c6e;
-			padding-bottom: .62em !important;
-			border-bottom: 1px solid #dadcde;
+		.update-notifier .important-note {
+			clear: both;
+			padding: 20px;
+			margin: 20px 0;
+			line-height: 1.5em;
+			font-size: 1.17em;
+			background: #fa7c7e;
+			color: #fafcfe;
+			border: 2px solid #ea6c6e;
+			border-radius: 2px;
 		}
 
-		.widget-content textarea { max-width: 100%; }
+		.update-notifier #changelog {
+			float: left;
+			max-width: 400px;
+			margin-top: 30px;
+			padding: 20px;
+		}
+
+
+
+
+
+/**
+ * Forms
+ */
+
+	select.widefat { background-color: #fff; }
+
+	select[multiple] { height: 80px !important; }
+
+
+
+
+
+/**
+ * Posts table
+ */
+
+	/* Colorize posts by status */
+
+		.status-draft,
+		.status-pending { background: #fff url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHklEQVQIW2NkQAXGjEh8YyD7LEwAzAFJggTgHJAAAE+uAzjGgU3wAAAAAElFTkSuQmCC') repeat; }
+
+
+
+
+
+/**
+ * Widgets admin
+ */
+
+	.wm-desc {
+		font-family: Georgia, Times, serif;
+		font-size: 11px;
+		font-style: italic;
+		line-height: 1.25em;
+		color: #6a6c6e;
+		padding-bottom: .62em !important;
+		border-bottom: 1px solid #dadcde;
+	}
+
+	.widget-content textarea { max-width: 100%; }
+
+
+
+
+
+/**
+ * Admin bar
+ */
+
+	#wpadminbar #wp-admin-bar-theme_options_links > .ab-item:before { content: '\f111'; }
+	#wpadminbar #wp-admin-bar-update_notifier > .ab-item:before  { content: '\f107'; }
+
+
+
+
+
+/**
+ * Plugins support
+ */
+
+	/**
+	 * bbPress
+	 */
+
+		.bbp-hide-content-container .wp-list-table .bbp-content-container { display: none; }
 
 
 
 	/**
-	 * Admin bar
+	 * Visual Composer
 	 */
 
-		#wpadminbar #wp-admin-bar-theme_options_links > .ab-item:before { content: '\f111'; }
-		#wpadminbar #wp-admin-bar-update_notifier > .ab-item:before  { content: '\f107'; }
+		.vc-remove-licence-notice .vc-license-activation-notice,
+		.vc-remove-licence-notice .vc_license-activation-notice { display: none; }
 
 
-
-	/**
-	 * Plugins support
-	 */
-
-		/**
-		 * bbPress
-		 */
-
-			.bbp-hide-content-container .wp-list-table .bbp-content-container { display: none; }
-
-
-
-		/**
-		 * Visual Composer
-		 */
-
-			.vc-remove-licence-notice .vc-license-activation-notice,
-			.vc-remove-licence-notice .vc_license-activation-notice { display: none; }
 
 
 

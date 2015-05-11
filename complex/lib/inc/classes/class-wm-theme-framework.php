@@ -1251,8 +1251,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 						if ( ! wma_create_folder( $theme_css_dir ) ) {
 							set_transient( 'wmamp-admin-notice', array( "<strong>ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.</strong>", 'error', 'switch_themes', 2 ), ( 60 * 60 * 48 ) );
 
-							delete_option( 'wm-' . WMTF_THEME_SHORTNAME . $args['type'] . '-css' );
-							delete_option( 'wm-' . WMTF_THEME_SHORTNAME . $args['type'] . '-files' );
+							remove_theme_mod( '__url_css' . $args['type'] );
+							remove_theme_mod( '__path_theme_generated_files' . $args['type'] );
 
 							return false;
 						}
@@ -1269,8 +1269,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 						//Store the CSS files paths and urls in DB
 
-							update_option( 'wm-' . WMTF_THEME_SHORTNAME . $args['type'] . '-css', $global_css_url );
-							update_option( 'wm-' . WMTF_THEME_SHORTNAME . $args['type'] . '-files', str_replace( $wp_upload_dir['basedir'], '', $theme_css_dir ) );
+							set_theme_mod( '__url_css' . $args['type'], $global_css_url );
+							set_theme_mod( '__path_theme_generated_files' . $args['type'], str_replace( $wp_upload_dir['basedir'], '', $theme_css_dir ) );
 
 						//Admin notice
 
@@ -1284,8 +1284,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					}
 
-					delete_option( 'wm-' . WMTF_THEME_SHORTNAME . $args['type'] . '-css' );
-					delete_option( 'wm-' . WMTF_THEME_SHORTNAME . $args['type'] . '-files' );
+					remove_theme_mod( '__url_css' . $args['type'] );
+					remove_theme_mod( '__path_theme_generated_files' . $args['type'] );
 
 					return false;
 
