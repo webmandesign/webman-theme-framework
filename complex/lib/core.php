@@ -82,7 +82,7 @@
 
 	//Customize (has to be fontend accessible, otherwise it hides theme settings)
 
-		locate_template( WMTF_LIBRARY_DIR . 'customize.php', true );
+		locate_template( WMTF_LIBRARY_DIR . 'inc/customize.php', true );
 
 	//Admin required files
 

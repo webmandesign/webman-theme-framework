@@ -1039,7 +1039,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 					$output = $css;
 
 					$theme_options = (array) apply_filters( 'wmhook_theme_options', array() );
-					$alphas        = (array) apply_filters( 'wmhook_wmtf_custom_styles_alphas', array( 0 ), $option );
+					$alphas        = (array) apply_filters( 'wmhook_wmtf_custom_styles_alphas', array( 0 ) );
 
 					$replacements = array();
 
@@ -1227,7 +1227,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 						ob_start();
 
-						locate_template( 'assets/css/' . $css_generator_file, true );
+						locate_template( 'assets/css/_generate' . $args['type'] . '-css.php', true );
 
 						$output = trim( ob_get_clean() );
 

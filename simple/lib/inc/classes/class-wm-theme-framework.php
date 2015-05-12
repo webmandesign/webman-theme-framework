@@ -1196,7 +1196,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					$output        = (string) apply_filters( 'wmhook_custom_styles', '' );
 					$theme_options = (array) apply_filters( 'wmhook_theme_options', array() );
-					$alphas        = (array) apply_filters( 'wmhook_wmtf_custom_styles_alphas', array( 0 ), $option );
+					$alphas        = (array) apply_filters( 'wmhook_wmtf_custom_styles_alphas', array( 0 ) );
 
 					$replacements  = array_unique( array_filter( (array) get_transient( WMTF_THEME_SHORTNAME . '_customizer_values' ) ) ); //There have to be values (defaults) set!
 
@@ -1436,76 +1436,6 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 		/**
 		 * 100) Helpers
 		 */
-
-			/**
-			 * Get Google Fonts link
-			 *
-			 * Returns a string such as:
-			 * //fonts.googleapis.com/css?family=Alegreya+Sans:300,400|Exo+2:400,700|Allan&subset=latin,latin-ext
-			 *
-			 * @since    1.0
-			 * @version  2.0
-			 *
-			 * @param  array $fonts Fallback fonts.
-			 */
-			public static function google_fonts_url( $fonts = array() ) {
-
-				//Pre
-
-					$pre = apply_filters( 'wmhook_wmtf_google_fonts_url_pre', false, $fonts );
-
-					if ( false !== $pre ) {
-						return $pre;
-					}
-
-
-				//Helper variables
-
-					$output = '';
-					$family = array();
-					$subset = get_theme_mod( 'font-subset' );
-
-					$fonts_setup = array_unique( array_filter( (array) apply_filters( 'wmhook_wmtf_google_fonts_url_fonts_setup', array() ) ) );
-
-					if ( empty( $fonts_setup ) && ! empty( $fonts ) ) {
-						$fonts_setup = (array) $fonts;
-					}
-
-
-				//Requirements check
-
-					if ( empty( $fonts_setup ) ) {
-						return;
-					}
-
-
-				//Processing
-
-					foreach ( $fonts_setup as $section ) {
-
-						$font = trim( $section );
-
-						if ( $font ) {
-							$family[] = str_replace( ' ', '+', $font );
-						}
-
-					} // /foreach
-
-					if ( ! empty( $family ) ) {
-						$output = esc_url( add_query_arg( array(
-								'family' => implode( '|', (array) array_unique( $family ) ),
-								'subset' => implode( ',', (array) $subset ), //Subset can be array if multiselect Customizer input field used
-							), '//fonts.googleapis.com/css' ) );
-					}
-
-
-				//Output
-
-					return preg_replace( '|\[(.+?)\]|s', '', $content );
-
-			} // /google_fonts_url
-
-
 
 			/**
 			 * Remove shortcodes from string

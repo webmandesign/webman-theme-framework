@@ -183,7 +183,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 				//Output
 
-					if ( $output = trim( $output ) ) ) {
+					if ( $output = trim( $output ) ) {
 						echo apply_filters( 'wmhook_wmtf_customize_preview_scripts_output', '<!-- Theme custom scripts -->' . "\r\n" . '<script type="text/javascript"><!--' . "\r\n" . '( function( $ ) {' . "\r\n\r\n" . trim( $output ) . "\r\n\r\n" . '} )( jQuery );' . "\r\n" . '//--></script>' );
 					}
 
@@ -401,7 +401,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 										&& isset( $theme_option['type'] )
 										&& (
 												in_array( $theme_option['type'], $allowed_option_types )
-												|| isset( $theme_option['theme-customizer-section'] )
+												|| isset( $theme_option['create_section'] )
 											)
 									) {
 
@@ -428,22 +428,22 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 									 *
 									 * Panels are wrappers for customizer sections.
 									 * Note that the panel will not display unless sections are assigned to it.
-									 * Set the panel name in the section declaration with `theme-customizer-panel`.
+									 * Set the panel name in the section declaration with `in_panel`.
 									 * Panel has to be defined for each section to prevent all sections within a single panel.
 									 *
 									 * @link  http://make.wordpress.org/core/2014/07/08/customizer-improvements-in-4-0/
 									 */
-									if ( isset( $theme_option['theme-customizer-panel'] ) ) {
+									if ( isset( $theme_option['in_panel'] ) ) {
 
-										$panel_id = sanitize_title( trim( $theme_option['theme-customizer-panel'] ) );
+										$panel_id = sanitize_title( trim( $theme_option['in_panel'] ) );
 
 										if ( $customizer_panel != $panel_id ) {
 
 											$wp_customize->add_panel(
 													$panel_id,
 													array(
-														'title'       => $theme_option['theme-customizer-panel'], //Panel title
-														'description' => ( isset( $theme_option['theme-customizer-panel-description'] ) ) ? ( $theme_option['theme-customizer-panel-description'] ) : ( '' ), //Displayed at the top of panel
+														'title'       => $theme_option['in_panel'], //Panel title
+														'description' => ( isset( $theme_option['in_panel-description'] ) ) ? ( $theme_option['in_panel-description'] ) : ( '' ), //Displayed at the top of panel
 														'priority'    => $priority,
 													)
 												);
@@ -459,17 +459,17 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 									/**
 									 * Sections
 									 */
-									if ( isset( $theme_option['theme-customizer-section'] ) && trim( $theme_option['theme-customizer-section'] ) ) {
+									if ( isset( $theme_option['create_section'] ) && trim( $theme_option['create_section'] ) ) {
 
 										if ( empty( $option_id ) ) {
-											$option_id = sanitize_title( trim( $theme_option['theme-customizer-section'] ) );
+											$option_id = sanitize_title( trim( $theme_option['create_section'] ) );
 										}
 
 										$customizer_section = array(
 												'id'    => $option_id,
 												'setup' => array(
-														'title'       => $theme_option['theme-customizer-section'], //Section title
-														'description' => ( isset( $theme_option['theme-customizer-section-description'] ) ) ? ( $theme_option['theme-customizer-section-description'] ) : ( '' ), //Displayed at the top of section
+														'title'       => $theme_option['create_section'], //Section title
+														'description' => ( isset( $theme_option['create_section-description'] ) ) ? ( $theme_option['create_section-description'] ) : ( '' ), //Displayed at the top of section
 														'priority'    => $priority,
 													)
 											);
