@@ -43,7 +43,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 			 */
 			public static function menu() {
 
-				//Requirements check
+				// Requirements check
 
 					if (
 							! is_super_admin()
@@ -53,7 +53,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 					}
 
 
-				//Processing
+				// Processing
 
 					if ( function_exists( 'simplexml_load_string' ) ) {
 
@@ -65,15 +65,15 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 							) {
 
 							add_theme_page(
-								//page_title
+								// page_title
 								sprintf( _x( '%s Theme Updates', '%s stands for the theme name. Just copy it.', 'wmtf_domain' ), wp_get_theme()->get( 'Name' ) ),
-								//menu_title
+								// menu_title
 								_x( 'Theme Updates', 'Admin menu title.', 'wmtf_domain' ) . ' <span class="update-plugins count-1"><span class="update-count">1</span></span>',
-								//capability
+								// capability
 								'switch_themes',
-								//menu_slug
+								// menu_slug
 								'theme-update-notifier',
-								//function
+								// function
 								'WM_Theme_Framework_Updater::page'
 							);
 
@@ -93,7 +93,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 			 */
 			public static function toolbar() {
 
-				//Requirements check
+				// Requirements check
 
 					if (
 							! is_super_admin()
@@ -104,7 +104,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 					}
 
 
-				//Processing
+				// Processing
 
 					if ( function_exists( 'simplexml_load_string' ) ) {
 
@@ -154,7 +154,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 			 */
 			public static function page() {
 
-				//Pre
+				// Pre
 
 					$pre = apply_filters( 'wmhook_wmtf_updater_page_pre', false );
 
@@ -163,19 +163,19 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 					}
 
 
-				//Requirements check
+				// Requirements check
 
 					if ( ! is_super_admin() ) {
 						return;
 					}
 
 
-				//Helper variables
+				// Helper variables
 
 					$xml = self::get_remote_xml_data( WMTF_UPDATE_NOTIFIER_CACHE_INTERVAL );
 
 
-				//Processing
+				// Processing
 
 					/**
 					 * No need for translations, english only.
@@ -331,7 +331,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 			 */
 			public static function get_remote_xml_data( $interval ) {
 
-				//Pre
+				// Pre
 
 					$pre = apply_filters( 'wmhook_wmtf_updater_get_remote_xml_data_pre', false, $interval );
 
@@ -340,27 +340,27 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 					}
 
 
-				//Requirements check
+				// Requirements check
 
 					if ( ! is_super_admin() ) {
 						return;
 					}
 
 
-				//Helper variables
+				// Helper variables
 
 					$db_cache_field              = 'wmtf_notifier_cache_' . WMTF_THEME_SHORTNAME;
 					$db_cache_field_last_updated = 'wmtf_notifier_cache_' . WMTF_THEME_SHORTNAME . '_last_updated';
 					$last                        = get_transient( $db_cache_field_last_updated );
 
-					//Check the cache
+					// Check the cache
 
 						if (
 								! $last
 								|| ( time() - $last ) > absint( $interval )
 							) {
 
-							//Cache doesn't exist, or is old, so refresh it
+							// Cache doesn't exist, or is old, so refresh it
 
 								$response = wp_remote_get( esc_url( trailingslashit( wp_get_theme()->get( 'AuthorURI' ) ) . 'updates/' . WMTF_THEME_SHORTNAME . '/' . WMTF_THEME_SHORTNAME . '-version.xml' ) );
 
@@ -382,20 +382,20 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 								}
 
-							//If we've got good results, cache them
+							// If we've got good results, cache them
 
 								if ( $cache ) {
 									set_transient( $db_cache_field, $cache );
 									set_transient( $db_cache_field_last_updated, time() );
 								}
 
-							//Read from the cache
+							// Read from the cache
 
 								$notifier_data = get_transient( $db_cache_field );
 
 						} else {
 
-							//Cache is fresh enough, so read from it
+							// Cache is fresh enough, so read from it
 
 								$notifier_data = get_transient( $db_cache_field );
 
@@ -418,12 +418,12 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 					}
 
-					//Load the remote XML data into a variable and return it
+					// Load the remote XML data into a variable and return it
 
 						$xml = simplexml_load_string( $notifier_data );
 
 
-				//Output
+				// Output
 
 					return $xml;
 

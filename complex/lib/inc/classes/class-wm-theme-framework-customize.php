@@ -42,7 +42,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 */
 			public static function assets() {
 
-				//Helper variables
+				// Helper variables
 
 					$version = esc_attr( trim( wp_get_theme()->get( 'Version' ) ) );
 
@@ -51,7 +51,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 				 * Enqueue
 				 */
 
-					//Styles
+					// Styles
 
 						wp_enqueue_style(
 								'wmtf-customizer',
@@ -61,7 +61,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 								'screen'
 							);
 
-					//Scripts
+					// Scripts
 
 						wp_register_script(
 								'wmtf-customizer',
@@ -79,7 +79,10 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 * Outputs customizer JavaScript in footer
 			 *
 			 * Use this structure for customizer_js property:
-			 * 'customizer_js' => array(
+			 *
+			 * @example
+			 *
+			 *   'customizer_js' => array(
 			 *     'css' => array(
 			 *         '.selector'         => array( 'css-property-name' ),
 			 *         '.another-selector' => array( array( 'padding-left', 'px' ) ),
@@ -94,7 +97,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 */
 			public static function preview_scripts() {
 
-				//Pre
+				// Pre
 
 					$pre = apply_filters( 'wmhook_wmtf_customize_preview_scripts_pre', false );
 
@@ -103,7 +106,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 					}
 
 
-				//Helper variables
+				// Helper variables
 
 					$theme_options = apply_filters( 'wmhook_theme_options', array() );
 
@@ -112,7 +115,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 					$output = $output_single = '';
 
 
-				//Processing
+				// Processing
 
 					if ( is_array( $theme_options ) && ! empty( $theme_options ) ) {
 
@@ -181,7 +184,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 					}
 
 
-				//Output
+				// Output
 
 					if ( $output = trim( $output ) ) {
 						echo apply_filters( 'wmhook_wmtf_customize_preview_scripts_output', '<!-- Theme custom scripts -->' . "\r\n" . '<script type="text/javascript"><!--' . "\r\n" . '( function( $ ) {' . "\r\n\r\n" . trim( $output ) . "\r\n\r\n" . '} )( jQuery );' . "\r\n" . '//--></script>' );
@@ -198,61 +201,32 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 		 */
 
 			/**
-			 * Sanitize email
+			 * Sanitize HTML
 			 *
-			 * @since    3.0
-			 * @version  5.0
-			 *
-			 * @param  mixed $value WP customizer value to sanitize.
-			 */
-			public static function sanitize_email( $value ) {
-
-				//Pre
-
-					$pre = apply_filters( 'wmhook_wmtf_customize_sanitize_email_pre', false, $value );
-
-					if ( false !== $pre ) {
-						return $pre;
-					}
-
-
-				//Helper variables
-
-					$value = ( is_email( trim( $value ) ) ) ? ( trim( $value ) ) : ( null );
-
-
-				//Output
-
-					return $value;
-
-			} // /sanitize_email
-
-
-
-			/**
-			 * Sanitize texts
+			 * No need to cache the wp_kses_post() output here as it
+			 * is being saved into database.
 			 *
 			 * @since    4.0
 			 * @version  5.0
 			 *
 			 * @param  mixed $value WP customizer value to sanitize.
 			 */
-			public static function sanitize_text( $value ) {
+			public static function sanitize_html( $value ) {
 
-				//Pre
+				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_customize_sanitize_text_pre', false, $value );
+					$pre = apply_filters( 'wmhook_wmtf_customize_sanitize_html_pre', false, $value );
 
 					if ( false !== $pre ) {
 						return $pre;
 					}
 
 
-				//Output
+				// Output
 
 					return wp_kses_post( force_balance_tags( $value ) );
 
-			} // /sanitize_text
+			} // /sanitize_html
 
 
 
@@ -268,7 +242,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 */
 			public static function sanitize_return_value( $value ) {
 
-				//Pre
+				// Pre
 
 					$pre = apply_filters( 'wmhook_wmtf_customize_sanitize_return_value_pre', false, $value );
 
@@ -277,7 +251,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 					}
 
 
-				//Processing
+				// Processing
 
 					if ( is_array( $value ) ) {
 						$value = (array) $value;
@@ -288,7 +262,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 					}
 
 
-				//Output
+				// Output
 
 					return $value;
 
@@ -314,7 +288,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 */
 			public static function init( $wp_customize ) {
 
-				//Pre
+				// Pre
 
 					$pre = apply_filters( 'wmhook_wmtf_customize_init_pre', false, $wp_customize );
 
@@ -323,7 +297,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 					}
 
 
-				//Helper variables
+				// Helper variables
 
 					$theme_options = (array) apply_filters( 'wmhook_theme_options', array() );
 
@@ -347,11 +321,11 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 							'url',
 						) );
 
-					//To make sure our customizer sections start after WordPress default ones
+					// To make sure our customizer sections start after WordPress default ones
 
 						$priority = apply_filters( 'wmhook_wmtf_customize_init_priority', 900 );
 
-					//Default section name in case not set (should be overwritten anyway)
+					// Default section name in case not set (should be overwritten anyway)
 
 						$customizer_panel   = '';
 						$customizer_section = WMTF_THEME_SHORTNAME;
@@ -365,15 +339,15 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 					$type = apply_filters( 'wmhook_wmtf_customize_init_type', 'option' );
 
 
-				//Processing
+				// Processing
 
-					//Set live preview for predefined controls
+					// Set live preview for predefined controls
 
 						$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
 						$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 						$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 
-					//Custom controls
+					// Custom controls
 
 						/**
 						 * @link  https://github.com/bueltge/Wordpress-Theme-Customizer-Custom-Controls
@@ -390,7 +364,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 						do_action( 'wmhook_wmtf_customize_init_load_controls', $wp_customize );
 
-					//Generate customizer options
+					// Generate customizer options
 
 						if ( is_array( $theme_options ) && ! empty( $theme_options ) ) {
 
@@ -405,7 +379,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 											)
 									) {
 
-									//Helper variables
+									// Helper variables
 
 										$priority++;
 
@@ -566,8 +540,8 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 														'type'                 => $type,
 														'default'              => $default,
 														'transport'            => $transport,
-														'sanitize_callback'    => 'WM_Theme_Framework_Customize::sanitize_email',
-														'sanitize_js_callback' => 'WM_Theme_Framework_Customize::sanitize_email',
+														'sanitize_callback'    => 'sanitize_email',
+														'sanitize_js_callback' => 'sanitize_email',
 													)
 												);
 
@@ -625,8 +599,8 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 											$wp_customize->add_setting(
 													WMTF_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 													array(
-														'sanitize_callback'    => 'WM_Theme_Framework_Customize::sanitize_text',
-														'sanitize_js_callback' => 'WM_Theme_Framework_Customize::sanitize_text',
+														'sanitize_callback'    => 'WM_Theme_Framework_Customize::sanitize_html',
+														'sanitize_js_callback' => 'WM_Theme_Framework_Customize::sanitize_html',
 													)
 												);
 
@@ -937,7 +911,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 						} // /if skin options are non-empty array
 
-					//Assets needed for customizer preview
+					// Assets needed for customizer preview
 
 						if ( $wp_customize->is_preview() ) {
 

@@ -16,6 +16,7 @@
  * - `wmhook_wmtf_editor_` - class method specific hooks
  *
  * Used global hooks:
+ * - `wmhook_schema_org_pre`
  * - `wmhook_theme_upgrade`
  * - `wmhook_theme_options`
  * - `wmhook_custom_styles`
@@ -47,11 +48,11 @@
  * 0) Constants
  */
 
-	//Basic constants
+	// Basic constants
 
 		if ( ! defined( 'WMTF_THEME_SHORTNAME' ) ) define( 'WMTF_THEME_SHORTNAME',  str_replace( array( '-lite', '-plus' ), '', get_template() ) );
 
-	//Dir constants
+	// Dir constants
 
 		if ( ! defined( 'WMTF_INC_DIR' ) )     define( 'WMTF_INC_DIR',     trailingslashit( 'inc' )     );
 		if ( ! defined( 'WMTF_LIBRARY_DIR' ) ) define( 'WMTF_LIBRARY_DIR', trailingslashit( 'inc/lib' ) );
@@ -64,11 +65,11 @@
  * 1) Required files
  */
 
-	//Main theme action hooks
+	// Main theme action hooks
 
 		locate_template( WMTF_LIBRARY_DIR . 'inc/hooks/hooks.php', true );
 
-	//Main class
+	// Main class
 
 		locate_template( WMTF_LIBRARY_DIR . 'inc/classes/class-wm-theme-framework.php', true );
 
@@ -84,11 +85,11 @@
 	 * Actions
 	 */
 
-		//Theme upgrade action
+		// Theme upgrade action
 
 			add_action( 'init', 'WM_Theme_Framework::theme_upgrade' );
 
-		//Flushing transients
+		// Flushing transients
 
 			add_action( 'switch_theme',  'WM_Theme_Framework::image_ids_transient_flusher'      );
 			add_action( 'edit_category', 'WM_Theme_Framework::all_categories_transient_flusher' );
@@ -101,11 +102,11 @@
 	 * Filters
 	 */
 
-		//Escape inline CSS
+		// Escape inline CSS
 
 			add_filter( 'wmhook_esc_css', 'WM_Theme_Framework::esc_css' );
 
-		//Widgets improvements
+		// Widgets improvements
 
 			add_filter( 'show_recent_comments_widget_style', '__return_false'                        );
 			add_filter( 'widget_text',                       'do_shortcode'                          );
@@ -113,6 +114,6 @@
 
 			remove_filter( 'widget_title', 'esc_html' );
 
-		//Table of contents
+		// Table of contents
 
 			add_filter( 'the_content', 'WM_Theme_Framework::add_table_of_contents', 10 );

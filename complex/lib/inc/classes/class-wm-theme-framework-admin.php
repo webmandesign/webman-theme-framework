@@ -39,12 +39,12 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			 */
 			public static function assets() {
 
-				//Helper variables
+				// Helper variables
 
 					$version = esc_attr( trim( wp_get_theme()->get( 'Version' ) ) );
 
 
-				//Register
+				// Register
 
 					/**
 					 * Styles
@@ -67,7 +67,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 						}
 
 
-				//Enqueue
+				// Enqueue
 
 					/**
 					 * Styles
@@ -75,7 +75,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 
 						wp_enqueue_style( 'wmtf-admin' );
 
-						//RTL languages support
+						// RTL languages support
 
 							if ( is_rtl() ) {
 								wp_enqueue_style( 'wmtf-admin-rtl' );
@@ -98,9 +98,17 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			 * once or multiple times, than deletes the message cache.
 			 *
 			 * Transient structure:
+			 *
+			 * @example
+			 *
 			 *   set_transient(
 			 *     'wmtf_admin_notice',
-			 *     array( $text, $class, $capability, $number_of_displays )
+			 *     array(
+			 *       $text,
+			 *       $class,
+			 *       $capability,
+			 *       $number_of_displays
+			 *     )
 			 *   );
 			 *
 			 * @since    3.0
@@ -108,7 +116,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			 */
 			public static function message() {
 
-				//Pre
+				// Pre
 
 					$pre = apply_filters( 'wmhook_wmtf_admin_message_pre', false );
 
@@ -118,14 +126,14 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 					}
 
 
-				//Requirements check
+				// Requirements check
 
 					if ( ! is_admin() ) {
 						return;
 					}
 
 
-				//Helper variables
+				// Helper variables
 
 					$output = '';
 
@@ -135,14 +143,14 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 					$message    = get_transient( 'wmtf_admin_notice' );
 
 
-				//Requirements check
+				// Requirements check
 
 					if ( empty( $message ) ) {
 						return;
 					}
 
 
-				//Processing
+				// Processing
 
 					if ( ! is_array( $message ) ) {
 						$message = array( $message, $class, $capability, $repeat );
@@ -162,7 +170,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 						delete_transient( 'wmtf_admin_notice' );
 					}
 
-					//Delete the transient cache after specific number of displays
+					// Delete the transient cache after specific number of displays
 
 						if ( 1 < intval( $message[3] ) ) {
 							$message[3] = intval( $message[3] ) - 1;
@@ -170,7 +178,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 						}
 
 
-				//Output
+				// Output
 
 					if ( $output ) {
 						echo $output;

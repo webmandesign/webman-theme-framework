@@ -43,24 +43,24 @@
  * 0) Constants
  */
 
-	//Basic constants
+	// Basic constants
 
 		if ( ! defined( 'WMTF_THEME_SHORTNAME' ) ) define( 'WMTF_THEME_SHORTNAME',  str_replace( array( '-lite', '-plus' ), '', get_template() ) );
 
-	//Options constants
+	// Options constants
 
 		if ( ! defined( 'WMTF_OPTION_CUSTOMIZER' ) ) define( 'WMTF_OPTION_CUSTOMIZER', 'theme_mods_' . WMTF_THEME_SHORTNAME );
 
-	//Dir constants
+	// Dir constants
 
 		if ( ! defined( 'WMTF_LIBRARY_DIR' ) ) define( 'WMTF_LIBRARY_DIR', trailingslashit( 'lib' )   );
 		if ( ! defined( 'WMTF_SETUP_DIR' ) )   define( 'WMTF_SETUP_DIR',   trailingslashit( 'setup' ) );
 
 
 
-	//Global variables
+	// Global variables
 
-		//Theme options
+		// Theme options
 
 			$wmtf_theme_options = (array) get_option( WMTF_OPTION_CUSTOMIZER );
 
@@ -76,23 +76,23 @@
  * 1) Required files
  */
 
-	//Main theme action hooks
+	// Main theme action hooks
 
 		locate_template( WMTF_LIBRARY_DIR . 'inc/hooks/hooks.php', true );
 
-	//Customize (has to be fontend accessible, otherwise it hides theme settings)
+	// Customize (has to be fontend accessible, otherwise it hides theme settings)
 
 		locate_template( WMTF_LIBRARY_DIR . 'inc/customize.php', true );
 
-	//Admin required files
+	// Admin required files
 
 		if ( is_admin() ) {
 
-			//WP admin functionality
+			// WP admin functionality
 
 				locate_template( WMTF_LIBRARY_DIR . 'inc/admin.php', true );
 
-			//Plugins suggestions
+			// Plugins suggestions
 
 				if (
 						apply_filters( 'wmhook_enable_plugins_integration', true )
@@ -104,7 +104,7 @@
 
 		}
 
-	//Main class
+	// Main class
 
 		locate_template( WMTF_LIBRARY_DIR . 'inc/classes/class-wm-theme-framework.php', true );
 
@@ -120,21 +120,21 @@
 	 * Actions
 	 */
 
-		//Theme upgrade action
+		// Theme upgrade action
 
 			add_action( 'init', 'WM_Theme_Framework::theme_upgrade' );
 
-		//Flushing transients
+		// Flushing transients
 
 			add_action( 'switch_theme',  'WM_Theme_Framework::image_ids_transient_flusher'      );
 			add_action( 'edit_category', 'WM_Theme_Framework::all_categories_transient_flusher' );
 			add_action( 'save_post',     'WM_Theme_Framework::all_categories_transient_flusher' );
 
-		//Contextual help
+		// Contextual help
 
 			add_action( 'contextual_help', 'WM_Theme_Framework::contextual_help', 10, 3 );
 
-		//Toolbar (also displayed on front end)
+		// Toolbar (also displayed on front end)
 
 			add_action( 'admin_bar_menu', 'WM_Theme_Framework::toolbar', 998 );
 
@@ -144,11 +144,11 @@
 	 * Filters
 	 */
 
-		//Escape inline CSS
+		// Escape inline CSS
 
 			add_filter( 'wmhook_esc_css', 'WM_Theme_Framework::esc_css' );
 
-		//Widgets improvements
+		// Widgets improvements
 
 			add_filter( 'show_recent_comments_widget_style', '__return_false'                        );
 			add_filter( 'widget_text',                       'do_shortcode'                          );
@@ -156,10 +156,10 @@
 
 			remove_filter( 'widget_title', 'esc_html' );
 
-		//Table of contents
+		// Table of contents
 
 			add_filter( 'the_content', 'WM_Theme_Framework::add_table_of_contents', 10 );
 
-		//Minify CSS
+		// Minify CSS
 
 			add_filter( 'wmhook_wmtf_generate_main_css_output_min', 'WM_Theme_Framework::minify_css', 10 );

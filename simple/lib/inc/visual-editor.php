@@ -22,7 +22,7 @@
  * 1) Required files
  */
 
-	//Visual Editor class
+	// Visual Editor class
 
 		locate_template( WMTF_LIBRARY_DIR . 'inc/classes/class-wm-theme-framework-visual-editor.php', true );
 
@@ -38,7 +38,7 @@
 	 * Filters
 	 */
 
-		//Visual Editor addons
+		// Visual Editor addons
 
 			add_filter( 'mce_buttons',          'WM_Theme_Framework_Visual_Editor::add_buttons_row1'  );
 			add_filter( 'mce_buttons_2',        'WM_Theme_Framework_Visual_Editor::add_buttons_row2'  );

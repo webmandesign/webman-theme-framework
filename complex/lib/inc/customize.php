@@ -22,7 +22,7 @@
  * 1) Required files
  */
 
-	//Visual Editor class
+	// Visual Editor class
 
 		locate_template( WMTF_LIBRARY_DIR . 'inc/classes/class-wm-theme-framework-customize.php', true );
 
@@ -38,14 +38,14 @@
 	 * Actions
 	 */
 
-		//Register customizer
+		// Register customizer
 
 			add_action( 'customize_register', 'WM_Theme_Framework_Customize::init' );
 
-		//Customizer assets
+		// Customizer assets
 
 			add_action( 'customize_controls_enqueue_scripts', 'WM_Theme_Framework_Customize::assets' );
 
-		//Customizer saving
+		// Customizer saving
 
 			add_action( 'customize_save_after', 'WM_Theme_Framework::generate_all_css', 98 );

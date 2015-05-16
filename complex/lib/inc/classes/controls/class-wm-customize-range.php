@@ -18,7 +18,7 @@ if ( ! class_exists( 'WM_Customize_Range' ) ) {
 	class WM_Customize_Range extends WP_Customize_Control {
 
 		public function enqueue() {
-			//Scripts
+			// Scripts
 				wp_enqueue_script( 'jquery-ui-slider' );
 		}
 
@@ -54,7 +54,7 @@ if ( ! class_exists( 'WM_Customize_Range' ) ) {
 					}
 
 				} );
-			//--></script>
+			// --></script>
 
 			<?php
 		}

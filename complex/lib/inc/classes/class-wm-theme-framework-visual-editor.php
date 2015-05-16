@@ -43,7 +43,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 			 */
 			public static function add_buttons_row1( $buttons ) {
 
-				//Pre
+				// Pre
 
 					$pre = apply_filters( 'wmhook_wmtf_editor_add_buttons_row1_pre', false, $buttons );
 
@@ -52,9 +52,9 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 					}
 
 
-				//Processing
+				// Processing
 
-					//Inserting buttons after "more" button
+					// Inserting buttons after "more" button
 
 						$pos = array_search( 'wp_more', $buttons, true );
 
@@ -65,7 +65,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 						}
 
 
-				//Output
+				// Output
 
 					return $buttons;
 
@@ -85,7 +85,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 			 */
 			public static function add_buttons_row2( $buttons ) {
 
-				//Pre
+				// Pre
 
 					$pre = apply_filters( 'wmhook_wmtf_editor_add_buttons_row2_pre', false, $buttons );
 
@@ -94,14 +94,14 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 					}
 
 
-				//Processing
+				// Processing
 
-					//Inserting buttons at the beginning of the row
+					// Inserting buttons at the beginning of the row
 
 						array_unshift( $buttons, 'styleselect' );
 
 
-				//Output
+				// Output
 
 					return $buttons;
 
@@ -127,7 +127,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 			 */
 			public static function custom_mce_format( $init ) {
 
-				//Pre
+				// Pre
 
 					$pre = apply_filters( 'wmhook_wmtf_editor_custom_mce_format_pre', false, $init );
 
@@ -136,17 +136,17 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 					}
 
 
-				//Processing
+				// Processing
 
-					//Merge old & new formats
+					// Merge old & new formats
 
 						$init['style_formats_merge'] = true;
 
-					//Add custom formats
+					// Add custom formats
 
 						$init['style_formats'] = json_encode( apply_filters( 'wmhook_wmtf_editor_custom_mce_format', array(
 
-								//Group: Quotes
+								// Group: Quotes
 
 									array(
 										'title' => _x( 'Quotes', 'Visual editor blockquote formats group title.', 'wmtf_domain' ),
@@ -174,7 +174,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 										),
 									),
 
-								//Group: Text styles
+								// Group: Text styles
 
 									array(
 										'title' => __( 'Text styles', 'wmtf_domain' ),
@@ -197,7 +197,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 							) ) );
 
 
-				//Output
+				// Output
 
 					return $init;
 
