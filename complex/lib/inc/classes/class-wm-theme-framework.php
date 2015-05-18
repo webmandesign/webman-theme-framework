@@ -26,6 +26,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 		 *  20) Post/page
 		 *  30) CSS functions
 		 *  40) Options
+		 *  50) Filesystem
 		 * 100) Helpers
 		 */
 
@@ -1199,17 +1200,9 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 					}
 
 
-				// Requirements check
-
-					if (
-							! function_exists( 'wma_create_folder' )
-							|| ! function_exists( 'wma_write_local_file' )
-						) {
-						return;
-					}
-
-
 				// Helper viariables
+
+					$filesystem = self::get_filesystem();
 
 					$args = wp_parse_args( $args, apply_filters( 'wmhook_wmtf_generate_main_css_defaults', array(
 							'message'        => _x( "The main theme CSS stylesheet was regenerated.<br /><strong>Please refresh your web browser's and server's cache</strong> <em>(if you are using a website server caching solution)</em>.", 'Translators, please, keep the HTML tags.', 'wmtf_domain' ),
@@ -1222,6 +1215,13 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 					$output = $output_min = '';
 
 					$args['type'] = trim( $args['type'] );
+
+
+				// Requirements check
+
+					if ( ! $filesystem ) {
+						return;
+					}
 
 
 				// Processing
@@ -1251,11 +1251,12 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 						$theme_css_url = trailingslashit( $wp_upload_dir['baseurl'] ) . 'wmtheme-' . WMTF_THEME_SHORTNAME;
 						$theme_css_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'wmtheme-' . WMTF_THEME_SHORTNAME;
 
-						if ( ! wma_create_folder( $theme_css_dir ) ) {
+						if ( ! $filesystem->mkdir( $theme_css_dir, FS_CHMOD_DIR ) ) {
+
 							set_transient(
 									'wmtf_admin_notice',
 									array(
-										'<strong>' . __( 'ERROR: Wasn\'t able to create a theme CSS folder! Contact the theme support.', 'wmtf_domain' ) . '</strong>',
+										'<strong>' . __( "ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.", 'wmtf_domain' ) . '</strong>',
 										'error',
 										'switch_themes',
 										2
@@ -1267,6 +1268,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 							remove_theme_mod( '__path_theme_generated_files' . $args['type'] );
 
 							return false;
+
 						}
 
 					$file_name           = apply_filters( 'wmhook_wmtf_generate_main_css_file_name',           'global' . $args['type'],                                    $args             );
@@ -1274,10 +1276,12 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 					$global_css_url      = apply_filters( 'wmhook_wmtf_generate_main_css_global_css_url',      trailingslashit( $theme_css_url ) . $file_name . '.css',     $args, $file_name );
 					$global_css_path_dev = apply_filters( 'wmhook_wmtf_generate_main_css_global_css_path_dev', trailingslashit( $theme_css_dir ) . $file_name . '.dev.css', $args, $file_name );
 
-					if ( $output ) {
+					if (
+							$output
+							&& $filesystem->put_contents( $global_css_path, $output_min, FS_CHMOD_FILE )
+						) {
 
-						wma_write_local_file( $global_css_path, $output_min );
-						wma_write_local_file( $global_css_path_dev, $output );
+						$filesystem->put_contents( $global_css_path_dev, $output, FS_CHMOD_FILE );
 
 						// Store the CSS files paths and urls in DB
 
@@ -1524,6 +1528,81 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 						}
 
 			} // /toolbar
+
+
+
+
+
+		/**
+		 * 50) Filesystem
+		 */
+
+			/**
+			 * Get WP_Filesystem
+			 *
+			 * Possible filesystem methods: 'direct', 'ssh2', 'ftpext' or 'ftpsockets'.
+			 *
+			 * No need to use `request_filesystem_credentials()` if using 'direct' method.
+			 * @see  http://aquagraphite.com/2012/11/using-wp_filesystem-to-generate-dynamic-css/
+			 *
+			 * If not using 'direct' method, display an admin notice about setting up
+			 * the FTP credentials in `wp-config.php`.
+			 * @see  http://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants
+			 *
+			 * @see  https://codex.wordpress.org/Filesystem_API
+			 * @see  http://ottopress.com/2011/tutorial-using-the-wp_filesystem/
+			 * @see  http://wordpress.findincity.net/view/63538464303732726692954/using-wpfilesystem-in-plugins-to-store-customizer-settings
+			 *
+			 * @since    5.0
+			 * @version  5.0
+			 */
+			public static function get_filesystem() {
+
+				// Pre
+
+					$pre = apply_filters( 'wmhook_wmtf_get_filesystem_pre', false );
+
+					if ( false !== $pre ) {
+						return $pre;
+					}
+
+
+				// Requirements check
+
+					if (
+							'direct' !== get_filesystem_method()
+							|| ! defined( 'FTP_USER' )
+						) {
+
+						// If we don't have filesystem access, display an admin notice
+
+							set_transient(
+									'wmtf_admin_notice',
+									array(
+										sprintf( __( 'The theme writes a files to your server. You do not appear to have your FTP credentials set up in <code>wp-config.php</code> file. Please <a%s>set your FTP credentials first</a>.', 'wmtf_domain' ), ' href="http://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants" target="_blank"' ),
+										'error',
+										'switch_themes'
+									),
+									( 60 * 60 * 24 )
+								);
+
+						return false;
+
+					}
+
+
+				// Processing
+
+					WP_Filesystem();
+
+					global $wp_filesystem;
+
+
+				// Output
+
+					return $wp_filesystem;
+
+			} // /get_filesystem
 
 
 
