@@ -160,7 +160,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 
 						$output .= '<div class="site-branding">';
 							$output .= '<h1 class="' . esc_attr( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_class', 'site-title logo type-' . $args['logo_type'], $args ) ) . '">';
-							$output .= '<a href="' . esc_url( $args['url'] ) . '" title="' . esc_attr( $args['title_att'] ) . '">';
+							$output .= '<a href="' . esc_url( $args['url'] ) . '" title="' . esc_attr( $args['title_att'] ) . '" rel="home">';
 
 									if ( 'text' === $args['logo_type'] ) {
 										$output .= '<span class="text-logo">' . $blog_info['name'] . '</span>';
