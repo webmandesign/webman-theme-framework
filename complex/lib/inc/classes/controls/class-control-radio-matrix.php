@@ -14,8 +14,8 @@
 
 
 
-if ( ! class_exists( 'WM_Customize_Radio_Matrix' ) ) {
-	class WM_Customize_Radio_Matrix extends WP_Customize_Control {
+if ( ! class_exists( '{%= prefix_class %}_Control_Radio_Matrix' ) ) {
+	class {%= prefix_class %}_Control_Radio_Matrix extends WP_Customize_Control {
 
 		public $class = '';
 
@@ -64,4 +64,4 @@ if ( ! class_exists( 'WM_Customize_Radio_Matrix' ) ) {
 		}
 
 	}
-} // /WM_Customize_Radio_Matrix
+} // /{%= prefix_class %}_Control_Radio_Matrix

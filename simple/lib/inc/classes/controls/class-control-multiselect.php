@@ -2,20 +2,20 @@
 /**
  * Customizer custom controls
  *
- * Customizer select field (with optgroups).
+ * Customizer multi select field.
  *
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Customize
  *
- * @since    4.0
+ * @since    3.1
  * @version  5.0
  */
 
 
 
 
-if ( ! class_exists( 'WM_Customize_Select' ) ) {
-	class WM_Customize_Select extends WP_Customize_Control {
+if ( ! class_exists( '{%= prefix_class %}_Control_Multiselect' ) ) {
+	class {%= prefix_class %}_Control_Multiselect extends WP_Customize_Control {
 
 		public function render_content() {
 			if ( ! empty( $this->choices ) && is_array( $this->choices ) ) {
@@ -24,27 +24,21 @@ if ( ! class_exists( 'WM_Customize_Select' ) ) {
 				<label>
 					<span class="customize-control-title"><?php echo $this->label; ?></span>
 					<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php endif; ?>
-					<select name="<?php echo $this->id; ?>" <?php $this->link(); ?>>
+
+					<select name="<?php echo $this->id; ?>" multiple="multiple" <?php $this->link(); ?>>
 
 						<?php
 
 						foreach ( $this->choices as $value => $name ) {
 
-							$value = esc_attr( $value );
-
-							if ( 0 === strpos( $value, 'optgroup' ) ) {
-								echo '<optgroup label="' . esc_attr( $name ) . '">';
-							} elseif ( 0 === strpos( $value, '/optgroup' ) ) {
-								echo '</optgroup>';
-							} else {
-								echo '<option value="' . $value . '" ' . selected( $this->value(), $value, false ) . '>' . $name . '</option>';
-							}
+							echo '<option value="' . $value . '" ' . selected( $this->value(), $value, false ) . '>' . $name . '</option>';
 
 						}
 
 						?>
 
 					</select>
+					<em><?php _e( 'Press CTRL key for multiple selection.', '{%= text_domain %}' ); ?></em>
 				</label>
 
 				<?php
@@ -52,4 +46,4 @@ if ( ! class_exists( 'WM_Customize_Select' ) ) {
 		}
 
 	}
-} // /WM_Customize_Select
+} // /{%= prefix_class %}_Control_Multiselect

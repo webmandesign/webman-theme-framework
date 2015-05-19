@@ -14,8 +14,8 @@
 
 
 
-if ( ! class_exists( 'WM_Customize_Range' ) ) {
-	class WM_Customize_Range extends WP_Customize_Control {
+if ( ! class_exists( '{%= prefix_class %}_Control_Range' ) ) {
+	class {%= prefix_class %}_Control_Range extends WP_Customize_Control {
 
 		public function enqueue() {
 			// Scripts
@@ -60,4 +60,4 @@ if ( ! class_exists( 'WM_Customize_Range' ) ) {
 		}
 
 	}
-} // /WM_Customize_Range
+} // /{%= prefix_class %}_Control_Range

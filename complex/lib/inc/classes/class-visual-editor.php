@@ -13,8 +13,8 @@
 
 
 
-if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
-	final class WM_Theme_Framework_Visual_Editor {
+if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Visual_Editor' ) ) {
+	final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 		/**
 		 * Contents:
@@ -45,7 +45,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_editor_add_buttons_row1_pre', false, $buttons );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_editor_add_buttons_row1_pre', false, $buttons );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -87,7 +87,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_editor_add_buttons_row2_pre', false, $buttons );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_editor_add_buttons_row2_pre', false, $buttons );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -129,7 +129,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_editor_custom_mce_format_pre', false, $init );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_editor_custom_mce_format_pre', false, $init );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -144,30 +144,30 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 
 					// Add custom formats
 
-						$init['style_formats'] = json_encode( apply_filters( 'wmhook_wmtf_editor_custom_mce_format', array(
+						$init['style_formats'] = json_encode( apply_filters( 'wmhook_{%= prefix_hook %}_tf_editor_custom_mce_format', array(
 
 								// Group: Quotes
 
 									array(
-										'title' => _x( 'Quotes', 'Visual editor blockquote formats group title.', 'wmtf_domain' ),
+										'title' => _x( 'Quotes', 'Visual editor blockquote formats group title.', '{%= text_domain %}' ),
 										'items' => array(
 
 											array(
-												'title' => __( 'Blockquote', 'wmtf_domain' ),
+												'title' => __( 'Blockquote', '{%= text_domain %}' ),
 												'block' => 'blockquote',
 											),
 											array(
-												'title'   => __( 'Pullquote - align left', 'wmtf_domain' ),
+												'title'   => __( 'Pullquote - align left', '{%= text_domain %}' ),
 												'block'   => 'blockquote',
 												'classes' => 'pullquote alignleft',
 											),
 											array(
-												'title'   => __( 'Pullquote - align right', 'wmtf_domain' ),
+												'title'   => __( 'Pullquote - align right', '{%= text_domain %}' ),
 												'block'   => 'blockquote',
 												'classes' => 'pullquote alignright',
 											),
 											array(
-												'title' => _x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', 'wmtf_domain' ),
+												'title' => _x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', '{%= text_domain %}' ),
 												'block' => 'cite',
 											),
 
@@ -177,17 +177,17 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 								// Group: Text styles
 
 									array(
-										'title' => __( 'Text styles', 'wmtf_domain' ),
+										'title' => __( 'Text styles', '{%= text_domain %}' ),
 										'items' => array(
 
 											array(
-												'title'    => __( 'Uppercase heading or paragraph', 'wmtf_domain' ),
+												'title'    => __( 'Uppercase heading or paragraph', '{%= text_domain %}' ),
 												'selector' => 'h1, h2, h3, h4, h5, h6, p',
 												'classes'  => 'uppercase',
 											),
 
 											array(
-												'title'  => __( 'Highlighted (marked) text', 'wmtf_domain' ),
+												'title'  => __( 'Highlighted (marked) text', '{%= text_domain %}' ),
 												'inline' => 'mark',
 											),
 
@@ -204,4 +204,4 @@ if ( ! class_exists( 'WM_Theme_Framework_Visual_Editor' ) ) {
 			} // /custom_mce_format
 
 	}
-} // /WM_Theme_Framework_Visual_Editor
+} // /{%= prefix_class %}_Theme_Framework_Visual_Editor

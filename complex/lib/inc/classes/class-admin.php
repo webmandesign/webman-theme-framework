@@ -13,8 +13,8 @@
 
 
 
-if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
-	final class WM_Theme_Framework_Admin {
+if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Admin' ) ) {
+	final class {%= prefix_class %}_Theme_Framework_Admin {
 
 		/**
 		 * Contents:
@@ -50,11 +50,11 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 					 * Styles
 					 */
 
-						$register_styles = apply_filters( 'wmhook_wmtf_admin_assets_register_styles', array(
-								'wmtf-about'     => array( WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'css/about.css' ) ),
-								'wmtf-about-rtl' => array( WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'css/rtl-about.css' ) ),
-								'wmtf-admin'     => array( WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'css/admin.css' ) ),
-								'wmtf-admin-rtl' => array( WM_Theme_Framework::get_stylesheet_directory_uri( WMTF_LIBRARY_DIR . 'css/rtl-admin.css' ) ),
+						$register_styles = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_assets_register_styles', array(
+								'{%= prefix_var %}-about'     => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/about.css' ) ),
+								'{%= prefix_var %}-about-rtl' => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/rtl-about.css' ) ),
+								'{%= prefix_var %}-admin'     => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/admin.css' ) ),
+								'{%= prefix_var %}-admin-rtl' => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/rtl-admin.css' ) ),
 							) );
 
 						foreach ( $register_styles as $handle => $atts ) {
@@ -73,12 +73,12 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 					 * Styles
 					 */
 
-						wp_enqueue_style( 'wmtf-admin' );
+						wp_enqueue_style( '{%= prefix_var %}-admin' );
 
 						// RTL languages support
 
 							if ( is_rtl() ) {
-								wp_enqueue_style( 'wmtf-admin-rtl' );
+								wp_enqueue_style( '{%= prefix_var %}-admin-rtl' );
 							}
 
 			} // /assets
@@ -94,7 +94,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			/**
 			 * WordPress admin notification messages
 			 *
-			 * Displays the message stored in `wmtf_admin_notice` transient cache
+			 * Displays the message stored in `{%= prefix_var %}_admin_notice` transient cache
 			 * once or multiple times, than deletes the message cache.
 			 *
 			 * Transient structure:
@@ -102,7 +102,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			 * @example
 			 *
 			 *   set_transient(
-			 *     'wmtf_admin_notice',
+			 *     '{%= prefix_var %}_admin_notice',
 			 *     array(
 			 *       $text,
 			 *       $class,
@@ -118,7 +118,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_admin_message_pre', false );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_message_pre', false );
 
 					if ( false !== $pre ) {
 						echo $pre;
@@ -139,8 +139,8 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 
 					$class      = 'updated';
 					$repeat     = 0;
-					$capability = apply_filters( 'wmhook_wmtf_admin_message_capability', 'switch_themes' );
-					$message    = get_transient( 'wmtf_admin_notice' );
+					$capability = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_message_capability', 'switch_themes' );
+					$message    = get_transient( '{%= prefix_var %}_admin_notice' );
 
 
 				// Requirements check
@@ -167,14 +167,14 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 
 					if ( $message[0] && current_user_can( $message[2] ) ) {
 						$output .= '<div class="' . trim( 'wm-notice ' . $message[1] ) . '"><p>' . $message[0] . '</p></div>';
-						delete_transient( 'wmtf_admin_notice' );
+						delete_transient( '{%= prefix_var %}_admin_notice' );
 					}
 
 					// Delete the transient cache after specific number of displays
 
 						if ( 1 < intval( $message[3] ) ) {
 							$message[3] = intval( $message[3] ) - 1;
-							set_transient( 'wmtf_admin_notice', $message, ( 60 * 60 * 48 ) );
+							set_transient( '{%= prefix_var %}_admin_notice', $message, ( 60 * 60 * 48 ) );
 						}
 
 
@@ -187,4 +187,4 @@ if ( ! class_exists( 'WM_Theme_Framework_Admin' ) ) {
 			} // /message
 
 	}
-} // /WM_Theme_Framework_Admin
+} // /{%= prefix_class %}_Theme_Framework_Admin

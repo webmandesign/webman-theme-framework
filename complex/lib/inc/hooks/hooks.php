@@ -103,10 +103,10 @@
 	 * $tha_supports[] = 'html';
 	 */
 
-		function wmhook_html_before() {
-			do_action( 'wmhook_html_before' );
+		function wmhook_{%= prefix_hook %}_tha_html_before() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_html_before' );
 			do_action( 'tha_html_before' );
-		} // /wmhook_html_before
+		} // /wmhook_{%= prefix_hook %}_tha_html_before
 
 
 
@@ -116,15 +116,15 @@
 	 * $tha_supports[] = 'body';
 	 */
 
-		function wmhook_body_top() {
-			do_action( 'wmhook_body_top' );
+		function wmhook_{%= prefix_hook %}_tha_body_top() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_body_top' );
 			do_action( 'tha_body_top' );
-		} // /wmhook_body_top
+		} // /wmhook_{%= prefix_hook %}_tha_body_top
 
-		function wmhook_body_bottom() {
-			do_action( 'wmhook_body_bottom' );
+		function wmhook_{%= prefix_hook %}_tha_body_bottom() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_body_bottom' );
 			do_action( 'tha_body_bottom' );
-		} // /wmhook_body_bottom
+		} // /wmhook_{%= prefix_hook %}_tha_body_bottom
 
 
 
@@ -134,15 +134,15 @@
 	 * $tha_supports[] = 'head';
 	 */
 
-		function wmhook_head_top() {
-			do_action( 'wmhook_head_top' );
+		function wmhook_{%= prefix_hook %}_tha_head_top() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_head_top' );
 			do_action( 'tha_head_top' );
-		} // /wmhook_head_top
+		} // /wmhook_{%= prefix_hook %}_tha_head_top
 
-		function wmhook_head_bottom() {
-			do_action( 'wmhook_head_bottom' );
+		function wmhook_{%= prefix_hook %}_tha_head_bottom() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_head_bottom' );
 			do_action( 'tha_head_bottom' );
-		} // /wmhook_head_bottom
+		} // /wmhook_{%= prefix_hook %}_tha_head_bottom
 
 
 
@@ -152,29 +152,29 @@
 	 * $tha_supports[] = 'header';
 	 */
 
-		function wmhook_header_before() {
-			do_action( 'wmhook_header_before' );
+		function wmhook_{%= prefix_hook %}_tha_header_before() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_header_before' );
 			do_action( 'tha_header_before' );
-		} // /wmhook_header_before
+		} // /wmhook_{%= prefix_hook %}_tha_header_before
 
-		function wmhook_header_after() {
-			do_action( 'wmhook_header_after' );
+		function wmhook_{%= prefix_hook %}_tha_header_after() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_header_after' );
 			do_action( 'tha_header_after' );
-		} // /wmhook_header_after
+		} // /wmhook_{%= prefix_hook %}_tha_header_after
 
-		function wmhook_header() {
-			do_action( 'wmhook_header' );
-		} // /wmhook_header
+		function wmhook_{%= prefix_hook %}_tha_header() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_header' );
+		} // /wmhook_{%= prefix_hook %}_tha_header
 
-		function wmhook_header_top() {
-			do_action( 'wmhook_header_top' );
+		function wmhook_{%= prefix_hook %}_tha_header_top() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_header_top' );
 			do_action( 'tha_header_top' );
-		} // /wmhook_header_top
+		} // /wmhook_{%= prefix_hook %}_tha_header_top
 
-		function wmhook_header_bottom() {
-			do_action( 'wmhook_header_bottom' );
+		function wmhook_{%= prefix_hook %}_tha_header_bottom() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_header_bottom' );
 			do_action( 'tha_header_bottom' );
-		} // /wmhook_header_bottom
+		} // /wmhook_{%= prefix_hook %}_tha_header_bottom
 
 
 
@@ -184,25 +184,25 @@
 	 * $tha_supports[] = 'content';
 	 */
 
-		function wmhook_content_before() {
-			do_action( 'wmhook_content_before' );
+		function wmhook_{%= prefix_hook %}_tha_content_before() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_content_before' );
 			do_action( 'tha_content_before' );
-		} // /wmhook_content_before
+		} // /wmhook_{%= prefix_hook %}_tha_content_before
 
-		function wmhook_content_after() {
-			do_action( 'wmhook_content_after' );
+		function wmhook_{%= prefix_hook %}_tha_content_after() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_content_after' );
 			do_action( 'tha_content_after' );
-		} // /wmhook_content_after
+		} // /wmhook_{%= prefix_hook %}_tha_content_after
 
-		function wmhook_content_top() {
-			do_action( 'wmhook_content_top' );
+		function wmhook_{%= prefix_hook %}_tha_content_top() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_content_top' );
 			do_action( 'tha_content_top' );
-		} // /wmhook_content_top
+		} // /wmhook_{%= prefix_hook %}_tha_content_top
 
-		function wmhook_content_bottom() {
-			do_action( 'wmhook_content_bottom' );
+		function wmhook_{%= prefix_hook %}_tha_content_bottom() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_content_bottom' );
 			do_action( 'tha_content_bottom' );
-		} // /wmhook_content_bottom
+		} // /wmhook_{%= prefix_hook %}_tha_content_bottom
 
 
 
@@ -213,21 +213,21 @@
 	 * Not part of Theme Hook Alliance hooks.
 	 */
 
-		function wmhook_postslist_before() {
-			do_action( 'wmhook_postslist_before' );
-		} // /wmhook_postslist_before
+		function wmhook_{%= prefix_hook %}_tha_postslist_before() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_postslist_before' );
+		} // /wmhook_{%= prefix_hook %}_tha_postslist_before
 
-		function wmhook_postslist_after() {
-			do_action( 'wmhook_postslist_after' );
-		} // /wmhook_postslist_after
+		function wmhook_{%= prefix_hook %}_tha_postslist_after() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_postslist_after' );
+		} // /wmhook_{%= prefix_hook %}_tha_postslist_after
 
-		function wmhook_postslist_top() {
-			do_action( 'wmhook_postslist_top' );
-		} // /wmhook_postslist_top
+		function wmhook_{%= prefix_hook %}_tha_postslist_top() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_postslist_top' );
+		} // /wmhook_{%= prefix_hook %}_tha_postslist_top
 
-		function wmhook_postslist_bottom() {
-			do_action( 'wmhook_postslist_bottom' );
-		} // /wmhook_postslist_bottom
+		function wmhook_{%= prefix_hook %}_tha_postslist_bottom() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_postslist_bottom' );
+		} // /wmhook_{%= prefix_hook %}_tha_postslist_bottom
 
 
 
@@ -237,25 +237,25 @@
 	 * $tha_supports[] = 'entry';
 	 */
 
-		function wmhook_entry_before() {
-			do_action( 'wmhook_entry_before' );
+		function wmhook_{%= prefix_hook %}_tha_entry_before() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_entry_before' );
 			do_action( 'tha_entry_before' );
-		} // /wmhook_entry_before
+		} // /wmhook_{%= prefix_hook %}_tha_entry_before
 
-		function wmhook_entry_after() {
-			do_action( 'wmhook_entry_after' );
+		function wmhook_{%= prefix_hook %}_tha_entry_after() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_entry_after' );
 			do_action( 'tha_entry_after' );
-		} // /wmhook_entry_after
+		} // /wmhook_{%= prefix_hook %}_tha_entry_after
 
-		function wmhook_entry_top() {
-			do_action( 'wmhook_entry_top' );
+		function wmhook_{%= prefix_hook %}_tha_entry_top() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_entry_top' );
 			do_action( 'tha_entry_top' );
-		} // /wmhook_entry_top
+		} // /wmhook_{%= prefix_hook %}_tha_entry_top
 
-		function wmhook_entry_bottom() {
-			do_action( 'wmhook_entry_bottom' );
+		function wmhook_{%= prefix_hook %}_tha_entry_bottom() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_entry_bottom' );
 			do_action( 'tha_entry_bottom' );
-		} // /wmhook_entry_bottom
+		} // /wmhook_{%= prefix_hook %}_tha_entry_bottom
 
 
 
@@ -265,15 +265,15 @@
 	 * $tha_supports[] = 'comments';
 	 */
 
-		function wmhook_comments_before() {
-			do_action( 'wmhook_comments_before' );
+		function wmhook_{%= prefix_hook %}_tha_comments_before() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_comments_before' );
 			do_action( 'tha_comments_before' );
-		} // /wmhook_comments_before
+		} // /wmhook_{%= prefix_hook %}_tha_comments_before
 
-		function wmhook_comments_after() {
-			do_action( 'wmhook_comments_after' );
+		function wmhook_{%= prefix_hook %}_tha_comments_after() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_comments_after' );
 			do_action( 'tha_comments_after' );
-		} // /wmhook_comments_after
+		} // /wmhook_{%= prefix_hook %}_tha_comments_after
 
 
 
@@ -283,25 +283,25 @@
 	 * $tha_supports[] = 'sidebar';
 	 */
 
-		function wmhook_sidebars_before() {
-			do_action( 'wmhook_sidebars_before' );
+		function wmhook_{%= prefix_hook %}_tha_sidebars_before() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_sidebars_before' );
 			do_action( 'tha_sidebars_before' );
-		} // /wmhook_sidebars_before
+		} // /wmhook_{%= prefix_hook %}_tha_sidebars_before
 
-		function wmhook_sidebars_after() {
-			do_action( 'wmhook_sidebars_after' );
+		function wmhook_{%= prefix_hook %}_tha_sidebars_after() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_sidebars_after' );
 			do_action( 'tha_sidebars_after' );
-		} // /wmhook_sidebars_after
+		} // /wmhook_{%= prefix_hook %}_tha_sidebars_after
 
-		function wmhook_sidebar_top() {
-			do_action( 'wmhook_sidebar_top' );
+		function wmhook_{%= prefix_hook %}_tha_sidebar_top() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_sidebar_top' );
 			do_action( 'tha_sidebar_top' );
-		} // /wmhook_sidebar_top
+		} // /wmhook_{%= prefix_hook %}_tha_sidebar_top
 
-		function wmhook_sidebar_bottom() {
-			do_action( 'wmhook_sidebar_bottom' );
+		function wmhook_{%= prefix_hook %}_tha_sidebar_bottom() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_sidebar_bottom' );
 			do_action( 'tha_sidebar_bottom' );
-		} // /wmhook_sidebar_bottom
+		} // /wmhook_{%= prefix_hook %}_tha_sidebar_bottom
 
 
 
@@ -311,28 +311,28 @@
 	 * $tha_supports[] = 'footer';
 	 */
 
-		function wmhook_footer_before() {
-			do_action( 'wmhook_footer_before' );
+		function wmhook_{%= prefix_hook %}_tha_footer_before() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_footer_before' );
 			do_action( 'tha_footer_before' );
-		} // wmhook_footer_before
+		} // wmhook_{%= prefix_hook %}_tha_footer_before
 
-		function wmhook_footer_after() {
-			do_action( 'wmhook_footer_after' );
+		function wmhook_{%= prefix_hook %}_tha_footer_after() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_footer_after' );
 			do_action( 'tha_footer_after' );
-		} // /wmhook_footer_after
+		} // /wmhook_{%= prefix_hook %}_tha_footer_after
 
-		function wmhook_footer() {
-			do_action( 'wmhook_footer' );
-		} // /wmhook_footer
+		function wmhook_{%= prefix_hook %}_tha_footer() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_footer' );
+		} // /wmhook_{%= prefix_hook %}_tha_footer
 
-		function wmhook_footer_top() {
-			do_action( 'wmhook_footer_top' );
+		function wmhook_{%= prefix_hook %}_tha_footer_top() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_footer_top' );
 			do_action( 'tha_footer_top' );
-		} // /wmhook_footer_top
+		} // /wmhook_{%= prefix_hook %}_tha_footer_top
 
-		function wmhook_footer_bottom() {
-			do_action( 'wmhook_footer_bottom' );
+		function wmhook_{%= prefix_hook %}_tha_footer_bottom() {
+			do_action( 'wmhook_{%= prefix_hook %}_tha_footer_bottom' );
 			do_action( 'tha_footer_bottom' );
-		} // /wmhook_footer_bottom
+		} // /wmhook_{%= prefix_hook %}_tha_footer_bottom
 
 ?>

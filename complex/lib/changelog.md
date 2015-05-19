@@ -6,7 +6,7 @@
 * UPDATED: Replaced pluggable functions functionality with "pre" hook
 * UPDATED: Removed obsolete constants and functions
 * UPDATED: Simplified code
-* UPDATED: Renamed textdomain to `wmtf_domain`
+* UPDATED: Renamed textdomain
 * UPDATED: WordPress 4.1+ compatible only
 * UPDATED: Scripts: TGM Plugin Activation 2.4.2
 * UPDATED: Removed customizer skin creator/loader in favour for [Customizer Export/Import plugin](https://wordpress.org/plugins/customizer-export-import/)

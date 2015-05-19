@@ -29,7 +29,7 @@
 
 	// The time interval for the remote XML cache in the database (86400 seconds = 24 hours)
 
-		if ( ! defined( 'WMTF_UPDATE_NOTIFIER_CACHE_INTERVAL' ) ) define( 'WMTF_UPDATE_NOTIFIER_CACHE_INTERVAL', 86400 );
+		if ( ! defined( '{%= prefix_constant %}_UPDATE_NOTIFIER_CACHE_INTERVAL' ) ) define( '{%= prefix_constant %}_UPDATE_NOTIFIER_CACHE_INTERVAL', 86400 );
 
 
 
@@ -41,7 +41,7 @@
 
 	// Updater class
 
-		locate_template( WMTF_LIBRARY_DIR . 'inc/classes/class-wm-theme-framework-updater.php', true );
+		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/classes/class-updater.php', true );
 
 
 
@@ -57,8 +57,8 @@
 
 		// Admin menu
 
-			add_action( 'admin_menu', 'WM_Theme_Framework_Updater::menu', 998 );
+			add_action( 'admin_menu', '{%= prefix_class %}_Theme_Framework_Updater::menu', 998 );
 
 		// Toolbar
 
-			add_action( 'admin_bar_menu', 'WM_Theme_Framework_Updater::toolbar', 998 );
+			add_action( 'admin_bar_menu', '{%= prefix_class %}_Theme_Framework_Updater::toolbar', 998 );

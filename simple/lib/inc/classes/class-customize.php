@@ -2,7 +2,7 @@
 /**
  * Customize class
  *
- * @uses  `wmhook_theme_options` global hook
+ * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
  *
  * @package     WebMan WordPress Theme Framework (Simple)
  * @subpackage  Customize
@@ -15,8 +15,8 @@
 
 
 
-if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
-	final class WM_Theme_Framework_Customize {
+if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Customize' ) ) {
+	final class {%= prefix_class %}_Theme_Framework_Customize {
 
 		/**
 		 * Contents:
@@ -49,7 +49,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			 *     'custom' => 'your_custom_JavaScript_here',
 			 *   )
 			 *
-			 * @uses  `wmhook_theme_options` global hook
+			 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 			 *
 			 * @since    1.0
 			 * @version  2.0
@@ -58,7 +58,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_customize_preview_scripts_pre', false );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_preview_scripts_pre', false );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -67,7 +67,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 				// Helper variables
 
-					$theme_options = apply_filters( 'wmhook_theme_options', array() );
+					$theme_options = apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
 
 					ksort( $theme_options );
 
@@ -132,7 +132,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 								$output_single .= "\t\t" . '} );' . "\r\n";
 								$output_single .= "\t" . '}'. "\r\n";
 								$output_single .= ');'. "\r\n";
-								$output_single  = apply_filters( 'wmhook_wmtf_customize_preview_scripts_option_' . $theme_option['id'], $output_single );
+								$output_single  = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_preview_scripts_option_' . $theme_option['id'], $output_single );
 
 								$output .= $output_single;
 
@@ -146,7 +146,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 				// Output
 
 					if ( $output = trim( $output ) ) {
-						echo apply_filters( 'wmhook_wmtf_customize_preview_scripts_output', '<!-- Theme custom scripts -->' . "\r\n" . '<script type="text/javascript"><!--' . "\r\n" . '( function( $ ) {' . "\r\n\r\n" . trim( $output ) . "\r\n\r\n" . '} )( jQuery );' . "\r\n" . '//--></script>' );
+						echo apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_preview_scripts_output', '<!-- Theme custom scripts -->' . "\r\n" . '<script type="text/javascript"><!--' . "\r\n" . '( function( $ ) {' . "\r\n\r\n" . trim( $output ) . "\r\n\r\n" . '} )( jQuery );' . "\r\n" . '//--></script>' );
 					}
 
 			} // /preview_scripts
@@ -174,7 +174,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_customize_sanitize_html_pre', false, $value );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_sanitize_html_pre', false, $value );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -203,7 +203,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_customize_sanitize_return_value_pre', false, $value );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_sanitize_return_value_pre', false, $value );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -238,7 +238,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 			/**
 			 * Registering sections and options for WP Customizer
 			 *
-			 * @uses  `wmhook_theme_options` global hook
+			 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 			 *
 			 * @since    1.0
 			 * @version  2.0
@@ -249,7 +249,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_customize_init_pre', false, $wp_customize );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_init_pre', false, $wp_customize );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -258,11 +258,11 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 				// Helper variables
 
-					$theme_options = (array) apply_filters( 'wmhook_theme_options', array() );
+					$theme_options = (array) apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
 
 					ksort( $theme_options );
 
-					$allowed_option_types = apply_filters( 'wmhook_wmtf_customize_init_allowed_option_types', array(
+					$allowed_option_types = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_init_allowed_option_types', array(
 							'checkbox',
 							'color',
 							'hidden',
@@ -278,18 +278,18 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 					// To make sure our customizer sections start after WordPress default ones
 
-						$priority = apply_filters( 'wmhook_wmtf_customize_init_priority', 900 );
+						$priority = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_init_priority', 900 );
 
 					// Default section name in case not set (should be overwritten anyway)
 
 						$customizer_panel   = '';
-						$customizer_section = WMTF_THEME_SHORTNAME;
+						$customizer_section = {%= prefix_constant %}_THEME_SHORTNAME;
 
 
 					/**
 					 * @todo  Consider switching from 'type' => 'theme_mod' to 'option' for better theme upgradability.
 					 */
-					$type = apply_filters( 'wmhook_wmtf_customize_init_type', 'theme_mod' );
+					$type = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_init_type', 'theme_mod' );
 
 
 				// Processing
@@ -307,13 +307,13 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 						 * @link  http://ottopress.com/2012/making-a-custom-control-for-the-theme-customizer/
 						 */
 
-						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-hidden.php',      true );
-						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-html.php',        true );
-						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-image.php',       true );
-						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-multiselect.php', true );
-						locate_template( WMTF_LIBRARY_DIR . 'inc/classes/controls/class-wm-customize-select.php',      true );
+						locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/classes/controls/class-control-hidden.php',      true );
+						locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/classes/controls/class-control-html.php',        true );
+						locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/classes/controls/class-control-image.php',       true );
+						locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/classes/controls/class-control-multiselect.php', true );
+						locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/classes/controls/class-control-select.php',      true );
 
-						do_action( 'wmhook_wmtf_customize_init_load_controls', $wp_customize );
+						do_action( 'wmhook_{%= prefix_hook %}_tf_customize_init_load_controls', $wp_customize );
 
 					// Generate customizer options
 
@@ -496,7 +496,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 													)
 												);
 
-											$wp_customize->add_control( new WM_Customize_Hidden(
+											$wp_customize->add_control( new {%= prefix_class %}_Control_Hidden(
 													$wp_customize,
 													$option_id,
 													array(
@@ -520,12 +520,12 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 											$wp_customize->add_setting(
 													$option_id,
 													array(
-														'sanitize_callback'    => 'WM_Theme_Framework_Customize::sanitize_html',
-														'sanitize_js_callback' => 'WM_Theme_Framework_Customize::sanitize_html',
+														'sanitize_callback'    => '{%= prefix_class %}_Theme_Framework_Customize::sanitize_html',
+														'sanitize_js_callback' => '{%= prefix_class %}_Theme_Framework_Customize::sanitize_html',
 													)
 												);
 
-											$wp_customize->add_control( new WM_Customize_HTML(
+											$wp_customize->add_control( new {%= prefix_class %}_Control_HTML(
 													$wp_customize,
 													$option_id,
 													array(
@@ -549,12 +549,12 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 														'type'                 => $type,
 														'default'              => $default,
 														'transport'            => $transport,
-														'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'WM_Theme_Framework_Customize::sanitize_return_value' ),
-														'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'WM_Theme_Framework_Customize::sanitize_return_value' ),
+														'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_return_value' ),
+														'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_return_value' ),
 													)
 												);
 
-											$wp_customize->add_control( new WM_Customize_Image(
+											$wp_customize->add_control( new {%= prefix_class %}_Control_Image(
 													$wp_customize,
 													$option_id,
 													array(
@@ -580,12 +580,12 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 														'type'                 => $type,
 														'default'              => $default,
 														'transport'            => $transport,
-														'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'WM_Theme_Framework_Customize::sanitize_return_value' ),
-														'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'WM_Theme_Framework_Customize::sanitize_return_value' ),
+														'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_return_value' ),
+														'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_return_value' ),
 													)
 												);
 
-											$wp_customize->add_control( new WM_Customize_Multiselect(
+											$wp_customize->add_control( new {%= prefix_class %}_Control_Multiselect(
 													$wp_customize,
 													$option_id,
 													array(
@@ -651,7 +651,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 													)
 												);
 
-											$wp_customize->add_control( new WM_Customize_Select(
+											$wp_customize->add_control( new {%= prefix_class %}_Control_Select(
 													$wp_customize,
 													$option_id,
 													array(
@@ -743,11 +743,11 @@ if ( ! class_exists( 'WM_Theme_Framework_Customize' ) ) {
 
 						if ( $wp_customize->is_preview() ) {
 
-							add_action( 'wp_footer', 'WM_Theme_Framework_Customize::preview_scripts', 99 );
+							add_action( 'wp_footer', '{%= prefix_class %}_Theme_Framework_Customize::preview_scripts', 99 );
 
 						}
 
 			} // /init
 
 	}
-} // /WM_Theme_Framework_Customize
+} // /{%= prefix_class %}_Theme_Framework_Customize

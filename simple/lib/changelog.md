@@ -8,7 +8,7 @@
 * UPDATED: Replaced pluggable functions functionality with "pre" hook
 * UPDATED: Removed obsolete functions
 * UPDATED: Simplified code
-* UPDATED: Renamed textdomain to `wmtf_domain`
+* UPDATED: Renamed textdomain
 * UPDATED: WordPress 4.1+ compatible only
 * UPDATED: Renamed hooks
 * UPDATED: Removed TGM Plugin Activation script

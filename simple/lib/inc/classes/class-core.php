@@ -2,8 +2,8 @@
 /**
  * Core class
  *
- * @uses  `wmhook_theme_options` global hook
- * @uses  `wmhook_custom_styles` global hook
+ * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
+ * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
  *
  * @package     WebMan WordPress Theme Framework (Simple)
  * @subpackage  Core
@@ -16,17 +16,16 @@
 
 
 
-if ( ! class_exists( 'WM_Theme_Framework' ) ) {
-	final class WM_Theme_Framework {
+if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
+	final class {%= prefix_class %}_Theme_Framework {
 
 		/**
 		 * Contents:
 		 *
 		 *   0) Theme upgrade action
 		 *  10) Branding
-		 *  20) SEO
-		 *  30) Post/page
-		 *  40) CSS functions
+		 *  20) Post/page
+		 *  30) CSS functions
 		 * 100) Helpers
 		 */
 
@@ -48,7 +47,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Helper variables
 
-					$current_theme_version = get_transient( WMTF_THEME_SHORTNAME . '_version' );
+					$current_theme_version = get_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_version' );
 
 
 				// Processing
@@ -58,9 +57,9 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 							|| wp_get_theme()->get( 'Version' ) != $current_theme_version
 						) {
 
-						do_action( 'wmhook_theme_upgrade' );
+						do_action( 'wmhook_{%= prefix_hook %}_tf_theme_upgrade' );
 
-						set_transient( WMTF_THEME_SHORTNAME . '_version', wp_get_theme()->get( 'Version' ) );
+						set_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_version', wp_get_theme()->get( 'Version' ) );
 
 					}
 
@@ -86,7 +85,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_get_the_logo_pre', false );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_pre', false );
 
 					if ( false !== $pre ) {
 						echo $pre;
@@ -98,12 +97,12 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					$output = '';
 
-					$blog_info = apply_filters( 'wmhook_wmtf_get_the_logo_blog_info', array(
+					$blog_info = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_blog_info', array(
 							'name'        => trim( get_bloginfo( 'name' ) ),
 							'description' => trim( get_bloginfo( 'description' ) ),
 						) );
 
-					$args = apply_filters( 'wmhook_wmtf_get_the_logo_args', array(
+					$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_args', array(
 							'logo_image' => ( function_exists( 'jetpack_get_site_logo' ) ) ? ( absint( jetpack_get_site_logo( 'id' ) ) ) : ( false ),
 							'logo_type'  => 'text',
 							'title_att'  => ( $blog_info['description'] ) ? ( $blog_info['name'] . ' | ' . $blog_info['description'] ) : ( $blog_info['name'] ),
@@ -123,8 +122,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 								$logo_url = wp_get_attachment_image_src( $img_id, 'full' );
 
-								$atts = (array) apply_filters( 'wmhook_wmtf_get_the_logo_image_atts', array(
-										'alt'   => esc_attr( sprintf( _x( '%s logo', 'Site logo image "alt" HTML attribute text.', 'wmtf_domain' ), $blog_info['name'] ) ),
+								$atts = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_image_atts', array(
+										'alt'   => esc_attr( sprintf( _x( '%s logo', 'Site logo image "alt" HTML attribute text.', '{%= text_domain %}' ), $blog_info['name'] ) ),
 										'title' => esc_attr( $args['title_att'] ),
 										'class' => '',
 									), $img_id );
@@ -137,12 +136,12 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 						}
 
-						$args['logo_image'] = apply_filters( 'wmhook_wmtf_get_the_logo_image', $args['logo_image'] );
+						$args['logo_image'] = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_image', $args['logo_image'] );
 
 					// Logo HTML
 
 						$output .= '<div class="site-branding">';
-							$output .= '<h1 class="' . esc_attr( apply_filters( 'wmhook_wmtf_get_the_logo_class', 'site-title logo type-' . $args['logo_type'], $args ) ) . '">';
+							$output .= '<h1 class="' . esc_attr( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_class', 'site-title logo type-' . $args['logo_type'], $args ) ) . '">';
 							$output .= '<a href="' . esc_url( $args['url'] ) . '" title="' . esc_attr( $args['title_att'] ) . '">';
 
 									if ( 'text' === $args['logo_type'] ) {
@@ -194,180 +193,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 
 		/**
-		 * 20) SEO
-		 */
-
-			/**
-			 * Schema.org markup on HTML tags
-			 *
-			 * @uses  `wmhook_schema_org_pre` global hook
-			 *
-			 * @uses  schema.org
-			 * @link  http://schema.org/docs/gs.html
-			 * @link  http://leaves-and-love.net/how-to-improve-wordpress-seo-with-schema-org/
-			 *
-			 * @since    1.0
-			 * @version  2.0
-			 *
-			 * @param  string  $element
-			 * @param  boolean $output_meta_tag  Wraps output in a <meta> tag.
-			 *
-			 * @return  string Schema.org HTML attributes
-			 */
-			public static function schema_org( $element = '', $output_meta_tag = false ) {
-
-				// Pre
-
-					// Global override hook
-
-						$pre = apply_filters( 'wmhook_schema_org_pre', false, $element, $output_meta_tag );
-
-					$pre = apply_filters( 'wmhook_wmtf_schema_org_pre', $pre, $element, $output_meta_tag );
-
-					if ( false !== $pre ) {
-						return $pre;
-					}
-
-
-				// Requirements check
-
-					if ( empty( $element ) ) {
-						return;
-					}
-
-
-				// Helper variables
-
-					$output = '';
-
-					$base    = esc_attr( apply_filters( 'wmhook_wmtf_schema_org_base', 'http://schema.org/', $element, $output_meta_tag ) );
-					$post_id = ( is_home() ) ? ( get_option( 'page_for_posts' ) ) : ( null );
-					$type    = get_post_meta( $post_id, 'schemaorg_type', true );
-
-					// Add custom post types that describe a single item to this array
-
-						$creative_work_array = (array) apply_filters( 'wmhook_wmtf_schema_org_creative_work_array', array( 'jetpack-portfolio' ), $element, $output_meta_tag );
-
-
-				// Processing
-
-					switch ( $element ) {
-
-						case 'author':
-								$output = 'itemprop="author"';
-							break;
-
-						case 'datePublished':
-								$output = 'itemprop="datePublished"';
-							break;
-
-						case 'entry':
-								$output = 'itemscope ';
-
-								if ( is_page() ) {
-									$output .= 'itemtype="' . $base . 'WebPage"';
-
-								} elseif ( is_singular( $creative_work_array ) ) {
-									$output .= 'itemprop="workExample" itemtype="' . $base . 'CreativeWork"';
-
-								} elseif ( 'audio' === get_post_format() ) {
-									$output .= 'itemtype="' . $base . 'AudioObject"';
-
-								} elseif ( 'gallery' === get_post_format() ) {
-									$output .= 'itemprop="ImageGallery" itemtype="' . $base . 'ImageGallery"';
-
-								} elseif ( 'video' === get_post_format() ) {
-									$output .= 'itemprop="video" itemtype="' . $base . 'VideoObject"';
-
-								} else {
-									$output .= 'itemprop="blogPost" itemtype="' . $base . 'BlogPosting"';
-
-								}
-							break;
-
-						case 'entry_body':
-								if ( ! is_single() ) {
-									$output = 'itemprop="description"';
-
-								} elseif ( is_page() ) {
-									$output = 'itemprop="mainContentOfPage"';
-
-								} else {
-									$output = 'itemprop="articleBody"';
-
-								}
-							break;
-
-						case 'image':
-								$output = 'itemprop="image"';
-							break;
-
-						case 'ItemList':
-								$output = 'itemscope itemtype="' . $base . 'ItemList"';
-							break;
-
-						case 'keywords':
-								$output = 'itemprop="keywords"';
-							break;
-
-						case 'name':
-								$output = 'itemprop="name"';
-							break;
-
-						case 'Person':
-								$output = 'itemscope itemtype="' . $base . 'Person"';
-							break;
-
-						case 'SiteNavigationElement':
-								$output = 'itemscope itemtype="' . $base . 'SiteNavigationElement"';
-							break;
-
-						case 'url':
-								$output = 'itemprop="url"';
-							break;
-
-						case 'WPFooter':
-								$output = 'itemscope itemtype="' . $base . 'WPFooter"';
-							break;
-
-						case 'WPSideBar':
-								$output = 'itemscope itemtype="' . $base . 'WPSideBar"';
-							break;
-
-						case 'WPHeader':
-								$output = 'itemscope itemtype="' . $base . 'WPHeader"';
-							break;
-
-						default:
-								$output = $element;
-							break;
-
-					} // /switch
-
-					$output = ' ' . $output;
-
-					// Output in <meta> tag
-
-						if ( $output_meta_tag ) {
-							if ( false === strpos( $output, 'content=' ) ) {
-								$output .= ' content="true"';
-							}
-							$output = '<meta ' . trim( $output ) . ' />';
-						}
-
-
-				// Output
-
-					return $output;
-
-			} // /schema_org
-
-
-
-
-
-		/**
-		 * 30) Post/page
+		 * 20) Post/page
 		 */
 
 			/**
@@ -386,7 +212,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_add_table_of_contents_pre', false, $content );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_pre', false, $content );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -407,10 +233,10 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 						}
 
 					// translators: %s will be replaced with parted post title. Copy it, do not translate.
-					$title_text = apply_filters( 'wmhook_wmtf_add_table_of_contents_title_text', sprintf( _x( '"%s" table of contents', 'Parted/paginated post table of content title. %s = post title.', 'wmtf_domain' ), the_title_attribute( 'echo=0' ) ) );
-					$title      = apply_filters( 'wmhook_wmtf_add_table_of_contents_title', '<h2 class="screen-reader-text">' . $title_text . '</h2>' );
+					$title_text = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_title_text', sprintf( _x( '"%s" table of contents', 'Parted/paginated post table of content title. %s = post title.', '{%= text_domain %}' ), the_title_attribute( 'echo=0' ) ) );
+					$title      = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_title', '<h2 class="screen-reader-text">' . $title_text . '</h2>' );
 
-					$args = apply_filters( 'wmhook_wmtf_add_table_of_contents_args', array(
+					$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_args', array(
 							'disable_first' => true, //First part to have a title of the post (part title won't be parsed)?
 							'links'         => array(), //The output HTML links
 							'post_content'  => ( isset( $post->post_content ) ) ? ( $post->post_content ) : ( '' ), //Get the whole post content
@@ -445,7 +271,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 									preg_match( '/<' . tag_escape( $args['tag'] ) . '(.*?)>(.*?)<\/' . tag_escape( $args['tag'] ) . '>/', $part, $matches );
 
 									if ( ! isset( $matches[2] ) || ! $matches[2] ) {
-										$part_title = sprintf( __( 'Page %d', 'wmtf_domain' ), $i );
+										$part_title = sprintf( __( 'Page %d', '{%= text_domain %}' ), $i );
 									} else {
 										$part_title = $matches[2];
 									}
@@ -464,7 +290,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 							// Post part item output
 
-								$args['links'][$i] = (string) apply_filters( 'wmhook_wmtf_add_table_of_contents_part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
+								$args['links'][$i] = (string) apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
 
 						} // /foreach
 
@@ -472,7 +298,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 						$args['links'] = implode( '', $args['links'] );
 
-						$links = apply_filters( 'wmhook_wmtf_add_table_of_contents_links', array(
+						$links = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_links', array(
 								// Display table of contents before the post content only in first post part
 									'before' => ( 1 === $page ) ? ( '<div class="post-table-of-contents top" title="' . esc_attr( strip_tags( $title_text ) ) . '">' . $title . '<ol>' . $args['links'] . '</ol></div>' ) : ( '' ),
 								// Display table of cotnnets after the post cotnent on each post part
@@ -505,7 +331,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_get_the_post_meta_info_pre', false, $args );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_pre', false, $args );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -516,7 +342,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					$output = '';
 
-					$args = wp_parse_args( $args, apply_filters( 'wmhook_wmtf_get_the_post_meta_info_defaults', array(
+					$args = wp_parse_args( $args, apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_defaults', array(
 							'class'       => 'entry-meta clearfix',
 							'date_format' => null,
 							'html'        => '<span class="{class}"{attributes}>{content}</span>',
@@ -526,7 +352,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 							'meta'        => array(), //Example: array( 'date', 'author', 'category', 'comments', 'permalink' )
 							'post_id'     => null,
 						) ) );
-					$args = apply_filters( 'wmhook_wmtf_get_the_post_meta_info_args', $args );
+					$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_args', $args );
 
 					$args['meta'] = array_filter( (array) $args['meta'] );
 
@@ -548,8 +374,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 							$helper = '';
 
-							$replacements  = (array) apply_filters( 'wmhook_wmtf_get_the_post_meta_info_replacements', array(), $meta, $args );
-							$output_single = apply_filters( 'wmhook_wmtf_get_the_post_meta_info', '', $meta, $args );
+							$replacements  = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_replacements', array(), $meta, $args );
+							$output_single = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info', '', $meta, $args );
 							$output       .= $output_single;
 
 						// Predefined metas
@@ -558,11 +384,11 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 								case 'author':
 
-									if ( apply_filters( 'wmhook_wmtf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
-										$helper = ( function_exists( 'wmtf_schema_org' ) ) ? ( wmtf_schema_org( 'author' ) ) : ( '' );
+									if ( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
+										$helper = ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'author' ) ) : ( '' );
 
 										$replacements = array(
-												'{attributes}' => ( function_exists( 'wmtf_schema_org' ) ) ? ( wmtf_schema_org( 'Person' ) ) : ( '' ),
+												'{attributes}' => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'Person' ) ) : ( '' ),
 												'{class}'      => esc_attr( 'author vcard entry-meta-element' ),
 												'{content}'    => '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" class="url fn n" rel="author"' . $helper . '>' . get_the_author() . '</a>',
 											);
@@ -572,7 +398,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 								case 'category':
 
 									if (
-											apply_filters( 'wmhook_wmtf_get_the_post_meta_info_enable_' . $meta, true, $args )
+											apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args )
 											&& self::is_categorized_blog()
 											&& ( $helper = get_the_category_list( ', ', '', $args['post_id'] ) )
 										) {
@@ -587,7 +413,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 								case 'comments':
 
 									if (
-											apply_filters( 'wmhook_wmtf_get_the_post_meta_info_enable_' . $meta, true, $args )
+											apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args )
 											&& ! post_password_required()
 											&& (
 												comments_open( $args['post_id'] )
@@ -599,15 +425,15 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 										$replacements = array(
 												'{attributes}' => '',
 												'{class}'      => esc_attr( 'comments-link entry-meta-element' ),
-												'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . $element_id . '" title="' . esc_attr( sprintf( _x( 'Comments: %s', 'Number of comments in post meta.', 'wmtf_domain' ), $helper ) ) . '">' . sprintf( _x( '<span class="comments-title">Comments: </span>%s', 'Number of comments in post meta (keep the HTML tags).', 'wmtf_domain' ), '<span class="comments-count">' . $helper . '</span>' ) . '</a>',
+												'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . $element_id . '" title="' . esc_attr( sprintf( _x( 'Comments: %s', 'Number of comments in post meta.', '{%= text_domain %}' ), $helper ) ) . '">' . sprintf( _x( '<span class="comments-title">Comments: </span>%s', 'Number of comments in post meta (keep the HTML tags).', '{%= text_domain %}' ), '<span class="comments-count">' . $helper . '</span>' ) . '</a>',
 											);
 									}
 
 								break;
 								case 'date':
 
-									if ( apply_filters( 'wmhook_wmtf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
-										$helper = ( function_exists( 'wmtf_schema_org' ) ) ? ( wmtf_schema_org( 'datePublished' ) ) : ( '' );
+									if ( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
+										$helper = ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'datePublished' ) ) : ( '' );
 
 										$replacements = array(
 												'{attributes}' => ' title="' . esc_attr( get_the_date() ) . ' | ' . esc_attr( get_the_time( '', $args['post_id'] ) ) . '"' . $helper,
@@ -621,7 +447,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 								case 'edit':
 
 									if (
-											apply_filters( 'wmhook_wmtf_get_the_post_meta_info_enable_' . $meta, true, $args )
+											apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args )
 											&& ( $helper = get_edit_post_link( $args['post_id'] ) )
 										) {
 										$the_title_attribute_args = array( 'echo' => false );
@@ -632,7 +458,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 										$replacements = array(
 												'{attributes}' => '',
 												'{class}'      => esc_attr( 'entry-edit entry-meta-element' ),
-												'{content}'    => '<a href="' . esc_url( $helper ) . '" title="' . esc_attr( sprintf( __( 'Edit the "%s"', 'wmtf_domain' ), the_title_attribute( $the_title_attribute_args ) ) ) . '"><span>' . _x( 'Edit', 'Edit post link.', 'wmtf_domain' ) . '</span></a>',
+												'{content}'    => '<a href="' . esc_url( $helper ) . '" title="' . esc_attr( sprintf( __( 'Edit the "%s"', '{%= text_domain %}' ), the_title_attribute( $the_title_attribute_args ) ) ) . '"><span>' . _x( 'Edit', 'Edit post link.', '{%= text_domain %}' ) . '</span></a>',
 											);
 									}
 
@@ -640,7 +466,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 								case 'likes':
 
 									if (
-											apply_filters( 'wmhook_wmtf_get_the_post_meta_info_enable_' . $meta, true, $args )
+											apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args )
 											&& function_exists( 'zilla_likes' )
 										) {
 										global $zilla_likes;
@@ -656,16 +482,16 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 								break;
 								case 'permalink':
 
-									if ( apply_filters( 'wmhook_wmtf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
+									if ( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
 										$the_title_attribute_args = array( 'echo' => false );
 										if ( $args['post_id'] ) {
 											$the_title_attribute_args['post'] = $args['post_id'];
 										}
 
 										$replacements = array(
-												'{attributes}' => ( function_exists( 'wmtf_schema_org' ) ) ? ( wmtf_schema_org( 'url' ) ) : ( '' ),
+												'{attributes}' => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'url' ) ) : ( '' ),
 												'{class}'      => esc_attr( 'entry-permalink entry-meta-element' ),
-												'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" title="' . esc_attr( sprintf( __( 'Permalink to "%s"', 'wmtf_domain' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
+												'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" title="' . esc_attr( sprintf( __( 'Permalink to "%s"', '{%= text_domain %}' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
 											);
 									}
 
@@ -673,11 +499,11 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 								case 'tags':
 
 									if (
-											apply_filters( 'wmhook_wmtf_get_the_post_meta_info_enable_' . $meta, true, $args )
+											apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args )
 											&& ( $helper = get_the_tag_list( '', ' ', '', $args['post_id'] ) )
 										) {
 										$replacements = array(
-												'{attributes}' => ( function_exists( 'wmtf_schema_org' ) ) ? ( wmtf_schema_org( 'keywords' ) ) : ( '' ),
+												'{attributes}' => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'keywords' ) ) : ( '' ),
 												'{class}'      => esc_attr( 'tags-links entry-meta-element' ),
 												'{content}'    => $helper,
 											);
@@ -687,12 +513,12 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 								case 'views':
 
 									if (
-											apply_filters( 'wmhook_wmtf_get_the_post_meta_info_enable_' . $meta, true, $args )
+											apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args )
 											&& function_exists( 'bawpvc_views_sc' )
 											&& ( $helper = bawpvc_views_sc( array() ) )
 										) {
 										$replacements = array(
-												'{attributes}' => ' title="' . __( 'Views count', 'wmtf_domain' ) . '"',
+												'{attributes}' => ' title="' . __( 'Views count', '{%= text_domain %}' ) . '"',
 												'{class}'      => esc_attr( 'entry-views entry-meta-element' ),
 												'{content}'    => $helper,
 											);
@@ -707,7 +533,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 							// Single meta output
 
-								$replacements = (array) apply_filters( 'wmhook_wmtf_get_the_post_meta_info_replacements_' . $meta, $replacements, $args );
+								$replacements = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_replacements_' . $meta, $replacements, $args );
 
 								if (
 										empty( $output_single )
@@ -775,7 +601,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_get_the_paginated_suffix_pre', false, $tag, $singular_only );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_paginated_suffix_pre', false, $tag, $singular_only );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -818,7 +644,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 				// Processing
 
 					if ( 1 < $paged ) {
-						$output = ' ' . $tag[0] . sprintf( _x( '(page %s)', 'Paginated content title suffix.', 'wmtf_domain' ), $paged ) . $tag[1];
+						$output = ' ' . $tag[0] . sprintf( _x( '(page %s)', 'Paginated content title suffix.', '{%= text_domain %}' ), $paged ) . $tag[1];
 					}
 
 
@@ -868,7 +694,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_has_more_tag_pre', false, $post );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_has_more_tag_pre', false, $post );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -905,7 +731,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 
 		/**
-		 * 40) CSS functions
+		 * 30) CSS functions
 		 */
 
 			/**
@@ -925,7 +751,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_esc_css_pre', false, $css );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_esc_css_pre', false, $css );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -957,7 +783,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_get_stylesheet_directory_pre', false, $file_relative_path );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_stylesheet_directory_pre', false, $file_relative_path );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -1012,7 +838,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_get_stylesheet_directory_uri_pre', false, $file_relative_path );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_stylesheet_directory_uri_pre', false, $file_relative_path );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -1062,7 +888,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_minify_css_pre', false, $css );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_minify_css_pre', false, $css );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -1114,7 +940,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_color_hex_to_rgba_pre', false, $hex, $alpha );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_color_hex_to_rgba_pre', false, $hex, $alpha );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -1164,15 +990,15 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 			 * Outputs custom CSS styles set via Customizer
 			 *
 			 * This function allows you to hook your custom CSS styles string
-			 * onto 'wmhook_custom_styles' filter hook.
+			 * onto 'wmhook_{%= prefix_hook %}_custom_styles' filter hook.
 			 * Then just use a '[[skin-option-id]]' tags in your custom CSS
 			 * styles string where the specific option value should be used.
 			 *
-			 * Caching $replacement into 'WMTF_THEME_SHORTNAME_customizer_values' transient.
-			 * Caching $output into 'WMTF_THEME_SHORTNAME_custom_css' transient.
+			 * Caching $replacement into '{%= prefix_constant %}_THEME_SHORTNAME_customizer_values' transient.
+			 * Caching $output into '{%= prefix_constant %}_THEME_SHORTNAME_custom_css' transient.
 			 *
-			 * @uses  `wmhook_theme_options` global hook
-			 * @uses  `wmhook_custom_styles` global hook
+			 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
+			 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 			 *
 			 * @since    1.0
 			 * @version  2.0
@@ -1184,7 +1010,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_custom_styles_pre', false, $set_cache, $return );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_pre', false, $set_cache, $return );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -1199,11 +1025,11 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 						$wp_customize = null;
 					}
 
-					$output        = (string) apply_filters( 'wmhook_custom_styles', '' );
-					$theme_options = (array) apply_filters( 'wmhook_theme_options', array() );
-					$alphas        = (array) apply_filters( 'wmhook_wmtf_custom_styles_alphas', array( 0 ) );
+					$output        = (string) apply_filters( 'wmhook_{%= prefix_hook %}_custom_styles', '' );
+					$theme_options = (array) apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
+					$alphas        = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_alphas', array( 0 ) );
 
-					$replacements  = array_unique( array_filter( (array) get_transient( WMTF_THEME_SHORTNAME . '_customizer_values' ) ) ); //There have to be values (defaults) set!
+					$replacements  = array_unique( array_filter( (array) get_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_customizer_values' ) ) ); //There have to be values (defaults) set!
 
 					/**
 					 * Force caching during the first theme display when no cache set (default
@@ -1286,7 +1112,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 								// Value filtering
 
-									$value = apply_filters( 'wmhook_wmtf_custom_styles_value', $value, $option );
+									$value = apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_value', $value, $option );
 
 								// Convert array to string as otherwise the strtr() function throws error
 
@@ -1346,25 +1172,25 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 										$replacements['[[header_image]]'] = 'none';
 									}
 
-							$replacements = apply_filters( 'wmhook_wmtf_custom_styles_replacements', $replacements, $theme_options, $output );
+							$replacements = apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_replacements', $replacements, $theme_options, $output );
 
 							if (
 									$set_cache
 									&& ! empty( $replacements )
 								) {
-								set_transient( WMTF_THEME_SHORTNAME . '_customizer_values', $replacements );
+								set_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_customizer_values', $replacements );
 							}
 
 						}
 
 					// Prepare output and cache
 
-						$output_cached = (string) get_transient( WMTF_THEME_SHORTNAME . '_custom_css' );
+						$output_cached = (string) get_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_custom_css' );
 
 						// Debugging set (via "debug" URL parameter)
 
 							if ( isset( $_GET['debug'] ) ) {
-								$output_cached = (string) get_transient( WMTF_THEME_SHORTNAME . '_custom_css_debug' );
+								$output_cached = (string) get_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_custom_css_debug' );
 							}
 
 						if (
@@ -1377,8 +1203,8 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 								$output = strtr( $output, $replacements );
 
 							if ( $set_cache ) {
-								set_transient( WMTF_THEME_SHORTNAME . '_custom_css_debug', apply_filters( 'wmhook_wmtf_custom_styles_output_cache_debug', $output ) );
-								set_transient( WMTF_THEME_SHORTNAME . '_custom_css', apply_filters( 'wmhook_wmtf_custom_styles_output_cache', $output ) );
+								set_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_custom_css_debug', apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output_cache_debug', $output ) );
+								set_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_custom_css', apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output_cache', $output ) );
 							}
 
 						} else {
@@ -1408,9 +1234,9 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					// Processing
 
-						delete_transient( WMTF_THEME_SHORTNAME . '_customizer_values' );
-						delete_transient( WMTF_THEME_SHORTNAME . '_custom_css_debug' );
-						delete_transient( WMTF_THEME_SHORTNAME . '_custom_css' );
+						delete_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_customizer_values' );
+						delete_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_custom_css_debug' );
+						delete_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_custom_css' );
 
 				} // /custom_styles_transient_flusher
 
@@ -1457,7 +1283,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_remove_shortcodes_pre', false, $content );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_remove_shortcodes_pre', false, $content );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -1489,7 +1315,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_html_widget_title_pre', false, $title );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_html_widget_title_pre', false, $title );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -1524,7 +1350,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_accessibility_skip_link_pre', false, $type );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_accessibility_skip_link_pre', false, $type );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -1533,9 +1359,9 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Helper variables
 
-					$links = apply_filters( 'wmhook_wmtf_accessibility_skip_links', array(
-						'to_content'    => '<a class="skip-link screen-reader-text" href="#content">' . __( 'Skip to content', 'wmtf_domain' ) . '</a>',
-						'to_navigation' => '<a class="skip-link screen-reader-text" href="#site-navigation">' . __( 'Skip to navigation', 'wmtf_domain' ) . '</a>',
+					$links = apply_filters( 'wmhook_{%= prefix_hook %}_tf_accessibility_skip_links', array(
+						'to_content'    => '<a class="skip-link screen-reader-text" href="#content">' . esc_html__( 'Skip to content', '{%= text_domain %}' ) . '</a>',
+						'to_navigation' => '<a class="skip-link screen-reader-text" href="#site-navigation">' . esc_html__( 'Skip to navigation', '{%= text_domain %}' ) . '</a>',
 					) );
 
 
@@ -1564,7 +1390,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_get_image_id_from_url_pre', false, $url );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_image_id_from_url_pre', false, $url );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -1577,7 +1403,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					$output = null;
 
-					$cache = array_filter( (array) get_transient( 'wmtf_image_ids' ) );
+					$cache = array_filter( (array) get_transient( '{%= prefix_var %}_image_ids' ) );
 
 
 				// Return cached result if found and if relevant
@@ -1611,7 +1437,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 						$cache[ $url ] = $output;
 
-						set_transient( 'wmtf_image_ids', array_filter( (array) $cache ) );
+						set_transient( '{%= prefix_var %}_image_ids', array_filter( (array) $cache ) );
 
 
 				// Output
@@ -1632,7 +1458,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 					// Processing
 
-						delete_transient( 'wmtf_image_ids' );
+						delete_transient( '{%= prefix_var %}_image_ids' );
 
 				} // /image_ids_transient_flusher
 
@@ -1648,7 +1474,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_is_categorized_blog_pre', false );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_is_categorized_blog_pre', false );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -1657,7 +1483,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 				// Processing
 
-					if ( false === ( $all_cats = get_transient( 'wmtf_all_categories' ) ) ) {
+					if ( false === ( $all_cats = get_transient( '{%= prefix_var %}_all_categories' ) ) ) {
 
 						// Create an array of all the categories that are attached to posts
 
@@ -1671,7 +1497,7 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 							$all_cats = count( $all_cats );
 
-						set_transient( 'wmtf_all_categories', $all_cats );
+						set_transient( '{%= prefix_var %}_all_categories', $all_cats );
 
 					}
 
@@ -1715,9 +1541,9 @@ if ( ! class_exists( 'WM_Theme_Framework' ) ) {
 
 						// Like, beat it. Dig?
 
-							delete_transient( 'wmtf_all_categories' );
+							delete_transient( '{%= prefix_var %}_all_categories' );
 
 				} // /all_categories_transient_flusher
 
 	}
-} // /WM_Theme_Framework
+} // /{%= prefix_class %}_Theme_Framework

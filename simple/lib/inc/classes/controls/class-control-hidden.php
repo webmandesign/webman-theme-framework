@@ -15,8 +15,8 @@
 
 
 
-if ( ! class_exists( 'WM_Customize_Hidden' ) ) {
-	class WM_Customize_Hidden extends WP_Customize_Control {
+if ( ! class_exists( '{%= prefix_class %}_Control_Hidden' ) ) {
+	class {%= prefix_class %}_Control_Hidden extends WP_Customize_Control {
 
 		public $type = 'hidden';
 
@@ -29,4 +29,4 @@ if ( ! class_exists( 'WM_Customize_Hidden' ) ) {
 		}
 
 	}
-} // /WM_Customize_Hidden
+} // /{%= prefix_class %}_Control_Hidden

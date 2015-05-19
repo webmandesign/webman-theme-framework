@@ -176,10 +176,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
             self::$instance = $this;
 
             $this->strings = array(
-                'page_title'                     => __( 'Install Required Plugins', 'wmtf_domain' ),
-                'menu_title'                     => __( 'Install Plugins', 'wmtf_domain' ),
-                'installing'                     => __( 'Installing Plugin: %s', 'wmtf_domain' ),
-                'oops'                           => __( 'Something went wrong.', 'wmtf_domain' ),
+                'page_title'                     => __( 'Install Required Plugins', '{%= text_domain %}' ),
+                'menu_title'                     => __( 'Install Plugins', '{%= text_domain %}' ),
+                'installing'                     => __( 'Installing Plugin: %s', '{%= text_domain %}' ),
+                'oops'                           => __( 'Something went wrong.', '{%= text_domain %}' ),
                 'notice_can_install_required'    => _n_noop( 'This theme requires the following plugin: %1$s.', 'This theme requires the following plugins: %1$s.' ),
                 'notice_can_install_recommended' => _n_noop( 'This theme recommends the following plugin: %1$s.', 'This theme recommends the following plugins: %1$s.' ),
                 'notice_cannot_install'          => _n_noop( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', 'Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed.' ),
@@ -190,12 +190,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                 'notice_cannot_update'           => _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.' ),
                 'install_link'                   => _n_noop( 'Begin installing plugin', 'Begin installing plugins' ),
                 'activate_link'                  => _n_noop( 'Begin activating plugin', 'Begin activating plugins' ),
-                'return'                         => __( 'Return to Required Plugins Installer', 'wmtf_domain' ),
-                'dashboard'                      => __( 'Return to the dashboard', 'wmtf_domain' ),
-                'plugin_activated'               => __( 'Plugin activated successfully.', 'wmtf_domain' ),
-                'activated_successfully'         => __( 'The following plugin was activated successfully:', 'wmtf_domain' ),
-                'complete'                       => __( 'All plugins installed and activated successfully. %1$s', 'wmtf_domain' ),
-                'dismiss'                        => __( 'Dismiss this notice', 'wmtf_domain' ),
+                'return'                         => __( 'Return to Required Plugins Installer', '{%= text_domain %}' ),
+                'dashboard'                      => __( 'Return to the dashboard', '{%= text_domain %}' ),
+                'plugin_activated'               => __( 'Plugin activated successfully.', '{%= text_domain %}' ),
+                'activated_successfully'         => __( 'The following plugin was activated successfully:', '{%= text_domain %}' ),
+                'complete'                       => __( 'All plugins installed and activated successfully. %1$s', '{%= text_domain %}' ),
+                'dismiss'                        => __( 'Dismiss this notice', '{%= text_domain %}' ),
             );
 
             // Set the current WordPress version.
@@ -547,7 +547,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
                 // All plugins are active, so we display the complete string and hide the plugin menu.
                 if ( empty( $complete ) ) {
-                    echo '<p>' .  sprintf( $this->strings['complete'], '<a href="' . esc_url( network_admin_url() ) . '" title="' . esc_attr__( 'Return to the Dashboard', 'wmtf_domain' ) . '">' . __( 'Return to the Dashboard', 'wmtf_domain' ) . '</a>' ) . '</p>';
+                    echo '<p>' .  sprintf( $this->strings['complete'], '<a href="' . esc_url( network_admin_url() ) . '" title="' . esc_attr__( 'Return to the Dashboard', '{%= text_domain %}' ) . '">' . __( 'Return to the Dashboard', '{%= text_domain %}' ) . '</a>' ) . '</p>';
                     echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
                 }
 
@@ -735,12 +735,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                     $last_plugin = array_pop( $plugin_groups ); // Pop off last name to prep for readability.
                     $imploded    = empty( $plugin_groups ) ? '<em>' . $last_plugin . '</em>' : '<em>' . ( implode( ', ', $plugin_groups ) . '</em> and <em>' . $last_plugin . '</em>' );
 
-                    $rendered .= '<p>' . sprintf( translate_nooped_plural( $this->strings[$type], $count, 'wmtf_domain' ), $imploded, $count ) . '</p>';
+                    $rendered .= '<p>' . sprintf( translate_nooped_plural( $this->strings[$type], $count, '{%= text_domain %}' ), $imploded, $count ) . '</p>';
                 }
 
                 // Setup variables to determine if action links are needed.
-                $show_install_link  = $install_link ? '<a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), network_admin_url( 'themes.php' ) ) ) . '">' . translate_nooped_plural( $this->strings['install_link'], $install_link_count, 'wmtf_domain' ) . '</a>' : '';
-                $show_activate_link = $activate_link ? '<a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), network_admin_url( 'themes.php' ) ) ) . '">' . translate_nooped_plural( $this->strings['activate_link'], $activate_link_count, 'wmtf_domain' ) . '</a>'  : '';
+                $show_install_link  = $install_link ? '<a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), network_admin_url( 'themes.php' ) ) ) . '">' . translate_nooped_plural( $this->strings['install_link'], $install_link_count, '{%= text_domain %}' ) . '</a>' : '';
+                $show_activate_link = $activate_link ? '<a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), network_admin_url( 'themes.php' ) ) ) . '">' . translate_nooped_plural( $this->strings['activate_link'], $activate_link_count, '{%= text_domain %}' ) . '</a>'  : '';
 
                 // Define all of the action links.
                 $action_links = apply_filters(
@@ -760,9 +760,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                 // Register the nag messages and prepare them to be processed.
                 $nag_class = version_compare( $this->wp_version, '3.8', '<' ) ? 'updated' : 'update-nag';
                 if ( ! empty( $this->strings['nag_type'] ) ) {
-                    add_settings_error( 'tgmpa', 'wmtf_domain', $rendered, sanitize_html_class( strtolower( $this->strings['nag_type'] ) ) );
+                    add_settings_error( 'tgmpa', '{%= text_domain %}', $rendered, sanitize_html_class( strtolower( $this->strings['nag_type'] ) ) );
                 } else {
-                    add_settings_error( 'tgmpa', 'wmtf_domain', $rendered, $nag_class );
+                    add_settings_error( 'tgmpa', '{%= text_domain %}', $rendered, $nag_class );
                 }
             }
 
@@ -1182,23 +1182,23 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 if ( ! empty( $plugin['source'] ) ) {
                     // The plugin must be from a private repository.
                     if ( preg_match( '|^http(s)?://|', $plugin['source'] ) ) {
-                        $table_data[$i]['source'] = __( 'Private Repository', 'wmtf_domain' );
+                        $table_data[$i]['source'] = __( 'Private Repository', '{%= text_domain %}' );
                     // The plugin is pre-packaged with the theme.
                     } else {
-                        $table_data[$i]['source'] = __( 'Pre-Packaged', 'wmtf_domain' );
+                        $table_data[$i]['source'] = __( 'Pre-Packaged', '{%= text_domain %}' );
                     }
                 }
                 // The plugin is from the WordPress repository.
                 else {
-                    $table_data[$i]['source'] = __( 'WordPress Repository', 'wmtf_domain' );
+                    $table_data[$i]['source'] = __( 'WordPress Repository', '{%= text_domain %}' );
                 }
 
-                $table_data[$i]['type'] = isset( $plugin['required'] ) && $plugin['required'] ? __( 'Required', 'wmtf_domain' ) : __( 'Recommended', 'wmtf_domain' );
+                $table_data[$i]['type'] = isset( $plugin['required'] ) && $plugin['required'] ? __( 'Required', '{%= text_domain %}' ) : __( 'Recommended', '{%= text_domain %}' );
 
                 if ( ! isset( $installed_plugins[$plugin['file_path']] ) ) {
-                    $table_data[$i]['status'] = sprintf( '%1$s', __( 'Not Installed', 'wmtf_domain' ) );
+                    $table_data[$i]['status'] = sprintf( '%1$s', __( 'Not Installed', '{%= text_domain %}' ) );
                 } elseif ( is_plugin_inactive( $plugin['file_path'] ) ) {
-                    $table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed But Not Activated', 'wmtf_domain' ) );
+                    $table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed But Not Activated', '{%= text_domain %}' ) );
                 }
 
                 $table_data[$i]['file_path'] = $plugin['file_path'];
@@ -1303,7 +1303,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
             if ( ! isset( $installed_plugins[$item['file_path']] ) ) {
                 $actions = array(
                     'install' => sprintf(
-                        '<a href="%1$s" title="' . esc_attr__( 'Install', 'wmtf_domain' ) . ' %2$s">' . __( 'Install', 'wmtf_domain' ) . '</a>',
+                        '<a href="%1$s" title="' . esc_attr__( 'Install', '{%= text_domain %}' ) . ' %2$s">' . __( 'Install', '{%= text_domain %}' ) . '</a>',
                         esc_url(
                             wp_nonce_url(
                                 add_query_arg(
@@ -1327,7 +1327,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
             elseif ( is_plugin_inactive( $item['file_path'] ) ) {
                 $actions = array(
                     'activate' => sprintf(
-                        '<a href="%1$s" title="' . esc_attr__( 'Activate', 'wmtf_domain' ) . ' %2$s">' . __( 'Activate', 'wmtf_domain' ) . '</a>',
+                        '<a href="%1$s" title="' . esc_attr__( 'Activate', '{%= text_domain %}' ) . ' %2$s">' . __( 'Activate', '{%= text_domain %}' ) . '</a>',
                         esc_url(
                             add_query_arg(
                                 array(
@@ -1363,10 +1363,10 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
         public function column_cb( $item ) {
             $plugin_url = $item['url']; // 'repo' (no escaping needed), URL or file path
 
-            if ( __( 'Private Repository', 'wmtf_domain' ) === $item['source'] ) {
+            if ( __( 'Private Repository', '{%= text_domain %}' ) === $item['source'] ) {
                 // Escape external URLs
                 $plugin_url = esc_url( $plugin_url );
-            } elseif ( __( 'Pre-Packaged', 'wmtf_domain' ) === $item['source'] ) {
+            } elseif ( __( 'Pre-Packaged', '{%= text_domain %}' ) === $item['source'] ) {
                 // Encode file path for use in attribute
                 $plugin_url = urlencode( TGM_Plugin_Activation::$instance->default_path . $plugin_url );
             }
@@ -1387,7 +1387,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
          */
         public function no_items() {
 
-            printf( __( 'No plugins to install or activate. <a href="%1$s" title="Return to the Dashboard">Return to the Dashboard</a>', 'wmtf_domain' ), network_admin_url() );
+            printf( __( 'No plugins to install or activate. <a href="%1$s" title="Return to the Dashboard">Return to the Dashboard</a>', '{%= text_domain %}' ), network_admin_url() );
             echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
 
         }
@@ -1403,10 +1403,10 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
             $columns = array(
                 'cb'     => '<input type="checkbox" />',
-                'plugin' => __( 'Plugin', 'wmtf_domain' ),
-                'source' => __( 'Source', 'wmtf_domain' ),
-                'type'   => __( 'Type', 'wmtf_domain' ),
-                'status' => __( 'Status', 'wmtf_domain' )
+                'plugin' => __( 'Plugin', '{%= text_domain %}' ),
+                'source' => __( 'Source', '{%= text_domain %}' ),
+                'type'   => __( 'Type', '{%= text_domain %}' ),
+                'status' => __( 'Status', '{%= text_domain %}' )
             );
 
             return $columns;
@@ -1424,8 +1424,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
         public function get_bulk_actions() {
 
             $actions = array(
-                'tgmpa-bulk-install'  => __( 'Install', 'wmtf_domain' ),
-                'tgmpa-bulk-activate' => __( 'Activate', 'wmtf_domain' ),
+                'tgmpa-bulk-install'  => __( 'Install', '{%= text_domain %}' ),
+                'tgmpa-bulk-activate' => __( 'Activate', '{%= text_domain %}' ),
             );
 
             return $actions;
@@ -1659,7 +1659,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 if ( is_wp_error( $activate ) ) {
                     echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
                 } else {
-                    printf( '<div id="message" class="updated"><p>%1$s %2$s.</p></div>', _n( 'The following plugin was activated successfully:', 'The following plugins were activated successfully:', $count, 'wmtf_domain' ), $imploded );
+                    printf( '<div id="message" class="updated"><p>%1$s %2$s.</p></div>', _n( 'The following plugin was activated successfully:', 'The following plugins were activated successfully:', $count, '{%= text_domain %}' ), $imploded );
                 }
 
                 // Update recently activated plugins option.
@@ -1954,12 +1954,12 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                      */
                     public function install_strings() {
 
-                        $this->strings['no_package']          = __( 'Install package not available.', 'wmtf_domain' );
-                        $this->strings['downloading_package'] = __( 'Downloading install package from <span class="code">%s</span>&#8230;', 'wmtf_domain' );
-                        $this->strings['unpack_package']      = __( 'Unpacking the package&#8230;', 'wmtf_domain' );
-                        $this->strings['installing_package']  = __( 'Installing the plugin&#8230;', 'wmtf_domain' );
-                        $this->strings['process_failed']      = __( 'Plugin install failed.', 'wmtf_domain' );
-                        $this->strings['process_success']     = __( 'Plugin installed successfully.', 'wmtf_domain' );
+                        $this->strings['no_package']          = __( 'Install package not available.', '{%= text_domain %}' );
+                        $this->strings['downloading_package'] = __( 'Downloading install package from <span class="code">%s</span>&#8230;', '{%= text_domain %}' );
+                        $this->strings['unpack_package']      = __( 'Unpacking the package&#8230;', '{%= text_domain %}' );
+                        $this->strings['installing_package']  = __( 'Installing the plugin&#8230;', '{%= text_domain %}' );
+                        $this->strings['process_failed']      = __( 'Plugin install failed.', '{%= text_domain %}' );
+                        $this->strings['process_success']     = __( 'Plugin installed successfully.', '{%= text_domain %}' );
 
                     }
 
@@ -1970,8 +1970,8 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                      */
                     public function activate_strings() {
 
-                        $this->strings['activation_failed']  = __( 'Plugin activation failed.', 'wmtf_domain' );
-                        $this->strings['activation_success'] = __( 'Plugin activated successfully.', 'wmtf_domain' );
+                        $this->strings['activation_failed']  = __( 'Plugin activation failed.', '{%= text_domain %}' );
+                        $this->strings['activation_success'] = __( 'Plugin activated successfully.', '{%= text_domain %}' );
 
                     }
 
@@ -2084,19 +2084,19 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 
                         // Automatic activation strings.
                         if ( TGM_Plugin_Activation::$instance->is_automatic ) {
-                            $this->upgrader->strings['skin_upgrade_start']        = __( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', 'wmtf_domain' );
-                            $this->upgrader->strings['skin_update_successful']    = __( '%1$s installed and activated successfully.', 'wmtf_domain' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', 'wmtf_domain' ) . '</span><span class="hidden">' . __( 'Hide Details', 'wmtf_domain' ) . '</span>.</a>';
-                            $this->upgrader->strings['skin_upgrade_end']          = __( 'All installations and activations have been completed.', 'wmtf_domain' );
-                            $this->upgrader->strings['skin_before_update_header'] = __( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', 'wmtf_domain' );
+                            $this->upgrader->strings['skin_upgrade_start']        = __( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', '{%= text_domain %}' );
+                            $this->upgrader->strings['skin_update_successful']    = __( '%1$s installed and activated successfully.', '{%= text_domain %}' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', '{%= text_domain %}' ) . '</span><span class="hidden">' . __( 'Hide Details', '{%= text_domain %}' ) . '</span>.</a>';
+                            $this->upgrader->strings['skin_upgrade_end']          = __( 'All installations and activations have been completed.', '{%= text_domain %}' );
+                            $this->upgrader->strings['skin_before_update_header'] = __( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', '{%= text_domain %}' );
                         }
                         // Default installation strings.
                         else {
-                            $this->upgrader->strings['skin_upgrade_start']        = __( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', 'wmtf_domain' );
-                            $this->upgrader->strings['skin_update_failed_error']  = __( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', 'wmtf_domain' );
-                            $this->upgrader->strings['skin_update_failed']        = __( 'The installation of %1$s failed.', 'wmtf_domain' );
-                            $this->upgrader->strings['skin_update_successful']    = __( '%1$s installed successfully.', 'wmtf_domain' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', 'wmtf_domain' ) . '</span><span class="hidden">' . __( 'Hide Details', 'wmtf_domain' ) . '</span>.</a>';
-                            $this->upgrader->strings['skin_upgrade_end']          = __( 'All installations have been completed.', 'wmtf_domain' );
-                            $this->upgrader->strings['skin_before_update_header'] = __( 'Installing Plugin %1$s (%2$d/%3$d)', 'wmtf_domain' );
+                            $this->upgrader->strings['skin_upgrade_start']        = __( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', '{%= text_domain %}' );
+                            $this->upgrader->strings['skin_update_failed_error']  = __( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', '{%= text_domain %}' );
+                            $this->upgrader->strings['skin_update_failed']        = __( 'The installation of %1$s failed.', '{%= text_domain %}' );
+                            $this->upgrader->strings['skin_update_successful']    = __( '%1$s installed successfully.', '{%= text_domain %}' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', '{%= text_domain %}' ) . '</span><span class="hidden">' . __( 'Hide Details', '{%= text_domain %}' ) . '</span>.</a>';
+                            $this->upgrader->strings['skin_upgrade_end']          = __( 'All installations have been completed.', '{%= text_domain %}' );
+                            $this->upgrader->strings['skin_before_update_header'] = __( 'Installing Plugin %1$s (%2$d/%3$d)', '{%= text_domain %}' );
                         }
 
                     }
@@ -2188,7 +2188,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 
                         // All plugins are active, so we display the complete string and hide the menu to protect users.
                         if ( empty( $complete ) ) {
-                            echo '<p>' .  sprintf( TGM_Plugin_Activation::$instance->strings['complete'], '<a href="' . esc_url( network_admin_url() ) . '" title="' . esc_attr__( 'Return to the Dashboard', 'wmtf_domain' ) . '">' . __( 'Return to the Dashboard', 'wmtf_domain' ) . '</a>' ) . '</p>';
+                            echo '<p>' .  sprintf( TGM_Plugin_Activation::$instance->strings['complete'], '<a href="' . esc_url( network_admin_url() ) . '" title="' . esc_attr__( 'Return to the Dashboard', '{%= text_domain %}' ) . '">' . __( 'Return to the Dashboard', '{%= text_domain %}' ) . '</a>' ) . '</p>';
                             echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
                         }
 

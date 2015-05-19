@@ -16,8 +16,8 @@
 
 
 
-if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
-	final class WM_Theme_Framework_Updater {
+if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Updater' ) ) {
+	final class {%= prefix_class %}_Theme_Framework_Updater {
 
 		/**
 		 * Contents:
@@ -47,7 +47,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 					if (
 							! is_super_admin()
-							|| apply_filters( 'wmhook_wmtf_updater_menu_disable', false )
+							|| apply_filters( 'wmhook_{%= prefix_hook %}_tf_updater_menu_disable', false )
 						) {
 						return;
 					}
@@ -57,7 +57,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 					if ( function_exists( 'simplexml_load_string' ) ) {
 
-						$xml = self::get_remote_xml_data( WMTF_UPDATE_NOTIFIER_CACHE_INTERVAL );
+						$xml = self::get_remote_xml_data( {%= prefix_constant %}_UPDATE_NOTIFIER_CACHE_INTERVAL );
 
 						if (
 								isset( $xml->latest )
@@ -66,15 +66,15 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 							add_theme_page(
 								// page_title
-								sprintf( _x( '%s Theme Updates', '%s stands for the theme name. Just copy it.', 'wmtf_domain' ), wp_get_theme()->get( 'Name' ) ),
+								sprintf( _x( '%s Theme Updates', '%s stands for the theme name. Just copy it.', '{%= text_domain %}' ), wp_get_theme()->get( 'Name' ) ),
 								// menu_title
-								_x( 'Theme Updates', 'Admin menu title.', 'wmtf_domain' ) . ' <span class="update-plugins count-1"><span class="update-count">1</span></span>',
+								_x( 'Theme Updates', 'Admin menu title.', '{%= text_domain %}' ) . ' <span class="update-plugins count-1"><span class="update-count">1</span></span>',
 								// capability
 								'switch_themes',
 								// menu_slug
 								'theme-update-notifier',
 								// function
-								'WM_Theme_Framework_Updater::page'
+								'{%= prefix_class %}_Theme_Framework_Updater::page'
 							);
 
 						}
@@ -98,7 +98,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 					if (
 							! is_super_admin()
 							|| ! is_admin_bar_showing()
-							|| apply_filters( 'wmhook_wmtf_updater_toolbar_disable', false )
+							|| apply_filters( 'wmhook_{%= prefix_hook %}_tf_updater_toolbar_disable', false )
 						) {
 						return;
 					}
@@ -110,7 +110,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 						global $wp_admin_bar;
 
-						$xml = self::get_remote_xml_data( WMTF_UPDATE_NOTIFIER_CACHE_INTERVAL );
+						$xml = self::get_remote_xml_data( {%= prefix_constant %}_UPDATE_NOTIFIER_CACHE_INTERVAL );
 
 						if (
 								isset( $xml->latest )
@@ -128,7 +128,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 							$wp_admin_bar->add_menu( array(
 									'id'    => 'update_notifier',
-									'title' => sprintf( _x( '%s update', 'Admin bar notification link. %s stands for the theme name. Just copy it.', 'wmtf_domain' ), wp_get_theme()->get( 'Name' ) ) . ' <span id="ab-updates">1</span>',
+									'title' => sprintf( _x( '%s update', 'Admin bar notification link. %s stands for the theme name. Just copy it.', '{%= text_domain %}' ), wp_get_theme()->get( 'Name' ) ) . ' <span id="ab-updates">1</span>',
 									'href'  => esc_url( $admin_url )
 								) );
 
@@ -156,7 +156,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_updater_page_pre', false );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_updater_page_pre', false );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -172,7 +172,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 				// Helper variables
 
-					$xml = self::get_remote_xml_data( WMTF_UPDATE_NOTIFIER_CACHE_INTERVAL );
+					$xml = self::get_remote_xml_data( {%= prefix_constant %}_UPDATE_NOTIFIER_CACHE_INTERVAL );
 
 
 				// Processing
@@ -249,9 +249,9 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 										<ol>
 											<li>Upload the theme installation ZIP file using FTP client to your server (into <code>YOUR_WORDPRESS_INSTALLATION/wp-content/themes/</code>).</li>
-											<li>Using your FTP client, rename the old theme folder (for example from <code><?php echo WMTF_THEME_SHORTNAME; ?></code> to <code><?php echo WMTF_THEME_SHORTNAME; ?>-bak</code>).</li>
+											<li>Using your FTP client, rename the old theme folder (for example from <code><?php echo {%= prefix_constant %}_THEME_SHORTNAME; ?></code> to <code><?php echo {%= prefix_constant %}_THEME_SHORTNAME; ?>-bak</code>).</li>
 											<li>When the old theme folder is renamed, unzip the theme installation zip file directly on the server (you might need to use a web-based FTP tool for this - hosting companies provides such tools).</li>
-											<li>After checking whether the theme works fine, delete the renamed old theme folder from the server (the <code><?php echo WMTF_THEME_SHORTNAME; ?>-bak</code> folder in our case).</li>
+											<li>After checking whether the theme works fine, delete the renamed old theme folder from the server (the <code><?php echo {%= prefix_constant %}_THEME_SHORTNAME; ?>-bak</code> folder in our case).</li>
 										</ol>
 
 									</li>
@@ -333,7 +333,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 				// Pre
 
-					$pre = apply_filters( 'wmhook_wmtf_updater_get_remote_xml_data_pre', false, $interval );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_updater_get_remote_xml_data_pre', false, $interval );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -349,8 +349,8 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 				// Helper variables
 
-					$db_cache_field              = 'wmtf_notifier_cache_' . WMTF_THEME_SHORTNAME;
-					$db_cache_field_last_updated = 'wmtf_notifier_cache_' . WMTF_THEME_SHORTNAME . '_last_updated';
+					$db_cache_field              = '{%= prefix_var %}_notifier_cache_' . {%= prefix_constant %}_THEME_SHORTNAME;
+					$db_cache_field_last_updated = '{%= prefix_var %}_notifier_cache_' . {%= prefix_constant %}_THEME_SHORTNAME . '_last_updated';
 					$last                        = get_transient( $db_cache_field_last_updated );
 
 					// Check the cache
@@ -362,7 +362,7 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 
 							// Cache doesn't exist, or is old, so refresh it
 
-								$response = wp_remote_get( esc_url( trailingslashit( wp_get_theme()->get( 'AuthorURI' ) ) . 'updates/' . WMTF_THEME_SHORTNAME . '/' . WMTF_THEME_SHORTNAME . '-version.xml' ) );
+								$response = wp_remote_get( esc_url( trailingslashit( wp_get_theme()->get( 'AuthorURI' ) ) . 'updates/' . {%= prefix_constant %}_THEME_SHORTNAME . '/' . {%= prefix_constant %}_THEME_SHORTNAME . '-version.xml' ) );
 
 								if ( is_wp_error( $response ) ) {
 
@@ -430,4 +430,4 @@ if ( ! class_exists( 'WM_Theme_Framework_Updater' ) ) {
 			} // /get_remote_xml_data
 
 	}
-} // /WM_Theme_Framework_Updater
+} // /{%= prefix_class %}_Theme_Framework_Updater

@@ -14,8 +14,8 @@
 
 
 
-if ( ! class_exists( 'WM_Customize_Image' ) ) {
-	class WM_Customize_Image extends WP_Customize_Image_Control {
+if ( ! class_exists( '{%= prefix_class %}_Control_Image' ) ) {
+	class {%= prefix_class %}_Control_Image extends WP_Customize_Image_Control {
 
 		/**
 		 * Adding an .ico into supported image file formats
@@ -52,4 +52,4 @@ if ( ! class_exists( 'WM_Customize_Image' ) ) {
 		}
 
 	}
-} // /WM_Customize_Image
+} // /{%= prefix_class %}_Control_Image
