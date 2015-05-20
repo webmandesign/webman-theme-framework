@@ -134,7 +134,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 								$logo_url = wp_get_attachment_image_src( $img_id, 'full' );
 
 								$atts = array(
-										'alt'   => esc_attr( sprintf( _x( '%s logo', 'Site logo image "alt" HTML attribute text.', '{%= text_domain %}' ), $blog_info['name'] ) ),
+										'alt'   => esc_attr( sprintf( esc_html_x( '%s logo', 'Site logo image "alt" HTML attribute text.', '{%= text_domain %}' ), $blog_info['name'] ) ),
 										'title' => esc_attr( $args['title_att'] ),
 										'class' => '',
 									);
@@ -159,7 +159,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 					// Logo HTML
 
 						$output .= '<div class="site-branding">';
-							$output .= '<h1 class="' . esc_attr( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_class', 'site-title logo type-' . $args['logo_type'], $args ) ) . '">';
+							$output .= '<h1 id="site-title" class="' . esc_attr( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_class', 'site-title logo type-' . $args['logo_type'], $args ) ) . '">';
 							$output .= '<a href="' . esc_url( $args['url'] ) . '" title="' . esc_attr( $args['title_att'] ) . '" rel="home">';
 
 									if ( 'text' === $args['logo_type'] ) {
@@ -250,8 +250,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 							return $content;
 						}
 
-					// translators: %s will be replaced with parted post title. Copy it, do not translate.
-					$title_text = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_title_text', sprintf( _x( '"%s" table of contents', 'Parted/paginated post table of content title. %s = post title.', '{%= text_domain %}' ), the_title_attribute( 'echo=0' ) ) );
+					$title_text = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_title_text', sprintf( esc_html_x( '"%s" table of contents', '%s: post title.', '{%= text_domain %}' ), the_title_attribute( 'echo=0' ) ) );
 					$title      = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_title', '<h2 class="screen-reader-text">' . $title_text . '</h2>' );
 
 					$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_args', array(
@@ -289,7 +288,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 									preg_match( '/<' . tag_escape( $args['tag'] ) . '(.*?)>(.*?)<\/' . tag_escape( $args['tag'] ) . '>/', $part, $matches );
 
 									if ( ! isset( $matches[2] ) || ! $matches[2] ) {
-										$part_title = sprintf( __( 'Page %d', '{%= text_domain %}' ), $i );
+										$part_title = sprintf( esc_html__( 'Page %d', '{%= text_domain %}' ), $i );
 									} else {
 										$part_title = $matches[2];
 									}
@@ -443,7 +442,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 										$replacements = array(
 												'{attributes}' => '',
 												'{class}'      => esc_attr( 'comments-link entry-meta-element' ),
-												'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . $element_id . '" title="' . esc_attr( sprintf( _x( 'Comments: %s', 'Number of comments in post meta.', '{%= text_domain %}' ), $helper ) ) . '">' . sprintf( _x( '<span class="comments-title">Comments: </span>%s', 'Number of comments in post meta (keep the HTML tags).', '{%= text_domain %}' ), '<span class="comments-count">' . $helper . '</span>' ) . '</a>',
+												'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . $element_id . '" title="' . esc_attr( sprintf( esc_html_x( 'Comments: %d', '%d: number of comments.', '{%= text_domain %}' ), $helper ) ) . '"><span class="comments-title">' . esc_html_x( 'Comments:', 'Title for number of comments in post meta.', '{%= text_domain %}' ) . ' </span><span class="comments-count">' . $helper . '</span></a>',
 											);
 									}
 
@@ -476,7 +475,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 										$replacements = array(
 												'{attributes}' => '',
 												'{class}'      => esc_attr( 'entry-edit entry-meta-element' ),
-												'{content}'    => '<a href="' . esc_url( $helper ) . '" title="' . esc_attr( sprintf( __( 'Edit the "%s"', '{%= text_domain %}' ), the_title_attribute( $the_title_attribute_args ) ) ) . '"><span>' . _x( 'Edit', 'Edit post link.', '{%= text_domain %}' ) . '</span></a>',
+												'{content}'    => '<a href="' . esc_url( $helper ) . '" title="' . esc_attr( sprintf( esc_html__( 'Edit the "%s"', '{%= text_domain %}' ), the_title_attribute( $the_title_attribute_args ) ) ) . '"><span>' . esc_html_x( 'Edit', 'Edit post link.', '{%= text_domain %}' ) . '</span></a>',
 											);
 									}
 
@@ -509,7 +508,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 										$replacements = array(
 												'{attributes}' => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'url' ) ) : ( '' ),
 												'{class}'      => esc_attr( 'entry-permalink entry-meta-element' ),
-												'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" title="' . esc_attr( sprintf( __( 'Permalink to "%s"', '{%= text_domain %}' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
+												'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" title="' . esc_attr( sprintf( esc_html__( 'Permalink to "%s"', '{%= text_domain %}' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
 											);
 									}
 
@@ -536,7 +535,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 											&& ( $helper = bawpvc_views_sc( array() ) )
 										) {
 										$replacements = array(
-												'{attributes}' => ' title="' . __( 'Views count', '{%= text_domain %}' ) . '"',
+												'{attributes}' => ' title="' . esc_attr__( 'Views count', '{%= text_domain %}' ) . '"',
 												'{class}'      => esc_attr( 'entry-views entry-meta-element' ),
 												'{content}'    => $helper,
 											);
@@ -662,7 +661,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 				// Processing
 
 					if ( 1 < $paged ) {
-						$output = ' ' . $tag[0] . sprintf( _x( '(page %s)', 'Paginated content title suffix.', '{%= text_domain %}' ), $paged ) . $tag[1];
+						$output = ' ' . $tag[0] . sprintf( esc_html_x( '(page %s)', 'Paginated content title suffix.', '{%= text_domain %}' ), $paged ) . $tag[1];
 					}
 
 
@@ -1205,7 +1204,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 					$filesystem = self::get_filesystem();
 
 					$args = wp_parse_args( $args, apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_defaults', array(
-							'message'        => _x( "The main theme CSS stylesheet was regenerated.<br /><strong>Please refresh your web browser's and server's cache</strong> <em>(if you are using a website server caching solution)</em>.", 'Translators, please, keep the HTML tags.', '{%= text_domain %}' ),
+							'message'        => esc_html__( "The main theme CSS stylesheet was regenerated. Please refresh your web browser's and server's cache (if you are using a website server caching solution).", '{%= text_domain %}' ),
 							'message_after'  => '',
 							'message_before' => '',
 							'type'           => '',
@@ -1256,7 +1255,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 							set_transient(
 									'{%= prefix_var %}_admin_notice',
 									array(
-										'<strong>' . __( "ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.", '{%= text_domain %}' ) . '</strong>',
+										'<strong>' . esc_html__( "ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.", '{%= text_domain %}' ) . '</strong>',
 										'error',
 										'switch_themes',
 										2
@@ -1508,7 +1507,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 
 					$wp_admin_bar->add_menu( apply_filters( 'wmhook_{%= prefix_hook %}_tf_toolbar_parent', array(
 							'id'    => 'theme_options_links',
-							'title' => _x( 'Theme Options', 'WordPress toolbar (admin bar) theme options links group name.', '{%= text_domain %}' ),
+							'title' => esc_html_x( 'Theme Options', 'WordPress toolbar (admin bar) theme options links group name.', '{%= text_domain %}' ),
 							'href'  => esc_url( admin_url( 'customize.php' ) )
 						) ) );
 
@@ -1579,7 +1578,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 							set_transient(
 									'{%= prefix_var %}_admin_notice',
 									array(
-										sprintf( __( 'The theme writes a files to your server. You do not appear to have your FTP credentials set up in <code>wp-config.php</code> file. Please <a%s>set your FTP credentials first</a>.', '{%= text_domain %}' ), ' href="http://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants" target="_blank"' ),
+										esc_html__( 'The theme writes a files to your server. You do not appear to have your FTP credentials set up in "wp-config.php" file.', '{%= text_domain %}' ) . ' <a href="http://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants" target="_blank">' . esc_html__( 'Please set your FTP credentials first.', '{%= text_domain %}' ) . '</a>',
 										'error',
 										'switch_themes'
 									),

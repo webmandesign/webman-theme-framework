@@ -38,7 +38,7 @@ if ( ! class_exists( '{%= prefix_class %}_Control_Multiselect' ) ) {
 						?>
 
 					</select>
-					<em><?php _e( 'Press CTRL key for multiple selection.', '{%= text_domain %}' ); ?></em>
+					<em><?php esc_html_e( 'Press CTRL key for multiple selection.', '{%= text_domain %}' ); ?></em>
 				</label>
 
 				<?php

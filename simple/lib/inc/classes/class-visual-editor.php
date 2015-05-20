@@ -149,25 +149,25 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Visual_Editor' ) ) {
 								// Group: Quotes
 
 									array(
-										'title' => _x( 'Quotes', 'Visual editor blockquote formats group title.', '{%= text_domain %}' ),
+										'title' => esc_html_x( 'Quotes', 'Visual editor blockquote formats group title.', '{%= text_domain %}' ),
 										'items' => array(
 
 											array(
-												'title' => __( 'Blockquote', '{%= text_domain %}' ),
+												'title' => esc_html__( 'Blockquote', '{%= text_domain %}' ),
 												'block' => 'blockquote',
 											),
 											array(
-												'title'   => __( 'Pullquote - align left', '{%= text_domain %}' ),
+												'title'   => esc_html__( 'Pullquote - align left', '{%= text_domain %}' ),
 												'block'   => 'blockquote',
 												'classes' => 'pullquote alignleft',
 											),
 											array(
-												'title'   => __( 'Pullquote - align right', '{%= text_domain %}' ),
+												'title'   => esc_html__( 'Pullquote - align right', '{%= text_domain %}' ),
 												'block'   => 'blockquote',
 												'classes' => 'pullquote alignright',
 											),
 											array(
-												'title' => _x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', '{%= text_domain %}' ),
+												'title' => esc_html_x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', '{%= text_domain %}' ),
 												'block' => 'cite',
 											),
 
@@ -177,22 +177,22 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Visual_Editor' ) ) {
 								// Group: Text styles
 
 									array(
-										'title' => __( 'Text styles', '{%= text_domain %}' ),
+										'title' => esc_html__( 'Text styles', '{%= text_domain %}' ),
 										'items' => array(
 
 											array(
-												'title'    => __( 'Uppercase heading or paragraph', '{%= text_domain %}' ),
+												'title'    => esc_html__( 'Uppercase heading or paragraph', '{%= text_domain %}' ),
 												'selector' => 'h1, h2, h3, h4, h5, h6, p',
 												'classes'  => 'uppercase',
 											),
 
 											array(
-												'title'  => __( 'Highlighted (marked) text', '{%= text_domain %}' ),
+												'title'  => esc_html__( 'Highlighted (marked) text', '{%= text_domain %}' ),
 												'inline' => 'mark',
 											),
 
 											array(
-												'title'    => __( 'Button link', '{%= text_domain %}' ),
+												'title'    => esc_html__( 'Button link', '{%= text_domain %}' ),
 												'selector' => 'a',
 												'classes'  => 'button',
 											),

@@ -66,9 +66,12 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Updater' ) ) {
 
 							add_theme_page(
 								// page_title
-								sprintf( _x( '%s Theme Updates', '%s stands for the theme name. Just copy it.', '{%= text_domain %}' ), wp_get_theme()->get( 'Name' ) ),
+								sprintf(
+									esc_html_x( '%s Theme Updates', '%s stands for the theme name. Just copy it.', '{%= text_domain %}' ),
+									wp_get_theme()->get( 'Name' )
+								),
 								// menu_title
-								_x( 'Theme Updates', 'Admin menu title.', '{%= text_domain %}' ) . ' <span class="update-plugins count-1"><span class="update-count">1</span></span>',
+								esc_html_x( 'Theme Updates', 'Admin menu title.', '{%= text_domain %}' ) . ' <span class="update-plugins count-1"><span class="update-count">1</span></span>',
 								// capability
 								'switch_themes',
 								// menu_slug
@@ -128,7 +131,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Updater' ) ) {
 
 							$wp_admin_bar->add_menu( array(
 									'id'    => 'update_notifier',
-									'title' => sprintf( _x( '%s update', 'Admin bar notification link. %s stands for the theme name. Just copy it.', '{%= text_domain %}' ), wp_get_theme()->get( 'Name' ) ) . ' <span id="ab-updates">1</span>',
+									'title' => sprintf( esc_html_x( '%s update', 'Admin bar notification link. %s: theme name.', '{%= text_domain %}' ), wp_get_theme()->get( 'Name' ) ) . ' <span id="ab-updates">1</span>',
 									'href'  => esc_url( $admin_url )
 								) );
 
