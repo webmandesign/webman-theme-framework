@@ -1596,7 +1596,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 							// If we don't have filesystem access, display an admin notice
 
 								set_transient(
-										'{%= prefix_constant %}_admin_notice',
+										'{%= prefix_var %}_admin_notice',
 										array(
 											esc_html__( 'The theme writes a files to your server. You do not appear to have your FTP credentials set up in "wp-config.php" file.', '{%= text_domain %}' ) . ' <a href="http://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants" target="_blank">' . esc_html__( 'Please set your FTP credentials first.', '{%= text_domain %}' ) . '</a>',
 											'error',
