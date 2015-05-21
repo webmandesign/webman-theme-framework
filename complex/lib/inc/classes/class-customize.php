@@ -121,7 +121,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Customize' ) ) {
 
 						foreach ( $theme_options as $theme_option ) {
 
-							if ( isset( $theme_option['customizer_js'] ) ) {
+							if ( isset( $theme_option['customizer_js'] ) && is_array( $theme_option['customizer_js'] ) ) {
 
 								$output_single  = "wp.customize("  . "\r\n";
 								$output_single .= "\t" . "'" . {%= prefix_constant %}_OPTION_CUSTOMIZER . "[" . $theme_option['id'] . "]" . "',"  . "\r\n";
