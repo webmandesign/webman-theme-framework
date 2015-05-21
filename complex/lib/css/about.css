@@ -35,7 +35,12 @@
 		border-top: 1px solid #caccce;
 	}
 
-	.about-wrap .feature-section.col h4 { margin: 1em 0; }
+	.about-wrap .feature-section {
+		padding: 0;
+		border: 0;
+	}
+
+		.about-wrap .feature-section.col h4 { margin: 1em 0; }
 
 	.about-wrap .dropcap {
 		float: left;
