@@ -48,18 +48,19 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 				// Helper variables
 
 					$current_theme_version = get_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_version' );
+					$new_theme_version     = wp_get_theme()->get( 'Version' );
 
 
 				// Processing
 
 					if (
 							empty( $current_theme_version )
-							|| wp_get_theme()->get( 'Version' ) != $current_theme_version
+							|| $new_theme_version != $current_theme_version
 						) {
 
-						do_action( 'wmhook_{%= prefix_hook %}_tf_theme_upgrade' );
+						do_action( 'wmhook_{%= prefix_hook %}_tf_theme_upgrade', $current_theme_version, $new_theme_version );
 
-						set_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_version', wp_get_theme()->get( 'Version' ) );
+						set_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_version', $new_theme_version );
 
 					}
 

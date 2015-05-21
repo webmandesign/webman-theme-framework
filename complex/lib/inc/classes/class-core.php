@@ -49,18 +49,19 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 				// Helper variables
 
 					$current_theme_version = get_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_version' );
+					$new_theme_version     = wp_get_theme()->get( 'Version' );
 
 
 				// Processing
 
 					if (
 							empty( $current_theme_version )
-							|| wp_get_theme()->get( 'Version' ) != $current_theme_version
+							|| $new_theme_version != $current_theme_version
 						) {
 
-						do_action( 'wmhook_{%= prefix_hook %}_tf_theme_upgrade' );
+						do_action( 'wmhook_{%= prefix_hook %}_tf_theme_upgrade', $current_theme_version, $new_theme_version );
 
-						set_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_version', wp_get_theme()->get( 'Version' ) );
+						set_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_version', $new_theme_version );
 
 					}
 
@@ -1218,7 +1219,12 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 
 				// Requirements check
 
-					if ( ! $filesystem ) {
+					if (
+							! $filesystem
+							|| ! is_object( $filesystem )
+							|| ! is_callable( array( $filesystem, 'mkdir' ) )
+							|| ! is_callable( array( $filesystem, 'put_contents' ) )
+						) {
 						return;
 					}
 
@@ -1250,7 +1256,10 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 						$theme_css_url = trailingslashit( $wp_upload_dir['baseurl'] ) . 'wmtheme-' . {%= prefix_constant %}_THEME_SHORTNAME;
 						$theme_css_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'wmtheme-' . {%= prefix_constant %}_THEME_SHORTNAME;
 
-						if ( ! $filesystem->mkdir( $theme_css_dir, FS_CHMOD_DIR ) ) {
+						if (
+								! ( file_exists( $theme_css_dir ) && is_dir( $theme_css_dir ) )
+								&& ! $filesystem->mkdir( $theme_css_dir, FS_CHMOD_DIR )
+							) {
 
 							set_transient(
 									'{%= prefix_var %}_admin_notice',
@@ -1568,26 +1577,37 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 
 				// Requirements check
 
-					if (
-							'direct' !== get_filesystem_method()
-							|| ! defined( 'FTP_USER' )
-						) {
+					// Require the WordPress filesystem functionality if not found
 
-						// If we don't have filesystem access, display an admin notice
+						if (
+								! function_exists( 'get_filesystem_method' )
+								&& ABSPATH
+							) {
+							require_once( ABSPATH . '/wp-admin/includes/file.php' );
+						}
 
-							set_transient(
-									'{%= prefix_var %}_admin_notice',
-									array(
-										esc_html__( 'The theme writes a files to your server. You do not appear to have your FTP credentials set up in "wp-config.php" file.', '{%= text_domain %}' ) . ' <a href="http://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants" target="_blank">' . esc_html__( 'Please set your FTP credentials first.', '{%= text_domain %}' ) . '</a>',
-										'error',
-										'switch_themes'
-									),
-									( 60 * 60 * 24 )
-								);
+					// Check the filesystem method
 
-						return false;
+						if (
+								'direct' !== get_filesystem_method()
+								&& ! defined( 'FTP_USER' )
+							) {
 
-					}
+							// If we don't have filesystem access, display an admin notice
+
+								set_transient(
+										'{%= prefix_constant %}_admin_notice',
+										array(
+											esc_html__( 'The theme writes a files to your server. You do not appear to have your FTP credentials set up in "wp-config.php" file.', '{%= text_domain %}' ) . ' <a href="http://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants" target="_blank">' . esc_html__( 'Please set your FTP credentials first.', '{%= text_domain %}' ) . '</a>',
+											'error',
+											'switch_themes'
+										),
+										( 60 * 60 * 24 )
+									);
+
+							return false;
+
+						}
 
 
 				// Processing
