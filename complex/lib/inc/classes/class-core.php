@@ -48,7 +48,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 
 				// Helper variables
 
-					$current_theme_version = get_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_version' );
+					$current_theme_version = get_transient( {%= prefix_constant %}_THEME_SLUG . '_version' );
 					$new_theme_version     = wp_get_theme()->get( 'Version' );
 
 
@@ -61,7 +61,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 
 						do_action( 'wmhook_{%= prefix_hook %}_tf_theme_upgrade', $current_theme_version, $new_theme_version );
 
-						set_transient( {%= prefix_constant %}_THEME_SHORTNAME . '_version', $new_theme_version );
+						set_transient( {%= prefix_constant %}_THEME_SLUG . '_version', $new_theme_version );
 
 					}
 
@@ -1253,8 +1253,8 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 
 						$wp_upload_dir = wp_upload_dir();
 
-						$theme_css_url = trailingslashit( $wp_upload_dir['baseurl'] ) . 'wmtheme-' . {%= prefix_constant %}_THEME_SHORTNAME;
-						$theme_css_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'wmtheme-' . {%= prefix_constant %}_THEME_SHORTNAME;
+						$theme_css_url = trailingslashit( $wp_upload_dir['baseurl'] ) . 'wmtheme-' . {%= prefix_constant %}_THEME_SLUG;
+						$theme_css_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'wmtheme-' . {%= prefix_constant %}_THEME_SLUG;
 
 						if (
 								! ( file_exists( $theme_css_dir ) && is_dir( $theme_css_dir ) )
@@ -1527,7 +1527,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 
 								$wp_admin_bar->add_menu( apply_filters( 'wmhook_{%= prefix_hook %}_tf_toolbar_child-' . sanitize_title( $title ), array(
 										'parent' => 'theme_options_links',
-										'id'     => {%= prefix_constant %}_THEME_SHORTNAME . '_theme_options-' . sanitize_title( $title ),
+										'id'     => {%= prefix_constant %}_THEME_SLUG . '_theme_options-' . sanitize_title( $title ),
 										'title'  => $title,
 										'href'   => esc_url( $url ),
 									) ) );

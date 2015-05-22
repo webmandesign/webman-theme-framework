@@ -328,7 +328,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Customize' ) ) {
 					// Default section name in case not set (should be overwritten anyway)
 
 						$customizer_panel   = '';
-						$customizer_section = {%= prefix_constant %}_THEME_SHORTNAME;
+						$customizer_section = {%= prefix_constant %}_THEME_SLUG;
 
 					/**
 					 * Use add_setting() -> 'type' => 'option' (instead of 'theme_mod')
