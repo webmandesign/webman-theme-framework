@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    2.0
- * @version  2.0
+ * @version  5.0
  */
 
 
@@ -41,7 +41,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * Do action on theme version change
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 */
 			public static function theme_upgrade() {
 
@@ -80,7 +80,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * Supports Jetpack Site Logo module.
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 */
 			public static function get_the_logo() {
 
@@ -172,7 +172,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 				 * Display the logo
 				 *
 				 * @since    2.0
-				 * @version  2.0
+				 * @version  5.0
 				 */
 				public static function the_logo() {
 
@@ -205,7 +205,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * Appends the output at the top and bottom of post content.
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  string $content
 			 */
@@ -323,7 +323,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  array $args
 			 */
@@ -567,7 +567,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 				 * Display the post meta info
 				 *
 				 * @since    2.0
-				 * @version  2.0
+				 * @version  5.0
 				 *
 				 * @param  array $args
 				 */
@@ -592,7 +592,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * Get the paginated heading suffix
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  string $tag           Wrapper tag
 			 * @param  string $singular_only Display only on singular posts of specific type
@@ -660,7 +660,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 				 * Display the paginated heading suffix
 				 *
 				 * @since    2.0
-				 * @version  2.0
+				 * @version  5.0
 				 *
 				 * @param  string $tag           Wrapper tag
 				 * @param  string $singular_only Display only on singular posts of specific type
@@ -686,7 +686,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * Checks for <!--more--> tag in post content
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  mixed $post
 			 */
@@ -743,7 +743,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * @uses  esc_attr()
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  string $css Code to escape
 			 */
@@ -773,7 +773,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * If the file is not located in child theme, outputs the path from parent theme.
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  string $file_relative_path File to look for (insert also the theme structure relative path)
 			 *
@@ -828,7 +828,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * If the file is not located in child theme, output the URL from parent theme.
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  string $file_relative_path File to look for (insert also the theme structure relative path)
 			 *
@@ -880,7 +880,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * CSS minifier
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  string $css Code to minimize
 			 */
@@ -927,7 +927,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * Hex color to RGBA
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @link  http://php.net/manual/en/function.hexdec.php
 			 *
@@ -1001,7 +1001,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  bool $set_cache  Determines whether the results should be cached or not.
 			 * @param  bool $return     Whether to return a value or just run the process.
@@ -1228,7 +1228,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 				 * Flush out the transients used in `custom_styles`
 				 *
 				 * @since    1.0
-				 * @version  2.0
+				 * @version  5.0
 				 */
 				public static function custom_styles_transient_flusher() {
 
@@ -1248,7 +1248,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 				 * Useful to pass into the action hooks.
 				 *
 				 * @since    1.0
-				 * @version  2.0
+				 * @version  5.0
 				 */
 				public static function custom_styles_cache() {
 
@@ -1275,7 +1275,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * unlike WordPress native strip_shortcodes() function.
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  string $content
 			 */
@@ -1307,7 +1307,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * "[br /]" will output "<br />"
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  string $title
 			 */
@@ -1342,7 +1342,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * Accessibility skip links
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  string $type
 			 */
@@ -1379,7 +1379,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * Get image ID from its URL
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @link  http://pippinsplugins.com/retrieve-attachment-id-from-image-url/
 			 * @link  http://make.wordpress.org/core/2012/12/12/php-warning-missing-argument-2-for-wpdb-prepare/
@@ -1452,7 +1452,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 				 * Flush out the transients used in `get_image_id_from_url`
 				 *
 				 * @since    1.0
-				 * @version  2.0
+				 * @version  5.0
 				 */
 				public static function image_ids_transient_flusher() {
 
@@ -1468,7 +1468,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 			 * Returns true if a blog has more than 1 category
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 */
 			public static function is_categorized_blog() {
 
@@ -1526,7 +1526,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 				 * Flush out the transients used in `is_categorized_blog`
 				 *
 				 * @since    1.0
-				 * @version  2.0
+				 * @version  5.0
 				 */
 				public static function all_categories_transient_flusher() {
 

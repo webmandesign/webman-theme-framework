@@ -6,7 +6,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  2.0
+ * @version  5.0
  *
  * Contents:
  *

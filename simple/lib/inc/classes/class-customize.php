@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    2.0
- * @version  2.0
+ * @version  5.0
  */
 
 
@@ -52,7 +52,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Customize' ) ) {
 			 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 */
 			public static function preview_scripts() {
 
@@ -166,7 +166,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Customize' ) ) {
 			 * is being saved into database.
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  mixed $value WP customizer value to sanitize.
 			 */
@@ -195,7 +195,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Customize' ) ) {
 			 * Useful for when the value may be of mixed type, such as array-or-string.
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  mixed $value WP customizer value to sanitize.
 			 */
@@ -241,7 +241,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Customize' ) ) {
 			 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  object $wp_customize WP customizer object.
 			 */

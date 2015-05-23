@@ -2,15 +2,15 @@
 
 ## 5.0
 
-* UPDATED: Code organized into PHP classes
-* UPDATED: Replaced pluggable functions functionality with "pre" hook
-* UPDATED: Removed obsolete constants and functions
-* UPDATED: Simplified code
-* UPDATED: Renamed textdomain
-* UPDATED: WordPress 4.1+ compatible only
-* UPDATED: Scripts: TGM Plugin Activation 2.4.2
-* UPDATED: Removed customizer skin creator/loader in favour for [Customizer Export/Import plugin](https://wordpress.org/plugins/customizer-export-import/)
-* UPDATED: Renamed hooks
+* **Update**: Code organized into PHP classes
+* **Update**: Replaced pluggable functions functionality with "pre" hook
+* **Update**: Removed obsolete constants and functions
+* **Update**: Simplified code
+* **Update**: Renamed textdomain
+* **Update**: WordPress 4.1+ compatible only
+* **Update**: Scripts: TGM Plugin Activation 2.4.2
+* **Update**: Removed customizer skin creator/loader in favour for [Customizer Export/Import plugin](https://wordpress.org/plugins/customizer-export-import/)
+* **Update**: Renamed hooks
 
 #### Files changed:
 
@@ -19,7 +19,7 @@
 
 ## 4.0.4
 
-* UPDATED: TGMPA library
+* **Update**: TGMPA library
 
 #### Files changed:
 
@@ -28,7 +28,7 @@
 
 ## 4.0.3
 
-* UPDATED: TGMPA library `add_query_arg()` escaping fixed
+* **Update**: TGMPA library `add_query_arg()` escaping fixed
 
 #### Files changed:
 
@@ -37,8 +37,8 @@
 
 ## 4.0.2
 
-* UPDATED: Adding support for `active_callback` in Customizer generator
-* UPDATED: Removed obsolete Customizer custom textarea control
+* **Update**: Adding support for `active_callback` in Customizer generator
+* **Update**: Removed obsolete Customizer custom textarea control
 
 #### Files changed:
 
@@ -48,11 +48,11 @@
 
 ## 4.0.1
 
-* UPDATED: Wrapping `get_permalink()` in `esc_url()`
-* UPDATED: Optimized Customizer custom option JS handling
-* UPDATED: Customizer sanitize functions improved
-* UPDATED: Visual editor script improved
-* FIXED: Localization
+* **Update**: Wrapping `get_permalink()` in `esc_url()`
+* **Update**: Optimized Customizer custom option JS handling
+* **Update**: Customizer sanitize functions improved
+* **Update**: Visual editor script improved
+* **Fix**: Localization
 
 #### Files changed:
 
@@ -63,32 +63,32 @@
 
 ## 4.0
 
-* This is a major update/simplification
-* ADDED: WordPress 4.1+ support
-* ADDED: ZillaLikes native support
-* ADDED: Post Views Count native support
-* ADDED: Custom CSS variables replacer function
-* UPDATED: Improved and optimized code
-* UPDATED: Improved conditional loading of files
-* UPDATED: Constants
-* UPDATED: CSS minifier function
-* UPDATED: Theme upgrade function/action
-* UPDATED: Dropped IE8 support, using only modern CSS styles
-* UPDATED: Localization functions and strings
-* UPDATED: Customizer: options saving
-* UPDATED: Customizer: custom controls
-* UPDATED: Customizer: file paths for easier site transfer
-* UPDATED: Customizer: renamed `wmhook_theme_options_skin_array` to `wmhook_theme_options`
-* UPDATED: Theme update notifier: disabled by default
-* UPDATED: Theme update notifier: texts and functions
-* UPDATED: Visual editor addons are now optional
-* FIXED: Hook names
-* FIXED: Customizer: stylesheet enqueuing
-* FIXED: Customizer: control type setup
-* REMOVED: GZIP option from generating main CSS file
-* REMOVED: Obsolete hooks and filters
-* REMOVED: Obsolete functions (favicons, thumbnails, home query, not-found, search form, comments navigation, integer sanitization, gallery and excerpt modifications)
-* REMOVED: Renamed and/or removed files
+* **Add**: WordPress 4.1+ support
+* **Add**: ZillaLikes native support
+* **Add**: Post Views Count native support
+* **Add**: Custom CSS variables replacer function
+* **Update**: Improved and optimized code
+* **Update**: Improved conditional loading of files
+* **Update**: Constants
+* **Update**: CSS minifier function
+* **Update**: Theme upgrade function/action
+* **Update**: Dropped IE8 support, using only modern CSS styles
+* **Update**: Localization functions and strings
+* **Update**: Customizer: options saving
+* **Update**: Customizer: custom controls
+* **Update**: Customizer: file paths for easier site transfer
+* **Update**: Customizer: renamed `wmhook_theme_options_skin_array` to `wmhook_theme_options`
+* **Update**: Theme update notifier: disabled by default
+* **Update**: Theme update notifier: texts and functions
+* **Update**: Visual editor addons are now optional
+* **Update**: GZIP option from generating main CSS file
+* **Update**: Obsolete hooks and filters
+* **Update**: Obsolete functions (favicons, thumbnails, home query, not-found, search form, comments navigation, integer sanitization, gallery and excerpt modifications)
+* **Update**: Renamed and/or removed files
+* **Update**: This is a major update/simplification
+* **Fix**: Hook names
+* **Fix**: Customizer: stylesheet enqueuing
+* **Fix**: Customizer: control type setup
 
 #### Files changed:
 
@@ -118,7 +118,7 @@
 
 ## 3.4
 
-* Improved admin notices
+* **Update**: Improved admin notices
 
 #### Files changed:
 
@@ -129,7 +129,7 @@
 
 ## 3.3
 
-* Theme customizer improved
+* **Update**: Theme customizer improved
 
 #### Files changed:
 
@@ -139,9 +139,9 @@
 
 ## 3.2
 
-* WordPress 4.0 support
-* Theme customizer update
-* TGM-Plugin-Activation removed support for old WordPress versions
+* **Update**: WordPress 4.0 support
+* **Update**: Theme customizer update
+* **Update**: TGM-Plugin-Activation removed support for old WordPress versions
 
 #### Files changed:
 
@@ -152,15 +152,15 @@
 
 ## 3.1
 
-* Theme Update Notifier modified
-* Added filter to modify logo image attributes
-* Added custom action hook for stylesheet regeneration
-* Renamed wm_minimize_css() function to wm_minify_css()
-* Skinning System update
-* Fixed WooCommerce colors removing error
-* Adding wm_get_stylesheet_directory() function
-* `[gallery]` shortcode modification disabled by default
-* `[caption]` shortcode modification removed
+* **Add**: Added filter to modify logo image attributes
+* **Add**: Added custom action hook for stylesheet regeneration
+* **Add**: Adding wm_get_stylesheet_directory() function
+* **Update**: Theme Update Notifier modified
+* **Update**: Renamed wm_minimize_css() function to wm_minify_css()
+* **Update**: Skinning System update
+* **Update**: `[gallery]` shortcode modification disabled by default
+* **Update**: `[caption]` shortcode modification removed
+* **Fix**: Fixed WooCommerce colors removing error
 
 #### Files changed:
 
@@ -192,7 +192,7 @@
 
 ## 3.0
 
-* Initial release for use with WebMan Amplifier plugin.
+* Initial release for use with WebMan Amplifier plugin. (Previous versions were included in themes directly: v1.0 in Jaguar, v2.0 in Clifden and JazzMaster, v3.0 in !LesPaul.)
 
 
 *WebMan WordPress Theme Framework, (C) 2015 WebMan, www.webmandesign.eu*

@@ -6,7 +6,7 @@
  * @subpackage  Visual Editor
  *
  * @since    2.0
- * @version  2.0
+ * @version  5.0
  */
 
 
@@ -37,7 +37,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Visual_Editor' ) ) {
 			 * First row.
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  array $buttons
 			 */
@@ -79,7 +79,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Visual_Editor' ) ) {
 			 * Second row.
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  array $buttons
 			 */
@@ -121,7 +121,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Visual_Editor' ) ) {
 			 * @link  http://codex.wordpress.org/TinyMCE_Custom_Styles
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  5.0
 			 *
 			 * @param  array $init
 			 */

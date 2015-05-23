@@ -1,18 +1,19 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
-## 2.0
+## 5.0
 
-* ADDED: Constants definition
-* ADDED: Changelog file
-* UPDATED: Code organized into PHP classes
-* UPDATED: Replaced pluggable functions functionality with "pre" hook
-* UPDATED: Removed obsolete functions
-* UPDATED: Simplified code
-* UPDATED: Renamed textdomain
-* UPDATED: WordPress 4.1+ compatible only
-* UPDATED: Renamed hooks
-* UPDATED: Removed TGM Plugin Activation script
-* UPDATED: Packed customizer into the library folder
+* **Add**: Constants definition
+* **Add**: Changelog file
+* **Update**: Code organized into PHP classes
+* **Update**: Replaced pluggable functions functionality with "pre" hook
+* **Update**: Removed obsolete functions
+* **Update**: Simplified code
+* **Update**: Renamed textdomain
+* **Update**: WordPress 4.1+ compatible only
+* **Update**: Renamed hooks
+* **Update**: Removed TGM Plugin Activation script
+* **Update**: Packed customizer into the library folder
+* **Update**: Version numbering to match the complex library (thus skipping the version numbers between 1.0 and  5.0)
 
 #### Files changed:
 
