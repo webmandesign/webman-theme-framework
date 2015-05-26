@@ -162,7 +162,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 
 				// Output
 
-					echo $output;
+					return $output;
 
 			} // /get_the_logo
 

@@ -180,7 +180,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 
 				// Output
 
-					echo $output;
+					return $output;
 
 			} // /get_the_logo
 
@@ -1205,7 +1205,7 @@ if ( ! class_exists( '{%= prefix_class %}_Theme_Framework' ) ) {
 					$filesystem = self::get_filesystem();
 
 					$args = wp_parse_args( $args, apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_defaults', array(
-							'message'        => esc_html__( "The main theme CSS stylesheet was regenerated. Please refresh your web browser's and server's cache (if you are using a website server caching solution).", '{%= text_domain %}' ),
+							'message'        => '<strong>' . esc_html__( "The main theme CSS stylesheet was regenerated. Please refresh your web browser's and server's cache (if you are using a website server caching solution).", '{%= text_domain %}' ) . '</strong>',
 							'message_after'  => '',
 							'message_before' => '',
 							'type'           => '',
