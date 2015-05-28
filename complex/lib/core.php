@@ -4,14 +4,18 @@
  *
  * Textdomain used in the framework: {%= text_domain %}
  *
+ * Theme options with `__` prefix (`get_theme_mod( '__option_id' )`) are theme
+ * setup related options and can not be edited via customizer. This way we prevent
+ * creating non-sense multiple options in a database.
+ *
  * Custom hooks naming convention:
  * - `wmhook_{%= prefix_hook %}_` - global (and other, such as plugins related) hooks
- * - `wmhook_{%= prefix_hook %}_tha_` - Theme Hook Alliance specific hooks
  * - `wmhook_{%= prefix_hook %}_tf_` - theme framework specific hooks (core)
  * - `wmhook_{%= prefix_hook %}_tf_admin_` - class method specific hooks
  * - `wmhook_{%= prefix_hook %}_tf_customize_` - class method specific hooks
  * - `wmhook_{%= prefix_hook %}_tf_editor_` - class method specific hooks
  * - `wmhook_{%= prefix_hook %}_tf_updater_` - class method specific hooks
+ * - `tha_` - Theme Hook Alliance specific hooks
  *
  * Used global hooks:
  * @uses  `wmhook_{%= prefix_hook %}_theme_options`
