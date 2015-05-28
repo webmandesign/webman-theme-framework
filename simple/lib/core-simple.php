@@ -72,10 +72,6 @@
  * 1) Required files
  */
 
-	// Main theme action hooks
-
-		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/hooks/hooks.php', true );
-
 	// Main class
 
 		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/classes/class-core.php', true );

@@ -88,10 +88,6 @@
  * 1) Required files
  */
 
-	// Main theme action hooks
-
-		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/hooks/hooks.php', true );
-
 	// Customize (has to be fontend accessible, otherwise it hides theme settings)
 
 		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/customize.php', true );
