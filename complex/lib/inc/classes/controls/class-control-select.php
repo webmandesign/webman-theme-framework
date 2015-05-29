@@ -14,42 +14,41 @@
 
 
 
-if ( ! class_exists( '{%= prefix_class %}_Control_Select' ) ) {
-	class {%= prefix_class %}_Control_Select extends WP_Customize_Control {
 
-		public function render_content() {
-			if ( ! empty( $this->choices ) && is_array( $this->choices ) ) {
-				?>
+class {%= prefix_class %}_Control_Select extends WP_Customize_Control {
 
-				<label>
-					<span class="customize-control-title"><?php echo $this->label; ?></span>
-					<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php endif; ?>
-					<select name="<?php echo $this->id; ?>" <?php $this->link(); ?>>
+	public function render_content() {
+		if ( ! empty( $this->choices ) && is_array( $this->choices ) ) {
+			?>
 
-						<?php
+			<label>
+				<span class="customize-control-title"><?php echo $this->label; ?></span>
+				<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php endif; ?>
+				<select name="<?php echo $this->id; ?>" <?php $this->link(); ?>>
 
-						foreach ( $this->choices as $value => $name ) {
+					<?php
 
-							$value = esc_attr( $value );
+					foreach ( $this->choices as $value => $name ) {
 
-							if ( 0 === strpos( $value, 'optgroup' ) ) {
-								echo '<optgroup label="' . esc_attr( $name ) . '">';
-							} elseif ( 0 === strpos( $value, '/optgroup' ) ) {
-								echo '</optgroup>';
-							} else {
-								echo '<option value="' . $value . '" ' . selected( $this->value(), $value, false ) . '>' . $name . '</option>';
-							}
+						$value = esc_attr( $value );
 
+						if ( 0 === strpos( $value, 'optgroup' ) ) {
+							echo '<optgroup label="' . esc_attr( $name ) . '">';
+						} elseif ( 0 === strpos( $value, '/optgroup' ) ) {
+							echo '</optgroup>';
+						} else {
+							echo '<option value="' . $value . '" ' . selected( $this->value(), $value, false ) . '>' . $name . '</option>';
 						}
 
-						?>
+					}
 
-					</select>
-				</label>
+					?>
 
-				<?php
-			}
+				</select>
+			</label>
+
+			<?php
 		}
-
 	}
+
 } // /{%= prefix_class %}_Control_Select

@@ -16,7 +16,7 @@
  *
  *  0) Constants
  *  1) Required files
- * 10) Hooks
+ * 10) Init
  */
 
 
@@ -48,17 +48,9 @@
 
 
 /**
- * 10) Hooks
+ * 10) Init
+ *
+ * Using `init` hook as it must be loaded before `admin_init` action is fired.
  */
 
-	/**
-	 * Actions
-	 */
-
-		// Admin menu
-
-			add_action( 'admin_menu', '{%= prefix_class %}_Theme_Framework_Updater::menu', 998 );
-
-		// Toolbar
-
-			add_action( 'admin_bar_menu', '{%= prefix_class %}_Theme_Framework_Updater::toolbar', 998 );
+	add_action( 'init', array( '{%= prefix_class %}_Theme_Framework_Updater', 'init' ) );

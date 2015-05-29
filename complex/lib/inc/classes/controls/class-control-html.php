@@ -15,12 +15,10 @@
 
 
 
-if ( ! class_exists( '{%= prefix_class %}_Control_HTML' ) ) {
-	class {%= prefix_class %}_Control_HTML extends WP_Customize_Control {
+class {%= prefix_class %}_Control_HTML extends WP_Customize_Control {
 
-		public function render_content() {
-			echo $this->label;
-		}
-
+	public function render_content() {
+		echo $this->label;
 	}
+
 } // /{%= prefix_class %}_Control_HTML

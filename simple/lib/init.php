@@ -18,8 +18,8 @@
  *
  * Used global hooks:
  * @uses  `wmhook_{%= prefix_hook %}_theme_options`
- * @uses  `wmhook_{%= prefix_hook %}_custom_styles`
  * @uses  `wmhook_{%= prefix_hook %}_esc_css`
+ * @uses  `wmhook_{%= prefix_hook %}_custom_styles`
  *
  * Used development prefixes:
  * - prefix_constant
@@ -44,7 +44,7 @@
  *
  *  0) Constants
  *  1) Required files
- * 10) Hooks
+ * 10) Init
  */
 
 
@@ -72,7 +72,7 @@
  * 1) Required files
  */
 
-	// Main class
+	// Core class
 
 		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/classes/class-core.php', true );
 
@@ -81,42 +81,7 @@
 
 
 /**
- * 10) Hooks
+ * 10) Init
  */
 
-	/**
-	 * Actions
-	 */
-
-		// Theme upgrade action
-
-			add_action( 'init', '{%= prefix_class %}_Theme_Framework::theme_upgrade' );
-
-		// Flushing transients
-
-			add_action( 'switch_theme',  '{%= prefix_class %}_Theme_Framework::image_ids_transient_flusher'      );
-			add_action( 'edit_category', '{%= prefix_class %}_Theme_Framework::all_categories_transient_flusher' );
-			add_action( 'save_post',     '{%= prefix_class %}_Theme_Framework::all_categories_transient_flusher' );
-
-
-
-
-	/**
-	 * Filters
-	 */
-
-		// Escape inline CSS
-
-			add_filter( 'wmhook_{%= prefix_hook %}_esc_css', '{%= prefix_class %}_Theme_Framework::esc_css' );
-
-		// Widgets improvements
-
-			add_filter( 'show_recent_comments_widget_style', '__return_false'                        );
-			add_filter( 'widget_text',                       'do_shortcode'                          );
-			add_filter( 'widget_title',                      '{%= prefix_class %}_Theme_Framework::html_widget_title' );
-
-			remove_filter( 'widget_title', 'esc_html' );
-
-		// Table of contents
-
-			add_filter( 'the_content', '{%= prefix_class %}_Theme_Framework::add_table_of_contents', 10 );
+	add_action( 'after_setup_theme', array( '{%= prefix_class %}_Theme_Framework', 'init' ), -100 );

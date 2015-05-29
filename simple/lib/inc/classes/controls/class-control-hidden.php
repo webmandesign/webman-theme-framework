@@ -15,18 +15,16 @@
 
 
 
-if ( ! class_exists( '{%= prefix_class %}_Control_Hidden' ) ) {
-	class {%= prefix_class %}_Control_Hidden extends WP_Customize_Control {
+class {%= prefix_class %}_Control_Hidden extends WP_Customize_Control {
 
-		public $type = 'hidden';
+	public $type = 'hidden';
 
-		public function render_content() {
-			?>
+	public function render_content() {
+		?>
 
-			<textarea <?php $this->link(); ?>><?php echo esc_textarea( $this->value() ); ?></textarea>
+		<textarea <?php $this->link(); ?>><?php echo esc_textarea( $this->value() ); ?></textarea>
 
-			<?php
-		}
-
+		<?php
 	}
+
 } // /{%= prefix_class %}_Control_Hidden

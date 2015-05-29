@@ -11,7 +11,7 @@
  * Contents:
  *
  *  1) Required files
- * 10) Hooks
+ * 10) Init
  */
 
 
@@ -41,17 +41,7 @@
 
 
 /**
- * 10) Hooks
+ * 10) Init
  */
 
-	/**
-	 * Actions
-	 */
-
-		// Styles and scripts
-
-			add_action( 'admin_enqueue_scripts', '{%= prefix_class %}_Theme_Framework_Admin::assets', 998 );
-
-		// Admin notices
-
-			add_action( 'admin_notices', '{%= prefix_class %}_Theme_Framework_Admin::message', 998 );
+	add_action( 'admin_init', array( '{%= prefix_class %}_Theme_Framework_Admin', 'init' ) );

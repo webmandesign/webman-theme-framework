@@ -11,7 +11,7 @@
  * Contents:
  *
  *  1) Required files
- * 10) Hooks
+ * 10) Init
  */
 
 
@@ -31,21 +31,7 @@
 
 
 /**
- * 10) Hooks
+ * 10) Init
  */
 
-	/**
-	 * Actions
-	 */
-
-		// Register customizer
-
-			add_action( 'customize_register', '{%= prefix_class %}_Theme_Framework_Customize::init' );
-
-		// Customizer assets
-
-			add_action( 'customize_controls_enqueue_scripts', '{%= prefix_class %}_Theme_Framework_Customize::assets' );
-
-		// Customizer saving
-
-			add_action( 'customize_save_after', '{%= prefix_class %}_Theme_Framework::generate_all_css', 98 );
+	add_action( 'after_setup_theme', array( '{%= prefix_class %}_Theme_Framework_Customize', 'init' ) );

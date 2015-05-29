@@ -13,178 +13,248 @@
 
 
 
-if ( ! class_exists( '{%= prefix_class %}_Theme_Framework_Admin' ) ) {
-	final class {%= prefix_class %}_Theme_Framework_Admin {
+/**
+ * Admin class
+ *
+ * @since    5.0
+ * @version  5.0
+ *
+ * Contents:
+ *
+ *  0) Init
+ * 10) Assets
+ * 20) Messages
+ */
+final class {%= prefix_class %}_Theme_Framework_Admin {
+
+
+
+
+
+	/**
+	 * 0) Init
+	 */
+
+		private static $instance;
+
+
 
 		/**
-		 * Contents:
+		 * Constructor
 		 *
-		 * 10) Assets
-		 * 20) Messages
+		 * @since    5.0
+		 * @version  5.0
 		 */
+		private function __construct() {
 
+			// Processing
 
+				/**
+				 * Hooks
+				 */
+
+					/**
+					 * Actions
+					 */
+
+						// Styles and scripts
+
+							add_action( 'admin_enqueue_scripts', array( $this, 'assets' ), 998 );
+
+						// Admin notices
+
+							add_action( 'admin_notices', array( $this, 'message' ), 998 );
+
+		} // /__construct
 
 
 
 		/**
-		 * 10) Assets
+		 * Initialization (get instance)
+		 *
+		 * @since    5.0
+		 * @version  5.0
 		 */
+		public static function init() {
 
-			/**
-			 * Admin assets
-			 *
-			 * @since    3.0
-			 * @version  5.0
-			 */
-			public static function assets() {
+			// Processing
 
-				// Helper variables
-
-					$version = esc_attr( trim( wp_get_theme()->get( 'Version' ) ) );
+				if ( null === self::$instance ) {
+					self::$instance = new self;
+				}
 
 
-				// Register
+			// Output
 
-					/**
-					 * Styles
-					 */
+				return self::$instance;
 
-						$register_styles = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_assets_register_styles', array(
-								'{%= prefix_var %}-about'     => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/about.css' ) ),
-								'{%= prefix_var %}-about-rtl' => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/rtl-about.css' ) ),
-								'{%= prefix_var %}-admin'     => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/admin.css' ) ),
-								'{%= prefix_var %}-admin-rtl' => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/rtl-admin.css' ) ),
-							) );
-
-						foreach ( $register_styles as $handle => $atts ) {
-							$src   = ( isset( $atts['src'] )   ) ? ( $atts['src']   ) : ( $atts[0] );
-							$deps  = ( isset( $atts['deps'] )  ) ? ( $atts['deps']  ) : ( false    );
-							$ver   = ( isset( $atts['ver'] )   ) ? ( $atts['ver']   ) : ( $version );
-							$media = ( isset( $atts['media'] ) ) ? ( $atts['media'] ) : ( 'screen' );
-
-							wp_register_style( $handle, $src, $deps, $ver, $media );
-						}
-
-
-				// Enqueue
-
-					/**
-					 * Styles
-					 */
-
-						wp_enqueue_style( '{%= prefix_var %}-admin' );
-
-						// RTL languages support
-
-							if ( is_rtl() ) {
-								wp_enqueue_style( '{%= prefix_var %}-admin-rtl' );
-							}
-
-			} // /assets
+		} // /init
 
 
 
 
+
+	/**
+	 * 10) Assets
+	 */
 
 		/**
-		 * 20) Messages
+		 * Admin assets
+		 *
+		 * @since    3.0
+		 * @version  5.0
 		 */
+		public static function assets() {
 
-			/**
-			 * WordPress admin notification messages
-			 *
-			 * Displays the message stored in `{%= prefix_var %}_admin_notice` transient cache
-			 * once or multiple times, than deletes the message cache.
-			 *
-			 * Transient structure:
-			 *
-			 * @example
-			 *
-			 *   set_transient(
-			 *     '{%= prefix_var %}_admin_notice',
-			 *     array(
-			 *       $text,
-			 *       $class,
-			 *       $capability,
-			 *       $number_of_displays
-			 *     )
-			 *   );
-			 *
-			 * @since    3.0
-			 * @version  5.0
-			 */
-			public static function message() {
+			// Helper variables
 
-				// Pre
+				$version = esc_attr( trim( wp_get_theme()->get( 'Version' ) ) );
 
-					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_message_pre', false );
 
-					if ( false !== $pre ) {
-						echo $pre;
-						return;
+			// Register
+
+				/**
+				 * Styles
+				 */
+
+					$register_styles = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_assets_register_styles', array(
+							'{%= prefix_var %}-about'     => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/about.css' ) ),
+							'{%= prefix_var %}-about-rtl' => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/rtl-about.css' ) ),
+							'{%= prefix_var %}-admin'     => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/admin.css' ) ),
+							'{%= prefix_var %}-admin-rtl' => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/rtl-admin.css' ) ),
+						) );
+
+					foreach ( $register_styles as $handle => $atts ) {
+						$src   = ( isset( $atts['src'] )   ) ? ( $atts['src']   ) : ( $atts[0] );
+						$deps  = ( isset( $atts['deps'] )  ) ? ( $atts['deps']  ) : ( false    );
+						$ver   = ( isset( $atts['ver'] )   ) ? ( $atts['ver']   ) : ( $version );
+						$media = ( isset( $atts['media'] ) ) ? ( $atts['media'] ) : ( 'screen' );
+
+						wp_register_style( $handle, $src, $deps, $ver, $media );
 					}
 
 
-				// Requirements check
+			// Enqueue
 
-					if ( ! is_admin() ) {
-						return;
-					}
+				/**
+				 * Styles
+				 */
 
+					wp_enqueue_style( '{%= prefix_var %}-admin' );
 
-				// Helper variables
+					// RTL languages support
 
-					$output = '';
-
-					$class      = 'updated';
-					$repeat     = 0;
-					$capability = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_message_capability', 'switch_themes' );
-					$message    = get_transient( '{%= prefix_var %}_admin_notice' );
-
-
-				// Requirements check
-
-					if ( empty( $message ) ) {
-						return;
-					}
-
-
-				// Processing
-
-					if ( ! is_array( $message ) ) {
-						$message = array( $message, $class, $capability, $repeat );
-					}
-					if ( ! isset( $message[1] ) || empty( $message[1] ) ) {
-						$message[1] = $class;
-					}
-					if ( ! isset( $message[2] ) || empty( $message[2] ) ) {
-						$message[2] = $capability;
-					}
-					if ( ! isset( $message[3] ) ) {
-						$message[3] = $repeat;
-					}
-
-					if ( $message[0] && current_user_can( $message[2] ) ) {
-						$output .= '<div class="' . trim( 'wm-notice ' . $message[1] ) . '"><p>' . $message[0] . '</p></div>';
-						delete_transient( '{%= prefix_var %}_admin_notice' );
-					}
-
-					// Delete the transient cache after specific number of displays
-
-						if ( 1 < intval( $message[3] ) ) {
-							$message[3] = intval( $message[3] ) - 1;
-							set_transient( '{%= prefix_var %}_admin_notice', $message, ( 60 * 60 * 48 ) );
+						if ( is_rtl() ) {
+							wp_enqueue_style( '{%= prefix_var %}-admin-rtl' );
 						}
 
+		} // /assets
 
-				// Output
 
-					if ( $output ) {
-						echo $output;
+
+
+
+	/**
+	 * 20) Messages
+	 */
+
+		/**
+		 * WordPress admin notification messages
+		 *
+		 * Displays the message stored in `{%= prefix_var %}_admin_notice` transient cache
+		 * once or multiple times, than deletes the message cache.
+		 *
+		 * Transient structure:
+		 *
+		 * @example
+		 *
+		 *   set_transient(
+		 *     '{%= prefix_var %}_admin_notice',
+		 *     array(
+		 *       $text,
+		 *       $class,
+		 *       $capability,
+		 *       $number_of_displays
+		 *     )
+		 *   );
+		 *
+		 * @since    3.0
+		 * @version  5.0
+		 */
+		public static function message() {
+
+			// Pre
+
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_message_pre', false );
+
+				if ( false !== $pre ) {
+					echo $pre;
+					return;
+				}
+
+
+			// Requirements check
+
+				if ( ! is_admin() ) {
+					return;
+				}
+
+
+			// Helper variables
+
+				$output = '';
+
+				$class      = 'updated';
+				$repeat     = 0;
+				$capability = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_message_capability', 'switch_themes' );
+				$message    = get_transient( '{%= prefix_var %}_admin_notice' );
+
+
+			// Requirements check
+
+				if ( empty( $message ) ) {
+					return;
+				}
+
+
+			// Processing
+
+				if ( ! is_array( $message ) ) {
+					$message = array( $message, $class, $capability, $repeat );
+				}
+				if ( ! isset( $message[1] ) || empty( $message[1] ) ) {
+					$message[1] = $class;
+				}
+				if ( ! isset( $message[2] ) || empty( $message[2] ) ) {
+					$message[2] = $capability;
+				}
+				if ( ! isset( $message[3] ) ) {
+					$message[3] = $repeat;
+				}
+
+				if ( $message[0] && current_user_can( $message[2] ) ) {
+					$output .= '<div class="' . trim( 'wm-notice ' . $message[1] ) . '"><p>' . $message[0] . '</p></div>';
+					delete_transient( '{%= prefix_var %}_admin_notice' );
+				}
+
+				// Delete the transient cache after specific number of displays
+
+					if ( 1 < intval( $message[3] ) ) {
+						$message[3] = intval( $message[3] ) - 1;
+						set_transient( '{%= prefix_var %}_admin_notice', $message, ( 60 * 60 * 48 ) );
 					}
 
-			} // /message
 
-	}
+			// Output
+
+				if ( $output ) {
+					echo $output;
+				}
+
+		} // /message
+
+
+
+
+
 } // /{%= prefix_class %}_Theme_Framework_Admin

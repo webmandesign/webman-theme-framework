@@ -11,7 +11,7 @@
  * Contents:
  *
  *  1) Required files
- * 10) Hooks
+ * 10) Init
  */
 
 
@@ -31,15 +31,7 @@
 
 
 /**
- * 10) Hooks
+ * 10) Init
  */
 
-	/**
-	 * Filters
-	 */
-
-		// Visual Editor addons
-
-			add_filter( 'mce_buttons',          '{%= prefix_class %}_Theme_Framework_Visual_Editor::add_buttons_row1'  );
-			add_filter( 'mce_buttons_2',        '{%= prefix_class %}_Theme_Framework_Visual_Editor::add_buttons_row2'  );
-			add_filter( 'tiny_mce_before_init', '{%= prefix_class %}_Theme_Framework_Visual_Editor::custom_mce_format' );
+	add_action( 'init', array( '{%= prefix_class %}_Theme_Framework_Visual_Editor', 'init' ), -100 );
