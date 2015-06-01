@@ -1094,7 +1094,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 *
 		 * This function allows you to hook your custom CSS styles string
 		 * onto 'wmhook_{%= prefix_hook %}_custom_styles' filter hook.
-		 * Then just use a '[[skin-option-id]]' tags in your custom CSS
+		 * Then just use a '___customizer_option_id' tags in your custom CSS
 		 * styles string where the specific option value should be used.
 		 *
 		 * Caching $replacement into '{%= prefix_constant %}_THEME_SLUG_customizer_values' transient.
@@ -1225,13 +1225,13 @@ final class {%= prefix_class %}_Theme_Framework {
 
 							// Finally, modify the output string
 
-								$replacements['[[' . $option_id . ']]'] = $value;
+								$replacements[ '___' . str_replace( '-', '_', $option_id ) ] = $value;
 
 								// Add also rgba() color interpratation
 
 									if ( 'color' === $option['type'] ) {
 										foreach ( $alphas as $alpha ) {
-											$replacements['[[' . $option_id . '|alpha=' . absint( $alpha ) . ']]'] = self::color_hex_to_rgba( $value, absint( $alpha ) );
+											$replacements[ '___' . str_replace( '-', '_', $option_id ) . '|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 										} // /foreach
 									}
 
@@ -1242,37 +1242,37 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Background color
 
 								if ( $value = get_background_color() ) {
-									$replacements['[[background_color]]'] = '#' . trim( $value, '#' );
+									$replacements['___background_color'] = '#' . trim( $value, '#' );
 
 									foreach ( $alphas as $alpha ) {
-										$replacements['[[background_color|alpha=' . absint( $alpha ) . ']]'] = self::color_hex_to_rgba( $value, absint( $alpha ) );
+										$replacements[ '___background_color|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 									} // /foreach
 								}
 
 							// Background image
 
 								if ( $value = esc_url( get_background_image() ) ) {
-									$replacements['[[background_image]]'] = "url('" . $value . "')";
+									$replacements['___background_image'] = "url('" . $value . "')";
 								} else {
-									$replacements['[[background_image]]'] = 'none';
+									$replacements['___background_image'] = 'none';
 								}
 
 							// Header text color
 
 								if ( $value = get_header_textcolor() ) {
-									$replacements['[[header_textcolor]]'] = '#' . trim( $value, '#' );
+									$replacements['___header_textcolor'] = '#' . trim( $value, '#' );
 
 									foreach ( $alphas as $alpha ) {
-										$replacements['[[header_textcolor|alpha=' . absint( $alpha ) . ']]'] = self::color_hex_to_rgba( $value, absint( $alpha ) );
+										$replacements[ '___header_textcolor|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 									} // /foreach
 								}
 
 							// Header image
 
 								if ( $value = esc_url( get_header_image() ) ) {
-									$replacements['[[header_image]]'] = "url('" . $value . "')";
+									$replacements['___header_image'] = "url('" . $value . "')";
 								} else {
-									$replacements['[[header_image]]'] = 'none';
+									$replacements['___header_image'] = 'none';
 								}
 
 						$replacements = apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_replacements', $replacements, $theme_options, $output );
