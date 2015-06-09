@@ -1203,7 +1203,7 @@ final class {%= prefix_class %}_Theme_Framework {
 										$value = absint( $value['id'] );
 									}
 									if ( is_numeric( $value ) ) {
-										$value = wp_get_attachment_image_src( $value, 'full' );
+										$value = wp_get_attachment_image_src( absint( $value ), 'full' );
 										$value = $value[0];
 									}
 									if ( ! empty( $value ) ) {

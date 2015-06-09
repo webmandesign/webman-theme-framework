@@ -1201,7 +1201,7 @@ final class {%= prefix_class %}_Theme_Framework {
 										$value = absint( $value['id'] );
 									}
 									if ( is_numeric( $value ) ) {
-										$value = wp_get_attachment_image_src( $value, 'full' );
+										$value = wp_get_attachment_image_src( absint( $value ), 'full' );
 										$value = $value[0];
 									}
 									if ( ! empty( $value ) ) {
@@ -1403,6 +1403,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						set_theme_mod( '__url_css' . $args['type'], $global_css_url );
 						set_theme_mod( '__path_theme_generated_files' . $args['type'], str_replace( $wp_upload_dir['basedir'], '', $theme_css_dir ) );
+						set_theme_mod( '__theme_installed', true );
 
 					// Admin notice
 
