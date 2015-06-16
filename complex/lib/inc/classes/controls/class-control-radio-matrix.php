@@ -14,54 +14,55 @@
 
 
 
-if ( ! class_exists( '{%= prefix_class %}_Control_Radio_Matrix' ) ) {
-	class {%= prefix_class %}_Control_Radio_Matrix extends WP_Customize_Control {
 
-		public $class = '';
+class {%= prefix_class %}_Control_Radio_Matrix extends WP_Customize_Control {
 
-		public function render_content() {
-			if ( ! empty( $this->choices ) && is_array( $this->choices ) ) :
-				?>
+	public $type = 'radiomatrix';
 
-				<span class="customize-control-title"><?php echo $this->label; ?></span>
-				<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php endif; ?>
+	public $class = '';
 
-				<div class="<?php echo trim( 'custom-radio-container ' . $this->class ); ?>">
+	public function render_content() {
+		if ( ! empty( $this->choices ) && is_array( $this->choices ) ) :
+			?>
 
-					<?php
+			<span class="customize-control-title"><?php echo $this->label; ?></span>
+			<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php endif; ?>
 
-					$i = 0;
+			<div class="<?php echo trim( 'custom-radio-container ' . $this->class ); ?>">
 
-					foreach ( $this->choices as $value => $name ) {
+				<?php
 
-						$checked      = checked( $this->value(), $value, false );
-						$active_class = ( $checked ) ? ( ' class="active"' ) : ( '' );
+				$i = 0;
 
-						if ( is_array( $name ) ) {
-							$title = ' title="' . esc_attr( $name[0] ) . '"';
-							$name  = $name[1];
-						} else {
-							$title = ' title="' . esc_attr( strip_tags( $name ) ) . '"';
-						}
+				foreach ( $this->choices as $value => $name ) {
 
-						?>
+					$checked      = checked( $this->value(), $value, false );
+					$active_class = ( $checked ) ? ( ' class="active"' ) : ( '' );
 
-						<label for="<?php echo $this->id . ++$i; ?>"<?php echo $active_class . $title; ?>>
-							<?php echo $name; ?>
-							<input class="custom-radio-item" type="radio" value="<?php echo $value; ?>" name="<?php echo $this->id; ?>" id="<?php echo $this->id . $i; ?>" <?php echo $this->get_link() . $checked; ?> />
-						</label>
-
-						<?php
-
-					} // /foreach
+					if ( is_array( $name ) ) {
+						$title = ' title="' . esc_attr( $name[0] ) . '"';
+						$name  = $name[1];
+					} else {
+						$title = ' title="' . esc_attr( strip_tags( $name ) ) . '"';
+					}
 
 					?>
 
-				</div>
+					<label for="<?php echo $this->id . ++$i; ?>"<?php echo $active_class . $title; ?>>
+						<?php echo $name; ?>
+						<input class="custom-radio-item" type="radio" value="<?php echo $value; ?>" name="<?php echo $this->id; ?>" id="<?php echo $this->id . $i; ?>" <?php echo $this->get_link() . $checked; ?> />
+					</label>
 
-				<?php
-			endif;
-		}
+					<?php
 
+				} // /foreach
+
+				?>
+
+			</div>
+
+			<?php
+		endif;
 	}
+
 } // /{%= prefix_class %}_Control_Radio_Matrix

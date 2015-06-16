@@ -17,6 +17,8 @@
 
 class {%= prefix_class %}_Control_HTML extends WP_Customize_Control {
 
+	public $type = 'html';
+
 	public function render_content() {
 		echo $this->label;
 	}

@@ -17,6 +17,8 @@
 
 class {%= prefix_class %}_Control_Select extends WP_Customize_Control {
 
+	public $type = 'select';
+
 	public function render_content() {
 		if ( ! empty( $this->choices ) && is_array( $this->choices ) ) {
 			?>

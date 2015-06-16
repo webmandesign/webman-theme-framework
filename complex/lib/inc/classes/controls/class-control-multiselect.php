@@ -17,6 +17,8 @@
 
 class {%= prefix_class %}_Control_Multiselect extends WP_Customize_Control {
 
+	public $type = 'multiselect';
+
 	public function render_content() {
 		if ( ! empty( $this->choices ) && is_array( $this->choices ) ) {
 			?>

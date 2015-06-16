@@ -17,6 +17,8 @@
 
 class {%= prefix_class %}_Control_Range extends WP_Customize_Control {
 
+	public $type = 'range';
+
 	public function enqueue() {
 		// Scripts
 			wp_enqueue_script( 'jquery-ui-slider' );

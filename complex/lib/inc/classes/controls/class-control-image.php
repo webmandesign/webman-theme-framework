@@ -17,6 +17,8 @@
 
 class {%= prefix_class %}_Control_Image extends WP_Customize_Image_Control {
 
+	public $type = 'image';
+
 	/**
 	 * Adding an .ico into supported image file formats
 	 */
