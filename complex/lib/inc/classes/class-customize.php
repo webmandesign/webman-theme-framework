@@ -776,6 +776,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 													'section'         => $customizer_section,
 													'priority'        => $priority,
 													'json'            => array( $theme_option['min'], $theme_option['max'], $theme_option['step'] ),
+													'multiplier'      => ( isset( $theme_option['multiplier'] ) ) ? ( $theme_option['multiplier'] ) : ( 1 ),
 													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 												)
 											) );

@@ -19,6 +19,8 @@ class {%= prefix_class %}_Control_Range extends WP_Customize_Control {
 
 	public $type = 'range';
 
+	public $multiplier = 1; // Value display alteration
+
 	public function enqueue() {
 		// Scripts
 			wp_enqueue_script( 'jquery-ui-slider' );
@@ -37,24 +39,42 @@ class {%= prefix_class %}_Control_Range extends WP_Customize_Control {
 			<span class="slide-number-wrapper">
 				<span id="<?php echo sanitize_title( $this->id ); ?>-slider" class="number-slider"></span>
 			</span>
-			<input type="text" name="<?php echo $this->id; ?>" id="<?php echo sanitize_title( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" size="5" maxlength="5" readonly="readonly" <?php $this->link(); ?> />
+			<input type="number" name="<?php echo $this->id; ?>" id="<?php echo sanitize_title( $this->id ); ?>" value="<?php echo esc_attr( intval( $this->value() ) ); ?>" <?php $this->link(); ?> />
 		</label>
 
 		<script><!--
 			jQuery( function() {
-
 				if ( jQuery().slider ) {
-					jQuery( '#<?php echo sanitize_title( $this->id ); ?>-slider' ).slider( {
-						value : <?php echo $this->value(); ?>,
-						min   : <?php echo $this->json[0]; ?>,
-						max   : <?php echo $this->json[1]; ?>,
-						step  : <?php echo $this->json[2]; ?>,
-						slide : function( event, ui ) {
-							jQuery( '#<?php echo sanitize_title( $this->id ); ?>' ).val( ui.value ).change();
-						}
-					} );
-				}
 
+					jQuery( '#<?php echo sanitize_title( $this->id ); ?>' )
+						.attr( 'type', 'hidden' );
+
+					jQuery( '#<?php echo sanitize_title( $this->id ); ?>-slider' )
+						.slider( {
+							value  : <?php echo $this->value(); ?>,
+							min    : <?php echo $this->json[0]; ?>,
+							max    : <?php echo $this->json[1]; ?>,
+							step   : <?php echo $this->json[2]; ?>,
+							create : function( event, ui ) {
+
+								jQuery( this )
+									.find( '.ui-slider-handle' )
+										.append( '<span id="<?php echo sanitize_title( $this->id ); ?>-display" class="slider-number-display"><?php echo intval( $this->value() * floatval( $this->multiplier ) ); ?></span>' );
+
+							},
+							slide  : function( event, ui ) {
+
+								jQuery( '#<?php echo sanitize_title( $this->id ); ?>' )
+									.val( parseInt( ui.value ) )
+										.change();
+
+								jQuery( '#<?php echo sanitize_title( $this->id ); ?>-display' )
+									.text( parseInt( ui.value * <?php echo floatval( $this->multiplier ); ?> ) );
+
+							}
+						} );
+
+				}
 			} );
 		// --></script>
 
