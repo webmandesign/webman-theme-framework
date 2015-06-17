@@ -1097,8 +1097,8 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Then just use a '___customizer_option_id' tags in your custom CSS
 		 * styles string where the specific option value should be used.
 		 *
-		 * Caching $replacement into '{%= prefix_constant %}_THEME_SLUG_customizer_values' transient.
-		 * Caching $output into '{%= prefix_constant %}_THEME_SLUG_custom_css' transient.
+		 * Caching $replacement into '{%= prefix_constant %}_THEME_SLUG . _customizer_values' transient.
+		 * Caching $output into '{%= prefix_constant %}_THEME_SLUG . _custom_css' transient.
 		 *
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
@@ -1275,7 +1275,7 @@ final class {%= prefix_class %}_Theme_Framework {
 									$replacements['___header_image'] = 'none';
 								}
 
-						$replacements = apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_replacements', $replacements, $theme_options, $output );
+						$replacements = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_replacements', $replacements, $theme_options, $output );
 
 						if (
 								$set_cache

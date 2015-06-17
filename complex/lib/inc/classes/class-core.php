@@ -1274,7 +1274,7 @@ final class {%= prefix_class %}_Theme_Framework {
 								$replacements['___header_image'] = 'none';
 							}
 
-					$replacements = apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_replacements', $replacements, $theme_options, $output );
+					$replacements = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_replacements', $replacements, $theme_options, $output );
 
 				// Replace tags in custom CSS strings with actual values
 
