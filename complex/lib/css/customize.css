@@ -20,16 +20,23 @@
 
 	.customize-control h3,
 	.customize-control h4 {
-		margin: 2em 0 .5em;
+		padding: .5em 20px;
+		margin: 2em -20px .5em;
 		text-transform: uppercase;
 		font-size: 1em;
 		color: #aaacae;
-		border-bottom: 2px solid #dadcde;
+		border-top: 2px solid #dadcde;
 	}
 
+		.customize-control:first-child h3:first-child {
+			margin-top: 0;
+			border: 0;
+		}
+
 	.customize-control h4 {
+		padding: .5em 0;
 		margin: 1em 0 .5em;
-		border: 0;
+		border-top-style: dotted;
 	}
 
 	.customize-control hr {
@@ -163,6 +170,8 @@
 	#accordion-section-credits .accordion-section-title { display: none; }
 
 	#accordion-section-credits .accordion-section-content { display: block !important; }
+
+	#accordion-section-credits h3 { border: 0; }
 
 
 
