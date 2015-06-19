@@ -184,9 +184,12 @@
 	.slide-number-wrapper {
 		display: block;
 		width: 90%;
+		width: calc( 100% - 20px );
 		padding: 0 10px;
-		margin: 35px 0 15px;
+		margin: 15px 0;
+		transition: margin .4s;
 	}
+	.customize-control-range:hover .slide-number-wrapper { margin-top: 35px; }
 
 	.slide-number-wrapper .ui-slider {
 		position: relative;
@@ -219,6 +222,7 @@
 		}
 
 			.slider-number-display {
+				display: none;
 				position: absolute;
 				min-width: 10px;
 				height: 20px;
@@ -241,6 +245,7 @@
 				    -ms-transform: translateX(-50%);
 				        transform: translateX(-50%);
 			}
+			.customize-control-range:hover .slider-number-display { display: inline-block; }
 
 		.slide-number-wrapper .ui-slider .ui-slider-handle:hover,
 		.slide-number-wrapper .ui-slider .ui-slider-handle:active {
