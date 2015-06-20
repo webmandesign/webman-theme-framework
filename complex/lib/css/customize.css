@@ -233,14 +233,9 @@
 				text-align: center;
 				font-size: 11px;
 				background-color: #2a7c9e;
-				background-image: -webkit-linear-gradient(       top, #2a7c9e, #257799 );
-				background-image:         linear-gradient( to bottom, #2a7c9e, #257799 );
 				color: #fff;
-				border: 1px solid #2a7c9e;
-				border-bottom-color: #1a6c8e;
+				border: 1px solid #1a6c8e;
 				border-radius: 20px;
-				-webkit-box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
-				        box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
 				-webkit-transform: translateX(-50%);
 				    -ms-transform: translateX(-50%);
 				        transform: translateX(-50%);

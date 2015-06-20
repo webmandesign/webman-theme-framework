@@ -88,7 +88,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						// Escape inline CSS
 
-							add_filter( 'wmhook_{%= prefix_hook %}_esc_css', array( $this, 'esc_css' ) );
+							add_filter( 'wmhook_{%= prefix_hook %}_esc_css', 'wp_strip_all_tags' ); // https://github.com/WPTRT/code-examples/blob/master/customizer/sanitization-callbacks.php#L43
 
 						// Widgets improvements
 
@@ -838,38 +838,6 @@ final class {%= prefix_class %}_Theme_Framework {
 	 */
 
 		/**
-		 * CSS escaping
-		 *
-		 * Use this for custom CSS output only!
-		 * Uses `esc_attr()` while keeping quote marks.
-		 *
-		 * @uses  esc_attr()
-		 *
-		 * @since    1.0
-		 * @version  5.0
-		 *
-		 * @param  string $css Code to escape
-		 */
-		public static function esc_css( $css ) {
-
-			// Pre
-
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_esc_css_pre', false, $css );
-
-				if ( false !== $pre ) {
-					return $pre;
-				}
-
-
-			// Output
-
-				return str_replace( array( '&gt;', '&quot;', '&#039;' ), array( '>', '"', '\'' ), esc_attr( (string) $css ) );
-
-		} // /esc_css
-
-
-
-		/**
 		 * Outputs path to the specific file
 		 *
 		 * This function looks for the file in the child theme first.
@@ -1193,7 +1161,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Make sure the color value contains '#'
 
 								if ( 'color' === $option['type'] ) {
-									$value = '#' . trim( $value, '#' );
+									$value = sanitize_hex_color( $value );
 								}
 
 							// Make sure the image URL is used in CSS format
@@ -1242,7 +1210,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Background color
 
 								if ( $value = get_background_color() ) {
-									$replacements['___background_color'] = '#' . trim( $value, '#' );
+									$replacements['___background_color'] = sanitize_hex_color( $value );
 
 									foreach ( $alphas as $alpha ) {
 										$replacements[ '___background_color|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
@@ -1252,7 +1220,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Background image
 
 								if ( $value = esc_url( get_background_image() ) ) {
-									$replacements['___background_image'] = "url('" . $value . "')";
+									$replacements['___background_image'] = "url('" . esc_url( $value ) . "')";
 								} else {
 									$replacements['___background_image'] = 'none';
 								}
@@ -1260,7 +1228,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Header text color
 
 								if ( $value = get_header_textcolor() ) {
-									$replacements['___header_textcolor'] = '#' . trim( $value, '#' );
+									$replacements['___header_textcolor'] = sanitize_hex_color( $value );
 
 									foreach ( $alphas as $alpha ) {
 										$replacements[ '___header_textcolor|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
@@ -1270,7 +1238,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Header image
 
 								if ( $value = esc_url( get_header_image() ) ) {
-									$replacements['___header_image'] = "url('" . $value . "')";
+									$replacements['___header_image'] = "url('" . esc_url( $value ) . "')";
 								} else {
 									$replacements['___header_image'] = 'none';
 								}

@@ -268,32 +268,48 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 	 */
 
 		/**
-		 * Sanitize HTML
+		 * Sanitize checkbox
 		 *
-		 * No need to cache the wp_kses_post() output here as it
-		 * is being saved into database.
-		 *
-		 * @since    4.0
+		 * @since    5.0
 		 * @version  5.0
 		 *
-		 * @param  mixed $value WP customizer value to sanitize.
+		 * @param  bool $value WP customizer value to sanitize.
 		 */
-		public static function sanitize_html( $value ) {
+		public static function sanitize_checkbox( $value ) {
 
-			// Pre
+			// Output
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_sanitize_html_pre', false, $value );
+				return ( ( isset( $value ) && true == $value ) ? ( true ) : ( false ) );
 
-				if ( false !== $pre ) {
-					return $pre;
-				}
+		} // /sanitize_checkbox
+
+
+
+		/**
+		 * Sanitize select/radio
+		 *
+		 * @since    5.0
+		 * @version  5.0
+		 *
+		 * @param  string               $value WP customizer value to sanitize.
+		 * @param  WP_Customize_Setting $setting
+		 */
+		public static function sanitize_select( $value, $setting ) {
+
+			// Processing
+
+				$value = esc_attr( $value );
+
+				// Get list of choices from the control associated with the setting.
+
+					$choices = $setting->manager->get_control( $setting->id )->choices;
 
 
 			// Output
 
-				return wp_kses_post( force_balance_tags( $value ) );
+				return ( array_key_exists( $value, $choices ) ? ( $value ) : ( $setting->default ) );
 
-		} // /sanitize_html
+		} // /sanitize_select
 
 
 
@@ -308,15 +324,6 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @param  mixed $value WP customizer value to sanitize.
 		 */
 		public static function sanitize_return_value( $value ) {
-
-			// Pre
-
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_sanitize_return_value_pre', false, $value );
-
-				if ( false !== $pre ) {
-					return $pre;
-				}
-
 
 			// Processing
 
@@ -354,6 +361,13 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @param  object $wp_customize WP customizer object.
 		 */
 		public static function customize( $wp_customize ) {
+
+			// Requirements check
+
+				if ( ! isset( $wp_customize ) ) {
+					return;
+				}
+
 
 			// Pre
 
@@ -476,15 +490,15 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 								 */
 								if ( isset( $theme_option['in_panel'] ) ) {
 
-									$panel_id = sanitize_title( trim( $theme_option['in_panel'] ) );
+									$panel_id = '{%= prefix_var %}_' . sanitize_title( trim( $theme_option['in_panel'] ) );
 
 									if ( $customizer_panel != $panel_id ) {
 
 										$wp_customize->add_panel(
 												$panel_id,
 												array(
-													'title'       => $theme_option['in_panel'], //Panel title
-													'description' => ( isset( $theme_option['in_panel-description'] ) ) ? ( $theme_option['in_panel-description'] ) : ( '' ), //Displayed at the top of panel
+													'title'       => $theme_option['in_panel'], // Panel title
+													'description' => ( isset( $theme_option['in_panel-description'] ) ) ? ( $theme_option['in_panel-description'] ) : ( '' ), // Hidden at the top of the panel
 													'priority'    => $priority,
 												)
 											);
@@ -509,13 +523,17 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									$customizer_section = array(
 											'id'    => $option_id,
 											'setup' => array(
-													'title'       => $theme_option['create_section'], //Section title
-													'description' => ( isset( $theme_option['create_section-description'] ) ) ? ( $theme_option['create_section-description'] ) : ( '' ), //Displayed at the top of section
+													'title'       => $theme_option['create_section'], // Section title
+													'description' => ( isset( $theme_option['create_section-description'] ) ) ? ( $theme_option['create_section-description'] ) : ( '' ), // Displayed at the top of section
 													'priority'    => $priority,
 												)
 										);
 
-									$customizer_section['setup']['panel'] = $customizer_panel;
+									if ( ! isset( $theme_option['in_panel'] ) ) {
+										$customizer_panel = '';
+									} else {
+										$customizer_section['setup']['panel'] = $customizer_panel;
+									}
 
 									$wp_customize->add_section(
 											$customizer_section['id'],
@@ -523,7 +541,6 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 										);
 
 									$customizer_section = $customizer_section['id'];
-									$customizer_panel   = ''; //Panel has to be defined for each section to prevent all sections residing within a single panel.
 
 								}
 
@@ -546,8 +563,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 													'type'                 => $type,
 													'default'              => $default,
 													'transport'            => $transport,
-													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
-													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
+													'sanitize_callback'    => ( 'checkbox' === $theme_option['type'] ) ? ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_checkbox' ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_select' ),
+													'sanitize_js_callback' => ( 'checkbox' === $theme_option['type'] ) ? ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_checkbox' ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_select' ),
 												)
 											);
 
@@ -666,8 +683,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 										$wp_customize->add_setting(
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
-													'sanitize_callback'    => '{%= prefix_class %}_Theme_Framework_Customize::sanitize_html',
-													'sanitize_js_callback' => '{%= prefix_class %}_Theme_Framework_Customize::sanitize_html',
+													'sanitize_callback'    => 'wp_filter_post_kses',
+													'sanitize_js_callback' => 'wp_filter_post_kses',
 												)
 											);
 
@@ -856,8 +873,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 													'type'                 => $type,
 													'default'              => $default,
 													'transport'            => $transport,
-													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
-													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
+													'sanitize_callback'    => '{%= prefix_class %}_Theme_Framework_Customize::sanitize_select',
+													'sanitize_js_callback' => '{%= prefix_class %}_Theme_Framework_Customize::sanitize_select',
 												)
 											);
 
