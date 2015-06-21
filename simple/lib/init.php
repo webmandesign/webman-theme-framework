@@ -57,7 +57,7 @@
 
 	// Basic constants
 
-		if ( ! defined( '{%= prefix_constant %}_THEME_SLUG' ) ) define( '{%= prefix_constant %}_THEME_SLUG',  str_replace( array( '-lite', '-plus' ), '', get_template() ) );
+		if ( ! defined( '{%= prefix_constant %}_THEME_SLUG' ) ) define( '{%= prefix_constant %}_THEME_SLUG', str_replace( array( '-lite', '-plus' ), '', get_template() ) );
 
 	// Dir constants
 

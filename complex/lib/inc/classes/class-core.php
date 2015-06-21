@@ -1159,7 +1159,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Make sure the color value contains '#'
 
 								if ( 'color' === $option['type'] ) {
-									$value = sanitize_hex_color( $value );
+									$value = maybe_hash_hex_color( $value );
 								}
 
 							// Make sure the image URL is used in CSS format
@@ -1209,7 +1209,7 @@ final class {%= prefix_class %}_Theme_Framework {
 						// Background color
 
 							if ( $value = get_background_color() ) {
-								$replacements['___background_color'] = sanitize_hex_color( $value );
+								$replacements['___background_color'] = maybe_hash_hex_color( $value );
 
 								foreach ( $alphas as $alpha ) {
 									$replacements[ '___background_color|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
@@ -1227,7 +1227,7 @@ final class {%= prefix_class %}_Theme_Framework {
 						// Header text color
 
 							if ( $value = get_header_textcolor() ) {
-								$replacements['___header_textcolor'] = sanitize_hex_color( $value );
+								$replacements['___header_textcolor'] = maybe_hash_hex_color( $value );
 
 								foreach ( $alphas as $alpha ) {
 									$replacements[ '___header_textcolor|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
