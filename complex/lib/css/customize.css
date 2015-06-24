@@ -78,12 +78,46 @@
 
 	.customize-control-hidden { display: none !important; }
 
-	.customize-control-color .wp-color-result::after {
-		opacity: 0;
-		transition: opacity .4s;
-	}
+	.customize-control-color .wp-picker-container { display: block; }
 
-		.customize-control-color:hover .wp-color-result::after { opacity: 1; }
+		.wp-color-result {
+			box-sizing: border-box;
+			width: 100%;
+			height: 30px;
+			padding-left: 50%;
+			margin-right: 0;
+			border-color: rgba(0, 0, 0, .2);
+		}
+		.wp-color-result:focus,
+		.wp-color-result:hover { border-color: rgba(0, 0, 0, .3); }
+
+			.wp-color-result::after {
+				margin: -1px -1px 0 0;
+				line-height: 30px;
+				font-weight: 700;
+				text-shadow: 0 1px 2px rgba(0, 0, 0, .5);
+				background: rgba(0, 0, 0, .2);
+				color: #fff;
+				border: 0;
+				box-shadow: none;
+			}
+			.wp-color-result:focus:after,
+			.wp-color-result:hover:after {
+				background: rgba(0, 0, 0, .35);
+				color: #fff;
+				border: 0;
+			}
+
+		.wp-picker-open + .wp-picker-input-wrap { display: block; }
+
+		.wp-picker-input-wrap input[type=text].wp-color-picker,
+		.wp-picker-input-wrap .button { width: 48%; }
+
+			.wp-picker-input-wrap .button { float: right; }
+
+		.wp-picker-container .iris-picker { width: 100% !important; }
+
+			.wp-picker-container .iris-picker .iris-square { margin-right: 5%; }
 
 
 
