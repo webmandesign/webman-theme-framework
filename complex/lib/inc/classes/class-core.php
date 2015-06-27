@@ -1071,6 +1071,10 @@ final class {%= prefix_class %}_Theme_Framework {
 						$output .= ',' . ( $alpha / 100 );
 					}
 
+				// Closing opening bracket
+
+					$output .= ')';
+
 
 			// Output
 
