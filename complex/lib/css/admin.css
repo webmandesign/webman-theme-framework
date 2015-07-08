@@ -18,13 +18,20 @@
 
 	.text-center { text-align: center !important; }
 
-	.wm-table th { text-align: left; }
-
-	.wm-table thead th {
-		padding-top: 1em;
-		padding-bottom: .5em;
-		font-size: 1.17em;
+	.wm-table {
+		font-size: .81rem;
+		line-height: inherit;
 	}
+
+		.wm-table th { text-align: left; }
+
+			.wm-table thead th {
+				padding-top: 1em;
+				padding-bottom: .5em;
+				font-size: 1.17em;
+			}
+
+			.wm-table th + td { padding-left: 1rem; }
 
 
 

@@ -151,7 +151,7 @@ final class {%= prefix_class %}_Theme_Framework {
 			// Helper variables
 
 				$current_theme_version = get_transient( {%= prefix_constant %}_THEME_SLUG . '_version' );
-				$new_theme_version     = wp_get_theme()->get( 'Version' );
+				$new_theme_version     = wp_get_theme( {%= prefix_constant %}_THEME_SLUG )->get( 'Version' );
 
 
 			// Processing
@@ -1062,6 +1062,55 @@ final class {%= prefix_class %}_Theme_Framework {
 
 
 		/**
+		 * Duplicating WordPress native function in case it does not exist yet
+		 *
+		 * @since    5.0
+		 * @version  5.0
+		 *
+		 * @link  https://developer.wordpress.org/reference/functions/maybe_hash_hex_color/
+		 * @link  https://developer.wordpress.org/reference/functions/sanitize_hex_color_no_hash/
+		 *
+		 * @param  string $color
+		 */
+		public static function maybe_hash_hex_color( $color ) {
+
+			// Requirements check
+
+				if (
+						function_exists( 'maybe_hash_hex_color' )
+						&& function_exists( 'sanitize_hex_color_no_hash' )
+					) {
+					return maybe_hash_hex_color( $color );
+				}
+
+
+			// Helper variables
+
+				// 3 or 6 hex digits, or the empty string.
+
+					if ( preg_match( '|([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
+						$color = ltrim( $color, '#' );
+					} else {
+						$color = '';
+					}
+
+
+			// Processing
+
+				if ( $color ) {
+					$color = '#' . $color;
+				}
+
+
+			// Output
+
+				return $color;
+
+		} // /maybe_hash_hex_color
+
+
+
+		/**
 		 * Outputs custom CSS styles set via Customizer
 		 *
 		 * This function allows you to hook your custom CSS styles string
@@ -1165,7 +1214,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Make sure the color value contains '#'
 
 								if ( 'color' === $option['type'] ) {
-									$value = maybe_hash_hex_color( $value );
+									$value = self::maybe_hash_hex_color( $value );
 								}
 
 							// Make sure the image URL is used in CSS format
@@ -1214,7 +1263,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Background color
 
 								if ( $value = get_background_color() ) {
-									$replacements['___background_color'] = maybe_hash_hex_color( $value );
+									$replacements['___background_color'] = self::maybe_hash_hex_color( $value );
 
 									foreach ( $alphas as $alpha ) {
 										$replacements[ '___background_color|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
@@ -1232,7 +1281,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Header text color
 
 								if ( $value = get_header_textcolor() ) {
-									$replacements['___header_textcolor'] = maybe_hash_hex_color( $value );
+									$replacements['___header_textcolor'] = self::maybe_hash_hex_color( $value );
 
 									foreach ( $alphas as $alpha ) {
 										$replacements[ '___header_textcolor|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
