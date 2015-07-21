@@ -712,12 +712,12 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 													'type'                 => $type,
 													'default'              => $default,
 													'transport'            => $transport,
-													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_return_value' ),
-													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_return_value' ),
+													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'absint' ),
+													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'absint' ),
 												)
 											);
 
-										$wp_customize->add_control( new {%= prefix_class %}_Control_Image(
+										$wp_customize->add_control( new WP_Customize_Image_Control(
 												$wp_customize,
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
