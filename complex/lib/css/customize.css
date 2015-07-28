@@ -199,12 +199,16 @@
 }
 
 @-webkit-keyframes bounce-in {
+  0%, 75%, 100% {
+    -webkit-animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in-out;
+  }
   0% {
     opacity: 0;
     -webkit-transform: translateX(-50%) translateY(-50%) scale(0);
             transform: translateX(-50%) translateY(-50%) scale(0);
   }
-  80% {
+  75% {
     opacity: 1;
     -webkit-transform: translateX(-50%) translateY(-50%) scale(1.1);
             transform: translateX(-50%) translateY(-50%) scale(1.1);
@@ -216,12 +220,16 @@
 }
 
 @keyframes bounce-in {
+  0%, 75%, 100% {
+    -webkit-animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in-out;
+  }
   0% {
     opacity: 0;
     -webkit-transform: translateX(-50%) translateY(-50%) scale(0);
             transform: translateX(-50%) translateY(-50%) scale(0);
   }
-  80% {
+  75% {
     opacity: 1;
     -webkit-transform: translateX(-50%) translateY(-50%) scale(1.1);
             transform: translateX(-50%) translateY(-50%) scale(1.1);
@@ -288,6 +296,6 @@
           transform-origin: 50% 50%;
   -webkit-animation-name: bounce-in;
           animation-name: bounce-in;
-  -webkit-animation-duration: .4s;
-          animation-duration: .4s;
+  -webkit-animation-duration: .3s;
+          animation-duration: .3s;
 }

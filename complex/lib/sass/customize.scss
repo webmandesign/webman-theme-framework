@@ -310,12 +310,16 @@
 
 	@keyframes bounce-in {
 
+		0%, 75%, 100% {
+			animation-timing-function: ease-in-out;
+		}
+
 		0% {
 			opacity: 0;
 			transform: translateX( -50% ) translateY( -50% ) scale( 0 );
 		}
 
-		80% {
+		75% {
 			opacity: 1;
 			transform: translateX( -50% ) translateY( -50% ) scale( 1.1 );
 		}
@@ -395,7 +399,7 @@
 			transform-origin: 50% 50%;
 
 			animation-name: bounce-in;
-			animation-duration: .4s;
+			animation-duration: .3s;
 		}
 
 	}
