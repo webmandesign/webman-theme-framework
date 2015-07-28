@@ -258,8 +258,8 @@
 
 			&:hover {
 
-				.slide-number-wrapper {
-					margin-top: 35px;
+				.ui-slider-handle {
+					@extend %slider_handle_active;
 				}
 
 				.slider-number-display {
@@ -290,6 +290,42 @@
 
 // jQuery UI Slider
 
+	%slider_handle {
+		background: #fafcfe;
+		background-image: linear-gradient( to bottom, #fafcfe, #f5f7f9 );
+		border: 1px solid #babcbe;
+		outline: 0;
+		border-radius: 10px;
+		box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .25);
+	}
+
+	%slider_handle_active {
+		background-color: #2a7c9e;
+		background-image: linear-gradient( to bottom, #2a7c9e, #257799 );
+		color: #fff;
+		border-color: #2a7c9e;
+		border-bottom-color: #1a6c8e;
+		box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
+	}
+
+	@keyframes bounce-in {
+
+		0% {
+			opacity: 0;
+			transform: translateX( -50% ) translateY( -50% ) scale( 0 );
+		}
+
+		80% {
+			opacity: 1;
+			transform: translateX( -50% ) translateY( -50% ) scale( 1.1 );
+		}
+
+		100% {
+			transform: translateX( -50% ) translateY( -50% ) scale( 1 );
+		}
+
+	}
+
 	.slide-number-wrapper {
 		display: block;
 		width: 90%;
@@ -317,20 +353,17 @@
 				top: 0;
 				margin: -5px 0 0 -10px;
 				cursor: e-resize;
-				background: #fafcfe;
-				background-image: linear-gradient( to bottom, #fafcfe, #f5f7f9 );
-				border: 1px solid #babcbe;
-				outline: 0;
-				border-radius: 10px;
-				box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .25);
+				@extend %slider_handle;
 
 				&:hover,
-				&:active {
-					background-color: #2a7c9e;
-					background-image: linear-gradient( to bottom, #2a7c9e, #257799 );
-					border-color: #2a7c9e;
-					border-bottom-color: #1a6c8e;
-					box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
+				&:active,
+				&.ui-state-active {
+					@extend %slider_handle_active;
+
+					.slider-number-display {
+						display: inline-block;
+					}
+
 				}
 
 			}
@@ -351,16 +384,18 @@
 			min-width: 10px;
 			height: 20px;
 			left: 50%;
-			bottom: 14px;
-			padding: 0 5px;
+			top: 50%;
+			padding: 3px 8px;
 			line-height: 20px;
 			text-align: center;
 			font-size: 11px;
-			background-color: #2a7c9e;
-			color: #fff;
-			border: 1px solid #1a6c8e;
-			border-radius: 20px;
-			transform: translateX( -50% );
+			@extend %slider_handle_active;
+			border-radius: 100px;
+			transform: translateX( -50% ) translateY( -50% );
+			transform-origin: 50% 50%;
+
+			animation-name: bounce-in;
+			animation-duration: .4s;
 		}
 
 	}
