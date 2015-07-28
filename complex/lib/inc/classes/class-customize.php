@@ -692,7 +692,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 												$wp_customize,
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
 												array(
-													'label'           => $theme_option['content'],
+													'label'           => ( isset( $theme_option['label'] ) ) ? ( $theme_option['label'] ) : ( '' ),
+													'description'     => $description,
+													'content'         => $theme_option['content'],
 													'section'         => $customizer_section,
 													'priority'        => $priority,
 													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),

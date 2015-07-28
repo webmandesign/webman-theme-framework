@@ -1,0 +1,366 @@
+/**
+ * Customizer styles
+ *
+ * @package     WebMan WordPress Theme Framework
+ * @subpackage  Customize
+ *
+ * @since    5.0
+ * @version  5.0
+ */
+
+
+
+// Basic styles
+
+	.no-overflow {
+		overflow: hidden;
+	}
+
+// Donation link
+
+	.donation-link {
+
+		&,
+		&:hover,
+		&:active {
+			display: block;
+			width: 100%;
+			padding: 1em 0;
+			text-transform: uppercase;
+			text-align: center;
+			font-weight: bold;
+			font-size: .81em;
+			background: #0aac8e;
+			color: #fafcfe;
+		}
+
+		&:hover {
+			letter-spacing: 1px;
+		}
+
+	}
+
+// Controls
+
+	.customize-control {
+
+		h3,
+		h4 {
+			padding: .5em 20px;
+			margin: 2em -20px .5em;
+			text-transform: uppercase;
+			font-size: 1em;
+			color: #aaacae;
+			border-top: 2px solid #dadcde;
+		}
+
+		h4 {
+			padding: .5em 0;
+			margin: 1em 0 .5em;
+			border-top-style: dotted;
+		}
+
+		&:first-child {
+
+			h3 {
+
+				&:first-child {
+					margin-top: 0;
+					border: 0;
+				}
+
+			}
+
+		}
+
+		hr {
+			margin: 1em 0;
+			background: transparent;
+			border: 0;
+			border-top: 1px dashed #dadcde;
+		}
+
+		select,
+		textarea {
+			width: 100%;
+		}
+
+		select[multiple] {
+			height: 8em;
+		}
+
+		textarea {
+			resize: vertical;
+		}
+
+	}
+
+	// Hidden control
+
+		.customize-control-hidden {
+			display: none !important;
+		}
+
+	// Color control
+
+		.customize-control-color {
+
+			.wp-picker-container {
+				display: block;
+			}
+
+		}
+
+		.wp-color-result {
+			box-sizing: border-box;
+			width: 100%;
+			height: 30px;
+			padding-left: 50%;
+			margin-right: 0;
+			border-color: rgba(0, 0, 0, .2);
+
+			&:focus,
+			&:hover {
+				border-color: rgba(0, 0, 0, .3);
+
+				&::after {
+					background: rgba(0, 0, 0, .35);
+					color: #fff;
+					border: 0;
+				}
+
+			}
+
+			&::after {
+				margin: -1px -1px 0 0;
+				line-height: 30px;
+				font-weight: 700;
+				text-shadow: 0 1px 2px rgba(0, 0, 0, .5);
+				background: rgba(0, 0, 0, .2);
+				color: #fff;
+				border: 0;
+				box-shadow: none;
+			}
+
+		}
+
+		.wp-picker-input-wrap {
+
+			.wp-picker-open + & {
+				display: block;
+			}
+
+			.button,
+			input[type=text].wp-color-picker {
+				width: 48%;
+			}
+
+			.button {
+				float: right;
+			}
+
+		}
+
+		.wp-picker-container {
+
+			.iris-picker {
+				width: 100% !important;
+
+				.iris-square {
+					margin-right: 5%;
+				}
+
+			}
+
+		}
+
+	// Radio matrix (3x3)
+
+		.matrix {
+			padding: 2px 0 3px 2px;
+			margin-bottom: .5em;
+			border: 2px solid #dadcde;
+			overflow: hidden;
+
+			span {
+				display: none;
+			}
+
+			label {
+				float: left;
+				display: block;
+				width: 33.33%;
+				padding: .5em 0 .5em 4px;
+				margin: 0 -1px -1px 0;
+				text-align: center;
+				border: 1px dotted #ddd;
+				box-sizing: border-box;
+
+				&:hover {
+					background: #fafcfe;
+				}
+
+				&.active {
+					background: #badcee;
+
+					&:hover {
+						background: #aaccde;
+					}
+
+				}
+
+			}
+
+		}
+
+	// Image radios
+
+		.image-radio {
+
+			span {
+				display: none;
+			}
+
+			label {
+				float: left;
+				display: inline-block;
+				margin: 4px;
+				text-align: center;
+
+				&.active,
+				&:hover {
+
+					img {
+						opacity: 1;
+					}
+
+				}
+
+			}
+
+			img {
+				display: block;
+				width: 42px;
+				opacity: .5;
+			}
+
+			input {
+				position: relative;
+				top: -.75em;
+				margin: 0;
+			}
+
+		}
+
+	// Range
+
+		.customize-control-range {
+
+			&:hover {
+
+				.slide-number-wrapper {
+					margin-top: 35px;
+				}
+
+				.slider-number-display {
+					display: inline-block;
+				}
+
+			}
+
+		}
+
+// Credits
+
+	#accordion-section-credits {
+
+		.accordion-section-title {
+			display: none;
+		}
+
+		.accordion-section-content {
+			display: block !important;
+		}
+
+		h3 {
+			border: 0;
+		}
+
+	}
+
+// jQuery UI Slider
+
+	.slide-number-wrapper {
+		display: block;
+		width: 90%;
+		width: calc( 100% - 20px );
+		padding: 0 10px;
+		margin: 15px 0;
+		transition: margin .4s;
+
+		.ui-slider {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: 2px;
+			margin: 10px 0;
+			text-align: left;
+			background: #eaecee;
+			border: 1px solid #caccce;
+			border-radius: 10px;
+
+			.ui-slider-handle {
+				position: absolute;
+				z-index: 2;
+				width: 18px;
+				height: 10px;
+				top: 0;
+				margin: -5px 0 0 -10px;
+				cursor: e-resize;
+				background: #fafcfe;
+				background-image: linear-gradient( to bottom, #fafcfe, #f5f7f9 );
+				border: 1px solid #babcbe;
+				outline: 0;
+				border-radius: 10px;
+				box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .25);
+
+				&:hover,
+				&:active {
+					background-color: #2a7c9e;
+					background-image: linear-gradient( to bottom, #2a7c9e, #257799 );
+					border-color: #2a7c9e;
+					border-bottom-color: #1a6c8e;
+					box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
+				}
+
+			}
+
+			.ui-slider-range-min {
+				left: 0;
+			}
+
+			.ui-slider-range-max {
+				right: 0;
+			}
+
+		}
+
+		.slider-number-display {
+			display: none;
+			position: absolute;
+			min-width: 10px;
+			height: 20px;
+			left: 50%;
+			bottom: 14px;
+			padding: 0 5px;
+			line-height: 20px;
+			text-align: center;
+			font-size: 11px;
+			background-color: #2a7c9e;
+			color: #fff;
+			border: 1px solid #1a6c8e;
+			border-radius: 20px;
+			transform: translateX( -50% );
+		}
+
+	}

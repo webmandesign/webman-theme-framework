@@ -7,14 +7,20 @@
  * @since    5.0
  * @version  5.0
  */
+
+
+
 .about-wrap {
-  direction: rtl;
-}
-.about-wrap .dropcap {
-  float: right;
-  margin: 0 0 .25em .5em;
-}
-.about-wrap .twitter-share-button {
-  margin-left: 0;
-  margin-right: 3px;
+	direction: rtl;
+
+	.dropcap {
+		float: right;
+		margin: 0 0 .25em .5em;
+	}
+
+	.twitter-share-button {
+		margin-left: 0;
+		margin-right: 3px;
+	}
+
 }
