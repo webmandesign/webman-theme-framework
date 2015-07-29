@@ -207,15 +207,21 @@
     opacity: 0;
     -webkit-transform: translateX(-50%) translateY(-50%) scale(0);
             transform: translateX(-50%) translateY(-50%) scale(0);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
   }
   75% {
     opacity: 1;
     -webkit-transform: translateX(-50%) translateY(-50%) scale(1.1);
             transform: translateX(-50%) translateY(-50%) scale(1.1);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
   }
   100% {
     -webkit-transform: translateX(-50%) translateY(-50%) scale(1);
             transform: translateX(-50%) translateY(-50%) scale(1);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
   }
 }
 
@@ -228,15 +234,21 @@
     opacity: 0;
     -webkit-transform: translateX(-50%) translateY(-50%) scale(0);
             transform: translateX(-50%) translateY(-50%) scale(0);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
   }
   75% {
     opacity: 1;
     -webkit-transform: translateX(-50%) translateY(-50%) scale(1.1);
             transform: translateX(-50%) translateY(-50%) scale(1.1);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
   }
   100% {
     -webkit-transform: translateX(-50%) translateY(-50%) scale(1);
             transform: translateX(-50%) translateY(-50%) scale(1);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
   }
 }
 .slide-number-wrapper {
