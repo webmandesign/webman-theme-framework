@@ -55,21 +55,22 @@ class {%= prefix_class %}_Control_Range extends WP_Customize_Control {
 							min    : <?php echo $this->json[0]; ?>,
 							max    : <?php echo $this->json[1]; ?>,
 							step   : <?php echo $this->json[2]; ?>,
-							create : function( event, ui ) {
+							create : function( e, ui ) {
 
 								jQuery( this )
 									.find( '.ui-slider-handle' )
-										.append( '<span id="<?php echo sanitize_title( $this->id ); ?>-display" class="slider-number-display"><?php echo intval( $this->value() * floatval( $this->multiplier ) ); ?></span>' );
+										.text( <?php echo intval( $this->value() * floatval( $this->multiplier ) ); ?> );
 
 							},
-							slide  : function( event, ui ) {
+							slide  : function( e, ui ) {
+
+								jQuery( this )
+									.find( '.ui-slider-handle' )
+										.text( parseInt( ui.value * <?php echo floatval( $this->multiplier ); ?> ) );
 
 								jQuery( '#<?php echo sanitize_title( $this->id ); ?>' )
 									.val( parseInt( ui.value ) )
 										.change();
-
-								jQuery( '#<?php echo sanitize_title( $this->id ); ?>-display' )
-									.text( parseInt( ui.value * <?php echo floatval( $this->multiplier ); ?> ) );
 
 							}
 						} );

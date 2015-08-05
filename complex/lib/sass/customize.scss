@@ -252,20 +252,52 @@
 
 		}
 
-	// Range
+	// Range / jQuery UI Slider
 
 		.customize-control-range {
 
-			&:hover {
+			.slide-number-wrapper {
+				display: block;
+				width: 90%;
+				width: calc( 100% - 20px );
+				padding: 0 10px;
+				margin: 15px 0;
+				transition: margin .4s;
+			}
 
-				.ui-slider-handle {
-					@extend %slider_handle_active;
-				}
+			.ui-slider {
+				position: relative;
+				display: block;
+				width: 100%;
+				height: 2px;
+				margin: 10px 0;
+				text-align: left;
+				background: #eaecee;
+				border: 1px solid #caccce;
+				border-radius: 10px;
+			}
 
-				.slider-number-display {
-					display: inline-block;
-				}
-
+			.ui-slider-handle {
+				position: absolute;
+				z-index: 2;
+				min-width: 18px;
+				min-height: 10px;
+				top: 0;
+				padding: .19em .62em;
+				text-align: center;
+				font-size: .81em;
+				font-weight: 700;
+				background-color: #2a7c9e;
+				background-image: linear-gradient( to bottom, #2a7c9e, #257799 );
+				color: #fff;
+				border: 1px solid #2a7c9e;
+				border-bottom-color: #1a6c8e;
+				outline: 0;
+				border-radius: 100px;
+				cursor: e-resize;
+				box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
+				transform: translateX(-50%) translateY(-50%);
+				transform-origin: 50% 50%;
 			}
 
 		}
@@ -284,125 +316,6 @@
 
 		h3 {
 			border: 0;
-		}
-
-	}
-
-// jQuery UI Slider
-
-	%slider_handle {
-		background: #fafcfe;
-		background-image: linear-gradient( to bottom, #fafcfe, #f5f7f9 );
-		border: 1px solid #babcbe;
-		outline: 0;
-		border-radius: 10px;
-		box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .25);
-	}
-
-	%slider_handle_active {
-		background-color: #2a7c9e;
-		background-image: linear-gradient( to bottom, #2a7c9e, #257799 );
-		color: #fff;
-		border-color: #2a7c9e;
-		border-bottom-color: #1a6c8e;
-		box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
-	}
-
-	@keyframes bounce-in {
-
-		0%, 75%, 100% {
-			animation-timing-function: ease-in-out;
-		}
-
-		0% {
-			opacity: 0;
-			transform: translateX( -50% ) translateY( -50% ) scale( 0 );
-			transform-origin: 50% 50%;
-		}
-
-		75% {
-			opacity: 1;
-			transform: translateX( -50% ) translateY( -50% ) scale( 1.1 );
-			transform-origin: 50% 50%;
-		}
-
-		100% {
-			transform: translateX( -50% ) translateY( -50% ) scale( 1 );
-			transform-origin: 50% 50%;
-		}
-
-	}
-
-	.slide-number-wrapper {
-		display: block;
-		width: 90%;
-		width: calc( 100% - 20px );
-		padding: 0 10px;
-		margin: 15px 0;
-		transition: margin .4s;
-
-		.ui-slider {
-			position: relative;
-			display: block;
-			width: 100%;
-			height: 2px;
-			margin: 10px 0;
-			text-align: left;
-			background: #eaecee;
-			border: 1px solid #caccce;
-			border-radius: 10px;
-
-			.ui-slider-handle {
-				position: absolute;
-				z-index: 2;
-				width: 18px;
-				height: 10px;
-				top: 0;
-				margin: -5px 0 0 -10px;
-				cursor: e-resize;
-				@extend %slider_handle;
-
-				&:hover,
-				&:active,
-				&.ui-state-active {
-					@extend %slider_handle_active;
-
-					.slider-number-display {
-						display: inline-block;
-					}
-
-				}
-
-			}
-
-			.ui-slider-range-min {
-				left: 0;
-			}
-
-			.ui-slider-range-max {
-				right: 0;
-			}
-
-		}
-
-		.slider-number-display {
-			display: none;
-			position: absolute;
-			min-width: 10px;
-			height: 20px;
-			left: 50%;
-			top: 50%;
-			padding: 3px 8px;
-			line-height: 20px;
-			text-align: center;
-			font-size: 11px;
-			@extend %slider_handle_active;
-			border-radius: 100px;
-			transform: translateX( -50% ) translateY( -50% );
-			transform-origin: 50% 50%;
-
-			animation-name: bounce-in;
-			animation-duration: .3s;
 		}
 
 	}
