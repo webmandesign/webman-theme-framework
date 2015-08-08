@@ -46,21 +46,23 @@
 
 		h3,
 		h4 {
-			padding: .5em 20px;
+			padding: 1em 20px;
 			margin: 2em -20px .5em;
 			text-transform: uppercase;
 			font-size: 1em;
-			color: #aaacae;
-			border-top: 2px solid #dadcde;
+			letter-spacing: 1px;
+			color: #555;
+			border-top: 2px solid #bbb;
 		}
 
 		h4 {
-			padding: .5em 0;
+			padding: 1em 0;
 			margin: 1em 0 .5em;
 			border-top-style: dotted;
 		}
 
-		&:first-child {
+		&:first-child,
+		.customize-section-description-container + & {
 
 			h3 {
 
@@ -77,7 +79,7 @@
 			margin: 1em 0;
 			background: transparent;
 			border: 0;
-			border-top: 1px dashed #dadcde;
+			border-top: 2px dashed #bbb;
 		}
 
 		select,
@@ -90,6 +92,7 @@
 		}
 
 		textarea {
+			min-height: 12em;
 			resize: vertical;
 		}
 
@@ -179,7 +182,7 @@
 		.matrix {
 			padding: 2px 0 3px 2px;
 			margin-bottom: .5em;
-			border: 2px solid #dadcde;
+			border: 2px solid #bbb;
 			overflow: hidden;
 
 			span {
@@ -193,18 +196,18 @@
 				padding: .5em 0 .5em 4px;
 				margin: 0 -1px -1px 0;
 				text-align: center;
-				border: 1px dotted #ddd;
+				border: 1px dotted #bbb;
 				box-sizing: border-box;
 
 				&:hover {
-					background: #fafcfe;
+					background: #fff;
 				}
 
 				&.active {
-					background: #badcee;
+					background: #aaa;
 
 					&:hover {
-						background: #aaccde;
+						background: #ccc;
 					}
 
 				}
@@ -272,8 +275,8 @@
 				height: 2px;
 				margin: 10px 0;
 				text-align: left;
-				background: #eaecee;
-				border: 1px solid #caccce;
+				background: #fff;
+				border: 2px solid #bbb;
 				border-radius: 10px;
 			}
 
@@ -287,35 +290,15 @@
 				text-align: center;
 				font-size: .81em;
 				font-weight: 700;
-				background-color: #2a7c9e;
-				background-image: linear-gradient( to bottom, #2a7c9e, #257799 );
+				background-color: #28b;
 				color: #fff;
-				border: 1px solid #2a7c9e;
-				border-bottom-color: #1a6c8e;
+				border: 2px solid #069;
 				outline: 0;
 				border-radius: 100px;
 				cursor: e-resize;
-				box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
+				box-shadow: inset 0 2px 0 rgba(255, 255, 255, .2);
 				transform: translateX(-50%) translateY(-50%);
 				transform-origin: 50% 50%;
 			}
 
 		}
-
-// Credits
-
-	#accordion-section-credits {
-
-		.accordion-section-title {
-			display: none;
-		}
-
-		.accordion-section-content {
-			display: block !important;
-		}
-
-		h3 {
-			border: 0;
-		}
-
-	}
