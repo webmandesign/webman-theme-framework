@@ -171,8 +171,8 @@
 .customize-control-range .slide-number-wrapper {
   display: block;
   width: 90%;
-  width: calc( 100% - 20px );
-  padding: 0 10px;
+  width: calc( 100% - 40px );
+  padding: 0 20px;
   margin: 15px 0;
   transition: margin .4s;
 }

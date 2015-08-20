@@ -184,6 +184,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		 * Customizing format dropdown items
 		 *
 		 * @link  http://codex.wordpress.org/TinyMCE_Custom_Styles
+		 * @link  http://www.tinymce.com/wiki.php/Configuration:style_formats
 		 *
 		 * @since    1.0
 		 * @version  5.0
@@ -205,11 +206,101 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 				// Merge old & new formats
 
-					$init['style_formats_merge'] = true;
+					$init['style_formats_merge'] = false;
 
 				// Add custom formats
 
 					$init['style_formats'] = json_encode( apply_filters( 'wmhook_{%= prefix_hook %}_tf_editor_custom_mce_format', array(
+
+							// Group: Text styles
+
+								array(
+									'title' => esc_html__( 'Text styles', '{%= text_domain %}' ),
+									'items' => array(
+
+										array(
+											'title'    => __( 'Dropcap text', 'wm_domain' ),
+											'selector' => 'p',
+											'classes'  => 'dropcap-text',
+										),
+
+										array(
+											'title'    => esc_html__( 'Uppercase heading or paragraph', '{%= text_domain %}' ),
+											'selector' => 'h2, h3, h4, h5, h6, p',
+											'classes'  => 'uppercase',
+										),
+
+										array(
+											'title'  => esc_html__( 'Highlighted (marked) text', '{%= text_domain %}' ),
+											'inline' => 'mark',
+											'icon'   => 'backcolor',
+										),
+
+										array(
+											'title'  => esc_html__( 'Superscript', '{%= text_domain %}' ),
+											'icon'   => 'superscript',
+											'format' => 'superscript',
+										),
+
+										array(
+											'title'  => esc_html__( 'Subscript', '{%= text_domain %}' ),
+											'icon'   => 'subscript',
+											'format' => 'subscript',
+										),
+
+										array(
+											'title'  => esc_html__( 'Code', '{%= text_domain %}' ),
+											'icon'   => 'code',
+											'format' => 'code',
+										),
+
+										array(
+											'title'    => esc_html__( 'Heading 1 style', '{%= text_domain %}' ),
+											'selector' => 'h2, h3, h4, h5, h6, p',
+											'classes'  => 'h1',
+										),
+
+										array(
+											'title'    => esc_html__( 'Heading 2 style', '{%= text_domain %}' ),
+											'selector' => 'h3, h4, h5, h6, p',
+											'classes'  => 'h2',
+										),
+
+										array(
+											'title'    => esc_html__( 'Heading 3 style', '{%= text_domain %}' ),
+											'selector' => 'h2, h4, h5, h6, p',
+											'classes'  => 'h3',
+										),
+
+									),
+								),
+
+							// Group: Text size
+
+								array(
+									'title' => esc_html__( 'Text sizes', '{%= text_domain %}' ),
+									'items' => array(
+
+										array(
+											'title'    => esc_html__( 'Large text', '{%= text_domain %}' ),
+											'selector' => 'h2, h3, h4, h5, h6, p',
+											'classes'  => 'text-size-l',
+										),
+
+										array(
+											'title'    => esc_html__( 'Extra large text', '{%= text_domain %}' ),
+											'selector' => 'h2, h3, h4, h5, h6, p',
+											'classes'  => 'text-size-xl',
+										),
+
+										array(
+											'title'    => esc_html__( 'Huge text', '{%= text_domain %}' ),
+											'selector' => 'h2, h3, h4, h5, h6, p',
+											'classes'  => 'text-size-xxl',
+										),
+
+									),
+								),
 
 							// Group: Quotes
 
@@ -220,16 +311,19 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 										array(
 											'title' => esc_html__( 'Blockquote', '{%= text_domain %}' ),
 											'block' => 'blockquote',
+											'icon'  => 'blockquote',
 										),
 										array(
 											'title'   => esc_html__( 'Pullquote - align left', '{%= text_domain %}' ),
 											'block'   => 'blockquote',
 											'classes' => 'pullquote alignleft',
+											'icon'    => 'alignleft',
 										),
 										array(
 											'title'   => esc_html__( 'Pullquote - align right', '{%= text_domain %}' ),
 											'block'   => 'blockquote',
 											'classes' => 'pullquote alignright',
+											'icon'    => 'alignright',
 										),
 										array(
 											'title' => esc_html_x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', '{%= text_domain %}' ),
@@ -239,33 +333,13 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 									),
 								),
 
-							// Group: Text styles
-
-								array(
-									'title' => esc_html__( 'Text styles', '{%= text_domain %}' ),
-									'items' => array(
-
-										array(
-											'title'    => esc_html__( 'Uppercase heading or paragraph', '{%= text_domain %}' ),
-											'selector' => 'h1, h2, h3, h4, h5, h6, p',
-											'classes'  => 'uppercase',
-										),
-
-										array(
-											'title'  => esc_html__( 'Highlighted (marked) text', '{%= text_domain %}' ),
-											'inline' => 'mark',
-										),
-
-										array(
-											'title'    => esc_html__( 'Button link', '{%= text_domain %}' ),
-											'selector' => 'a',
-											'classes'  => 'button',
-										),
-
-									),
-								),
-
 						) ) );
+
+				// Removing obsolete tags (this is localized already)
+
+					$heading_1 = ( ! is_admin() ) ? ( 'Heading 1=h1;' ) : ( '' ); // Accounting for page builders front-end editing when page title is disabled
+
+					$init['block_formats'] = 'Paragraph=p;' . $heading_1 . 'Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6;Address=address;Preformatted=pre;Div=div';
 
 
 			// Output

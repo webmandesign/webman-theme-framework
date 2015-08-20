@@ -187,6 +187,9 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Get the logo
 		 *
 		 * Supports Jetpack Site Logo module.
+		 * Accessibility rules applied.
+		 *
+		 * @link  http://blog.rrwd.nl/2014/11/21/html5-headings-in-wordpress-lets-fight/
 		 *
 		 * @since    3.0
 		 * @version  5.0
@@ -267,20 +270,30 @@ final class {%= prefix_class %}_Theme_Framework {
 
 				// Logo HTML
 
+					$logo_class = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_class', 'site-title logo type-' . $args['logo_type'], $args );
+
 					$output .= '<div class="site-branding">';
-						$output .= '<h1 id="site-title" class="' . esc_attr( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_class', 'site-title logo type-' . $args['logo_type'], $args ) ) . '">';
-						$output .= '<a href="' . esc_url( $args['url'] ) . '" title="' . esc_attr( $args['title_att'] ) . '" rel="home">';
 
-								if ( 'text' === $args['logo_type'] ) {
-									$output .= '<span class="text-logo">' . $blog_info['name'] . '</span>';
-								} else {
-									$output .= $args['logo_image'];
-								}
+						if ( is_front_page() ) {
+							$output .= '<h1 id="site-title" class="' . esc_attr( $logo_class ) . '">';
+						} else {
+							$output .= '<a id="site-title" class="' . esc_attr( $logo_class ) . '" href="' . esc_url( $args['url'] ) . '" title="' . esc_attr( $args['title_att'] ) . '" rel="home">';
+						}
 
-						$output .= '</a></h1>';
+							if ( 'text' === $args['logo_type'] ) {
+								$output .= '<span class="text-logo">' . $blog_info['name'] . '</span>';
+							} else {
+								$output .= $args['logo_image'] . '<span class="screen-reader-text">' . $blog_info['name'] . '</span>';
+							}
+
+						if ( is_front_page() ) {
+							$output .= '</h1>';
+						} else {
+							$output .= '</a>';
+						}
 
 							if ( $blog_info['description'] ) {
-								$output .= '<h2 class="site-description">' . $blog_info['description'] . '</h2>';
+								$output .= '<div class="site-description">' . $blog_info['description'] . '</div>';
 							}
 
 					$output .= '</div>';
