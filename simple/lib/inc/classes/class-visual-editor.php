@@ -249,25 +249,19 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 										),
 
 										array(
-											'title'  => esc_html__( 'Code', '{%= text_domain %}' ),
-											'icon'   => 'code',
-											'format' => 'code',
-										),
-
-										array(
-											'title'    => esc_html__( 'Heading 1 style', '{%= text_domain %}' ),
+											'title'    => esc_html__( 'Heading 1 text style', '{%= text_domain %}' ),
 											'selector' => 'h2, h3, h4, h5, h6, p',
 											'classes'  => 'h1',
 										),
 
 										array(
-											'title'    => esc_html__( 'Heading 2 style', '{%= text_domain %}' ),
+											'title'    => esc_html__( 'Heading 2 text style', '{%= text_domain %}' ),
 											'selector' => 'h3, h4, h5, h6, p',
 											'classes'  => 'h2',
 										),
 
 										array(
-											'title'    => esc_html__( 'Heading 3 style', '{%= text_domain %}' ),
+											'title'    => esc_html__( 'Heading 3 text style', '{%= text_domain %}' ),
 											'selector' => 'h2, h4, h5, h6, p',
 											'classes'  => 'h3',
 										),
@@ -339,7 +333,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 					$heading_1 = ( ! is_admin() ) ? ( 'Heading 1=h1;' ) : ( '' ); // Accounting for page builders front-end editing when page title is disabled
 
-					$init['block_formats'] = 'Paragraph=p;' . $heading_1 . 'Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6;Address=address;Preformatted=pre;Div=div';
+					$init['block_formats'] = 'Paragraph=p;' . $heading_1 . 'Heading 2=h2;Heading 3=h3;Heading 4=h4;Address=address;Preformatted=pre;Code=code';
 
 
 			// Output

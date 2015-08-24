@@ -277,6 +277,7 @@ final class {%= prefix_class %}_Theme_Framework {
 						if ( is_front_page() ) {
 							$output .= '<h1 id="site-title" class="' . esc_attr( $logo_class ) . '">';
 						} else {
+							$output .= '<h2 class="screen-reader-text">' . wp_title( '|', false, 'right' ) . '</h2>'; // To provide BODY heading on subpages
 							$output .= '<a id="site-title" class="' . esc_attr( $logo_class ) . '" href="' . esc_url( $args['url'] ) . '" title="' . esc_attr( $args['title_att'] ) . '" rel="home">';
 						}
 
