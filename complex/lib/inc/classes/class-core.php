@@ -98,7 +98,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						// Widgets improvements
 
-							add_filter( 'widget_title', array( $this, 'html_widget_title' ) );
+							// add_filter( 'widget_title', array( $this, 'html_widget_title' ) );
 
 							add_filter( 'show_recent_comments_widget_style', '__return_false' );
 							add_filter( 'widget_text', 'do_shortcode' );
@@ -1836,10 +1836,28 @@ final class {%= prefix_class %}_Theme_Framework {
 						']' => '>',
 					);
 
+				$allowed_tags = array(
+						'a'      => array( 'href' => array() ),
+						'abbr'   => array(),
+						'br'     => array(),
+						'code'   => array(),
+						'del'    => array(),
+						'em'     => array(),
+						'ins'    => array(),
+						'mark'   => array(),
+						'q'      => array(),
+						's'      => array(),
+						'small'  => array(),
+						'span'   => array( 'class' => array() ),
+						'strong' => array(),
+						'sub'    => array(),
+						'sup'    => array(),
+					);
+
 
 			// Output
 
-				return strip_tags( strtr( $title, $replacements ), '<a><abbr><b><br><button><code><del><em><i><img><ins><mark><q><s><small><span><strong><sub><sup>' );
+				return wp_kses( strtr( $title, $replacements ), $allowed_tags );
 
 		} // /html_widget_title
 
