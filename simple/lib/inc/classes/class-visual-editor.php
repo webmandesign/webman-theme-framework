@@ -276,21 +276,27 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 									'items' => array(
 
 										array(
-											'title'    => esc_html__( 'Large text', '{%= text_domain %}' ),
+											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 1 ),
 											'selector' => 'h2, h3, h4, h5, h6, p',
-											'classes'  => 'text-size-l',
+											'classes'  => 'display-1',
 										),
 
 										array(
-											'title'    => esc_html__( 'Extra large text', '{%= text_domain %}' ),
+											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 2 ),
 											'selector' => 'h2, h3, h4, h5, h6, p',
-											'classes'  => 'text-size-xl',
+											'classes'  => 'display-2',
 										),
 
 										array(
-											'title'    => esc_html__( 'Huge text', '{%= text_domain %}' ),
+											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 3 ),
 											'selector' => 'h2, h3, h4, h5, h6, p',
-											'classes'  => 'text-size-xxl',
+											'classes'  => 'display-3',
+										),
+
+										array(
+											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 4 ),
+											'selector' => 'h2, h3, h4, h5, h6, p',
+											'classes'  => 'display-4',
 										),
 
 									),
