@@ -483,7 +483,8 @@ final class {%= prefix_class %}_Theme_Framework {
 				$output = '';
 
 				$args = wp_parse_args( $args, apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_defaults', array(
-						'class'       => 'entry-meta clearfix',
+						'class'       => 'entry-meta',
+						'container'   => 'div',
 						'date_format' => null,
 						'html'        => '<span class="{class}"{attributes}>{content}</span>',
 						'html_custom' => array(
@@ -691,7 +692,7 @@ final class {%= prefix_class %}_Theme_Framework {
 				} // /foreach
 
 				if ( $output ) {
-					$output = '<div class="' . esc_attr( $args['class'] ) . '">' . $output . '</div>';
+					$output = '<' . tag_escape( $args['container'] ) . ' class="' . esc_attr( $args['class'] ) . '">' . $output . '</' . tag_escape( $args['container'] ) . '>';
 				}
 
 
