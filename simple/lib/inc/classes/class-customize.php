@@ -439,7 +439,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 									$panel_id = '{%= prefix_var %}_' . sanitize_title( trim( $theme_option['in_panel'] ) );
 
-									if ( $customizer_panel != $panel_id ) {
+									if ( $customizer_panel !== $panel_id ) {
 
 										$wp_customize->add_panel(
 												$panel_id,

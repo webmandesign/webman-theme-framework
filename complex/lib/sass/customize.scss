@@ -10,59 +10,41 @@
 
 
 
-// Basic styles
+[id$="_theme"] {
 
-	.no-overflow {
-		overflow: hidden;
-	}
+	// Basic styles
 
-// Donation link
-
-	.donation-link {
-
-		&,
-		&:hover,
-		&:active {
-			display: block;
-			width: 100%;
-			padding: 1em 0;
-			text-transform: uppercase;
-			text-align: center;
-			font-weight: bold;
-			font-size: .81em;
-			background: #0aac8e;
-			color: #fafcfe;
+		.no-overflow {
+			overflow: hidden;
 		}
 
-		&:hover {
-			letter-spacing: 1px;
+	// Donation link
+
+		.donation-link {
+
+			&,
+			&:hover,
+			&:active {
+				display: block;
+				width: 100%;
+				padding: 1em 0;
+				text-transform: uppercase;
+				text-align: center;
+				font-weight: bold;
+				font-size: .81em;
+				background: #0aac8e;
+				color: #fafcfe;
+			}
+
+			&:hover {
+				letter-spacing: 1px;
+			}
+
 		}
 
-	}
+	// Controls
 
-// Controls
-
-	.customize-control {
-
-		h3,
-		h4 {
-			padding: 1em 20px;
-			margin: 2em -20px .5em;
-			text-transform: uppercase;
-			font-size: 1em;
-			letter-spacing: 1px;
-			color: #555;
-			border-top: 2px solid #bbb;
-		}
-
-		h4 {
-			padding: 1em 0;
-			margin: 1em 0 .5em;
-			border-top-style: dotted;
-		}
-
-		&:first-child,
-		.customize-section-description-container + & {
+		.customize-section-description-container + .customize-control { // This has to be here due to global wrapper
 
 			h3 {
 
@@ -75,230 +57,264 @@
 
 		}
 
-		hr {
-			margin: 1em 0;
-			background: transparent;
-			border: 0;
-			border-top: 2px dashed #bbb;
-		}
+		.customize-control {
 
-		select,
-		textarea {
-			width: 100%;
-		}
+			h3,
+			h4 {
+				padding: 1em 20px;
+				margin: 2em -20px .5em;
+				text-transform: uppercase;
+				font-size: 1em;
+				letter-spacing: 1px;
+				color: #555;
+				border-top: 2px solid #bbb;
+			}
 
-		select[multiple] {
-			height: 8em;
-		}
+			h4 {
+				padding: 1em 0;
+				margin: 1em 0 .5em;
+				border-top-style: dotted;
+			}
 
-		textarea {
-			min-height: 12em;
-			resize: vertical;
-		}
+			&:first-child {
 
-	}
+				h3 {
 
-	// Hidden control
+					&:first-child {
+						margin-top: 0;
+						border: 0;
+					}
 
-		.customize-control-hidden {
-			display: none !important;
-		}
+				}
 
-	// Color control
+			}
 
-		.customize-control-color {
+			hr {
+				margin: 1em 0;
+				background: transparent;
+				border: 0;
+				border-top: 2px dashed #bbb;
+			}
 
-			.wp-picker-container {
-				display: block;
+			select,
+			textarea {
+				width: 100%;
+			}
+
+			select[multiple] {
+				height: 8em;
+			}
+
+			textarea {
+				min-height: 12em;
+				resize: vertical;
 			}
 
 		}
 
-		.wp-color-result {
-			box-sizing: border-box;
-			width: 100%;
-			height: 30px;
-			padding-left: 50%;
-			margin-right: 0;
-			border-color: rgba(0, 0, 0, .2);
+		// Hidden control
 
-			&:focus,
-			&:hover {
-				border-color: rgba(0, 0, 0, .3);
+			.customize-control-hidden {
+				display: none !important;
+			}
+
+		// Color control (only in "Theme" panel)
+
+			.customize-control-color {
+
+				.wp-picker-container {
+					display: block;
+				}
+
+			}
+
+			.wp-color-result {
+				box-sizing: border-box;
+				width: 100%;
+				height: 30px;
+				padding-left: 50%;
+				margin-right: 0;
+				border-color: rgba(0, 0, 0, .2);
+
+				&:focus,
+				&:hover {
+					border-color: rgba(0, 0, 0, .3);
+
+					&::after {
+						background: rgba(0, 0, 0, .35);
+						color: #fff;
+						border: 0;
+					}
+
+				}
 
 				&::after {
-					background: rgba(0, 0, 0, .35);
+					margin: -1px -1px 0 0;
+					line-height: 30px;
+					font-weight: 700;
+					text-shadow: 0 1px 2px rgba(0, 0, 0, .5);
+					background: rgba(0, 0, 0, .2);
 					color: #fff;
 					border: 0;
+					box-shadow: none;
 				}
 
 			}
 
-			&::after {
-				margin: -1px -1px 0 0;
-				line-height: 30px;
-				font-weight: 700;
-				text-shadow: 0 1px 2px rgba(0, 0, 0, .5);
-				background: rgba(0, 0, 0, .2);
-				color: #fff;
-				border: 0;
-				box-shadow: none;
+			.wp-picker-input-wrap {
+
+				.button,
+				input[type=text].wp-color-picker {
+					width: 48%;
+				}
+
+				.button {
+					float: right;
+				}
+
 			}
 
-		}
-
-		.wp-picker-input-wrap {
-
-			.wp-picker-open + & {
+			.wp-picker-open + .wp-picker-input-wrap { // This has to be here due to global wrapper
 				display: block;
 			}
 
-			.button,
-			input[type=text].wp-color-picker {
-				width: 48%;
-			}
+			.wp-picker-container {
 
-			.button {
-				float: right;
-			}
+				.iris-picker {
+					width: 100% !important;
 
-		}
+					.iris-square {
+						margin-right: 5%;
+					}
 
-		.wp-picker-container {
-
-			.iris-picker {
-				width: 100% !important;
-
-				.iris-square {
-					margin-right: 5%;
 				}
 
 			}
 
-		}
+		// Radio matrix (3x3)
 
-	// Radio matrix (3x3)
+			.matrix {
+				padding: 2px 0 3px 2px;
+				margin-bottom: .5em;
+				border: 2px solid #bbb;
+				overflow: hidden;
 
-		.matrix {
-			padding: 2px 0 3px 2px;
-			margin-bottom: .5em;
-			border: 2px solid #bbb;
-			overflow: hidden;
-
-			span {
-				display: none;
-			}
-
-			label {
-				float: left;
-				display: block;
-				width: 33.33%;
-				padding: .5em 0 .5em 4px;
-				margin: 0 -1px -1px 0;
-				text-align: center;
-				border: 1px dotted #bbb;
-				box-sizing: border-box;
-
-				&:hover {
-					background: #fff;
+				span {
+					display: none;
 				}
 
-				&.active {
-					background: #aaa;
+				label {
+					float: left;
+					display: block;
+					width: 33.33%;
+					padding: .5em 0 .5em 4px;
+					margin: 0 -1px -1px 0;
+					text-align: center;
+					border: 1px dotted #bbb;
+					box-sizing: border-box;
 
 					&:hover {
-						background: #ccc;
+						background: #fff;
+					}
+
+					&.active {
+						background: #aaa;
+
+						&:hover {
+							background: #ccc;
+						}
+
 					}
 
 				}
 
 			}
 
-		}
+		// Image radios
 
-	// Image radios
+			.image-radio {
 
-		.image-radio {
+				span {
+					display: none;
+				}
 
-			span {
-				display: none;
-			}
+				label {
+					float: left;
+					display: inline-block;
+					margin: 4px;
+					text-align: center;
 
-			label {
-				float: left;
-				display: inline-block;
-				margin: 4px;
-				text-align: center;
+					&.active,
+					&:hover {
 
-				&.active,
-				&:hover {
+						img {
+							opacity: 1;
+						}
 
-					img {
-						opacity: 1;
 					}
 
 				}
 
+				img {
+					display: block;
+					width: 42px;
+					opacity: .5;
+				}
+
+				input {
+					position: relative;
+					top: -.75em;
+					margin: 0;
+				}
+
 			}
 
-			img {
-				display: block;
-				width: 42px;
-				opacity: .5;
+		// Range / jQuery UI Slider
+
+			.customize-control-range {
+
+				.slide-number-wrapper {
+					display: block;
+					width: 90%;
+					width: calc( 100% - 40px );
+					padding: 0 20px;
+					margin: 15px 0;
+					transition: margin .4s;
+				}
+
+				.ui-slider {
+					position: relative;
+					display: block;
+					width: 100%;
+					height: 2px;
+					margin: 10px 0;
+					text-align: left;
+					background: #fff;
+					border: 2px solid #bbb;
+					border-radius: 10px;
+				}
+
+				.ui-slider-handle {
+					position: absolute;
+					z-index: 2;
+					min-width: 18px;
+					min-height: 10px;
+					top: 0;
+					padding: .19em .62em;
+					text-align: center;
+					font-size: .81em;
+					font-weight: 700;
+					background-color: #28b;
+					color: #fff;
+					border: 2px solid #069;
+					outline: 0;
+					border-radius: 100px;
+					cursor: e-resize;
+					box-shadow: inset 0 2px 0 rgba(255, 255, 255, .2);
+					transform: translateX(-50%) translateY(-50%);
+					transform-origin: 50% 50%;
+				}
+
 			}
 
-			input {
-				position: relative;
-				top: -.75em;
-				margin: 0;
-			}
-
-		}
-
-	// Range / jQuery UI Slider
-
-		.customize-control-range {
-
-			.slide-number-wrapper {
-				display: block;
-				width: 90%;
-				width: calc( 100% - 40px );
-				padding: 0 20px;
-				margin: 15px 0;
-				transition: margin .4s;
-			}
-
-			.ui-slider {
-				position: relative;
-				display: block;
-				width: 100%;
-				height: 2px;
-				margin: 10px 0;
-				text-align: left;
-				background: #fff;
-				border: 2px solid #bbb;
-				border-radius: 10px;
-			}
-
-			.ui-slider-handle {
-				position: absolute;
-				z-index: 2;
-				min-width: 18px;
-				min-height: 10px;
-				top: 0;
-				padding: .19em .62em;
-				text-align: center;
-				font-size: .81em;
-				font-weight: 700;
-				background-color: #28b;
-				color: #fff;
-				border: 2px solid #069;
-				outline: 0;
-				border-radius: 100px;
-				cursor: e-resize;
-				box-shadow: inset 0 2px 0 rgba(255, 255, 255, .2);
-				transform: translateX(-50%) translateY(-50%);
-				transform-origin: 50% 50%;
-			}
-
-		}
+}

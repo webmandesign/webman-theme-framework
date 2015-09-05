@@ -7,11 +7,10 @@
  * @since    5.0
  * @version  5.0
  */
-.no-overflow {
+[id$="_theme"] .no-overflow {
   overflow: hidden;
 }
-
-.donation-link, .donation-link:hover, .donation-link:active {
+[id$="_theme"] .donation-link, [id$="_theme"] .donation-link:hover, [id$="_theme"] .donation-link:active {
   display: block;
   width: 100%;
   padding: 1em 0;
@@ -22,12 +21,15 @@
   background: #0aac8e;
   color: #fafcfe;
 }
-.donation-link:hover {
+[id$="_theme"] .donation-link:hover {
   letter-spacing: 1px;
 }
-
-.customize-control h3,
-.customize-control h4 {
+[id$="_theme"] .customize-section-description-container + .customize-control h3:first-child {
+  margin-top: 0;
+  border: 0;
+}
+[id$="_theme"] .customize-control h3,
+[id$="_theme"] .customize-control h4 {
   padding: 1em 20px;
   margin: 2em -20px .5em;
   text-transform: uppercase;
@@ -36,42 +38,39 @@
   color: #555;
   border-top: 2px solid #bbb;
 }
-.customize-control h4 {
+[id$="_theme"] .customize-control h4 {
   padding: 1em 0;
   margin: 1em 0 .5em;
   border-top-style: dotted;
 }
-.customize-control:first-child h3:first-child, .customize-section-description-container + .customize-control h3:first-child {
+[id$="_theme"] .customize-control:first-child h3:first-child {
   margin-top: 0;
   border: 0;
 }
-.customize-control hr {
+[id$="_theme"] .customize-control hr {
   margin: 1em 0;
   background: transparent;
   border: 0;
   border-top: 2px dashed #bbb;
 }
-.customize-control select,
-.customize-control textarea {
+[id$="_theme"] .customize-control select,
+[id$="_theme"] .customize-control textarea {
   width: 100%;
 }
-.customize-control select[multiple] {
+[id$="_theme"] .customize-control select[multiple] {
   height: 8em;
 }
-.customize-control textarea {
+[id$="_theme"] .customize-control textarea {
   min-height: 12em;
   resize: vertical;
 }
-
-.customize-control-hidden {
+[id$="_theme"] .customize-control-hidden {
   display: none !important;
 }
-
-.customize-control-color .wp-picker-container {
+[id$="_theme"] .customize-control-color .wp-picker-container {
   display: block;
 }
-
-.wp-color-result {
+[id$="_theme"] .wp-color-result {
   box-sizing: border-box;
   width: 100%;
   height: 30px;
@@ -79,15 +78,15 @@
   margin-right: 0;
   border-color: rgba(0, 0, 0, 0.2);
 }
-.wp-color-result:focus, .wp-color-result:hover {
+[id$="_theme"] .wp-color-result:focus, [id$="_theme"] .wp-color-result:hover {
   border-color: rgba(0, 0, 0, 0.3);
 }
-.wp-color-result:focus::after, .wp-color-result:hover::after {
+[id$="_theme"] .wp-color-result:focus::after, [id$="_theme"] .wp-color-result:hover::after {
   background: rgba(0, 0, 0, 0.35);
   color: #fff;
   border: 0;
 }
-.wp-color-result::after {
+[id$="_theme"] .wp-color-result::after {
   margin: -1px -1px 0 0;
   line-height: 30px;
   font-weight: 700;
@@ -97,35 +96,32 @@
   border: 0;
   box-shadow: none;
 }
-
-.wp-picker-open + .wp-picker-input-wrap {
-  display: block;
-}
-.wp-picker-input-wrap .button,
-.wp-picker-input-wrap input[type=text].wp-color-picker {
+[id$="_theme"] .wp-picker-input-wrap .button,
+[id$="_theme"] .wp-picker-input-wrap input[type=text].wp-color-picker {
   width: 48%;
 }
-.wp-picker-input-wrap .button {
+[id$="_theme"] .wp-picker-input-wrap .button {
   float: right;
 }
-
-.wp-picker-container .iris-picker {
+[id$="_theme"] .wp-picker-open + .wp-picker-input-wrap {
+  display: block;
+}
+[id$="_theme"] .wp-picker-container .iris-picker {
   width: 100% !important;
 }
-.wp-picker-container .iris-picker .iris-square {
+[id$="_theme"] .wp-picker-container .iris-picker .iris-square {
   margin-right: 5%;
 }
-
-.matrix {
+[id$="_theme"] .matrix {
   padding: 2px 0 3px 2px;
   margin-bottom: .5em;
   border: 2px solid #bbb;
   overflow: hidden;
 }
-.matrix span {
+[id$="_theme"] .matrix span {
   display: none;
 }
-.matrix label {
+[id$="_theme"] .matrix label {
   float: left;
   display: block;
   width: 33.33%;
@@ -135,40 +131,38 @@
   border: 1px dotted #bbb;
   box-sizing: border-box;
 }
-.matrix label:hover {
+[id$="_theme"] .matrix label:hover {
   background: #fff;
 }
-.matrix label.active {
+[id$="_theme"] .matrix label.active {
   background: #aaa;
 }
-.matrix label.active:hover {
+[id$="_theme"] .matrix label.active:hover {
   background: #ccc;
 }
-
-.image-radio span {
+[id$="_theme"] .image-radio span {
   display: none;
 }
-.image-radio label {
+[id$="_theme"] .image-radio label {
   float: left;
   display: inline-block;
   margin: 4px;
   text-align: center;
 }
-.image-radio label.active img, .image-radio label:hover img {
+[id$="_theme"] .image-radio label.active img, [id$="_theme"] .image-radio label:hover img {
   opacity: 1;
 }
-.image-radio img {
+[id$="_theme"] .image-radio img {
   display: block;
   width: 42px;
   opacity: .5;
 }
-.image-radio input {
+[id$="_theme"] .image-radio input {
   position: relative;
   top: -.75em;
   margin: 0;
 }
-
-.customize-control-range .slide-number-wrapper {
+[id$="_theme"] .customize-control-range .slide-number-wrapper {
   display: block;
   width: 90%;
   width: calc( 100% - 40px );
@@ -176,7 +170,7 @@
   margin: 15px 0;
   transition: margin .4s;
 }
-.customize-control-range .ui-slider {
+[id$="_theme"] .customize-control-range .ui-slider {
   position: relative;
   display: block;
   width: 100%;
@@ -187,7 +181,7 @@
   border: 2px solid #bbb;
   border-radius: 10px;
 }
-.customize-control-range .ui-slider-handle {
+[id$="_theme"] .customize-control-range .ui-slider-handle {
   position: absolute;
   z-index: 2;
   min-width: 18px;

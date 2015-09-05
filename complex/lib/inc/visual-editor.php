@@ -34,4 +34,4 @@
  * 10) Init
  */
 
-	add_action( 'init', array( '{%= prefix_class %}_Theme_Framework_Visual_Editor', 'init' ), -100 );
+	add_action( 'init', array( '{%= prefix_class %}_Theme_Framework_Visual_Editor', 'init' ) );
