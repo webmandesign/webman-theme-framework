@@ -326,8 +326,8 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 											'icon'    => 'alignright',
 										),
 										array(
-											'title' => esc_html_x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', '{%= text_domain %}' ),
-											'block' => 'cite',
+											'title'  => esc_html_x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', '{%= text_domain %}' ),
+											'inline' => 'cite',
 										),
 
 									),
