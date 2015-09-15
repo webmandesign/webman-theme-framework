@@ -1166,7 +1166,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 				$output        = (string) apply_filters( 'wmhook_{%= prefix_hook %}_custom_styles', '' );
 				$theme_options = (array) apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
-				$alphas        = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_alphas', array( 0 ) );
+				$alphas        = array_filter( (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_alphas', array() ) );
 
 				$replacements  = array_unique( array_filter( (array) get_transient( {%= prefix_constant %}_THEME_SLUG . '_customizer_values' ) ) ); //There have to be values (defaults) set!
 
@@ -1265,7 +1265,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 								// Add also rgba() color interpratation
 
-									if ( 'color' === $option['type'] ) {
+									if ( 'color' === $option['type'] && ! empty( $alphas ) ) {
 										foreach ( $alphas as $alpha ) {
 											$replacements[ '___' . str_replace( '-', '_', $option_id ) . '|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 										} // /foreach
@@ -1280,9 +1280,12 @@ final class {%= prefix_class %}_Theme_Framework {
 								if ( $value = get_background_color() ) {
 									$replacements['___background_color'] = self::maybe_hash_hex_color( $value );
 
-									foreach ( $alphas as $alpha ) {
-										$replacements[ '___background_color|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
-									} // /foreach
+
+									if ( ! empty( $alphas ) ) {
+										foreach ( $alphas as $alpha ) {
+											$replacements[ '___background_color|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
+										} // /foreach
+									}
 								}
 
 							// Background image
@@ -1298,9 +1301,11 @@ final class {%= prefix_class %}_Theme_Framework {
 								if ( $value = get_header_textcolor() ) {
 									$replacements['___header_textcolor'] = self::maybe_hash_hex_color( $value );
 
-									foreach ( $alphas as $alpha ) {
-										$replacements[ '___header_textcolor|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
-									} // /foreach
+									if ( ! empty( $alphas ) ) {
+										foreach ( $alphas as $alpha ) {
+											$replacements[ '___header_textcolor|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
+										} // /foreach
+									}
 								}
 
 							// Header image
