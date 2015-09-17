@@ -219,7 +219,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 									'items' => array(
 
 										array(
-											'title'    => __( 'Dropcap text', 'wm_domain' ),
+											'title'    => __( 'Dropcap text', '{%= text_domain %}' ),
 											'selector' => 'p',
 											'classes'  => 'dropcap-text',
 										),
@@ -249,19 +249,19 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 										),
 
 										array(
-											'title'    => esc_html__( 'Heading 1 text style', '{%= text_domain %}' ),
+											'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 1 ),
 											'selector' => 'h2, h3, h4, h5, h6, p',
 											'classes'  => 'h1',
 										),
 
 										array(
-											'title'    => esc_html__( 'Heading 2 text style', '{%= text_domain %}' ),
+											'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 2 ),
 											'selector' => 'h3, h4, h5, h6, p',
 											'classes'  => 'h2',
 										),
 
 										array(
-											'title'    => esc_html__( 'Heading 3 text style', '{%= text_domain %}' ),
+											'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 3 ),
 											'selector' => 'h2, h4, h5, h6, p',
 											'classes'  => 'h3',
 										),
