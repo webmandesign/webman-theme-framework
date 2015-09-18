@@ -437,14 +437,26 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 								 */
 								if ( isset( $theme_option['in_panel'] ) ) {
 
-									$panel_id = '{%= prefix_var %}_' . sanitize_title( trim( $theme_option['in_panel'] ) );
+									if ( is_array( $theme_option['in_panel'] ) ) {
+
+										$panel_title = $theme_option['in_panel'][0];
+										$panel_id    = trim( $theme_option['in_panel'][1] );
+
+									} else {
+
+										$panel_title = $theme_option['in_panel'];
+										$panel_id    = 'theme';
+
+									}
+
+									$panel_id = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_panel_id', $panel_id, $theme_option, $theme_options );
 
 									if ( $customizer_panel !== $panel_id ) {
 
 										$wp_customize->add_panel(
 												$panel_id,
 												array(
-													'title'       => $theme_option['in_panel'], // Panel title
+													'title'       => esc_html( $panel_title ),
 													'description' => ( isset( $theme_option['in_panel-description'] ) ) ? ( $theme_option['in_panel-description'] ) : ( '' ),  // Hidden at the top of the panel
 													'priority'    => $priority,
 												)

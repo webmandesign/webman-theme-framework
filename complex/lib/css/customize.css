@@ -7,10 +7,10 @@
  * @since    5.0
  * @version  5.0
  */
-[id$="_theme"] .no-overflow {
+#accordion-panel-theme .no-overflow {
   overflow: hidden;
 }
-[id$="_theme"] .donation-link, [id$="_theme"] .donation-link:hover, [id$="_theme"] .donation-link:active {
+#accordion-panel-theme .donation-link, #accordion-panel-theme .donation-link:hover, #accordion-panel-theme .donation-link:active {
   display: block;
   width: 100%;
   padding: 1em 0;
@@ -21,15 +21,15 @@
   background: #0aac8e;
   color: #fafcfe;
 }
-[id$="_theme"] .donation-link:hover {
+#accordion-panel-theme .donation-link:hover {
   letter-spacing: 1px;
 }
-[id$="_theme"] .customize-section-description-container + .customize-control h3:first-child {
+#accordion-panel-theme .customize-section-description-container + .customize-control h3:first-child {
   margin-top: 0;
   border: 0;
 }
-[id$="_theme"] .customize-control h3,
-[id$="_theme"] .customize-control h4 {
+#accordion-panel-theme .customize-control h3,
+#accordion-panel-theme .customize-control h4 {
   padding: 1em 20px;
   margin: 2em -20px .5em;
   text-transform: uppercase;
@@ -38,39 +38,39 @@
   color: #555;
   border-top: 2px solid #bbb;
 }
-[id$="_theme"] .customize-control h4 {
+#accordion-panel-theme .customize-control h4 {
   padding: 1em 0;
   margin: 1em 0 .5em;
   border-top-style: dotted;
 }
-[id$="_theme"] .customize-control:first-child h3:first-child {
+#accordion-panel-theme .customize-control:first-child h3:first-child {
   margin-top: 0;
   border: 0;
 }
-[id$="_theme"] .customize-control hr {
+#accordion-panel-theme .customize-control hr {
   margin: 1em 0;
   background: transparent;
   border: 0;
   border-top: 2px dashed #bbb;
 }
-[id$="_theme"] .customize-control select,
-[id$="_theme"] .customize-control textarea {
+#accordion-panel-theme .customize-control select,
+#accordion-panel-theme .customize-control textarea {
   width: 100%;
 }
-[id$="_theme"] .customize-control select[multiple] {
+#accordion-panel-theme .customize-control select[multiple] {
   height: 8em;
 }
-[id$="_theme"] .customize-control textarea {
+#accordion-panel-theme .customize-control textarea {
   min-height: 12em;
   resize: vertical;
 }
-[id$="_theme"] .customize-control-hidden {
+#accordion-panel-theme .customize-control-hidden {
   display: none !important;
 }
-[id$="_theme"] .customize-control-color .wp-picker-container {
+#accordion-panel-theme .customize-control-color .wp-picker-container {
   display: block;
 }
-[id$="_theme"] .wp-color-result {
+#accordion-panel-theme .wp-color-result {
   box-sizing: border-box;
   width: 100%;
   height: 30px;
@@ -78,15 +78,15 @@
   margin-right: 0;
   border-color: rgba(0, 0, 0, 0.2);
 }
-[id$="_theme"] .wp-color-result:focus, [id$="_theme"] .wp-color-result:hover {
+#accordion-panel-theme .wp-color-result:focus, #accordion-panel-theme .wp-color-result:hover {
   border-color: rgba(0, 0, 0, 0.3);
 }
-[id$="_theme"] .wp-color-result:focus::after, [id$="_theme"] .wp-color-result:hover::after {
+#accordion-panel-theme .wp-color-result:focus::after, #accordion-panel-theme .wp-color-result:hover::after {
   background: rgba(0, 0, 0, 0.35);
   color: #fff;
   border: 0;
 }
-[id$="_theme"] .wp-color-result::after {
+#accordion-panel-theme .wp-color-result::after {
   margin: -1px -1px 0 0;
   line-height: 30px;
   font-weight: 700;
@@ -96,32 +96,32 @@
   border: 0;
   box-shadow: none;
 }
-[id$="_theme"] .wp-picker-input-wrap .button,
-[id$="_theme"] .wp-picker-input-wrap input[type=text].wp-color-picker {
+#accordion-panel-theme .wp-picker-input-wrap .button,
+#accordion-panel-theme .wp-picker-input-wrap input[type=text].wp-color-picker {
   width: 48%;
 }
-[id$="_theme"] .wp-picker-input-wrap .button {
+#accordion-panel-theme .wp-picker-input-wrap .button {
   float: right;
 }
-[id$="_theme"] .wp-picker-open + .wp-picker-input-wrap {
+#accordion-panel-theme .wp-picker-open + .wp-picker-input-wrap {
   display: block;
 }
-[id$="_theme"] .wp-picker-container .iris-picker {
+#accordion-panel-theme .wp-picker-container .iris-picker {
   width: 100% !important;
 }
-[id$="_theme"] .wp-picker-container .iris-picker .iris-square {
+#accordion-panel-theme .wp-picker-container .iris-picker .iris-square {
   margin-right: 5%;
 }
-[id$="_theme"] .matrix {
+#accordion-panel-theme .matrix {
   padding: 2px 0 3px 2px;
   margin-bottom: .5em;
   border: 2px solid #bbb;
   overflow: hidden;
 }
-[id$="_theme"] .matrix span {
+#accordion-panel-theme .matrix span {
   display: none;
 }
-[id$="_theme"] .matrix label {
+#accordion-panel-theme .matrix label {
   float: left;
   display: block;
   width: 33.33%;
@@ -131,38 +131,38 @@
   border: 1px dotted #bbb;
   box-sizing: border-box;
 }
-[id$="_theme"] .matrix label:hover {
+#accordion-panel-theme .matrix label:hover {
   background: #fff;
 }
-[id$="_theme"] .matrix label.active {
+#accordion-panel-theme .matrix label.active {
   background: #aaa;
 }
-[id$="_theme"] .matrix label.active:hover {
+#accordion-panel-theme .matrix label.active:hover {
   background: #ccc;
 }
-[id$="_theme"] .image-radio span {
+#accordion-panel-theme .image-radio span {
   display: none;
 }
-[id$="_theme"] .image-radio label {
+#accordion-panel-theme .image-radio label {
   float: left;
   display: inline-block;
   margin: 4px;
   text-align: center;
 }
-[id$="_theme"] .image-radio label.active img, [id$="_theme"] .image-radio label:hover img {
+#accordion-panel-theme .image-radio label.active img, #accordion-panel-theme .image-radio label:hover img {
   opacity: 1;
 }
-[id$="_theme"] .image-radio img {
+#accordion-panel-theme .image-radio img {
   display: block;
   width: 42px;
   opacity: .5;
 }
-[id$="_theme"] .image-radio input {
+#accordion-panel-theme .image-radio input {
   position: relative;
   top: -.75em;
   margin: 0;
 }
-[id$="_theme"] .customize-control-range .slide-number-wrapper {
+#accordion-panel-theme .customize-control-range .slide-number-wrapper {
   display: block;
   width: 90%;
   width: calc( 100% - 40px );
@@ -170,7 +170,7 @@
   margin: 15px 0;
   transition: margin .4s;
 }
-[id$="_theme"] .customize-control-range .ui-slider {
+#accordion-panel-theme .customize-control-range .ui-slider {
   position: relative;
   display: block;
   width: 100%;
@@ -181,7 +181,7 @@
   border: 2px solid #bbb;
   border-radius: 10px;
 }
-[id$="_theme"] .customize-control-range .ui-slider-handle {
+#accordion-panel-theme .customize-control-range .ui-slider-handle {
   position: absolute;
   z-index: 2;
   min-width: 18px;
