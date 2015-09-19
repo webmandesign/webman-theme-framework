@@ -2,7 +2,10 @@
 /**
  * TGM Plugin Activation
  *
- * WebMan modification: Changed localization textdomain.
+ * WebMan modification:
+ * - Changed localization textdomain (don't forget the `_n_noop()` function under `$this->strings = ...`)
+ * - Removed translation domain comments in the commentblock below
+ * - Commented out the `add_submenu_page` part
  *
  * @link  https://github.com/TGMPA/TGM-Plugin-Activation/releases
  *
@@ -39,8 +42,6 @@
  * Version:     2.5.2
  * Author:      Thomas Griffin, Gary Jones, Juliette Reinders Folmer
  * Author URI:  http://tgmpluginactivation.com/
- * Text Domain: tgmpa
- * Domain Path: /languages/
  * Copyright:   2011, Thomas Griffin
  */
 
@@ -355,62 +356,62 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'notice_can_install_required'     => _n_noop(
 					'This theme requires the following plugin: %1$s.',
 					'This theme requires the following plugins: %1$s.',
-					'tgmpa'
+					'{%= text_domain %}'
 				),
 				'notice_can_install_recommended'  => _n_noop(
 					'This theme recommends the following plugin: %1$s.',
 					'This theme recommends the following plugins: %1$s.',
-					'tgmpa'
+					'{%= text_domain %}'
 				),
 				'notice_cannot_install'           => _n_noop(
 					'Sorry, but you do not have the correct permissions to install the %1$s plugin.',
 					'Sorry, but you do not have the correct permissions to install the %1$s plugins.',
-					'tgmpa'
+					'{%= text_domain %}'
 				),
 				'notice_ask_to_update'            => _n_noop(
 					'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.',
 					'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.',
-					'tgmpa'
+					'{%= text_domain %}'
 				),
 				'notice_ask_to_update_maybe'      => _n_noop(
 					'There is an update available for: %1$s.',
 					'There are updates available for the following plugins: %1$s.',
-					'tgmpa'
+					'{%= text_domain %}'
 				),
 				'notice_cannot_update'            => _n_noop(
 					'Sorry, but you do not have the correct permissions to update the %1$s plugin.',
 					'Sorry, but you do not have the correct permissions to update the %1$s plugins.',
-					'tgmpa'
+					'{%= text_domain %}'
 				),
 				'notice_can_activate_required'    => _n_noop(
 					'The following required plugin is currently inactive: %1$s.',
 					'The following required plugins are currently inactive: %1$s.',
-					'tgmpa'
+					'{%= text_domain %}'
 				),
 				'notice_can_activate_recommended' => _n_noop(
 					'The following recommended plugin is currently inactive: %1$s.',
 					'The following recommended plugins are currently inactive: %1$s.',
-					'tgmpa'
+					'{%= text_domain %}'
 				),
 				'notice_cannot_activate'          => _n_noop(
 					'Sorry, but you do not have the correct permissions to activate the %1$s plugin.',
 					'Sorry, but you do not have the correct permissions to activate the %1$s plugins.',
-					'tgmpa'
+					'{%= text_domain %}'
 				),
 				'install_link'                    => _n_noop(
 					'Begin installing plugin',
 					'Begin installing plugins',
-					'tgmpa'
+					'{%= text_domain %}'
 				),
 				'update_link'                     => _n_noop(
 					'Begin updating plugin',
 					'Begin updating plugins',
-					'tgmpa'
+					'{%= text_domain %}'
 				),
 				'activate_link'                   => _n_noop(
 					'Begin activating plugin',
 					'Begin activating plugins',
-					'tgmpa'
+					'{%= text_domain %}'
 				),
 				'return'                          => __( 'Return to Required Plugins Installer', '{%= text_domain %}' ),
 				'dashboard'                       => __( 'Return to the dashboard', '{%= text_domain %}' ),
@@ -655,8 +656,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			if ( 'themes.php' === $this->parent_slug ) {
 				$this->page_hook = call_user_func( 'add_theme_page', $args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function'] );
-			} else {
-				$this->page_hook = call_user_func( 'add_submenu_page', $args['parent_slug'], $args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function'] );
+			// } else {
+			// 	$this->page_hook = call_user_func( 'add_submenu_page', $args['parent_slug'], $args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function'] );
 			}
 		}
 
@@ -1194,10 +1195,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 				// Register the nag messages and prepare them to be processed.
 				if ( ! empty( $this->strings['nag_type'] ) ) {
-					add_settings_error( 'tgmpa', '{%= text_domain %}', $rendered, sanitize_html_class( strtolower( $this->strings['nag_type'] ) ) );
+					add_settings_error( 'tgmpa', 'tgmpa', $rendered, sanitize_html_class( strtolower( $this->strings['nag_type'] ) ) );
 				} else {
 					$nag_class = version_compare( $this->wp_version, '3.8', '<' ) ? 'updated' : 'update-nag';
-					add_settings_error( 'tgmpa', '{%= text_domain %}', $rendered, $nag_class );
+					add_settings_error( 'tgmpa', 'tgmpa', $rendered, $nag_class );
 				}
 			}
 
