@@ -381,7 +381,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 							if ( $args['disable_first'] && 1 === $i ) {
 
-								$part_title = the_title_attribute( 'echo=0' );
+								$part_title = get_the_title();
 
 							} else {
 
