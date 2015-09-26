@@ -237,6 +237,11 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 										),
 
 										array(
+											'title'  => esc_html__( 'Small text', '{%= text_domain %}' ),
+											'inline' => 'small',
+										),
+
+										array(
 											'title'  => esc_html__( 'Superscript', '{%= text_domain %}' ),
 											'icon'   => 'superscript',
 											'format' => 'superscript',
@@ -313,18 +318,21 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 											'block' => 'blockquote',
 											'icon'  => 'blockquote',
 										),
+
 										array(
 											'title'   => esc_html__( 'Pullquote - align left', '{%= text_domain %}' ),
 											'block'   => 'blockquote',
 											'classes' => 'pullquote alignleft',
 											'icon'    => 'alignleft',
 										),
+
 										array(
 											'title'   => esc_html__( 'Pullquote - align right', '{%= text_domain %}' ),
 											'block'   => 'blockquote',
 											'classes' => 'pullquote alignright',
 											'icon'    => 'alignright',
 										),
+
 										array(
 											'title'  => esc_html_x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', '{%= text_domain %}' ),
 											'inline' => 'cite',
