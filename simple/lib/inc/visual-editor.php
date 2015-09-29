@@ -6,7 +6,7 @@
  * @subpackage  Visual Editor
  *
  * @since    1.0
- * @version  5.0
+ * @version  1.0
  *
  * Contents:
  *

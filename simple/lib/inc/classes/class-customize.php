@@ -7,8 +7,8 @@
  * @package     WebMan WordPress Theme Framework (Simple)
  * @subpackage  Customize
  *
- * @since    2.0
- * @version  5.0
+ * @since    1.0
+ * @version  1.0
  */
 
 
@@ -18,8 +18,8 @@
 /**
  * Customize class
  *
- * @since    5.0
- * @version  5.0
+ * @since    1.0
+ * @version  1.0
  *
  * Contents:
  *
@@ -45,8 +45,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		/**
 		 * Constructor
 		 *
-		 * @since    5.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		private function __construct() {
 
@@ -71,8 +71,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		/**
 		 * Initialization (get instance)
 		 *
-		 * @since    5.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		public static function init() {
 
@@ -115,7 +115,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 */
 		public static function preview_scripts() {
 
@@ -225,8 +225,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		/**
 		 * Sanitize checkbox
 		 *
-		 * @since    5.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 *
 		 * @param  bool $value WP customizer value to sanitize.
 		 */
@@ -243,8 +243,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		/**
 		 * Sanitize select/radio
 		 *
-		 * @since    5.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 *
 		 * @param  string               $value WP customizer value to sanitize.
 		 * @param  WP_Customize_Setting $setting
@@ -274,7 +274,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * Useful for when the value may be of mixed type, such as array-or-string.
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  mixed $value WP customizer value to sanitize.
 		 */
@@ -311,7 +311,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */

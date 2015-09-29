@@ -8,8 +8,8 @@
  * @package     WebMan WordPress Theme Framework (Simple)
  * @subpackage  Core
  *
- * @since    2.0
- * @version  5.0
+ * @since    1.0
+ * @version  1.0
  */
 
 
@@ -19,8 +19,8 @@
 /**
  * Core class
  *
- * @since    5.0
- * @version  5.0
+ * @since    1.0
+ * @version  1.0
  *
  * Contents:
  *
@@ -48,8 +48,8 @@ final class {%= prefix_class %}_Theme_Framework {
 		/**
 		 * Constructor
 		 *
-		 * @since    5.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		private function __construct() {
 
@@ -114,8 +114,8 @@ final class {%= prefix_class %}_Theme_Framework {
 		/**
 		 * Initialization (get instance)
 		 *
-		 * @since    5.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		public static function init() {
 
@@ -144,7 +144,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Do action on theme version change
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 */
 		public static function theme_upgrade() {
 
@@ -186,7 +186,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @link  http://blog.rrwd.nl/2014/11/21/html5-headings-in-wordpress-lets-fight/
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 */
 		public static function get_the_logo() {
 
@@ -288,8 +288,8 @@ final class {%= prefix_class %}_Theme_Framework {
 			/**
 			 * Display the logo
 			 *
-			 * @since    2.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  1.0
 			 */
 			public static function the_logo() {
 
@@ -322,7 +322,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Appends the output at the top and bottom of post content.
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  string $content
 		 */
@@ -440,7 +440,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  array $args
 		 */
@@ -684,8 +684,8 @@ final class {%= prefix_class %}_Theme_Framework {
 			/**
 			 * Display the post meta info
 			 *
-			 * @since    2.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  1.0
 			 *
 			 * @param  array $args
 			 */
@@ -710,7 +710,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Get the paginated heading suffix
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  string $tag           Wrapper tag
 		 * @param  string $singular_only Display only on singular posts of specific type
@@ -777,8 +777,8 @@ final class {%= prefix_class %}_Theme_Framework {
 			/**
 			 * Display the paginated heading suffix
 			 *
-			 * @since    2.0
-			 * @version  5.0
+			 * @since    1.0
+			 * @version  1.0
 			 *
 			 * @param  string $tag           Wrapper tag
 			 * @param  string $singular_only Display only on singular posts of specific type
@@ -804,7 +804,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Checks for <!--more--> tag in post content
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  mixed $post
 		 */
@@ -859,7 +859,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * If the file is not located in child theme, outputs the path from parent theme.
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  string $file_relative_path File to look for (insert also the theme structure relative path)
 		 *
@@ -914,7 +914,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * If the file is not located in child theme, output the URL from parent theme.
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  string $file_relative_path File to look for (insert also the theme structure relative path)
 		 *
@@ -966,7 +966,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * CSS minifier
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  string $css Code to minimize
 		 */
@@ -1013,7 +1013,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Hex color to RGBA
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @link  http://php.net/manual/en/function.hexdec.php
 		 *
@@ -1079,8 +1079,8 @@ final class {%= prefix_class %}_Theme_Framework {
 		/**
 		 * Duplicating WordPress native function in case it does not exist yet
 		 *
-		 * @since    5.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 *
 		 * @link  https://developer.wordpress.org/reference/functions/maybe_hash_hex_color/
 		 * @link  https://developer.wordpress.org/reference/functions/sanitize_hex_color_no_hash/
@@ -1140,7 +1140,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  bool $set_cache  Determines whether the results should be cached or not.
 		 * @param  bool $return     Whether to return a value or just run the process.
@@ -1372,7 +1372,7 @@ final class {%= prefix_class %}_Theme_Framework {
 			 * Flush out the transients used in `custom_styles`
 			 *
 			 * @since    1.0
-			 * @version  5.0
+			 * @version  1.0
 			 */
 			public static function custom_styles_transient_flusher() {
 
@@ -1392,7 +1392,7 @@ final class {%= prefix_class %}_Theme_Framework {
 			 * Useful to pass into the action hooks.
 			 *
 			 * @since    1.0
-			 * @version  5.0
+			 * @version  1.0
 			 */
 			public static function custom_styles_cache() {
 
@@ -1419,7 +1419,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * unlike WordPress native strip_shortcodes() function.
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  string $content
 		 */
@@ -1451,7 +1451,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * "[br /]" will output "<br />"
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  string $title
 		 */
@@ -1504,7 +1504,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Accessibility skip links
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  string $type
 		 */
@@ -1541,7 +1541,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Get image ID from its URL
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @link  http://pippinsplugins.com/retrieve-attachment-id-from-image-url/
 		 * @link  http://make.wordpress.org/core/2012/12/12/php-warning-missing-argument-2-for-wpdb-prepare/
@@ -1614,7 +1614,7 @@ final class {%= prefix_class %}_Theme_Framework {
 			 * Flush out the transients used in `get_image_id_from_url`
 			 *
 			 * @since    1.0
-			 * @version  5.0
+			 * @version  1.0
 			 */
 			public static function image_ids_transient_flusher() {
 
@@ -1630,7 +1630,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Returns true if a blog has more than 1 category
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 */
 		public static function is_categorized_blog() {
 
@@ -1688,7 +1688,7 @@ final class {%= prefix_class %}_Theme_Framework {
 			 * Flush out the transients used in `is_categorized_blog`
 			 *
 			 * @since    1.0
-			 * @version  5.0
+			 * @version  1.0
 			 */
 			public static function all_categories_transient_flusher() {
 

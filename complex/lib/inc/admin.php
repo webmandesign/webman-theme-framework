@@ -5,8 +5,8 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Admin
  *
- * @since    3.0
- * @version  5.0
+ * @since    1.0
+ * @version  1.0
  *
  * Contents:
  *

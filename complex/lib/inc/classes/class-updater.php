@@ -8,8 +8,8 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Updater
  *
- * @since    5.0
- * @version  5.0
+ * @since    1.0
+ * @version  1.0
  */
 
 
@@ -19,8 +19,8 @@
 /**
  * Updater class
  *
- * @since    5.0
- * @version  5.0
+ * @since    1.0
+ * @version  1.0
  *
  * Contents:
  *
@@ -46,8 +46,8 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		/**
 		 * Constructor
 		 *
-		 * @since    5.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		private function __construct() {
 
@@ -76,8 +76,8 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		/**
 		 * Initialization (get instance)
 		 *
-		 * @since    5.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		public static function init() {
 
@@ -105,8 +105,8 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		/**
 		 * Admin menu link
 		 *
-		 * @since    3.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		public static function menu() {
 
@@ -158,8 +158,8 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		/**
 		 * Toolbar link
 		 *
-		 * @since    3.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		public static function toolbar() {
 
@@ -219,8 +219,8 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		/**
 		 * Notifier page renderer
 		 *
-		 * @since    3.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		public static function page() {
 
@@ -394,8 +394,8 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		 * Get the remote XML file contents and return its data.
 		 * Uses the cached version if available, inside the time interval defined.
 		 *
-		 * @since    3.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 *
 		 * @param  int $interval
 		 */

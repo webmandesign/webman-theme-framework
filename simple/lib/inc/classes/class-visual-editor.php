@@ -5,8 +5,8 @@
  * @package     WebMan WordPress Theme Framework (Simple)
  * @subpackage  Visual Editor
  *
- * @since    2.0
- * @version  5.0
+ * @since    1.0
+ * @version  1.0
  */
 
 
@@ -16,8 +16,8 @@
 /**
  * Visual Editor class
  *
- * @since    5.0
- * @version  5.0
+ * @since    1.0
+ * @version  1.0
  *
  * Contents:
  *
@@ -42,8 +42,8 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		/**
 		 * Constructor
 		 *
-		 * @since    5.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		private function __construct() {
 
@@ -70,8 +70,8 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		/**
 		 * Initialization (get instance)
 		 *
-		 * @since    5.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		public static function init() {
 
@@ -102,7 +102,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		 * First row.
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  array $buttons
 		 */
@@ -144,7 +144,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		 * Second row.
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  array $buttons
 		 */
@@ -187,7 +187,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		 * @link  http://www.tinymce.com/wiki.php/Configuration:style_formats
 		 *
 		 * @since    1.0
-		 * @version  5.0
+		 * @version  1.0
 		 *
 		 * @param  array $init
 		 */
@@ -226,7 +226,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 										array(
 											'title'    => esc_html__( 'Uppercase heading or paragraph', '{%= text_domain %}' ),
-											'selector' => 'h2, h3, h4, h5, h6, p',
+											'selector' => 'h1, h2, h3, h4, h5, h6, p',
 											'classes'  => 'uppercase',
 										),
 
@@ -261,13 +261,13 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 										array(
 											'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 2 ),
-											'selector' => 'h3, h4, h5, h6, p',
+											'selector' => 'h1, h3, h4, h5, h6, p',
 											'classes'  => 'h2',
 										),
 
 										array(
 											'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 3 ),
-											'selector' => 'h2, h4, h5, h6, p',
+											'selector' => 'h1, h2, h4, h5, h6, p',
 											'classes'  => 'h3',
 										),
 
@@ -282,25 +282,25 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 										array(
 											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 1 ),
-											'selector' => 'h2, h3, h4, h5, h6, p',
+											'selector' => 'h1, h2, h3, h4, h5, h6, p',
 											'classes'  => 'display-1',
 										),
 
 										array(
 											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 2 ),
-											'selector' => 'h2, h3, h4, h5, h6, p',
+											'selector' => 'h1, h2, h3, h4, h5, h6, p',
 											'classes'  => 'display-2',
 										),
 
 										array(
 											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 3 ),
-											'selector' => 'h2, h3, h4, h5, h6, p',
+											'selector' => 'h1, h2, h3, h4, h5, h6, p',
 											'classes'  => 'display-3',
 										),
 
 										array(
 											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 4 ),
-											'selector' => 'h2, h3, h4, h5, h6, p',
+											'selector' => 'h1, h2, h3, h4, h5, h6, p',
 											'classes'  => 'display-4',
 										),
 

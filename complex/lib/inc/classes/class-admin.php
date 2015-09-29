@@ -5,8 +5,8 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Admin
  *
- * @since    5.0
- * @version  5.0
+ * @since    1.0
+ * @version  1.0
  */
 
 
@@ -16,8 +16,8 @@
 /**
  * Admin class
  *
- * @since    5.0
- * @version  5.0
+ * @since    1.0
+ * @version  1.0
  *
  * Contents:
  *
@@ -42,8 +42,8 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 		/**
 		 * Constructor
 		 *
-		 * @since    5.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		private function __construct() {
 
@@ -72,8 +72,8 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 		/**
 		 * Initialization (get instance)
 		 *
-		 * @since    5.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		public static function init() {
 
@@ -101,8 +101,8 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 		/**
 		 * Admin assets
 		 *
-		 * @since    3.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		public static function assets() {
 
@@ -178,8 +178,8 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 		 *     )
 		 *   );
 		 *
-		 * @since    3.0
-		 * @version  5.0
+		 * @since    1.0
+		 * @version  1.0
 		 */
 		public static function message() {
 

@@ -12,8 +12,8 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Plugins
  *
- * @since    3.2
- * @version  5.0
+ * @since    1.0
+ * @version  1.0
  */
 
 
