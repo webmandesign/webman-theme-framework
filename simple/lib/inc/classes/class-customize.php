@@ -355,7 +355,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 				// To make sure our customizer sections start after WordPress default ones
 
-					$priority = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_priority', 900 );
+					$priority = absint( apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_priority', 200 ) );
 
 				// Default section name in case not set (should be overwritten anyway)
 
@@ -370,6 +370,11 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 
 			// Processing
+
+				// Moving "Widgets" panel after the custom "Theme" panel
+				// @link  https://developer.wordpress.org/themes/advanced-topics/customizer-api/#sections
+
+					$wp_customize->get_panel( 'widgets' )->priority = $priority + 10;
 
 				// Set live preview for predefined controls
 
