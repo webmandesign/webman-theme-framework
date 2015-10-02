@@ -425,7 +425,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 				// Moving "Widgets" panel after the custom "Theme" panel
 				// @link  https://developer.wordpress.org/themes/advanced-topics/customizer-api/#sections
 
-					$wp_customize->get_panel( 'widgets' )->priority = $priority + 10;
+					if ( $wp_customize->get_panel( 'widgets' ) ) {
+						$wp_customize->get_panel( 'widgets' )->priority = $priority + 10;
+					}
 
 				// Set live preview for predefined controls
 
