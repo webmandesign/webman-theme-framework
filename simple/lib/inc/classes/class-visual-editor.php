@@ -204,68 +204,64 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 			// Processing
 
-				// Merge old & new formats
-
-					$init['style_formats_merge'] = false;
-
 				// Add custom formats
 
-					$init['style_formats'] = json_encode( apply_filters( 'wmhook_{%= prefix_hook %}_tf_editor_custom_mce_format', array(
+					$style_formats = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_editor_custom_mce_format', array(
 
 							// Group: Text styles
 
-								array(
+								100 . 'text_styles' => array(
 									'title' => esc_html__( 'Text styles', '{%= text_domain %}' ),
 									'items' => array(
 
-										array(
+										100 . 'text_styles' . 100 => array(
 											'title'    => __( 'Dropcap text', '{%= text_domain %}' ),
 											'selector' => 'p',
 											'classes'  => 'dropcap-text',
 										),
 
-										array(
+										100 . 'text_styles' . 110 => array(
 											'title'    => esc_html__( 'Uppercase heading or paragraph', '{%= text_domain %}' ),
 											'selector' => 'h1, h2, h3, h4, h5, h6, p',
 											'classes'  => 'uppercase',
 										),
 
-										array(
+										100 . 'text_styles' . 120 => array(
 											'title'  => esc_html__( 'Highlighted (marked) text', '{%= text_domain %}' ),
 											'inline' => 'mark',
 											'icon'   => 'backcolor',
 										),
 
-										array(
+										100 . 'text_styles' . 130 => array(
 											'title'  => esc_html__( 'Small text', '{%= text_domain %}' ),
 											'inline' => 'small',
 										),
 
-										array(
+										100 . 'text_styles' . 140 => array(
 											'title'  => esc_html__( 'Superscript', '{%= text_domain %}' ),
 											'icon'   => 'superscript',
 											'format' => 'superscript',
 										),
 
-										array(
+										100 . 'text_styles' . 150 => array(
 											'title'  => esc_html__( 'Subscript', '{%= text_domain %}' ),
 											'icon'   => 'subscript',
 											'format' => 'subscript',
 										),
 
-										array(
+										100 . 'text_styles' . 160 => array(
 											'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 1 ),
 											'selector' => 'h2, h3, h4, h5, h6, p',
 											'classes'  => 'h1',
 										),
 
-										array(
+										100 . 'text_styles' . 170 => array(
 											'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 2 ),
 											'selector' => 'h1, h3, h4, h5, h6, p',
 											'classes'  => 'h2',
 										),
 
-										array(
+										100 . 'text_styles' . 180 => array(
 											'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 3 ),
 											'selector' => 'h1, h2, h4, h5, h6, p',
 											'classes'  => 'h3',
@@ -276,29 +272,29 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 							// Group: Text size
 
-								array(
+								200 . 'text_sizes' => array(
 									'title' => esc_html__( 'Text sizes', '{%= text_domain %}' ),
 									'items' => array(
 
-										array(
+										200 . 'text_sizes' . 100 => array(
 											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 1 ),
 											'selector' => 'h1, h2, h3, h4, h5, h6, p',
 											'classes'  => 'display-1',
 										),
 
-										array(
+										200 . 'text_sizes' . 110 => array(
 											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 2 ),
 											'selector' => 'h1, h2, h3, h4, h5, h6, p',
 											'classes'  => 'display-2',
 										),
 
-										array(
+										200 . 'text_sizes' . 120 => array(
 											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 3 ),
 											'selector' => 'h1, h2, h3, h4, h5, h6, p',
 											'classes'  => 'display-3',
 										),
 
-										array(
+										200 . 'text_sizes' . 130 => array(
 											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 4 ),
 											'selector' => 'h1, h2, h3, h4, h5, h6, p',
 											'classes'  => 'display-4',
@@ -309,31 +305,31 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 							// Group: Quotes
 
-								array(
+								300 . 'quotes' => array(
 									'title' => esc_html_x( 'Quotes', 'Visual editor blockquote formats group title.', '{%= text_domain %}' ),
 									'items' => array(
 
-										array(
+										300 . 'quotes' . 100 => array(
 											'title' => esc_html__( 'Blockquote', '{%= text_domain %}' ),
 											'block' => 'blockquote',
 											'icon'  => 'blockquote',
 										),
 
-										array(
+										300 . 'quotes' . 110 => array(
 											'title'   => esc_html__( 'Pullquote - align left', '{%= text_domain %}' ),
 											'block'   => 'blockquote',
 											'classes' => 'pullquote alignleft',
 											'icon'    => 'alignleft',
 										),
 
-										array(
+										300 . 'quotes' . 120 => array(
 											'title'   => esc_html__( 'Pullquote - align right', '{%= text_domain %}' ),
 											'block'   => 'blockquote',
 											'classes' => 'pullquote alignright',
 											'icon'    => 'alignright',
 										),
 
-										array(
+										300 . 'quotes' . 130 => array(
 											'title'  => esc_html_x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', '{%= text_domain %}' ),
 											'inline' => 'cite',
 										),
@@ -341,7 +337,21 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 									),
 								),
 
-						) ) );
+						) );
+
+					ksort( $style_formats );
+
+					if ( ! empty( $style_formats ) ) {
+
+						// Merge old & new formats
+
+							$init['style_formats_merge'] = false;
+
+						// New formats
+
+							$init['style_formats'] = json_encode( $style_formats );
+
+					}
 
 				// Removing obsolete tags (this is localized already)
 
