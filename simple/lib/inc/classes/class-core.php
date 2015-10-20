@@ -195,8 +195,7 @@ final class {%= prefix_class %}_Theme_Framework {
 				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_pre', false );
 
 				if ( false !== $pre ) {
-					echo $pre;
-					return;
+					return $pre;
 				}
 
 
