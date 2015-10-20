@@ -27,11 +27,13 @@
 
 	jQuery( '.custom-radio-container' ).on( 'change', 'input', function() {
 
-		jQuery( this )
-			.parent()
-				.addClass( 'active' )
-				.siblings()
-				.removeClass( 'active' );
+		// Processing
+
+			jQuery( this )
+				.parent()
+					.addClass( 'active' )
+					.siblings()
+					.removeClass( 'active' );
 
 	} );
 
