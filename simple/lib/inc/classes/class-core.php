@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.0.1
+ * @version  1.0.2
  */
 
 
@@ -322,7 +322,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Appends the output at the top and bottom of post content.
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.0.2
 		 *
 		 * @param  string $content
 		 */
@@ -388,7 +388,7 @@ final class {%= prefix_class %}_Theme_Framework {
 								preg_match( '/<' . tag_escape( $args['tag'] ) . '(.*?)>(.*?)<\/' . tag_escape( $args['tag'] ) . '>/', $part, $matches );
 
 								if ( ! isset( $matches[2] ) || ! $matches[2] ) {
-									$part_title = sprintf( esc_html__( 'Page %d', '{%= text_domain %}' ), $i );
+									$part_title = sprintf( esc_html__( 'Page %s', '{%= text_domain %}' ), number_format_i18n( $i ) );
 								} else {
 									$part_title = $matches[2];
 								}
@@ -440,7 +440,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.0.2
 		 *
 		 * @param  array $args
 		 */
@@ -543,7 +543,7 @@ final class {%= prefix_class %}_Theme_Framework {
 									$replacements = array(
 											'{attributes}' => '',
 											'{class}'      => esc_attr( 'comments-link entry-meta-element' ),
-											'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . $element_id . '" title="' . esc_attr( sprintf( esc_html_x( 'Comments: %d', '%d: number of comments.', '{%= text_domain %}' ), $helper ) ) . '"><span class="comments-title">' . esc_html_x( 'Comments:', 'Title for number of comments in post meta.', '{%= text_domain %}' ) . ' </span><span class="comments-count">' . $helper . '</span></a>',
+											'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . $element_id . '" title="' . esc_attr( sprintf( esc_html_x( 'Comments: %s', '%s: number of comments.', '{%= text_domain %}' ), number_format_i18n( $helper ) ) ) . '"><span class="comments-title">' . esc_html_x( 'Comments:', 'Title for number of comments in post meta.', '{%= text_domain %}' ) . ' </span><span class="comments-count">' . $helper . '</span></a>',
 										);
 								}
 
@@ -710,7 +710,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Get the paginated heading suffix
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.0.2
 		 *
 		 * @param  string $tag           Wrapper tag
 		 * @param  string $singular_only Display only on singular posts of specific type
@@ -762,7 +762,7 @@ final class {%= prefix_class %}_Theme_Framework {
 			// Processing
 
 				if ( 1 < $paged ) {
-					$output = ' ' . $tag[0] . sprintf( esc_html_x( '(page %s)', 'Paginated content title suffix.', '{%= text_domain %}' ), $paged ) . $tag[1];
+					$output = ' ' . $tag[0] . sprintf( esc_html_x( '(page %s)', 'Paginated content title suffix, %s: page number.', '{%= text_domain %}' ), number_format_i18n( $paged ) ) . $tag[1];
 				}
 
 

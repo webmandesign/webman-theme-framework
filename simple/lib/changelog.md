@@ -1,5 +1,14 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.0.2
+
+* **Update**: Localization
+
+#### Files changed:
+
+	inc/classes/class-core.php
+
+
 ## 1.0.1
 
 * **Add**: Support for Jetpack logo refresh in customizer
