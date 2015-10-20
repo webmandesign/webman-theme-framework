@@ -203,13 +203,16 @@ final class {%= prefix_class %}_Theme_Framework {
 
 				$output = '';
 
+				$jetpack_site_logo = get_option( 'site_logo', array() );
+				$jetpack_site_logo = ( function_exists( 'jetpack_get_site_logo' ) && isset( $jetpack_site_logo['id'] ) && $jetpack_site_logo['id'] ) ? ( absint( $jetpack_site_logo['id'] ) ) : ( false );
+
 				$blog_info = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_blog_info', array(
 						'name'        => trim( get_bloginfo( 'name' ) ),
 						'description' => trim( get_bloginfo( 'description' ) ),
 					) );
 
 				$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_args', array(
-						'logo_image' => ( function_exists( 'jetpack_get_site_logo' ) ) ? ( absint( jetpack_get_site_logo( 'id' ) ) ) : ( false ),
+						'logo_image' => ( function_exists( 'jetpack_get_site_logo' ) && $jetpack_site_logo ) ? ( array( $jetpack_site_logo ) ) : ( false ),
 						'logo_type'  => 'text',
 						'title_att'  => ( $blog_info['description'] ) ? ( $blog_info['name'] . ' | ' . $blog_info['description'] ) : ( $blog_info['name'] ),
 						'url'        => home_url( '/' ),
