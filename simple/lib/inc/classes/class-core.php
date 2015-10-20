@@ -226,8 +226,6 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						if ( $img_id ) {
 
-							$logo_url = wp_get_attachment_image_src( $img_id, 'full' );
-
 							$atts = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_image_atts', array(
 									'alt'   => esc_attr( sprintf( esc_html_x( '%s logo', 'Site logo image "alt" HTML attribute text.', '{%= text_domain %}' ), $blog_info['name'] ) ),
 									'title' => esc_attr( $args['title_att'] ),
