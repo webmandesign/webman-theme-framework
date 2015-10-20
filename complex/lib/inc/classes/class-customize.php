@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.0.1
  */
 
 
@@ -46,7 +46,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * Constructor
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.0.1
 		 */
 		private function __construct() {
 
@@ -62,7 +62,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 						// Register customizer
 
-							add_action( 'customize_register', array( $this, 'customize' ) );
+							add_action( 'customize_register', array( $this, 'customize' ), 100 ); // After Jetpack logo action
 
 						// Customizer assets
 
@@ -356,7 +356,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.0.1
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -434,6 +434,10 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 					$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
 					$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 					$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
+
+					if ( function_exists( 'jetpack_get_site_logo' ) ) {
+						$wp_customize->get_setting( 'site_logo' )->transport = 'refresh';
+					}
 
 				// Custom controls
 

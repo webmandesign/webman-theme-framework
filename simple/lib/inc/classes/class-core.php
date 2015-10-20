@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.0.1
  */
 
 
@@ -186,7 +186,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @link  http://blog.rrwd.nl/2014/11/21/html5-headings-in-wordpress-lets-fight/
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.0.1
 		 */
 		public static function get_the_logo() {
 

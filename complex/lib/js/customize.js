@@ -5,7 +5,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.0.1
  */
 
 
@@ -22,7 +22,7 @@
 	 * Custom radio select
 	 *
 	 * @since    1.0
-	 * @version  1.0
+	 * @version  1.0.1
 	 */
 
 	jQuery( '.custom-radio-container' ).on( 'change', 'input', function() {
