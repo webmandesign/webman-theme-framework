@@ -1,5 +1,14 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.0.3
+
+* **Add**: Support for WordPress 4.4
+
+#### Files changed:
+
+	inc/classes/class-core.php
+
+
 ## 1.0.2
 
 * **Update**: Localization

@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.0.2
+ * @version  1.0.3
  */
 
 
@@ -186,7 +186,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @link  http://blog.rrwd.nl/2014/11/21/html5-headings-in-wordpress-lets-fight/
 		 *
 		 * @since    1.0
-		 * @version  1.0.1
+		 * @version  1.0.3
 		 */
 		public static function get_the_logo() {
 
@@ -202,6 +202,8 @@ final class {%= prefix_class %}_Theme_Framework {
 			// Helper variables
 
 				$output = '';
+
+				$document_title = ( 0 > version_compare( $GLOBALS['wp_version'], '4.4' ) ) ? ( wp_title( '|', false, 'right' ) ) : ( wp_get_document_title() ); // Compatible with WordPress 4.4
 
 				$jetpack_site_logo = get_option( 'site_logo', array() );
 				$jetpack_site_logo = ( function_exists( 'jetpack_get_site_logo' ) && isset( $jetpack_site_logo['id'] ) && $jetpack_site_logo['id'] ) ? ( absint( $jetpack_site_logo['id'] ) ) : ( false );
@@ -254,7 +256,7 @@ final class {%= prefix_class %}_Theme_Framework {
 						if ( is_front_page() ) {
 							$output .= '<h1 id="site-title" class="' . esc_attr( $logo_class ) . '">';
 						} else {
-							$output .= '<h2 class="screen-reader-text">' . wp_title( '|', false, 'right' ) . '</h2>'; // To provide BODY heading on subpages
+							$output .= '<h2 class="screen-reader-text">' . $document_title . '</h2>'; // To provide BODY heading on subpages
 							$output .= '<a id="site-title" class="' . esc_attr( $logo_class ) . '" href="' . esc_url( $args['url'] ) . '" title="' . esc_attr( $args['title_att'] ) . '" rel="home">';
 						}
 
