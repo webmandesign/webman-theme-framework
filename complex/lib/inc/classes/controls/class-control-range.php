@@ -77,7 +77,7 @@ class {%= prefix_class %}_Control_Range extends WP_Customize_Control {
 
 				}
 			} );
-		// --></script>
+		//--></script>
 
 		<?php
 	}
