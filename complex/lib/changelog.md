@@ -1,5 +1,14 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.0.5
+
+* **Fix**: Time post meta info markup
+
+#### Files changed:
+
+	inc/classes/class-core.php
+
+
 ## 1.0.4
 
 * **Add**: Adding description text for post meta info

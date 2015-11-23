@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.0.4
+ * @version  1.0.5
  */
 
 
@@ -442,7 +442,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 		 *
 		 * @since    1.0
-		 * @version  1.0.4
+		 * @version  1.0.5
 		 *
 		 * @param  array $args
 		 */
@@ -466,10 +466,8 @@ final class {%= prefix_class %}_Theme_Framework {
 						'container'   => 'div',
 						'date_format' => null,
 						'html'        => '<span class="{class}"{attributes}>{description}{content}</span>',
-						'html_custom' => array(
-								'date' => '{description}<time datetime="{datetime}" class="{class}"{attributes}>{content}</time>',
-							),
-						'meta'        => array(), //Example: array( 'date', 'author', 'category', 'comments', 'permalink' )
+						'html_custom' => array(), // Example: array( 'date' => 'CUSTOM_HTML_WITH_{class}_{attributes}_{description}_AND_{content}_HERE' )
+						'meta'        => array(), // Example: array( 'date', 'author', 'category', 'comments', 'permalink' )
 						'post_id'     => null,
 					) ) );
 				$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_args', $args );
@@ -559,11 +557,10 @@ final class {%= prefix_class %}_Theme_Framework {
 									$helper = ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'datePublished' ) ) : ( '' );
 
 									$replacements = array(
-											'{attributes}'  => ' title="' . esc_attr( get_the_date() ) . ' | ' . esc_attr( get_the_time( '', $args['post_id'] ) ) . '"' . $helper,
-											'{class}'       => esc_attr( 'entry-date entry-meta-element published' ),
+											'{attributes}'  => '',
+											'{class}'       => esc_attr( 'entry-date entry-meta-element' ),
 											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Posted on:', 'Post meta info description: publish date.', '{%= text_domain %}' ) . ' </span>',
-											'{content}'     => esc_html( get_the_date( $args['date_format'] ) ),
-											'{datetime}'    => esc_attr( get_the_date( 'c' ) ),
+											'{content}'     => '<time datetime="' . esc_attr( get_the_date( 'c' ) ) . '" class="published" title="' . esc_attr( get_the_date() ) . ' | ' . esc_attr( get_the_time( '', $args['post_id'] ) ) . '"' . $helper . '>' . esc_html( get_the_date( $args['date_format'] ) ) . '</time>',
 										);
 								}
 
