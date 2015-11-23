@@ -8,7 +8,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.0.3
+ * @version  1.0.4
  */
 
 
@@ -465,7 +465,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 		 *
 		 * @since    1.0
-		 * @version  1.0.2
+		 * @version  1.0.4
 		 *
 		 * @param  array $args
 		 */
@@ -488,9 +488,9 @@ final class {%= prefix_class %}_Theme_Framework {
 						'class'       => 'entry-meta',
 						'container'   => 'div',
 						'date_format' => null,
-						'html'        => '<span class="{class}"{attributes}>{content}</span>',
+						'html'        => '<span class="{class}"{attributes}>{description}{content}</span>',
 						'html_custom' => array(
-								'date' => '<time datetime="{datetime}" class="{class}"{attributes}>{content}</time>',
+								'date' => '{description}<time datetime="{datetime}" class="{class}"{attributes}>{content}</time>',
 							),
 						'meta'        => array(), //Example: array( 'date', 'author', 'category', 'comments', 'permalink' )
 						'post_id'     => null,
@@ -531,9 +531,10 @@ final class {%= prefix_class %}_Theme_Framework {
 									$helper = ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'author' ) ) : ( '' );
 
 									$replacements = array(
-											'{attributes}' => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'Person' ) ) : ( '' ),
-											'{class}'      => esc_attr( 'author vcard entry-meta-element' ),
-											'{content}'    => '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" class="url fn n" rel="author"' . $helper . '>' . get_the_author() . '</a>',
+											'{attributes}'  => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'Person' ) ) : ( '' ),
+											'{class}'       => esc_attr( 'author vcard entry-meta-element' ),
+											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Written by:', 'Post meta info description: author name.', '{%= text_domain %}' ) . ' </span>',
+											'{content}'     => '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" class="url fn n" rel="author"' . $helper . '>' . get_the_author() . '</a>',
 										);
 								}
 
@@ -546,9 +547,10 @@ final class {%= prefix_class %}_Theme_Framework {
 										&& ( $helper = get_the_category_list( ', ', '', $args['post_id'] ) )
 									) {
 									$replacements = array(
-											'{attributes}' => '',
-											'{class}'      => esc_attr( 'cat-links entry-meta-element' ),
-											'{content}'    => $helper,
+											'{attributes}'  => '',
+											'{class}'       => esc_attr( 'cat-links entry-meta-element' ),
+											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Categorized in:', 'Post meta info description: categories list.', '{%= text_domain %}' ) . ' </span>',
+											'{content}'     => $helper,
 										);
 								}
 
@@ -566,9 +568,10 @@ final class {%= prefix_class %}_Theme_Framework {
 									$helper       = get_comments_number( $args['post_id'] );
 									$element_id   = ( $helper ) ? ( '#comments' ) : ( '#respond' );
 									$replacements = array(
-											'{attributes}' => '',
-											'{class}'      => esc_attr( 'comments-link entry-meta-element' ),
-											'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . $element_id . '" title="' . esc_attr( sprintf( esc_html_x( 'Comments: %s', '%s: number of comments.', '{%= text_domain %}' ), number_format_i18n( $helper ) ) ) . '"><span class="comments-title">' . esc_html_x( 'Comments:', 'Title for number of comments in post meta.', '{%= text_domain %}' ) . ' </span><span class="comments-count">' . $helper . '</span></a>',
+											'{attributes}'  => '',
+											'{class}'       => esc_attr( 'comments-link entry-meta-element' ),
+											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Comments:', 'Post meta info description: comments count.', '{%= text_domain %}' ) . ' </span>',
+											'{content}'     => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . $element_id . '" title="' . esc_attr( sprintf( esc_html_x( 'Comments: %s', '%s: number of comments.', '{%= text_domain %}' ), number_format_i18n( $helper ) ) ) . '"><span class="comments-title">' . esc_html_x( 'Comments:', 'Title for number of comments in post meta.', '{%= text_domain %}' ) . ' </span><span class="comments-count">' . $helper . '</span></a>',
 										);
 								}
 
@@ -579,10 +582,11 @@ final class {%= prefix_class %}_Theme_Framework {
 									$helper = ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'datePublished' ) ) : ( '' );
 
 									$replacements = array(
-											'{attributes}' => ' title="' . esc_attr( get_the_date() ) . ' | ' . esc_attr( get_the_time( '', $args['post_id'] ) ) . '"' . $helper,
-											'{class}'      => esc_attr( 'entry-date entry-meta-element published' ),
-											'{content}'    => esc_html( get_the_date( $args['date_format'] ) ),
-											'{datetime}'   => esc_attr( get_the_date( 'c' ) ),
+											'{attributes}'  => ' title="' . esc_attr( get_the_date() ) . ' | ' . esc_attr( get_the_time( '', $args['post_id'] ) ) . '"' . $helper,
+											'{class}'       => esc_attr( 'entry-date entry-meta-element published' ),
+											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Posted on:', 'Post meta info description: publish date.', '{%= text_domain %}' ) . ' </span>',
+											'{content}'     => esc_html( get_the_date( $args['date_format'] ) ),
+											'{datetime}'    => esc_attr( get_the_date( 'c' ) ),
 										);
 								}
 
@@ -599,9 +603,10 @@ final class {%= prefix_class %}_Theme_Framework {
 									}
 
 									$replacements = array(
-											'{attributes}' => '',
-											'{class}'      => esc_attr( 'entry-edit entry-meta-element' ),
-											'{content}'    => '<a href="' . esc_url( $helper ) . '" title="' . esc_attr( sprintf( esc_html__( 'Edit the "%s"', '{%= text_domain %}' ), the_title_attribute( $the_title_attribute_args ) ) ) . '"><span>' . esc_html_x( 'Edit', 'Edit post link.', '{%= text_domain %}' ) . '</span></a>',
+											'{attributes}'  => '',
+											'{class}'       => esc_attr( 'entry-edit entry-meta-element' ),
+											'{description}' => '',
+											'{content}'     => '<a href="' . esc_url( $helper ) . '" title="' . esc_attr( sprintf( esc_html__( 'Edit the "%s"', '{%= text_domain %}' ), the_title_attribute( $the_title_attribute_args ) ) ) . '"><span>' . esc_html_x( 'Edit', 'Edit post link.', '{%= text_domain %}' ) . '</span></a>',
 										);
 								}
 
@@ -616,9 +621,10 @@ final class {%= prefix_class %}_Theme_Framework {
 									$helper = $zilla_likes->do_likes();
 
 									$replacements = array(
-											'{attributes}' => '',
-											'{class}'      => esc_attr( 'entry-likes entry-meta-element' ),
-											'{content}'    => $helper,
+											'{attributes}'  => '',
+											'{class}'       => esc_attr( 'entry-likes entry-meta-element' ),
+											'{description}' => '',
+											'{content}'     => $helper,
 										);
 								}
 
@@ -632,9 +638,10 @@ final class {%= prefix_class %}_Theme_Framework {
 									}
 
 									$replacements = array(
-											'{attributes}' => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'url' ) ) : ( '' ),
-											'{class}'      => esc_attr( 'entry-permalink entry-meta-element' ),
-											'{content}'    => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" title="' . esc_attr( sprintf( esc_html__( 'Permalink to "%s"', '{%= text_domain %}' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
+											'{attributes}'  => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'url' ) ) : ( '' ),
+											'{class}'       => esc_attr( 'entry-permalink entry-meta-element' ),
+											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Bookmark link:', 'Post meta info description: post bookmark link.', '{%= text_domain %}' ) . ' </span>',
+											'{content}'     => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" title="' . esc_attr( sprintf( esc_html__( 'Permalink to "%s"', '{%= text_domain %}' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
 										);
 								}
 
@@ -646,9 +653,10 @@ final class {%= prefix_class %}_Theme_Framework {
 										&& ( $helper = get_the_tag_list( '', ' ', '', $args['post_id'] ) )
 									) {
 									$replacements = array(
-											'{attributes}' => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'keywords' ) ) : ( '' ),
-											'{class}'      => esc_attr( 'tags-links entry-meta-element' ),
-											'{content}'    => $helper,
+											'{attributes}'  => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'keywords' ) ) : ( '' ),
+											'{class}'       => esc_attr( 'tags-links entry-meta-element' ),
+											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Tagged as:', 'Post meta info description: tags list.', '{%= text_domain %}' ) . ' </span>',
+											'{content}'     => $helper,
 										);
 								}
 
@@ -661,9 +669,10 @@ final class {%= prefix_class %}_Theme_Framework {
 										&& ( $helper = bawpvc_views_sc( array() ) )
 									) {
 									$replacements = array(
-											'{attributes}' => ' title="' . esc_attr__( 'Views count', '{%= text_domain %}' ) . '"',
-											'{class}'      => esc_attr( 'entry-views entry-meta-element' ),
-											'{content}'    => $helper,
+											'{attributes}'  => ' title="' . esc_attr__( 'Views count', '{%= text_domain %}' ) . '"',
+											'{class}'       => esc_attr( 'entry-views entry-meta-element' ),
+											'{description}' => '',
+											'{content}'     => $helper,
 										);
 								}
 

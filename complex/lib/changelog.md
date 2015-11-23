@@ -1,5 +1,14 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.0.4
+
+* **Add**: Adding description text for post meta info
+
+#### Files changed:
+
+	inc/classes/class-core.php
+
+
 ## 1.0.3
 
 * **Add**: Support for WordPress 4.4
