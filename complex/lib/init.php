@@ -38,7 +38,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
  *
- * @version  1.0.5
+ * @version  1.0.6
  *
  * Contents:
  *

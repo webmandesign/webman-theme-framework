@@ -1,5 +1,15 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.0.6
+
+* **Update**: SASS files optimized
+
+#### Files changed:
+
+	scss/about.scss
+	scss/customize.scss
+
+
 ## 1.0.5
 
 * **Fix**: Time post meta info markup
