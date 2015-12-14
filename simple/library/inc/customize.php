@@ -6,7 +6,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.0.7
  *
  * Contents:
  *
@@ -24,7 +24,7 @@
 
 	// Theme options arrays
 
-		locate_template( {%= prefix_constant %}_INC_DIR . 'setup-theme-options.php', true );
+		locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'setup-theme-options.php', true );
 
 	// Visual Editor class
 

@@ -38,7 +38,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
  *
- * @version  1.0.6
+ * @version  1.0.7
  *
  * Contents:
  *
@@ -65,8 +65,8 @@
 
 	// Dir constants
 
-		if ( ! defined( '{%= prefix_constant %}_LIBRARY_DIR' ) ) define( '{%= prefix_constant %}_LIBRARY_DIR', trailingslashit( 'lib' )   );
-		if ( ! defined( '{%= prefix_constant %}_SETUP_DIR' ) )   define( '{%= prefix_constant %}_SETUP_DIR',   trailingslashit( 'setup' ) );
+		if ( ! defined( '{%= prefix_constant %}_LIBRARY_DIR' ) ) define( '{%= prefix_constant %}_LIBRARY_DIR', trailingslashit( 'library' ) );
+		if ( ! defined( '{%= prefix_constant %}_SETUP_DIR' ) )   define( '{%= prefix_constant %}_SETUP_DIR',   trailingslashit( 'setup' )   );
 
 
 

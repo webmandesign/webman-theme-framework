@@ -1,5 +1,15 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.0.7
+
+* **Update**: Renaming the `lib` folder to `library`
+
+#### Files changed:
+
+	init.php
+	readme.md
+
+
 ## 1.0.6
 
 * **Update**: SASS files optimized

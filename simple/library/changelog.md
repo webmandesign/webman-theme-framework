@@ -1,5 +1,17 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.0.7
+
+* **Update**: Renaming the `lib` folder to `library`
+* **Update**: Renaming `{%= prefix_constant %}_INC_DIR` constant to `{%= prefix_constant %}_INCLUDES_DIR`
+
+#### Files changed:
+
+	init.php
+	readme.md
+	inc/customize.php
+
+
 ## 1.0.5
 
 * **Fix**: Time post meta info markup
