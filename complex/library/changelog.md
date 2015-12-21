@@ -1,5 +1,22 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.0.8
+
+* **Update**: Renaming the `inc` folder to `include`
+* **Update**: Updating `{%= prefix_constant %}_INCLUDE_DIR` constant
+* **Update**: Library files paths
+* **Update**: Theme files paths
+
+#### Files changed:
+
+	init.php
+	include/admin.php
+	include/customize.php
+	include/update-notifier.php
+	include/visual-editor.php
+	include/classes/class-customize.php
+
+
 ## 1.0.7
 
 * **Update**: Renaming the `lib` folder to `library`

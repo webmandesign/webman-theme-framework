@@ -38,7 +38,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
  *
- * @version  1.0.7
+ * @version  1.0.8
  *
  * Contents:
  *
@@ -66,7 +66,7 @@
 	// Dir constants
 
 		if ( ! defined( '{%= prefix_constant %}_LIBRARY_DIR' ) ) define( '{%= prefix_constant %}_LIBRARY_DIR', trailingslashit( 'library' ) );
-		if ( ! defined( '{%= prefix_constant %}_SETUP_DIR' ) )   define( '{%= prefix_constant %}_SETUP_DIR',   trailingslashit( 'setup' )   );
+		if ( ! defined( '{%= prefix_constant %}_INCLUDE_DIR' ) ) define( '{%= prefix_constant %}_INCLUDE_DIR', trailingslashit( 'include' ) );
 
 
 
@@ -90,7 +90,7 @@
 
 	// Customize (has to be fontend accessible, otherwise it hides theme settings)
 
-		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/customize.php', true );
+		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'include/customize.php', true );
 
 	// Admin required files
 
@@ -98,23 +98,23 @@
 
 			// WP admin functionality
 
-				locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/admin.php', true );
+				locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'include/admin.php', true );
 
 			// Plugins suggestions
 
 				if (
 						apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', true )
-						&& locate_template( {%= prefix_constant %}_SETUP_DIR . 'tgmpa/plugins.php' )
+						&& locate_template( {%= prefix_constant %}_INCLUDE_DIR . 'tgmpa/plugins.php' )
 					) {
-					locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/external/class-tgm-plugin-activation.php', true );
-					locate_template( {%= prefix_constant %}_SETUP_DIR . 'tgmpa/plugins.php', true );
+					locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'include/external/class-tgm-plugin-activation.php', true );
+					locate_template( {%= prefix_constant %}_INCLUDE_DIR . 'tgmpa/plugins.php', true );
 				}
 
 		}
 
 	// Core class
 
-		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/classes/class-core.php', true );
+		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'include/classes/class-core.php', true );
 
 
 

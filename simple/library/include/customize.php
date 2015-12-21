@@ -2,11 +2,11 @@
 /**
  * Customizer
  *
- * @package     WebMan WordPress Theme Framework
+ * @package     WebMan WordPress Theme Framework (Simple)
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.0.8
  *
  * Contents:
  *
@@ -22,9 +22,13 @@
  * 1) Required files
  */
 
+	// Theme options arrays
+
+		locate_template( {%= prefix_constant %}_INCLUDE_DIR . 'theme-options/theme-options.php', true );
+
 	// Visual Editor class
 
-		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/classes/class-customize.php', true );
+		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'include/classes/class-customize.php', true );
 
 
 

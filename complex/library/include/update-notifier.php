@@ -10,7 +10,7 @@
  * @subpackage  Updater
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.0.8
  *
  * Contents:
  *
@@ -41,7 +41,7 @@
 
 	// Updater class
 
-		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'inc/classes/class-updater.php', true );
+		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'include/classes/class-updater.php', true );
 
 
 
