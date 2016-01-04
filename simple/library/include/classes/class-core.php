@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.0.5
+ * @version  1.0.9
  */
 
 
@@ -1512,15 +1512,17 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Accessibility skip links
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.0.9
 		 *
-		 * @param  string $type
+		 * @param  string $id     Link target element ID.
+		 * @param  string $text   Link text.
+		 * @param  string $class  Additional link CSS classes.
 		 */
-		public static function accessibility_skip_link( $type ) {
+		public static function link_skip_to( $id = 'content', $text = '', $class = '' ) {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_accessibility_skip_link_pre', false, $type );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_link_skip_to_pre', false, $id, $text, $class );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -1529,19 +1531,16 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Helper variables
 
-				$links = apply_filters( 'wmhook_{%= prefix_hook %}_tf_accessibility_skip_links', array(
-					'to_content'    => '<a class="skip-link screen-reader-text" href="#content">' . esc_html__( 'Skip to content', '{%= text_domain %}' ) . '</a>',
-					'to_navigation' => '<a class="skip-link screen-reader-text" href="#site-navigation">' . esc_html__( 'Skip to navigation', '{%= text_domain %}' ) . '</a>',
-				) );
+				if ( empty( $text ) ) {
+					$text = __( 'Skip to content', '{%= text_domain %}' );
+				}
 
 
 			// Output
 
-				if ( isset( $links[ $type ] ) ) {
-					return $links[ $type ];
-				}
+				return '<a class="' . esc_attr( trim( 'skip-link screen-reader-text ' . $class ) ) . '" href="#' . esc_attr( trim( $id ) ) . '">' . esc_html( $text ) . '</a>';
 
-		} // /accessibility_skip_link
+		} // /link_skip_to
 
 
 

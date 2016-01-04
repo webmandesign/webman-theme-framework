@@ -1,5 +1,15 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.0.9
+
+* **Update**: Improved flexibility of accessibility skip link
+
+#### Files changed:
+
+	init.php
+	inc/classes/class-core.php
+
+
 ## 1.0.8
 
 * **Update**: Renaming the `inc` folder to `include`
