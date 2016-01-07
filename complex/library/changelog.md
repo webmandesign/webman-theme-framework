@@ -1,5 +1,15 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.0.10
+
+* **Update**: Removed custom color picker styling
+
+#### Files changed:
+
+	init.php
+	scss/customize.scss
+
+
 ## 1.0.9
 
 * **Update**: Improved flexibility of accessibility skip link
