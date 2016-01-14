@@ -1,5 +1,15 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.0.11
+
+* **Fix**: Customizer custom option preview JS
+
+#### Files changed:
+
+	init.php
+	include/customize.php
+
+
 ## 1.0.9
 
 * **Update**: Improved flexibility of accessibility skip link

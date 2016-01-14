@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.0.8
+ * @version  1.0.11
  */
 
 
@@ -160,7 +160,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.0.11
 		 */
 		public static function preview_scripts() {
 
@@ -195,7 +195,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 							$output_single .= "\t" . "function( value ) {"  . "\r\n";
 							$output_single .= "\t\t" . 'value.bind( function( to ) {' . "\r\n";
 
-							if ( ! isset( $theme_option['customizer_js']['custom'] ) ) {
+							if ( isset( $theme_option['customizer_js']['css'] ) ) {
 
 								$output_single .= "\t\t\t" . "var newCss = '';" . "\r\n\r\n";
 								$output_single .= "\t\t\t" . "if ( jQuery( '#jscss-" . $theme_option['id'] . "' ).length ) { jQuery( '#jscss-" . $theme_option['id'] . "' ).remove() }" . "\r\n\r\n";
@@ -230,13 +230,14 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 								} // /foreach
 
-							} else {
+								$output_single .= "\r\n\t\t\t" . "jQuery( document ).find( 'head' ).append( jQuery( '<style id=\'jscss-" . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . "\r\n";
+
+							} elseif ( isset( $theme_option['customizer_js']['custom'] ) ) {
 
 								$output_single .= "\t\t" . $theme_option['customizer_js']['custom'] . "\r\n";
 
 							}
 
-							$output_single .= "\r\n\t\t\t" . "jQuery( document ).find( 'head' ).append( jQuery( '<style id=\'jscss-" . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . "\r\n";
 							$output_single .= "\t\t" . '} );' . "\r\n";
 							$output_single .= "\t" . '}'. "\r\n";
 							$output_single .= ');'. "\r\n";
