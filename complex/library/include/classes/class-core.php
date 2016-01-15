@@ -8,7 +8,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.0.9
+ * @version  1.0.12
  */
 
 
@@ -465,7 +465,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 		 *
 		 * @since    1.0
-		 * @version  1.0.5
+		 * @version  1.0.12
 		 *
 		 * @param  array $args
 		 */
@@ -530,7 +530,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 									$replacements = array(
 											'{attributes}'  => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'Person' ) ) : ( '' ),
-											'{class}'       => esc_attr( 'author vcard entry-meta-element' ),
+											'{class}'       => esc_attr( 'byline author vcard entry-meta-element' ),
 											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Written by:', 'Post meta info description: author name.', '{%= text_domain %}' ) . ' </span>',
 											'{content}'     => '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" class="url fn n" rel="author"' . $helper . '>' . get_the_author() . '</a>',
 										);

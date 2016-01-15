@@ -1,5 +1,15 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.0.12
+
+* **Update**: Compatibility with Readability.com
+
+#### Files changed:
+
+	init.php
+	include/classes/class-core.php
+
+
 ## 1.0.11
 
 * **Fix**: Customizer custom option preview JS
@@ -17,7 +27,7 @@
 #### Files changed:
 
 	init.php
-	inc/classes/class-core.php
+	include/classes/class-core.php
 
 
 ## 1.0.8
