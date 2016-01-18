@@ -110,4 +110,4 @@
 * Initial release - Resetting versioning as this was complete recode from previous framework versions (last one was v4.0.4).
 
 
-*WebMan WordPress Theme Framework (Simple), (C) 2015 WebMan, www.webmandesign.eu*
+*WebMan WordPress Theme Framework (Simple), (C) 2016 WebMan Design, www.webmandesign.eu*

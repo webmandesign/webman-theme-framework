@@ -17,4 +17,4 @@ Use it to make something cool, have fun, and share what you've learned with othe
 
 > This theme framework is best suited for integration with starter themes by WebMan Design.
 
-*(C) Copyright 2015 WebMan - Oliver Juhas*
+*(C) Copyright 2016 WebMan Design, Oliver Juhas*

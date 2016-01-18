@@ -29,7 +29,7 @@
  * - prefix_hook
  * - text_domain
  *
- * @copyright  2015 WebMan - Oliver Juhas
+ * @copyright  2016 WebMan Design, Oliver Juhas
  * @license    GPL-2.0+, http://www.gnu.org/licenses/gpl-2.0.html
  *
  * @link  https://github.com/webmandesign/webman-theme-framework
