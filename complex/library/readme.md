@@ -16,4 +16,4 @@ Generates main CSS stylesheet. Contains additional functions/methods (in compari
 
 > This theme framework is best suited for integration with starter themes by WebMan Design.
 
-*(C) Copyright 2016 WebMan Design, Oliver Juhas*
+*(C) Copyright WebMan Design, Oliver Juhas*
