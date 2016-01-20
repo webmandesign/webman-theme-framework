@@ -38,7 +38,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
  *
- * @version  1.0.12
+ * @version  1.0.13
  *
  * Contents:
  *
@@ -66,7 +66,7 @@
 	// Dir constants
 
 		if ( ! defined( '{%= prefix_constant %}_LIBRARY_DIR' ) ) define( '{%= prefix_constant %}_LIBRARY_DIR', trailingslashit( 'library' ) );
-		if ( ! defined( '{%= prefix_constant %}_INCLUDE_DIR' ) ) define( '{%= prefix_constant %}_INCLUDE_DIR', trailingslashit( 'include' ) );
+		if ( ! defined( '{%= prefix_constant %}_INCLUDES_DIR' ) ) define( '{%= prefix_constant %}_INCLUDES_DIR', trailingslashit( 'includes' ) );
 
 
 
@@ -90,7 +90,7 @@
 
 	// Customize (has to be fontend accessible, otherwise it hides theme settings)
 
-		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'include/customize.php', true );
+		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/customize.php', true );
 
 	// Admin required files
 
@@ -98,23 +98,23 @@
 
 			// WP admin functionality
 
-				locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'include/admin.php', true );
+				locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/admin.php', true );
 
 			// Plugins suggestions
 
 				if (
 						apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', true )
-						&& locate_template( {%= prefix_constant %}_INCLUDE_DIR . 'tgmpa/plugins.php' )
+						&& locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php' )
 					) {
-					locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'include/external/class-tgm-plugin-activation.php', true );
-					locate_template( {%= prefix_constant %}_INCLUDE_DIR . 'tgmpa/plugins.php', true );
+					locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/external/class-tgm-plugin-activation.php', true );
+					locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php', true );
 				}
 
 		}
 
 	// Core class
 
-		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'include/classes/class-core.php', true );
+		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/class-core.php', true );
 
 
 

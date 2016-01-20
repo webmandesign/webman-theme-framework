@@ -1,5 +1,22 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.0.13
+
+* **Update**: Renaming the `include` folder to `includes`
+* **Update**: Updating `{%= prefix_constant %}_INCLUDE_DIR` constant name to `{%= prefix_constant %}_INCLUDES_DIR`
+* **Update**: Library files paths
+* **Update**: Theme files paths
+
+#### Files changed:
+
+	init.php
+	includes/admin.php
+	includes/customize.php
+	includes/update-notifier.php
+	includes/visual-editor.php
+	includes/classes/class-customize.php
+
+
 ## 1.0.12
 
 * **Update**: Compatibility with Readability.com
@@ -7,7 +24,7 @@
 #### Files changed:
 
 	init.php
-	include/classes/class-core.php
+	includes/classes/class-core.php
 
 
 ## 1.0.11
@@ -17,7 +34,7 @@
 #### Files changed:
 
 	init.php
-	include/customize.php
+	includes/customize.php
 
 
 ## 1.0.10
@@ -37,7 +54,7 @@
 #### Files changed:
 
 	init.php
-	include/classes/class-core.php
+	includes/classes/class-core.php
 
 
 ## 1.0.8
@@ -50,11 +67,11 @@
 #### Files changed:
 
 	init.php
-	include/admin.php
-	include/customize.php
-	include/update-notifier.php
-	include/visual-editor.php
-	include/classes/class-customize.php
+	includes/admin.php
+	includes/customize.php
+	includes/update-notifier.php
+	includes/visual-editor.php
+	includes/classes/class-customize.php
 
 
 ## 1.0.7

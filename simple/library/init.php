@@ -38,7 +38,7 @@
  * @package     WebMan WordPress Theme Framework (Simple)
  * @subpackage  Core
  *
- * @version  1.0.12
+ * @version  1.0.13
  *
  * Contents:
  *
@@ -62,7 +62,7 @@
 	// Dir constants
 
 		if ( ! defined( '{%= prefix_constant %}_LIBRARY_DIR' ) ) define( '{%= prefix_constant %}_LIBRARY_DIR', trailingslashit( 'library' ) );
-		if ( ! defined( '{%= prefix_constant %}_INCLUDE_DIR' ) ) define( '{%= prefix_constant %}_INCLUDE_DIR', trailingslashit( 'include' ) );
+		if ( ! defined( '{%= prefix_constant %}_INCLUDES_DIR' ) ) define( '{%= prefix_constant %}_INCLUDES_DIR', trailingslashit( 'includes' ) );
 
 
 
@@ -74,7 +74,7 @@
 
 	// Core class
 
-		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'include/classes/class-core.php', true );
+		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/class-core.php', true );
 
 
 
