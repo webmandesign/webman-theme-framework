@@ -1,5 +1,15 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.0.14
+
+* **Update**: Renaming the `customizer_js` to `preview_js` and improving the function
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-customize.php
+
+
 ## 1.0.13
 
 * **Update**: Renaming the `include` folder to `includes`

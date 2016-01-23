@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.0.13
+ * @version  1.0.14
  */
 
 
@@ -98,24 +98,67 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 	 */
 
 		/**
-		 * Outputs customizer JavaScript in footer
+		 * Outputs customizer JavaScript
 		 *
-		 * Use this structure for customizer_js property:
+		 * This function automatically outputs theme customizer preview JavaScript for each theme option,
+		 * where the `preview_js` property is set.
+		 *
+		 * For CSS theme option change it works by inserting a `<style>` tag into a preview HTML head for
+		 * each theme option separately. This is to prevent inline styles on elements when applied with
+		 * pure JS.
+		 * Also, we need to create the `<style>` tag for each option separately so way we gain control
+		 * over the output. If we put all the CSS into a single `<style>` tag, it would be bloated with
+		 * CSS styles for every single subtle change in the theme option(s).
+		 *
+		 * It is possible to set up a custom JS action, not just CSS styles change. That can be used
+		 * to trigger a class on an element, for example.
+		 *
+		 * If `preview_js => false` set, the change of the theme option won't trigger the customizer
+		 * preview refresh. This is useful to disable "about theme page", for example.
+		 *
+		 * The actual JavaScript is outputted in the footer of the page.
+		 *
+		 * Use this structure for `preview_js` property:
 		 *
 		 * @example
 		 *
-		 *   'customizer_js' => array(
-		 *     'css' => array(
-		 *         '.selector'         => array( 'css-property-name' ),
-		 *         '.another-selector' => array( array( 'padding-left', 'px' ) ),
-		 *       ),
-		 *     'custom' => 'your_custom_JavaScript_here',
-		 *   )
+		 *   'preview_js' => array(
 		 *
-		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
+		 *     // Setting CSS styles:
+		 *
+		 *       'css' => array(
+		 *
+		 *           // Sets the whole value to the `css-property-name` of the `selector`
+		 *
+		 *             'selector' => array(
+		 *                 'css-property-name',...
+		 *               ),
+		 *
+		 *           // Sets the `css-property-name` of the `selector` with value followed by the `suffix` (such as "px")
+		 *
+		 *             'selector' => array(
+		 *                 array( 'css-property-name', 'suffix' ),...
+		 *               ),
+		 *
+		 *           // Replaces "%s" in `selector` for `selector-replace-value` (such as "%s h2, %s h3" to ".footer h2, .footer h3")
+		 *
+		 *             'selector' => array(
+		 *                 'selector_replace' => 'selector-replace-value', // Must be the first array item
+		 *                 'css-property-name',...
+		 *               ),
+		 *
+		 *         ),
+		 *
+		 *     // Or setting custom JavaScript:
+		 *
+		 *       'custom' => 'JavaScript here', // Such as "jQuery( '.site-title.type-text' ).toggleClass( 'styled' );"
+		 *
+		 *   );
+		 *
+		 * @uses  `wmhook_polyclinic_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.0.11
+		 * @version  1.0.14
 		 */
 		public static function preview_scripts() {
 
@@ -143,25 +186,30 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 					foreach ( $theme_options as $theme_option ) {
 
-						if ( isset( $theme_option['customizer_js'] ) && is_array( $theme_option['customizer_js'] ) ) {
+						if ( isset( $theme_option['preview_js'] ) && is_array( $theme_option['preview_js'] ) ) {
 
 							$output_single  = "wp.customize("  . "\r\n";
 							$output_single .= "\t" . "'" . $theme_option['id'] . "'," . "\r\n";
 							$output_single .= "\t" . "function( value ) {"  . "\r\n";
 							$output_single .= "\t\t" . 'value.bind( function( to ) {' . "\r\n";
 
-							if ( isset( $theme_option['customizer_js']['css'] ) ) {
+							if ( isset( $theme_option['preview_js']['css'] ) ) {
 
 								$output_single .= "\t\t\t" . "var newCss = '';" . "\r\n\r\n";
 								$output_single .= "\t\t\t" . "if ( jQuery( '#jscss-" . $theme_option['id'] . "' ).length ) { jQuery( '#jscss-" . $theme_option['id'] . "' ).remove() }" . "\r\n\r\n";
 
-								foreach ( $theme_option['customizer_js']['css'] as $selector => $properties ) {
+								foreach ( $theme_option['preview_js']['css'] as $selector => $properties ) {
 
 									if ( is_array( $properties ) ) {
 
 										$output_single_css = '';
 
-										foreach ( $properties as $property ) {
+										foreach ( $properties as $key => $property ) {
+
+											if ( 'selector_replace' === $key ) {
+												$selector = str_replace( '%s', $property, $selector );
+												continue;
+											}
 
 											if ( ! is_array( $property ) ) {
 												$property = array( $property, '' );
@@ -179,17 +227,17 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 										} // /foreach
 
-									}
+										$output_single .= "\t\t\t" . "newCss += '" . $selector . " { " . $output_single_css . "} ';" . "\r\n";
 
-									$output_single .= "\t\t\t" . "newCss += '" . $selector . " { " . $output_single_css . "} ';" . "\r\n";
+									}
 
 								} // /foreach
 
 								$output_single .= "\r\n\t\t\t" . "jQuery( document ).find( 'head' ).append( jQuery( '<style id=\'jscss-" . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . "\r\n";
 
-							} elseif ( isset( $theme_option['customizer_js']['custom'] ) ) {
+							} elseif ( isset( $theme_option['preview_js']['custom'] ) ) {
 
-								$output_single .= "\t\t" . $theme_option['customizer_js']['custom'] . "\r\n";
+								$output_single .= "\t\t" . $theme_option['preview_js']['custom'] . "\r\n";
 
 							}
 
@@ -312,7 +360,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.0.13
+		 * @version  1.0.14
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -348,7 +396,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 						'image',
 						'multiselect',
 						'radio',
-						'range', //This does not display the value indicator, only the slider, unfortunatelly...
+						'range',
 						'select',
 						'text',
 						'textarea',
@@ -435,7 +483,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 										$description = $theme_option['description'];
 									}
 
-									$transport = ( isset( $theme_option['customizer_js'] ) ) ? ( 'postMessage' ) : ( 'refresh' );
+									$transport = ( isset( $theme_option['preview_js'] ) ) ? ( 'postMessage' ) : ( 'refresh' );
 
 								/**
 								 * Panels
@@ -469,7 +517,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 												$panel_id,
 												array(
 													'title'       => esc_html( $panel_title ),
-													'description' => ( isset( $theme_option['in_panel-description'] ) ) ? ( $theme_option['in_panel-description'] ) : ( '' ),  // Hidden at the top of the panel
+													'description' => ( isset( $theme_option['in_panel-description'] ) ) ? ( $theme_option['in_panel-description'] ) : ( '' ), // Hidden at the top of the panel
 													'priority'    => $priority,
 												)
 											);
@@ -708,6 +756,11 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 									/**
 									 * Range
+									 *
+									 * Since WP4.0 there is also a "range" native input field. This will output
+									 * HTML5 <input type="range" /> element - thus still using custom one.
+									 *
+									 * intval() used as sanitize callback causes PHP errors!
 									 */
 									case 'range':
 
