@@ -140,7 +140,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 *                 array( 'css-property-name', 'suffix' ),...
 		 *               ),
 		 *
-		 *           // Replaces "%s" in `selector` for `selector-replace-value` (such as "%s h2, %s h3" to ".footer h2, .footer h3")
+		 *           // Replaces "@" in `selector` for `selector-replace-value` (such as "@ h2, @ h3" to ".footer h2, .footer h3")
 		 *
 		 *             'selector' => array(
 		 *                 'selector_replace' => 'selector-replace-value', // Must be the first array item
@@ -207,7 +207,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 										foreach ( $properties as $key => $property ) {
 
 											if ( 'selector_replace' === $key ) {
-												$selector = str_replace( '%s', $property, $selector );
+												$selector = str_replace( '@', $property, $selector );
 												continue;
 											}
 
