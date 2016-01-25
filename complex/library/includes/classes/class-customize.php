@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.0.14
+ * @version  1.0.15
  */
 
 
@@ -105,13 +105,14 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * Customizer controls assets
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.0.15
 		 */
 		public static function assets() {
 
 			// Helper variables
 
-				$version = esc_attr( trim( wp_get_theme()->get( 'Version' ) ) );
+				$theme   = Polyclinic_Theme_Framework::get_theme_slug();
+				$version = wp_get_theme( $theme )->get( 'Version' );
 
 
 			/**
@@ -124,7 +125,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 							'{%= prefix_var %}-customizer',
 							{%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/customize.css' ),
 							false,
-							$version,
+							esc_attr( $version ),
 							'screen'
 						);
 
@@ -134,7 +135,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 							'{%= prefix_var %}-customizer',
 							{%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize.js' ),
 							array( 'customize-controls' ),
-							$version,
+							esc_attr( $version ),
 							true
 						);
 

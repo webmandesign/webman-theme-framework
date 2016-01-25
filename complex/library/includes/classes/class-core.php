@@ -8,7 +8,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.0.12
+ * @version  1.0.15
  */
 
 
@@ -465,7 +465,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 		 *
 		 * @since    1.0
-		 * @version  1.0.12
+		 * @version  1.0.15
 		 *
 		 * @param  array $args
 		 */
@@ -669,7 +669,7 @@ final class {%= prefix_class %}_Theme_Framework {
 											'{attributes}'  => ' title="' . esc_attr__( 'Views count', '{%= text_domain %}' ) . '"',
 											'{class}'       => esc_attr( 'entry-views entry-meta-element' ),
 											'{description}' => '',
-											'{content}'     => $helper,
+											'{content}'     => wp_strip_all_tags( $helper ),
 										);
 								}
 
@@ -1787,6 +1787,22 @@ final class {%= prefix_class %}_Theme_Framework {
 	/**
 	 * 100) Helpers
 	 */
+
+		/**
+		 * Get (parent) theme folder name
+		 *
+		 * @since    1.0.15
+		 * @version  1.0.15
+		 */
+		public static function get_theme_slug() {
+
+			// Output
+
+				return ( is_child_theme() ) ? ( wp_get_theme()->parent()->get_template() ) : ( null );
+
+		} // /get_theme_slug
+
+
 
 		/**
 		 * Remove shortcodes from string

@@ -1,5 +1,18 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.0.15
+
+* **Add**: Added method to get the (parent) theme folder name
+* **Fix**: Compatibility with child themes
+* **Fix**: Stripping HTML tags in Post Views Count plugin output to prevent errors in theme HTML
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-core.php
+	includes/classes/class-customize.php
+
+
 ## 1.0.14
 
 * **Update**: Renaming the `customizer_js` to `preview_js` and improving the function
