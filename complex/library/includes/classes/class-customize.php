@@ -111,7 +111,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 			// Helper variables
 
-				$theme   = Polyclinic_Theme_Framework::get_theme_slug();
+				$theme   = {%= prefix_class %}_Theme_Framework::get_theme_slug();
 				$version = wp_get_theme( $theme )->get( 'Version' );
 
 
@@ -201,7 +201,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 *
 		 *   );
 		 *
-		 * @uses  `wmhook_polyclinic_theme_options` global hook
+		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
 		 * @version  1.0.14
