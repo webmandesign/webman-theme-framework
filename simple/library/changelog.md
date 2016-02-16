@@ -1,5 +1,17 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.0.16
+
+* **Update**: Removing obsolete file reference
+* **Fix**: Fixing typos
+
+#### Files changed:
+
+	init.php
+	includes/customize.php
+	includes/classes/class-customize.php
+
+
 ## 1.0.15
 
 * **Add**: Added method to get the (parent) theme folder name

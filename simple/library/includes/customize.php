@@ -6,7 +6,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.0.13
+ * @version  1.0.16
  *
  * Contents:
  *
@@ -22,11 +22,7 @@
  * 1) Required files
  */
 
-	// Theme options arrays
-
-		locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'theme-options/theme-options.php', true );
-
-	// Visual Editor class
+	// Customizer class
 
 		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/class-customize.php', true );
 

@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.0.14
+ * @version  1.0.16
  */
 
 
@@ -360,7 +360,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.0.14
+		 * @version  1.0.16
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -446,7 +446,6 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 					locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-hidden.php',      true );
 					locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-html.php',        true );
-					locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-image.php',       true );
 					locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-multiselect.php', true );
 					locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-select.php',      true );
 
@@ -761,6 +760,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									 * HTML5 <input type="range" /> element - thus still using custom one.
 									 *
 									 * intval() used as sanitize callback causes PHP errors!
+									 *
+									 * Displaying pure text input field with `absint()` validation.
 									 */
 									case 'range':
 
@@ -782,13 +783,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 													'description'     => $description,
 													'section'         => $customizer_section,
 													'priority'        => $priority,
-													'type'            => 'range',
 													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-													'input_attrs'     => array(
-														'min'  => ( isset( $theme_option['min'] ) ) ? ( intval( $theme_option['min'] ) ) : ( 0 ),
-														'max'  => ( isset( $theme_option['max'] ) ) ? ( intval( $theme_option['max'] ) ) : ( 100 ),
-														'step' => ( isset( $theme_option['step'] ) ) ? ( intval( $theme_option['step'] ) ) : ( 1 ),
-													),
 												)
 											);
 
