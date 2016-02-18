@@ -6,6 +6,7 @@
  * - Changed localization textdomain (don't forget the `_n_noop()` function under `$this->strings = ...`)
  * - Removed translation domain comments in the commentblock below
  * - Commented out the `add_submenu_page` part
+ * - Changed `$nag_class` to `updated` only
  *
  * @link  https://github.com/TGMPA/TGM-Plugin-Activation/releases
  *
@@ -1197,7 +1198,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				if ( ! empty( $this->strings['nag_type'] ) ) {
 					add_settings_error( 'tgmpa', 'tgmpa', $rendered, sanitize_html_class( strtolower( $this->strings['nag_type'] ) ) );
 				} else {
-					$nag_class = version_compare( $this->wp_version, '3.8', '<' ) ? 'updated' : 'update-nag';
+					$nag_class = version_compare( $this->wp_version, '3.8', '<' ) ? 'updated' : 'updated';
 					add_settings_error( 'tgmpa', 'tgmpa', $rendered, $nag_class );
 				}
 			}
