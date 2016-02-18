@@ -22,6 +22,7 @@
  * @uses  `wmhook_{%= prefix_hook %}_esc_css`
  *
  * Used development prefixes:
+ * - theme_slug
  * - prefix_constant
  * - prefix_var
  * - prefix_class
