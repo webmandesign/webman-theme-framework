@@ -8,7 +8,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.0.15
+ * @version  1.1
  */
 
 
@@ -1341,7 +1341,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Generate main CSS file
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.1
 		 *
 		 * @param  array $args
 		 */
@@ -1391,7 +1391,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 					ob_start();
 
-					locate_template( 'assets/css-generate/generate' . $args['type'] . '-css.php', true );
+					require_once( get_template_directory() . '/assets/css-generate/generate' . $args['type'] . '-css.php' );
 
 					$output = trim( ob_get_clean() );
 

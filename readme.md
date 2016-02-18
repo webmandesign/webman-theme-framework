@@ -13,7 +13,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
 ## Theme integration
 
 1. Copy the desired `library` folder into your theme's root
-2. Include the library the first thing in your theme's `functions.php` file with `locate_template( 'library/init.php', true );`
+2. Include the library the first thing in your theme's `functions.php` file with `require_once( get_template_directory() . '/library/init.php' );`
 
 > This theme framework is best suited for integration with starter themes by WebMan Design.
 

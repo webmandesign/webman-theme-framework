@@ -12,7 +12,7 @@ Outputs custom styles directly into HTML head. Contains less functions/methods t
 ## Theme integration
 
 1. Copy the `library` folder into your theme's root
-2. Include the library the first thing in your theme's `functions.php` file with `locate_template( 'library/init.php', true );`
+2. Include the library the first thing in your theme's `functions.php` file with `require_once( get_template_directory() . '/library/init.php' );`
 
 > This theme framework is best suited for integration with starter themes by WebMan Design.
 

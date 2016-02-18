@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.0.16
+ * @version  1.1
  */
 
 
@@ -360,7 +360,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.0.16
+		 * @version  1.1
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -444,10 +444,10 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 					 * @link  http://ottopress.com/2012/making-a-custom-control-for-the-theme-customizer/
 					 */
 
-					locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-hidden.php',      true );
-					locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-html.php',        true );
-					locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-multiselect.php', true );
-					locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-select.php',      true );
+					require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-hidden.php' );
+					require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-html.php' );
+					require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-multiselect.php' );
+					require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-select.php' );
 
 					do_action( 'wmhook_{%= prefix_hook %}_tf_customize_load_controls', $wp_customize );
 

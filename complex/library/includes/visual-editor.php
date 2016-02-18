@@ -6,7 +6,7 @@
  * @subpackage  Visual Editor
  *
  * @since    1.0
- * @version  1.0.13
+ * @version  1.1
  *
  * Contents:
  *
@@ -24,7 +24,7 @@
 
 	// Visual Editor class
 
-		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/class-visual-editor.php', true );
+		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/class-visual-editor.php' );
 
 
 

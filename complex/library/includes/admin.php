@@ -6,7 +6,7 @@
  * @subpackage  Admin
  *
  * @since    1.0
- * @version  1.0.13
+ * @version  1.1
  *
  * Contents:
  *
@@ -24,17 +24,17 @@
 
 	// Load the theme About page
 
-		locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'admin/about-page/about-page.php', true );
+		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_INCLUDES_DIR . 'admin/about-page/about-page.php' );
 
 	// Theme Updater
 
 		if ( apply_filters( 'wmhook_{%= prefix_hook %}_update_notifier_enabled', false ) ) {
-			locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/update-notifier.php', true );
+			require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/update-notifier.php' );
 		}
 
 	// Admin class
 
-		locate_template( {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/class-admin.php', true );
+		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/class-admin.php' );
 
 
 
