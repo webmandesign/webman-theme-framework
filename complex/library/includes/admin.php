@@ -37,7 +37,7 @@
 
 	// Load the theme About page
 
-		locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'admin/about-page/about-page.php' );
+		locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'admin/about-page/about-page.php', true );
 
 	// Theme Updater
 
