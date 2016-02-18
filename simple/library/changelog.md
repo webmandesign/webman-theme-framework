@@ -1,5 +1,22 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.1
+
+* **Update**: Changing `locate_template()` for `require_once()` file loading
+* **Update**: Adding links on post publish date meta
+* **Update**: Removing theme slug constant
+* **Update**: Adding dismissible admin notices
+
+#### Files changed:
+
+	init.php
+	readme.md
+	includes/customize.php
+	includes/visual-editor.php
+	includes/classes/class-core.php
+	includes/classes/class-customize.php
+
+
 ## 1.0.16
 
 * **Update**: Removing obsolete file reference

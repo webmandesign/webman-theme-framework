@@ -1,5 +1,28 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.1
+
+* **Update**: Changing `locate_template()` for `require_once()` file loading
+* **Update**: Adding links on post publish date meta
+* **Update**: Removing theme slug constant
+* **Update**: Adding dismissible admin notices
+* **Fix**: Fixing TGM Plugin Activation admin notice position
+
+#### Files changed:
+
+	init.php
+	readme.md
+	includes/admin.php
+	includes/customize.php
+	includes/update-notice.php
+	includes/visual-editor.php
+	includes/classes/class-admin.php
+	includes/classes/class-core.php
+	includes/classes/class-customize.php
+	includes/classes/class-updater.php
+	includes/external/class-tgm-plugin-activation.php
+
+
 ## 1.0.16
 
 * **Update**: Removing obsolete file reference
