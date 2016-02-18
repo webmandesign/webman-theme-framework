@@ -6,7 +6,7 @@
  * @subpackage  Admin
  *
  * @since    1.0
- * @version  1.0.15
+ * @version  1.1
  */
 
 
@@ -180,7 +180,7 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 		 *   );
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.1
 		 */
 		public static function message() {
 
@@ -234,7 +234,7 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 				}
 
 				if ( $message[0] && current_user_can( $message[2] ) ) {
-					$output .= '<div class="' . trim( 'wm-notice ' . $message[1] ) . '"><p>' . $message[0] . '</p></div>';
+					$output .= '<div class="' . trim( 'wm-notice notice is-dismissible ' . $message[1] ) . '"><p>' . $message[0] . '</p></div>';
 					delete_transient( '{%= prefix_var %}_admin_notice' );
 				}
 
