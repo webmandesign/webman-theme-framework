@@ -55,13 +55,9 @@
  * 0) Constants
  */
 
-	// Basic constants
-
-		if ( ! defined( '{%= prefix_constant %}_THEME_SLUG' ) ) define( '{%= prefix_constant %}_THEME_SLUG', str_replace( array( '-lite', '-plus' ), '', get_template() ) );
-
 	// Options constants
 
-		if ( ! defined( '{%= prefix_constant %}_OPTION_CUSTOMIZER' ) ) define( '{%= prefix_constant %}_OPTION_CUSTOMIZER', 'theme_mods_' . {%= prefix_constant %}_THEME_SLUG );
+		if ( ! defined( '{%= prefix_constant %}_OPTION_CUSTOMIZER' ) ) define( '{%= prefix_constant %}_OPTION_CUSTOMIZER', 'theme_mods_{%= theme_slug %}' );
 
 	// Dir constants
 

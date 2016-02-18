@@ -55,10 +55,6 @@
  * 0) Constants
  */
 
-	// Basic constants
-
-		if ( ! defined( '{%= prefix_constant %}_THEME_SLUG' ) ) define( '{%= prefix_constant %}_THEME_SLUG', str_replace( array( '-lite', '-plus' ), '', get_template() ) );
-
 	// Dir constants
 
 		if ( ! defined( '{%= prefix_constant %}_LIBRARY_DIR' ) ) define( '{%= prefix_constant %}_LIBRARY_DIR', trailingslashit( 'library' ) );

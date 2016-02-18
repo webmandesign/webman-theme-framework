@@ -150,14 +150,14 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Do action on theme version change
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.1
 		 */
 		public static function theme_upgrade() {
 
 			// Helper variables
 
-				$current_theme_version = get_transient( {%= prefix_constant %}_THEME_SLUG . '_version' );
-				$new_theme_version     = wp_get_theme( {%= prefix_constant %}_THEME_SLUG )->get( 'Version' );
+				$current_theme_version = get_transient( '{%= theme_slug %}_version' );
+				$new_theme_version     = wp_get_theme( '{%= theme_slug %}' )->get( 'Version' );
 
 
 			// Processing
@@ -169,7 +169,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 					do_action( 'wmhook_{%= prefix_hook %}_tf_theme_upgrade', $current_theme_version, $new_theme_version );
 
-					set_transient( {%= prefix_constant %}_THEME_SLUG . '_version', $new_theme_version );
+					set_transient( '{%= theme_slug %}_version', $new_theme_version );
 
 				}
 
@@ -1409,8 +1409,8 @@ final class {%= prefix_class %}_Theme_Framework {
 
 					$wp_upload_dir = wp_upload_dir();
 
-					$theme_css_url = trailingslashit( $wp_upload_dir['baseurl'] ) . 'wmtheme-' . {%= prefix_constant %}_THEME_SLUG;
-					$theme_css_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'wmtheme-' . {%= prefix_constant %}_THEME_SLUG;
+					$theme_css_url = trailingslashit( $wp_upload_dir['baseurl'] ) . 'wmtheme-{%= theme_slug %}';
+					$theme_css_dir = trailingslashit( $wp_upload_dir['basedir'] ) . 'wmtheme-{%= theme_slug %}';
 
 					if (
 							! ( file_exists( $theme_css_dir ) && is_dir( $theme_css_dir ) )
@@ -1633,7 +1633,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Adds a Theme Options links to WordPress toolbar (admin bar)
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.1
 		 */
 		public static function toolbar() {
 
@@ -1684,7 +1684,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 							$wp_admin_bar->add_menu( apply_filters( 'wmhook_{%= prefix_hook %}_tf_toolbar_child-' . sanitize_title( $title ), array(
 									'parent' => 'theme_options_links',
-									'id'     => {%= prefix_constant %}_THEME_SLUG . '_theme_options-' . sanitize_title( $title ),
+									'id'     => '{%= theme_slug %}_theme_options-' . sanitize_title( $title ),
 									'title'  => $title,
 									'href'   => esc_url( $url ),
 								) ) );

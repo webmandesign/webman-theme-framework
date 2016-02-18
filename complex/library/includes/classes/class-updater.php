@@ -9,7 +9,7 @@
  * @subpackage  Updater
  *
  * @since    1.0
- * @version  1.0.15
+ * @version  1.1
  */
 
 
@@ -224,7 +224,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		 * Notifier page renderer
 		 *
 		 * @since    1.0
-		 * @version  1.0.15
+		 * @version  1.1
 		 */
 		public static function page() {
 
@@ -325,9 +325,9 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 									<ol>
 										<li>Upload the theme installation ZIP file using FTP client to your server (into <code>YOUR_WORDPRESS_INSTALLATION/wp-content/themes/</code>).</li>
-										<li>Using your FTP client, rename the old theme folder (for example from <code><?php echo {%= prefix_constant %}_THEME_SLUG; ?></code> to <code><?php echo {%= prefix_constant %}_THEME_SLUG; ?>-bak</code>).</li>
+										<li>Using your FTP client, rename the old theme folder (for example from <code>{%= theme_slug %}</code> to <code>{%= theme_slug %}-bak</code>).</li>
 										<li>When the old theme folder is renamed, unzip the theme installation zip file directly on the server (you might need to use a web-based FTP tool for this - hosting companies provides such tools).</li>
-										<li>After checking whether the theme works fine, delete the renamed old theme folder from the server (the <code><?php echo {%= prefix_constant %}_THEME_SLUG; ?>-bak</code> folder in our case).</li>
+										<li>After checking whether the theme works fine, delete the renamed old theme folder from the server (the <code>{%= theme_slug %}-bak</code> folder in our case).</li>
 									</ol>
 
 								</li>
@@ -401,7 +401,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		 * Uses the cached version if available, inside the time interval defined.
 		 *
 		 * @since    1.0
-		 * @version  1.0.15
+		 * @version  1.1
 		 *
 		 * @param  int $interval
 		 */
@@ -427,8 +427,8 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 				$theme = {%= prefix_class %}_Theme_Framework::get_theme_slug();
 
-				$db_cache_field              = '{%= prefix_var %}_notifier_cache_' . {%= prefix_constant %}_THEME_SLUG;
-				$db_cache_field_last_updated = '{%= prefix_var %}_notifier_cache_' . {%= prefix_constant %}_THEME_SLUG . '_last_updated';
+				$db_cache_field              = '{%= prefix_var %}_notifier_cache_{%= theme_slug %}';
+				$db_cache_field_last_updated = '{%= prefix_var %}_notifier_cache_{%= theme_slug %}_last_updated';
 				$last                        = get_transient( $db_cache_field_last_updated );
 
 				// Check the cache
@@ -440,7 +440,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 						// Cache doesn't exist, or is old, so refresh it
 
-							$response = wp_remote_get( esc_url( trailingslashit( wp_get_theme( $theme )->get( 'AuthorURI' ) ) . 'updates/' . {%= prefix_constant %}_THEME_SLUG . '/' . {%= prefix_constant %}_THEME_SLUG . '-version.xml' ) );
+							$response = wp_remote_get( esc_url( trailingslashit( wp_get_theme( $theme )->get( 'AuthorURI' ) ) . 'updates/{%= theme_slug %}/{%= theme_slug %}-version.xml' ) );
 
 							if ( is_wp_error( $response ) ) {
 

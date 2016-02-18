@@ -144,14 +144,14 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Do action on theme version change
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.1
 		 */
 		public static function theme_upgrade() {
 
 			// Helper variables
 
-				$current_theme_version = get_transient( {%= prefix_constant %}_THEME_SLUG . '_version' );
-				$new_theme_version     = wp_get_theme( {%= prefix_constant %}_THEME_SLUG )->get( 'Version' );
+				$current_theme_version = get_transient( '{%= theme_slug %}_version' );
+				$new_theme_version     = wp_get_theme( '{%= theme_slug %}' )->get( 'Version' );
 
 
 			// Processing
@@ -163,7 +163,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 					do_action( 'wmhook_{%= prefix_hook %}_tf_theme_upgrade', $current_theme_version, $new_theme_version );
 
-					set_transient( {%= prefix_constant %}_THEME_SLUG . '_version', $new_theme_version );
+					set_transient( '{%= theme_slug %}_version', $new_theme_version );
 
 				}
 
@@ -1141,14 +1141,14 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Then just use a '___customizer_option_id' tags in your custom CSS
 		 * styles string where the specific option value should be used.
 		 *
-		 * Caching $replacement into '{%= prefix_constant %}_THEME_SLUG . _customizer_values' transient.
-		 * Caching $output into '{%= prefix_constant %}_THEME_SLUG . _custom_css' transient.
+		 * Caching $replacement into '{%= theme_slug %}_customizer_values' transient.
+		 * Caching $output into '{%= theme_slug %}_custom_css' transient.
 		 *
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.1
 		 *
 		 * @param  bool $set_cache  Determines whether the results should be cached or not.
 		 * @param  bool $return     Whether to return a value or just run the process.
@@ -1176,7 +1176,7 @@ final class {%= prefix_class %}_Theme_Framework {
 				$theme_options = (array) apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
 				$alphas        = array_filter( (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_alphas', array() ) );
 
-				$replacements  = array_unique( array_filter( (array) get_transient( {%= prefix_constant %}_THEME_SLUG . '_customizer_values' ) ) ); //There have to be values (defaults) set!
+				$replacements  = array_unique( array_filter( (array) get_transient( '{%= theme_slug %}_customizer_values' ) ) ); //There have to be values (defaults) set!
 
 				/**
 				 * Force caching during the first theme display when no cache set (default
@@ -1330,19 +1330,19 @@ final class {%= prefix_class %}_Theme_Framework {
 								$set_cache
 								&& ! empty( $replacements )
 							) {
-							set_transient( {%= prefix_constant %}_THEME_SLUG . '_customizer_values', $replacements );
+							set_transient( '{%= theme_slug %}_customizer_values', $replacements );
 						}
 
 					}
 
 				// Prepare output and cache
 
-					$output_cached = (string) get_transient( {%= prefix_constant %}_THEME_SLUG . '_custom_css' );
+					$output_cached = (string) get_transient( '{%= theme_slug %}_custom_css' );
 
 					// Debugging set (via "debug" URL parameter)
 
 						if ( isset( $_GET['debug'] ) ) {
-							$output_cached = (string) get_transient( {%= prefix_constant %}_THEME_SLUG . '_custom_css_debug' );
+							$output_cached = (string) get_transient( '{%= theme_slug %}_custom_css_debug' );
 						}
 
 					if (
@@ -1355,8 +1355,8 @@ final class {%= prefix_class %}_Theme_Framework {
 							$output = strtr( $output, $replacements );
 
 						if ( $set_cache ) {
-							set_transient( {%= prefix_constant %}_THEME_SLUG . '_custom_css_debug', apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output_cache_debug', $output ) );
-							set_transient( {%= prefix_constant %}_THEME_SLUG . '_custom_css', apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output_cache', $output ) );
+							set_transient( '{%= theme_slug %}_custom_css_debug', apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output_cache_debug', $output ) );
+							set_transient( '{%= theme_slug %}_custom_css', apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output_cache', $output ) );
 						}
 
 					} else {
@@ -1380,15 +1380,15 @@ final class {%= prefix_class %}_Theme_Framework {
 			 * Flush out the transients used in `custom_styles`
 			 *
 			 * @since    1.0
-			 * @version  1.0
+			 * @version  1.1
 			 */
 			public static function custom_styles_transient_flusher() {
 
 				// Processing
 
-					delete_transient( {%= prefix_constant %}_THEME_SLUG . '_customizer_values' );
-					delete_transient( {%= prefix_constant %}_THEME_SLUG . '_custom_css_debug' );
-					delete_transient( {%= prefix_constant %}_THEME_SLUG . '_custom_css' );
+					delete_transient( '{%= theme_slug %}_customizer_values' );
+					delete_transient( '{%= theme_slug %}_custom_css_debug' );
+					delete_transient( '{%= theme_slug %}_custom_css' );
 
 			} // /custom_styles_transient_flusher
 
