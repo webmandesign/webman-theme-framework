@@ -4,11 +4,13 @@
 
 * **Update**: Improving files loading
 * **Update**: Porting theme "About" admin page functionality into simple version of the framework
+* **Update**: Updated TGM Plugin Activation class
 
 #### Files changed:
 
 	init.php
 	includes\admin.php
+	includes/external/class-tgm-plugin-activation.php
 
 
 ## 1.1

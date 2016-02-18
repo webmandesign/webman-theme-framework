@@ -2,13 +2,13 @@
 /**
  * TGM Plugin Activation
  *
- * WebMan modification:
- * - Changed localization textdomain (don't forget the `_n_noop()` function under `$this->strings = ...`)
- * - Removed translation domain comments in the commentblock below
- * - Commented out the `add_submenu_page` part
- * - Changed `$nag_class` to `updated` only
+ * Generated using @link http://tgmpluginactivation.com/download/
  *
- * @link  https://github.com/TGMPA/TGM-Plugin-Activation/releases
+ * Modification:
+ * - Changed localization text domain
+ * - Removed translation domain comments in the comment block below
+ * - Removed the `add_submenu_page` part
+ * - Changed `$nag_class` according to @link https://git.io/vgjHF
  *
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Plugins
@@ -651,15 +651,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @param array $args Menu item configuration.
 		 */
 		protected function add_admin_menu( array $args ) {
-			if ( has_filter( 'tgmpa_admin_menu_use_add_theme_page' ) ) {
-				_deprecated_function( 'The "tgmpa_admin_menu_use_add_theme_page" filter', '2.5.0', esc_html__( 'Set the parent_slug config variable instead.', '{%= text_domain %}' ) );
-			}
-
-			if ( 'themes.php' === $this->parent_slug ) {
-				$this->page_hook = call_user_func( 'add_theme_page', $args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function'] );
-			// } else {
-			// 	$this->page_hook = call_user_func( 'add_submenu_page', $args['parent_slug'], $args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function'] );
-			}
+			$this->page_hook = add_theme_page( $args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function'] );
 		}
 
 		/**
@@ -1198,7 +1190,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				if ( ! empty( $this->strings['nag_type'] ) ) {
 					add_settings_error( 'tgmpa', 'tgmpa', $rendered, sanitize_html_class( strtolower( $this->strings['nag_type'] ) ) );
 				} else {
-					$nag_class = version_compare( $this->wp_version, '3.8', '<' ) ? 'updated' : 'updated';
+					$nag_class = version_compare( $this->wp_version, '4.2', '>=' ) ? 'notice-warning' : 'notice';
 					add_settings_error( 'tgmpa', 'tgmpa', $rendered, $nag_class );
 				}
 			}
