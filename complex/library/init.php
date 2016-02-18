@@ -39,7 +39,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
  *
- * @version  1.1
+ * @version  1.2
  *
  * Contents:
  *
@@ -89,25 +89,9 @@
 
 		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/customize.php' );
 
-	// Admin required files
+	// Admin
 
-		if ( is_admin() ) {
-
-			// WP admin functionality
-
-				require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/admin.php' );
-
-			// Plugins suggestions
-
-				if (
-						apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', true )
-						&& locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php' )
-					) {
-					require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/external/class-tgm-plugin-activation.php' );
-					locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php', true );
-				}
-
-		}
+		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/admin.php' );
 
 	// Core class
 

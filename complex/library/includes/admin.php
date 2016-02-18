@@ -6,13 +6,26 @@
  * @subpackage  Admin
  *
  * @since    1.0
- * @version  1.1
+ * @version  1.2
  *
  * Contents:
  *
+ *  0) Requirements check
  *  1) Required files
  * 10) Init
  */
+
+
+
+
+
+/**
+ * 0) Requirements check
+ */
+
+	if ( ! is_admin() ) {
+		return;
+	}
 
 
 
@@ -24,7 +37,7 @@
 
 	// Load the theme About page
 
-		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_INCLUDES_DIR . 'admin/about-page/about-page.php' );
+		locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'admin/about-page/about-page.php' );
 
 	// Theme Updater
 
@@ -35,6 +48,16 @@
 	// Admin class
 
 		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/class-admin.php' );
+
+	// Plugins suggestions
+
+		if (
+				apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', true )
+				&& locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php' )
+			) {
+			require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/external/class-tgm-plugin-activation.php' );
+			locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php', true );
+		}
 
 
 

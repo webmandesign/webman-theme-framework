@@ -1,5 +1,16 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.2
+
+* **Update**: Improving files loading
+* **Update**: Porting theme "About" admin page functionality into simple version of the framework
+
+#### Files changed:
+
+	init.php
+	includes\admin.php
+
+
 ## 1.1
 
 * **Update**: Changing `locate_template()` for `require_once()` file loading

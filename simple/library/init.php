@@ -39,7 +39,7 @@
  * @package     WebMan WordPress Theme Framework (Simple)
  * @subpackage  Core
  *
- * @version  1.1
+ * @version  1.2
  *
  * Contents:
  *
@@ -72,6 +72,10 @@
 	// Customize (has to be frontend accessible, otherwise it hides theme settings)
 
 		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/customize.php' );
+
+	// Admin
+
+		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/admin.php' );
 
 	// Core class
 

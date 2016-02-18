@@ -1,0 +1,86 @@
+/**
+ * About page styles
+ *
+ * @package     WebMan WordPress Theme Framework
+ * @subpackage  About page
+ *
+ * @since    1.2
+ * @version  1.2
+ */
+.mt0 {
+  margin-top: 0 !important;
+}
+
+#setting-error-tgmpa {
+  display: none;
+}
+
+.wm-actions {
+  margin-top: 2em;
+}
+
+.about-wrap {
+  direction: ltr;
+}
+.about-wrap h1 {
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: 300;
+}
+.about-wrap h1 strong {
+  font-weight: 800;
+}
+.about-wrap h1 small {
+  font-size: .5em;
+}
+.about-wrap hr {
+  height: 0;
+  margin: 2em 0;
+  border: 0;
+  border-top: 1px solid #caccce;
+}
+.about-wrap .feature-section {
+  padding: 0;
+  border: 0;
+}
+.about-wrap .feature-section.col h4 {
+  margin: 1em 0;
+}
+.about-wrap .dropcap {
+  float: left;
+  display: block;
+  padding: .75em 1em;
+  margin: 0 .5em .25em 0;
+  font-size: 1.8em;
+  font-weight: bold;
+  background: #3a3c3e;
+  color: #fafcfe;
+  border-radius: .5em;
+}
+.about-wrap .about-text {
+  margin-left: 0;
+  margin-right: 0;
+}
+.about-wrap .about-text a {
+  color: #6a6c6e;
+}
+.about-wrap .twitter-share-button {
+  vertical-align: middle;
+  margin-left: 3px;
+}
+.about-wrap .wm-notes {
+  padding: 2em;
+  margin-top: 4em;
+  line-height: 1.4em;
+  font-size: .8em;
+  font-style: italic;
+  background: #fafcfe;
+  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 1em;
+}
+.about-wrap .congrats {
+  padding: 1em 0 0;
+}
+.about-wrap .congrats p {
+  font-size: 1.15em;
+}

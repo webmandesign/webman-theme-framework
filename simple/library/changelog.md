@@ -1,5 +1,20 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.2
+
+* **Add**: Theme "About" admin page functionality
+
+#### Files changed:
+
+	init.php
+	css/about.css
+	css/rtl-about.css
+	includes/admin.php
+	includes/classes/class-admin.php
+	scss/about.scss
+	scss/rtl-about.scss
+
+
 ## 1.1
 
 * **Update**: Changing `locate_template()` for `require_once()` file loading
