@@ -19,7 +19,7 @@
 #### Files changed:
 
 	init.php
-	includes\admin.php
+	includes/admin.php
 	includes/external/class-tgm-plugin-activation.php
 
 
