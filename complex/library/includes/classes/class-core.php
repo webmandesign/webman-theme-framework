@@ -8,7 +8,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.1
+ * @version  1.2.1
  */
 
 
@@ -1341,7 +1341,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Generate main CSS file
 		 *
 		 * @since    1.0
-		 * @version  1.1
+		 * @version  1.2.1
 		 *
 		 * @param  array $args
 		 */
@@ -1421,7 +1421,7 @@ final class {%= prefix_class %}_Theme_Framework {
 								'{%= prefix_var %}_admin_notice',
 								array(
 									'<strong>' . esc_html__( "ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.", '{%= text_domain %}' ) . '</strong>',
-									'error',
+									'notice-error',
 									'switch_themes',
 									2
 								),
@@ -1459,7 +1459,7 @@ final class {%= prefix_class %}_Theme_Framework {
 								'{%= prefix_var %}_admin_notice',
 								array(
 									$args['message_before'] . $args['message'] . $args['message_after'],
-									'',
+									'notice-info',
 									'switch_themes'
 								),
 								( 60 * 60 * 24 )
@@ -1719,7 +1719,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @see  http://wordpress.findincity.net/view/63538464303732726692954/using-wpfilesystem-in-plugins-to-store-customizer-settings
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.2.1
 		 */
 		public static function get_filesystem() {
 
@@ -1756,7 +1756,7 @@ final class {%= prefix_class %}_Theme_Framework {
 									'{%= prefix_var %}_admin_notice',
 									array(
 										esc_html__( 'The theme writes a files to your server. You do not appear to have your FTP credentials set up in "wp-config.php" file.', '{%= text_domain %}' ) . ' <a href="http://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants" target="_blank">' . esc_html__( 'Please set your FTP credentials first.', '{%= text_domain %}' ) . '</a>',
-										'error',
+										'notice-error',
 										'switch_themes'
 									),
 									( 60 * 60 * 24 )

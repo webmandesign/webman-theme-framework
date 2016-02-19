@@ -1,5 +1,15 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.2.1
+
+* **Update**: Improving admin notice styles
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-core.php
+
+
 ## 1.2
 
 * **Update**: Improving files loading
