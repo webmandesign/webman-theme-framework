@@ -10,11 +10,15 @@
 
 
 
+
+
 // Global classes
 
 	.text-center {
 		text-align: center !important;
 	}
+
+
 
 // Forms
 
@@ -25,6 +29,8 @@
 	select[multiple] {
 		height: 80px !important;
 	}
+
+
 
 // Custom table
 
@@ -52,6 +58,8 @@
 		}
 
 	}
+
+
 
 // Update notifier
 
@@ -136,6 +144,8 @@
 
 	}
 
+
+
 // Widgets admin
 
 	.wm-desc {
@@ -155,6 +165,8 @@
 		}
 
 	}
+
+
 
 // Admin bar
 
@@ -185,30 +197,3 @@
 		}
 
 	}
-
-// Plugins support
-
-	// bbPress
-
-		.bbp-hide-content-container {
-
-			.wp-list-table {
-
-				.bbp-content-container {
-					display: none;
-				}
-
-			}
-
-		}
-
-	// Visual Composer
-
-		.vc-remove-licence-notice {
-
-			.vc-license-activation-notice,
-			.vc_license-activation-notice {
-				display: none;
-			}
-
-		}

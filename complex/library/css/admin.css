@@ -115,12 +115,3 @@ select[multiple] {
 #wpadminbar #wp-admin-bar-update_notifier > .ab-item::before {
   content: '\f107';
 }
-
-.bbp-hide-content-container .wp-list-table .bbp-content-container {
-  display: none;
-}
-
-.vc-remove-licence-notice .vc-license-activation-notice,
-.vc-remove-licence-notice .vc_license-activation-notice {
-  display: none;
-}
