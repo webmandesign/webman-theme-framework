@@ -1,5 +1,24 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.3
+
+* **Add**: WordPress 4.5 custom logo support
+* **Add**: Support for WP ULike plugin in post meta
+* **Update**: Removing obsolete `get_theme_slug()` method
+* **Update**: Created dedicated constant for (parent) theme version
+* **Update**: Moved and renamed WordPress native theme customizer settings and sections
+* **Update**: PHP inline comments formating
+* **Fix**: Fixed SSL issues
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-admin.php
+	includes/classes/class-core.php
+	includes/classes/class-customize.php
+	includes/classes/class-visual-editor.php
+
+
 ## 1.2
 
 * **Add**: Theme "About" admin page functionality

@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.1
+ * @version  1.3
  */
 
 
@@ -19,7 +19,7 @@
  * Customize class
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.3
  *
  * Contents:
  *
@@ -46,19 +46,15 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * Constructor
 		 *
 		 * @since    1.0
-		 * @version  1.0.1
+		 * @version  1.3
 		 */
 		private function __construct() {
 
 			// Processing
 
-				/**
-				 * Hooks
-				 */
+				// Hooks
 
-					/**
-					 * Actions
-					 */
+					// Actions
 
 						// Register customizer
 
@@ -360,7 +356,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.1
+		 * @version  1.3
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -433,9 +429,20 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 					$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 					$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 
-					if ( function_exists( 'jetpack_get_site_logo' ) ) {
-						$wp_customize->get_setting( 'site_logo' )->transport = 'refresh';
-					}
+				// Move background color setting alongside background image
+
+					$wp_customize->get_control( 'background_color' )->section  = 'background_image';
+					$wp_customize->get_control( 'background_color' )->priority = 20;
+
+				// Change background image section title & priority
+
+					$wp_customize->get_section( 'background_image' )->title    = __( 'Background', '{%= text_domain %}' );
+					$wp_customize->get_section( 'background_image' )->priority = 30;
+
+				// Change header image section title & priority
+
+					$wp_customize->get_section( 'header_image' )->title    = __( 'Header', '{%= text_domain %}' );
+					$wp_customize->get_section( 'header_image' )->priority = 25;
 
 				// Custom controls
 

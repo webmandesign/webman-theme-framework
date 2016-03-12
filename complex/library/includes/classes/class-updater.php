@@ -9,7 +9,7 @@
  * @subpackage  Updater
  *
  * @since    1.0
- * @version  1.1
+ * @version  1.3
  */
 
 
@@ -20,7 +20,7 @@
  * Updater class
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.3
  *
  * Contents:
  *
@@ -47,19 +47,15 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		 * Constructor
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.3
 		 */
 		private function __construct() {
 
 			// Processing
 
-				/**
-				 * Hooks
-				 */
+				// Hooks
 
-					/**
-					 * Actions
-					 */
+					// Actions
 
 						// Admin menu
 
@@ -106,7 +102,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		 * Admin menu link
 		 *
 		 * @since    1.0
-		 * @version  1.0.15
+		 * @version  1.3
 		 */
 		public static function menu() {
 
@@ -126,18 +122,16 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 					$xml = self::get_remote_xml_data( {%= prefix_constant %}_UPDATE_NOTIFIER_CACHE_INTERVAL );
 
-					$theme = {%= prefix_class %}_Theme_Framework::get_theme_slug();
-
 					if (
 							isset( $xml->latest )
-							&& version_compare( $xml->latest, wp_get_theme( $theme )->get( 'Version' ), '>' )
+							&& version_compare( $xml->latest, {%= prefix_constant %}_THEME_VERSION, '>' )
 						) {
 
 						add_theme_page(
 							// page_title
 							sprintf(
 								esc_html_x( '%s Theme Updates', '%s stands for the theme name. Just copy it.', '{%= text_domain %}' ),
-								wp_get_theme( $theme )->get( 'Name' )
+								wp_get_theme( '{%= theme_slug %}' )->get( 'Name' )
 							),
 							// menu_title
 							esc_html_x( 'Theme Updates', 'Admin menu title.', '{%= text_domain %}' ) . ' <span class="update-plugins count-1"><span class="update-count">1</span></span>',
@@ -161,7 +155,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		 * Toolbar link
 		 *
 		 * @since    1.0
-		 * @version  1.0.15
+		 * @version  1.3
 		 */
 		public static function toolbar() {
 
@@ -184,11 +178,9 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 					$xml = self::get_remote_xml_data( {%= prefix_constant %}_UPDATE_NOTIFIER_CACHE_INTERVAL );
 
-					$theme = {%= prefix_class %}_Theme_Framework::get_theme_slug();
-
 					if (
 							isset( $xml->latest )
-							&& version_compare( $xml->latest, wp_get_theme( $theme )->get( 'Version' ), '>' )
+							&& version_compare( $xml->latest, {%= prefix_constant %}_THEME_VERSION, '>' )
 						) {
 
 						if (
@@ -202,7 +194,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 						$wp_admin_bar->add_menu( array(
 								'id'    => 'update_notifier',
-								'title' => sprintf( esc_html_x( '%s update', 'Admin bar notification link. %s: theme name.', '{%= text_domain %}' ), wp_get_theme( $theme )->get( 'Name' ) ) . ' <span id="ab-updates">1</span>',
+								'title' => sprintf( esc_html_x( '%s update', 'Admin bar notification link. %s: theme name.', '{%= text_domain %}' ), wp_get_theme( '{%= theme_slug %}' )->get( 'Name' ) ) . ' <span id="ab-updates">1</span>',
 								'href'  => esc_url( $admin_url )
 							) );
 
@@ -224,7 +216,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		 * Notifier page renderer
 		 *
 		 * @since    1.0
-		 * @version  1.1
+		 * @version  1.3
 		 */
 		public static function page() {
 
@@ -248,8 +240,6 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 				$xml = self::get_remote_xml_data( {%= prefix_constant %}_UPDATE_NOTIFIER_CACHE_INTERVAL );
 
-				$theme = {%= prefix_class %}_Theme_Framework::get_theme_slug();
-
 
 			// Processing
 
@@ -261,7 +251,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 				<div class="wrap update-notifier">
 
 					<div id="icon-tools" class="icon32"></div>
-					<h2><strong><?php echo wp_get_theme( $theme )->get( 'Name' ); ?></strong> Theme Updates</h2>
+					<h2><strong><?php echo wp_get_theme( '{%= theme_slug %}' )->get( 'Name' ); ?></strong> Theme Updates</h2>
 
 					<br />
 
@@ -273,7 +263,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 							echo '<strong>' . trim( $xml->message ) . '</strong><br />';
 						}
 
-						echo 'You have version ' . wp_get_theme( $theme )->get( 'Version' ) . ' installed. <strong>Update to version ' . trim( $xml->latest ) . ' now.</strong>';
+						echo 'You have version ' . {%= prefix_constant %}_THEME_VERSION . ' installed. <strong>Update to version ' . trim( $xml->latest ) . ' now.</strong>';
 
 						?></p>
 
@@ -347,7 +337,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 						<?php
 
-						} //Custom instructions check
+						} // /Custom instructions check
 
 						?>
 
@@ -401,7 +391,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		 * Uses the cached version if available, inside the time interval defined.
 		 *
 		 * @since    1.0
-		 * @version  1.1
+		 * @version  1.3
 		 *
 		 * @param  int $interval
 		 */
@@ -425,8 +415,6 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 			// Helper variables
 
-				$theme = {%= prefix_class %}_Theme_Framework::get_theme_slug();
-
 				$db_cache_field              = '{%= prefix_var %}_notifier_cache_{%= theme_slug %}';
 				$db_cache_field_last_updated = '{%= prefix_var %}_notifier_cache_{%= theme_slug %}_last_updated';
 				$last                        = get_transient( $db_cache_field_last_updated );
@@ -440,7 +428,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 						// Cache doesn't exist, or is old, so refresh it
 
-							$response = wp_remote_get( esc_url( trailingslashit( wp_get_theme( $theme )->get( 'AuthorURI' ) ) . 'updates/{%= theme_slug %}/{%= theme_slug %}-version.xml' ) );
+							$response = wp_remote_get( esc_url( trailingslashit( wp_get_theme( '{%= theme_slug %}' )->get( 'AuthorURI' ) ) . 'updates/{%= theme_slug %}/{%= theme_slug %}-version.xml' ) );
 
 							if ( is_wp_error( $response ) ) {
 

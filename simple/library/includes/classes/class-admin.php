@@ -6,7 +6,7 @@
  * @subpackage  Admin
  *
  * @since    1.2
- * @version  1.2
+ * @version  1.3
  */
 
 
@@ -17,7 +17,7 @@
  * Admin class
  *
  * @since    1.2
- * @version  1.2
+ * @version  1.3
  *
  * Contents:
  *
@@ -43,19 +43,15 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 		 * Constructor
 		 *
 		 * @since    1.2
-		 * @version  1.2
+		 * @version  1.3
 		 */
 		private function __construct() {
 
 			// Processing
 
-				/**
-				 * Hooks
-				 */
+				// Hooks
 
-					/**
-					 * Actions
-					 */
+					// Actions
 
 						// Styles and scripts
 
@@ -102,21 +98,13 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 		 * Admin assets
 		 *
 		 * @since    1.2
-		 * @version  1.2
+		 * @version  1.3
 		 */
 		public static function assets() {
 
-			// Helper variables
-
-				$theme   = {%= prefix_class %}_Theme_Framework::get_theme_slug();
-				$version = wp_get_theme( $theme )->get( 'Version' );
-
-
 			// Register
 
-				/**
-				 * Styles
-				 */
+				// Styles
 
 					$register_styles = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_assets_register_styles', array(
 							'{%= prefix_var %}-about'     => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/about.css' ) ),
@@ -126,7 +114,7 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 					foreach ( $register_styles as $handle => $atts ) {
 						$src   = ( isset( $atts['src'] )   ) ? ( $atts['src']   ) : ( $atts[0] );
 						$deps  = ( isset( $atts['deps'] )  ) ? ( $atts['deps']  ) : ( false    );
-						$ver   = ( isset( $atts['ver'] )   ) ? ( $atts['ver']   ) : ( esc_attr( $version ) );
+						$ver   = ( isset( $atts['ver'] )   ) ? ( $atts['ver']   ) : ( esc_attr( {%= prefix_constant %}_THEME_VERSION ) );
 						$media = ( isset( $atts['media'] ) ) ? ( $atts['media'] ) : ( 'screen' );
 
 						wp_register_style( $handle, $src, $deps, $ver, $media );

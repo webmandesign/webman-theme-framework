@@ -6,7 +6,7 @@
  * @subpackage  Visual Editor
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.3
  */
 
 
@@ -17,7 +17,7 @@
  * Visual Editor class
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.3
  *
  * Contents:
  *
@@ -43,19 +43,15 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		 * Constructor
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.3
 		 */
 		private function __construct() {
 
 			// Processing
 
-				/**
-				 * Hooks
-				 */
+				// Hooks
 
-					/**
-					 * Filters
-					 */
+					// Filters
 
 						// Visual Editor addons
 

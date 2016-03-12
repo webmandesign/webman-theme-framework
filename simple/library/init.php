@@ -39,7 +39,7 @@
  * @package     WebMan WordPress Theme Framework (Simple)
  * @subpackage  Core
  *
- * @version  1.2
+ * @version  1.3
  *
  * Contents:
  *
@@ -55,6 +55,10 @@
 /**
  * 0) Constants
  */
+
+	// Theme version
+
+		if ( ! defined( '{%= prefix_constant %}_THEME_VERSION' ) ) define( '{%= prefix_constant %}_THEME_VERSION', wp_get_theme( '{%= theme_slug %}' )->get( 'Version' ) );
 
 	// Dir constants
 

@@ -7,14 +7,14 @@
  * Modification:
  * - Changed localization text domain
  * - Removed translation domain comments in the comment block below
- * - Removed the `add_submenu_page` part
+ * - Removed the admin menu page part
  * - Changed `$nag_class` according to @link https://git.io/vgjHF
  *
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Plugins
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.3
  */
 
 

@@ -8,7 +8,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.2.1
+ * @version  1.3
  */
 
 
@@ -19,7 +19,7 @@
  * Core class
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.3
  *
  * Contents:
  *
@@ -50,19 +50,15 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Constructor
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.3
 		 */
 		private function __construct() {
 
 			// Processing
 
-				/**
-				 * Hooks
-				 */
+				// Hooks
 
-					/**
-					 * Actions
-					 */
+					// Actions
 
 						// Theme upgrade action
 
@@ -86,11 +82,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 							add_action( 'customize_save_after', array( $this, 'generate_all_css' ), 98 );
 
-
-
-					/**
-					 * Filters
-					 */
+					// Filters
 
 						// Escape inline CSS
 
@@ -112,6 +104,10 @@ final class {%= prefix_class %}_Theme_Framework {
 						// Minify CSS
 
 							add_filter( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_output_min', array( $this, 'minify_css' ), 10 );
+
+						// SSL ready URLs
+
+							add_filter( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_output', array( $this, 'fix_ssl_urls' ), 9999 );
 
 		} // /__construct
 
@@ -192,7 +188,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @link  http://blog.rrwd.nl/2014/11/21/html5-headings-in-wordpress-lets-fight/
 		 *
 		 * @since    1.0
-		 * @version  1.0.3
+		 * @version  1.3
 		 */
 		public static function get_the_logo() {
 
@@ -209,10 +205,17 @@ final class {%= prefix_class %}_Theme_Framework {
 
 				$output = '';
 
-				$document_title = ( 0 > version_compare( $GLOBALS['wp_version'], '4.4' ) ) ? ( wp_title( '|', false, 'right' ) ) : ( wp_get_document_title() ); // Compatible with WordPress 4.4
+				// @todo Remove `wp_title` with WordPress 4.6
+				$document_title = ( 0 > version_compare( $GLOBALS['wp_version'], '4.4' ) ) ? ( wp_title( '|', false, 'right' ) ) : ( wp_get_document_title() ); // Since WordPress 4.4
 
-				$jetpack_site_logo = get_option( 'site_logo', array() );
-				$jetpack_site_logo = ( function_exists( 'jetpack_get_site_logo' ) && isset( $jetpack_site_logo['id'] ) && $jetpack_site_logo['id'] ) ? ( absint( $jetpack_site_logo['id'] ) ) : ( false );
+				$custom_logo = get_theme_mod( 'custom_logo' ); // Since WordPress 4.5
+
+				// If we don't get WordPress 4.5+ custom logo, try Jetpack Site Logo
+
+					if ( empty( $custom_logo ) && function_exists( 'jetpack_get_site_logo' ) ) {
+						$custom_logo = get_option( 'site_logo', array() );
+						$custom_logo = ( isset( $custom_logo['id'] ) && $custom_logo['id'] ) ? ( absint( $custom_logo['id'] ) ) : ( false );
+					}
 
 				$blog_info = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_blog_info', array(
 						'name'        => trim( get_bloginfo( 'name' ) ),
@@ -220,7 +223,7 @@ final class {%= prefix_class %}_Theme_Framework {
 					) );
 
 				$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_args', array(
-						'logo_image' => ( function_exists( 'jetpack_get_site_logo' ) && $jetpack_site_logo ) ? ( array( $jetpack_site_logo ) ) : ( array( self::get_theme_mod( 'logo' ), self::get_theme_mod( 'logo-hidpi' ) ) ),
+						'logo_image' => ( ! empty( $custom_logo ) ) ? ( array( $custom_logo ) ) : ( array( self::get_theme_mod( 'logo' ), self::get_theme_mod( 'logo-hidpi' ) ) ),
 						'logo_type'  => 'text',
 						'title_att'  => ( $blog_info['description'] ) ? ( $blog_info['name'] . ' | ' . $blog_info['description'] ) : ( $blog_info['name'] ),
 						'url'        => home_url( '/' ),
@@ -231,7 +234,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 				// Logo image
 
-					if ( $args['logo_image'][0] ) {
+					if ( ! empty( $args['logo_image'] ) && $args['logo_image'][0] ) {
 
 						$img_id = ( is_numeric( $args['logo_image'][0] ) ) ? ( absint( $args['logo_image'][0] ) ) : ( self::get_image_id_from_url( $args['logo_image'][0] ) );
 
@@ -347,7 +350,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Appends the output at the top and bottom of post content.
 		 *
 		 * @since    1.0
-		 * @version  1.0.2
+		 * @version  1.3
 		 *
 		 * @param  string $content
 		 */
@@ -379,10 +382,10 @@ final class {%= prefix_class %}_Theme_Framework {
 				$title      = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_title', '<h2 class="screen-reader-text">' . $title_text . '</h2>' );
 
 				$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_args', array(
-						'disable_first' => true, //First part to have a title of the post (part title won't be parsed)?
-						'links'         => array(), //The output HTML links
-						'post_content'  => ( isset( $post->post_content ) ) ? ( $post->post_content ) : ( '' ), //Get the whole post content
-						'tag'           => 'h2', //HTML heading tag to parse as a post part title
+						'disable_first' => true, // First part to have a title of the post (part title won't be parsed)?
+						'links'         => array(), // The output HTML links
+						'post_content'  => ( isset( $post->post_content ) ) ? ( $post->post_content ) : ( '' ), // Get the whole post content
+						'tag'           => 'h2', // HTML heading tag to parse as a post part title
 					) );
 
 				// Post part counter
@@ -461,11 +464,12 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Get the post meta info
 		 *
 		 * hAtom microformats compatible. @link http://goo.gl/LHi4Dy
+		 * Supports WP ULike plugin. @link https://wordpress.org/plugins/wp-ulike/
 		 * Supports ZillaLikes plugin. @link http://www.themezilla.com/plugins/zillalikes/
 		 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 		 *
 		 * @since    1.0
-		 * @version  1.1
+		 * @version  1.3
 		 *
 		 * @param  array $args
 		 */
@@ -610,19 +614,32 @@ final class {%= prefix_class %}_Theme_Framework {
 							break;
 							case 'likes':
 
-								if (
-										apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args )
-										&& function_exists( 'zilla_likes' )
-									) {
-									global $zilla_likes;
-									$helper = $zilla_likes->do_likes();
+								if ( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
 
-									$replacements = array(
-											'{attributes}'  => '',
-											'{class}'       => esc_attr( 'entry-likes entry-meta-element' ),
-											'{description}' => '',
-											'{content}'     => $helper,
-										);
+									if ( function_exists( 'wp_ulike' ) ) {
+									// WP ULike first
+
+										$replacements = array(
+												'{attributes}'  => '',
+												'{class}'       => esc_attr( 'entry-likes entry-meta-element' ),
+												'{description}' => '',
+												'{content}'     => wp_ulike( 'put' ),
+											);
+
+									} elseif ( function_exists( 'zilla_likes' ) ) {
+									// ZillaLikes after
+
+										global $zilla_likes;
+
+										$replacements = array(
+												'{attributes}'  => '',
+												'{class}'       => esc_attr( 'entry-likes entry-meta-element' ),
+												'{description}' => '',
+												'{content}'     => $zilla_likes->do_likes(),
+											);
+
+									}
+
 								}
 
 							break;
@@ -1165,7 +1182,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.3
 		 *
 		 * @param  string $css CSS string with variables to replace.
 		 */
@@ -1331,6 +1348,8 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Output
 
+				$output = (string) apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output', $output );
+
 				return trim( (string) $output );
 
 		} // /custom_styles
@@ -1341,7 +1360,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Generate main CSS file
 		 *
 		 * @since    1.0
-		 * @version  1.2.1
+		 * @version  1.3
 		 *
 		 * @param  array $args
 		 */
@@ -1394,6 +1413,10 @@ final class {%= prefix_class %}_Theme_Framework {
 					require_once( get_template_directory() . '/assets/css-generate/generate' . $args['type'] . '-css.php' );
 
 					$output = trim( ob_get_clean() );
+
+				// Filter output
+
+					$output = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_output', $output, $args );
 
 				// Requirements check
 
@@ -1789,18 +1812,27 @@ final class {%= prefix_class %}_Theme_Framework {
 	 */
 
 		/**
-		 * Get (parent) theme folder name
+		 * Fixing URLs in `is_ssl()` returns TRUE
 		 *
-		 * @since    1.0.15
-		 * @version  1.0.15
+		 * @since    1.3
+		 * @version  1.3
+		 *
+		 * @param  string $content
 		 */
-		public static function get_theme_slug() {
+		static public function fix_ssl_urls( $content ) {
+
+			// Processing
+
+				if ( is_ssl() ) {
+					$content = str_ireplace( 'http:', 'https:', $content );
+				}
+
 
 			// Output
 
-				return ( is_child_theme() ) ? ( wp_get_theme()->parent()->get_template() ) : ( null );
+				return $content;
 
-		} // /get_theme_slug
+		} // /fix_ssl_urls
 
 
 
@@ -2098,7 +2130,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Returns true if a blog has more than 1 category
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.3
 		 */
 		public static function is_categorized_blog() {
 
@@ -2120,7 +2152,7 @@ final class {%= prefix_class %}_Theme_Framework {
 						$all_cats = get_categories( array(
 								'fields'     => 'ids',
 								'hide_empty' => 1,
-								'number'     => 2, //we only need to know if there is more than one category
+								'number'     => 2, // We only need to know if there is more than one category
 							) );
 
 					// Count the number of categories that are attached to the posts
