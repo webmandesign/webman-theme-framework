@@ -1,12 +1,12 @@
-/**
- * Customizer styles
- *
- * @package     WebMan WordPress Theme Framework
- * @subpackage  Customize
- *
- * @since    1.0
- * @version  1.0.10
- */
+//
+// Customizer styles
+//
+// @package     WebMan WordPress Theme Framework
+// @subpackage  Customize
+//
+// @since    1.0
+// @version  1.3
+//
 
 
 
@@ -19,6 +19,8 @@
 		.no-overflow {
 			overflow: hidden;
 		}
+
+
 
 	// Donation link
 
@@ -43,6 +45,8 @@
 			}
 
 		}
+
+
 
 	// Controls
 
@@ -114,11 +118,15 @@
 
 		}
 
+
+
 		// Hidden control
 
 			.customize-control-hidden {
 				display: none !important;
 			}
+
+
 
 		// Radio matrix (3x3)
 
@@ -159,6 +167,8 @@
 
 			}
 
+
+
 		// Image radios
 
 			.image-radio {
@@ -197,6 +207,8 @@
 				}
 
 			}
+
+
 
 		// Range / jQuery UI Slider
 

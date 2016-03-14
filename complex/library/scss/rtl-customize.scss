@@ -1,0 +1,56 @@
+//
+// Customizer RTL styles
+//
+// @package     WebMan WordPress Theme Framework
+// @subpackage  Customize
+//
+// @since    1.0
+// @version  1.3
+//
+
+
+
+
+
+#accordion-panel-theme {
+
+	// Controls
+
+		// Radio matrix (3x3)
+
+			.matrix {
+				padding: 2px 2px 3px 0;
+
+				label {
+					float: right;
+					padding: .5em 4px .5em 0;
+					margin: 0 0 -1px -1px;
+				}
+
+			}
+
+
+
+		// Image radios
+
+			.image-radio {
+
+				label {
+					float: right;
+				}
+
+			}
+
+
+
+		// Range / jQuery UI Slider
+
+			.customize-control-range {
+
+				.ui-slider {
+					text-align: right;
+				}
+
+			}
+
+}

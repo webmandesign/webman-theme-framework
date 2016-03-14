@@ -9,17 +9,30 @@
 * **Update**: Moved and renamed WordPress native theme customizer settings and sections
 * **Update**: PHP inline comments formating
 * **Update**: Improved support for ThemeCheck.org check algorithm
+* **Update**: Stylesheets
 * **Fix**: Fixed SSL issues
 
 #### Files changed:
 
 	init.php
+	css/about.css
+	css/admin.css
+	css/customize.css
+	css/rtl-about.css
+	css/rtl-admin.css
+	css/rtl-customize.css
 	includes/classes/class-admin.php
 	includes/classes/class-core.php
 	includes/classes/class-customize.php
 	includes/classes/class-updater.php
 	includes/classes/class-visual-editor.php
 	includes/external/class-tgm-plugin-activation.php
+	scss/about.scss
+	scss/admin.scss
+	scss/customize.scss
+	scss/rtl-about.scss
+	scss/rtl-admin.scss
+	scss/rtl-customize.scss
 
 
 ## 1.2.1

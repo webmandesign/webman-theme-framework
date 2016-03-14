@@ -117,6 +117,20 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 							'screen'
 						);
 
+					// RTL languages support
+
+						if ( is_rtl() ) {
+
+							wp_enqueue_style(
+									'{%= prefix_var %}-customizer-rtl',
+									{%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/rtl-customize.css' ),
+									false,
+									esc_attr( {%= prefix_constant %}_THEME_VERSION ),
+									'screen'
+								);
+
+						}
+
 				// Scripts
 
 					wp_register_script(

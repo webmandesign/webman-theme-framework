@@ -1,25 +1,7 @@
-/**
- * Admin RTL styles
- *
- * @package     WebMan WordPress Theme Framework
- * @subpackage  Admin
- *
- * @since    1.0
- * @version  1.0
- */
-.update-notifier #instructions {
-  float: right;
-  margin-right: 0;
-  margin-left: 40px;
-}
-.update-notifier .theme-img {
-  float: right;
-  margin: 10px 0 20px 20px;
-}
-.update-notifier #changelog {
-  float: right;
-}
-.update-notifier li h4 {
-  margin-left: 0;
-  margin-right: -20px;
-}
+.update-notifier #instructions { float: right; margin-right: 0; margin-left: 40px; }
+
+.update-notifier .theme-img { float: right; margin: 10px 0 20px 20px; }
+
+.update-notifier #changelog { float: right; }
+
+.update-notifier li h4 { margin-left: 0; margin-right: -20px; }

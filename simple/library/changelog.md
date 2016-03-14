@@ -8,15 +8,20 @@
 * **Update**: Created dedicated constant for (parent) theme version
 * **Update**: Moved and renamed WordPress native theme customizer settings and sections
 * **Update**: PHP inline comments formating
+* **Update**: Stylesheets
 * **Fix**: Fixed SSL issues
 
 #### Files changed:
 
 	init.php
+	css/about.css
+	css/rtl-about.css
 	includes/classes/class-admin.php
 	includes/classes/class-core.php
 	includes/classes/class-customize.php
 	includes/classes/class-visual-editor.php
+	scss/about.scss
+	scss/rtl-about.scss
 
 
 ## 1.2

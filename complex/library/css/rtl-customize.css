@@ -1,0 +1,7 @@
+#accordion-panel-theme .matrix { padding: 2px 2px 3px 0; }
+
+#accordion-panel-theme .matrix label { float: right; padding: .5em 4px .5em 0; margin: 0 0 -1px -1px; }
+
+#accordion-panel-theme .image-radio label { float: right; }
+
+#accordion-panel-theme .customize-control-range .ui-slider { text-align: right; }
