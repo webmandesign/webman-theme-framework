@@ -74,10 +74,6 @@ final class {%= prefix_class %}_Theme_Framework {
 
 							add_action( 'contextual_help', array( $this, 'contextual_help' ), 10, 3 );
 
-						// Toolbar (also displayed on front end)
-
-							add_action( 'admin_bar_menu', array( $this, 'toolbar' ), 998 );
-
 						// Customizer saving
 
 							add_action( 'customize_save_after', array( $this, 'generate_all_css' ), 98 );
@@ -1653,73 +1649,6 @@ final class {%= prefix_class %}_Theme_Framework {
 				return apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_theme_mod_output', $output, $id, $type, $suffix );
 
 		} // /get_theme_mod
-
-
-
-		/**
-		 * Adds a Theme Options links to WordPress toolbar (admin bar)
-		 *
-		 * @since    1.0
-		 * @version  1.1
-		 */
-		public static function toolbar() {
-
-			// Pre
-
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_toolbar_pre', false );
-
-				if ( false !== $pre ) {
-					return $pre;
-				}
-
-
-			// Requirements check
-
-				if ( ! current_user_can( 'switch_themes' ) ) {
-					return;
-				}
-
-
-			// Helper variables
-
-				global $wp_admin_bar;
-
-				$submenu = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_toolbar_submenu', array() );
-
-				// Requirements check
-
-					if (
-							empty( $submenu )
-							|| ! is_admin_bar_showing()
-						) {
-						return;
-					}
-
-
-			// Processing
-
-				$wp_admin_bar->add_menu( apply_filters( 'wmhook_{%= prefix_hook %}_tf_toolbar_parent', array(
-						'id'    => 'theme_options_links',
-						'title' => esc_html_x( 'Theme Options', 'WordPress toolbar (admin bar) theme options links group name.', '{%= text_domain %}' ),
-						'href'  => esc_url( admin_url( 'customize.php' ) )
-					) ) );
-
-				// Submenu items
-
-					if ( is_array( $submenu ) && ! empty( $submenu ) ) {
-						foreach ( $submenu as $title => $url ) {
-
-							$wp_admin_bar->add_menu( apply_filters( 'wmhook_{%= prefix_hook %}_tf_toolbar_child-' . sanitize_title( $title ), array(
-									'parent' => 'theme_options_links',
-									'id'     => '{%= theme_slug %}_theme_options-' . sanitize_title( $title ),
-									'title'  => $title,
-									'href'   => esc_url( $url ),
-								) ) );
-
-						} // /foreach
-					}
-
-		} // /toolbar
 
 
 
