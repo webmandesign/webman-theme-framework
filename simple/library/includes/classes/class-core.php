@@ -507,10 +507,10 @@ final class {%= prefix_class %}_Theme_Framework {
 							case 'author':
 
 								if ( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
-									$helper = ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'author' ) ) : ( '' );
+									$helper = ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'name' ) ) : ( '' );
 
 									$replacements = array(
-											'{attributes}'  => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'Person' ) ) : ( '' ),
+											'{attributes}'  => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'author' ) . {%= prefix_fn %}_schema_org( 'Person' ) ) : ( '' ),
 											'{class}'       => esc_attr( 'byline author vcard entry-meta-element' ),
 											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Written by:', 'Post meta info description: author name.', '{%= text_domain %}' ) . ' </span>',
 											'{content}'     => '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" class="url fn n" rel="author"' . $helper . '>' . get_the_author() . '</a>',
@@ -566,6 +566,10 @@ final class {%= prefix_class %}_Theme_Framework {
 											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Posted on:', 'Post meta info description: publish date.', '{%= text_domain %}' ) . ' </span>',
 											'{content}'     => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" rel="bookmark"><time datetime="' . esc_attr( get_the_date( 'c' ) ) . '" class="published" title="' . esc_attr( get_the_date() ) . ' | ' . esc_attr( get_the_time( '', $args['post_id'] ) ) . '"' . $helper . '>' . esc_html( get_the_date( $args['date_format'] ) ) . '</time></a>',
 										);
+
+									if ( function_exists( '{%= prefix_fn %}_schema_org' ) ) {
+										$replacements['{content}'] = $replacements['{content}'] . {%= prefix_fn %}_schema_org( 'dateModified', get_the_modified_date( 'c' ) );
+									}
 								}
 
 							break;
