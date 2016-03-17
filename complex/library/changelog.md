@@ -9,6 +9,7 @@
 * **Update**: Moved and renamed WordPress native theme customizer settings and sections
 * **Update**: PHP inline comments formating
 * **Update**: Improved support for ThemeCheck.org check algorithm
+* **Update**: Improved RTL support
 * **Update**: Stylesheets
 * **Fix**: Fixed SSL issues
 

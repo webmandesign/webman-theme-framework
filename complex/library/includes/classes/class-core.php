@@ -3,6 +3,7 @@
  * Core class
  *
  * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
+ * @uses  `wmhook_{%= prefix_hook %}_enable_rtl` global hook
  *
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
@@ -76,7 +77,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						// Customizer saving
 
-							add_action( 'customize_save_after', array( $this, 'generate_all_css' ), 98 );
+							add_action( 'customize_save_after', array( $this, 'generate_main_css_all' ), 98 );
 
 					// Filters
 
@@ -1410,7 +1411,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 					ob_start();
 
-					require_once( get_template_directory() . '/assets/css-generate/generate' . $args['type'] . '-css.php' );
+					require_once( get_template_directory() . '/assets/css-generate/generate-css' . $args['type'] . '.php' );
 
 					$output = trim( ob_get_clean() );
 
@@ -1506,55 +1507,56 @@ final class {%= prefix_class %}_Theme_Framework {
 
 
 			/**
-			 * Generate visual editor CSS file
+			 * Generate editor CSS file
 			 *
-			 * @since    1.0
-			 * @version  1.0
+			 * @since    1.3
+			 * @version  1.3
 			 */
-			public static function generate_ve_css() {
+			public static function generate_main_css_editor() {
 
 				// Output
 
-					return self::generate_main_css( array( 'type' => '-ve' ) );
+					self::generate_main_css( array( 'type' => '-editor' ) );
 
-			} // /generate_ve_css
+			} // /generate_main_css_editor
 
 
 
 			/**
 			 * Generate RTL CSS file
 			 *
-			 * @since    1.0
-			 * @version  1.0
+			 * @since    1.3
+			 * @version  1.3
 			 */
-			public static function generate_rtl_css() {
+			public static function generate_main_css_rtl() {
 
 				// Output
 
-					if ( is_rtl() ) {
-						return self::generate_main_css( array( 'type' => '-rtl' ) );
+					if ( apply_filters( 'wmhook_{%= prefix_hook %}_enable_rtl', false ) ) {
+						self::generate_main_css( array( 'type' => '-rtl' ) );
+						self::generate_main_css( array( 'type' => '-editor-rtl' ) );
 					}
 
-			} // /generate_rtl_css
+			} // /generate_main_css_rtl
 
 
 
 			/**
 			 * Generate all CSS files
 			 *
-			 * @since    1.0
-			 * @version  1.0
+			 * @since    1.3
+			 * @version  1.3
 			 */
-			public static function generate_all_css() {
+			public static function generate_main_css_all() {
 
 				// Output
 
 					if ( self::generate_main_css() ) {
-						self::generate_rtl_css();
-						self::generate_ve_css();
+						self::generate_main_css_editor();
+						self::generate_main_css_rtl();
 					}
 
-			} // /generate_all_css
+			} // /generate_main_css_all
 
 
 
