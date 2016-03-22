@@ -1,5 +1,19 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.3.1
+
+* **Update**: Improved logo function for better compatibility with customizer partial refresh
+* **Update**: Removing obsolete version numbers
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-admin.php
+	includes/classes/class-core.php
+	includes/classes/class-customize.php
+	includes/classes/class-visual-editor.php
+
+
 ## 1.3
 
 * **Add**: WordPress 4.5 custom logo support

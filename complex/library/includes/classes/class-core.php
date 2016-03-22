@@ -7,9 +7,6 @@
  *
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
- *
- * @since    1.0
- * @version  1.3
  */
 
 
@@ -20,7 +17,7 @@
  * Core class
  *
  * @since    1.0
- * @version  1.3
+ * @version  1.3.1
  *
  * Contents:
  *
@@ -179,19 +176,20 @@ final class {%= prefix_class %}_Theme_Framework {
 		/**
 		 * Get the logo
 		 *
-		 * Supports Jetpack Site Logo module.
 		 * Accessibility rules applied.
 		 *
 		 * @link  http://blog.rrwd.nl/2014/11/21/html5-headings-in-wordpress-lets-fight/
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.3.1
+		 *
+		 * @param  string $container_class  If empty, no container will be outputted.
 		 */
-		public static function get_the_logo() {
+		public static function get_the_logo( $container_class = 'site-branding' ) {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_pre', false );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_pre', false, $container_class );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -200,7 +198,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Helper variables
 
-				$output = '';
+				$output = array();
 
 				// @todo Remove `wp_title` with WordPress 4.6
 				$document_title = ( 0 > version_compare( $GLOBALS['wp_version'], '4.4' ) ) ? ( wp_title( '|', false, 'right' ) ) : ( wp_get_document_title() ); // Since WordPress 4.4
@@ -217,13 +215,14 @@ final class {%= prefix_class %}_Theme_Framework {
 				$blog_info = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_blog_info', array(
 						'name'        => trim( get_bloginfo( 'name' ) ),
 						'description' => trim( get_bloginfo( 'description' ) ),
-					) );
+					), $container_class );
 
 				$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_args', array(
 						'logo_image' => ( ! empty( $custom_logo ) ) ? ( array( $custom_logo ) ) : ( array( self::get_theme_mod( 'logo' ), self::get_theme_mod( 'logo-hidpi' ) ) ),
 						'logo_type'  => 'text',
 						'title_att'  => ( $blog_info['description'] ) ? ( $blog_info['name'] . ' | ' . $blog_info['description'] ) : ( $blog_info['name'] ),
 						'url'        => home_url( '/' ),
+						'container'  => $container_class,
 					) );
 
 
@@ -274,37 +273,47 @@ final class {%= prefix_class %}_Theme_Framework {
 
 					$logo_class = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_class', 'site-title logo type-' . $args['logo_type'], $args );
 
-					$output .= '<div class="site-branding">';
+					if ( $args['container'] ) {
+						$output[1] = '<div class="' . esc_attr( trim( $args['container'] ) ) . '">';
+					}
 
 						if ( is_front_page() ) {
-							$output .= '<h1 id="site-title" class="' . esc_attr( $logo_class ) . '">';
+							$output[10] = '<h1 id="site-title" class="' . esc_attr( $logo_class ) . '">';
 						} else {
-							$output .= '<h2 class="screen-reader-text">' . $document_title . '</h2>'; // To provide BODY heading on subpages
-							$output .= '<a id="site-title" class="' . esc_attr( $logo_class ) . '" href="' . esc_url( $args['url'] ) . '" title="' . esc_attr( $args['title_att'] ) . '" rel="home">';
+							$output[10] = '<h2 class="screen-reader-text">' . $document_title . '</h2>'; // To provide BODY heading on subpages
+							$output[15] = '<a id="site-title" class="' . esc_attr( $logo_class ) . '" href="' . esc_url( $args['url'] ) . '" title="' . esc_attr( $args['title_att'] ) . '" rel="home">';
 						}
 
 							if ( 'text' === $args['logo_type'] ) {
-								$output .= '<span class="text-logo">' . $blog_info['name'] . '</span>';
+								$output[30] = '<span class="text-logo">' . $blog_info['name'] . '</span>';
 							} else {
-								$output .= $args['logo_image'] . '<span class="screen-reader-text">' . $blog_info['name'] . '</span>';
+								$output[30] = $args['logo_image'] . '<span class="screen-reader-text">' . $blog_info['name'] . '</span>';
 							}
 
 						if ( is_front_page() ) {
-							$output .= '</h1>';
+							$output[40] = '</h1>';
 						} else {
-							$output .= '</a>';
+							$output[40] = '</a>';
 						}
 
 							if ( $blog_info['description'] ) {
-								$output .= '<div class="site-description">' . $blog_info['description'] . '</div>';
+								$output[50] = '<div class="site-description">' . $blog_info['description'] . '</div>';
 							}
 
-					$output .= '</div>';
+					if ( $args['container'] ) {
+						$output[100] = '</div>';
+					}
+
+					// Filter output array
+
+						$output = (array) apply_filters( 'wmhook_monument_valley_tf_get_the_logo_output', $output, $args );
+
+						ksort( $output );
 
 
 			// Output
 
-				return $output;
+				return implode( '', $output );
 
 		} // /get_the_logo
 

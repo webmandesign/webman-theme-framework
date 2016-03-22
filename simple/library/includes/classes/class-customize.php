@@ -6,9 +6,6 @@
  *
  * @package     WebMan WordPress Theme Framework (Simple)
  * @subpackage  Customize
- *
- * @since    1.0
- * @version  1.3
  */
 
 

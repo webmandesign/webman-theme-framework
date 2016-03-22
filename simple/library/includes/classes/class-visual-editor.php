@@ -4,9 +4,6 @@
  *
  * @package     WebMan WordPress Theme Framework (Simple)
  * @subpackage  Visual Editor
- *
- * @since    1.0
- * @version  1.3
  */
 
 
