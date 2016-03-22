@@ -286,7 +286,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 					// Filter output array
 
-						$output = (array) apply_filters( 'wmhook_monument_valley_tf_get_the_logo_output', $output, $args );
+						$output = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_output', $output, $args );
 
 						ksort( $output );
 
