@@ -1,5 +1,15 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.3.2
+
+* **Update**: Improved stylesheet generator for better RTL support
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-core.php
+
+
 ## 1.3.1
 
 * **Update**: Improved logo function for better compatibility with customizer partial refresh

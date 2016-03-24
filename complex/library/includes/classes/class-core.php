@@ -17,7 +17,7 @@
  * Core class
  *
  * @since    1.0
- * @version  1.3.1
+ * @version  1.3.2
  *
  * Contents:
  *
@@ -1370,7 +1370,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Generate main CSS file
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.3.2
 		 *
 		 * @param  array $args
 		 */
@@ -1468,10 +1468,10 @@ final class {%= prefix_class %}_Theme_Framework {
 
 					}
 
-				$file_name           = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_file_name',           'global' . $args['type'],                                    $args             );
-				$global_css_path     = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_global_css_path',     trailingslashit( $theme_css_dir ) . $file_name . '.css',     $args, $file_name );
-				$global_css_url      = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_global_css_url',      trailingslashit( $theme_css_url ) . $file_name . '.css',     $args, $file_name );
-				$global_css_path_dev = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_global_css_path_dev', trailingslashit( $theme_css_dir ) . $file_name . '.dev.css', $args, $file_name );
+				$file_name           = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_file_name', '{%= theme_slug %}-styles' . $args['type'], $args );
+				$global_css_path     = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_global_css_path', trailingslashit( $theme_css_dir ) . $file_name . '.css', $args, $file_name );
+				$global_css_url      = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_global_css_url', trailingslashit( $theme_css_url ) . $file_name . '.css', $args, $file_name );
+				$global_css_path_dev = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_global_css_path_dev', trailingslashit( $theme_css_dir ) . 'dev-' . $file_name . '.css', $args, $file_name );
 
 				if (
 						$output
