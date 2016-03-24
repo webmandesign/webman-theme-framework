@@ -491,12 +491,12 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 				// Change background image section title & priority
 
-					$wp_customize->get_section( 'background_image' )->title    = __( 'Background', '{%= text_domain %}' );
+					$wp_customize->get_section( 'background_image' )->title    = esc_html_x( 'Background', 'Customizer section title.', '{%= text_domain %}' );
 					$wp_customize->get_section( 'background_image' )->priority = 30;
 
 				// Change header image section title & priority
 
-					$wp_customize->get_section( 'header_image' )->title    = __( 'Header', '{%= text_domain %}' );
+					$wp_customize->get_section( 'header_image' )->title    = esc_html_x( 'Header', 'Customizer section title.', '{%= text_domain %}' );
 					$wp_customize->get_section( 'header_image' )->priority = 25;
 
 				// Custom controls
