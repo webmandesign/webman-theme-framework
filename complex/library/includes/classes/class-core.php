@@ -17,7 +17,7 @@
  * Core class
  *
  * @since    1.0
- * @version  1.3.2
+ * @version  1.3.3
  *
  * Contents:
  *
@@ -48,7 +48,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Constructor
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.3.3
 		 */
 		private function __construct() {
 
@@ -80,7 +80,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						// Escape inline CSS
 
-							add_filter( 'wmhook_{%= prefix_hook %}_esc_css', 'wp_strip_all_tags' ); // https://github.com/WPTRT/code-examples/blob/master/customizer/sanitization-callbacks.php#L43
+							add_filter( 'wmhook_{%= prefix_hook %}_esc_css', 'wp_strip_all_tags' );
 
 						// Widgets improvements
 
@@ -1759,7 +1759,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Fixing URLs in `is_ssl()` returns TRUE
 		 *
 		 * @since    1.3
-		 * @version  1.3
+		 * @version  1.3.3
 		 *
 		 * @param  string $content
 		 */
@@ -1769,6 +1769,8 @@ final class {%= prefix_class %}_Theme_Framework {
 
 				if ( is_ssl() ) {
 					$content = str_ireplace( 'http:', 'https:', $content );
+					$content = str_ireplace( 'xmlns="https:', 'xmlns="http:', $content );
+					$content = str_ireplace( "xmlns='https:", "xmlns='http:", $content );
 				}
 
 

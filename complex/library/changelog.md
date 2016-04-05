@@ -1,5 +1,16 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.3.3
+
+* **Update**: Improving SSL URL fixer
+* **Update**: Removing obsolete PHP comment
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-core.php
+
+
 ## 1.3.2
 
 * **Update**: Improved stylesheet generator for better RTL support

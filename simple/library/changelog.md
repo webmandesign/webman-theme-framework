@@ -1,5 +1,16 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.3.3
+
+* **Update**: Improving SSL URL fixer
+* **Update**: Removing obsolete PHP comment
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-core.php
+
+
 ## 1.3.1
 
 * **Update**: Improved logo function for better compatibility with customizer partial refresh
