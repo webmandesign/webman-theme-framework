@@ -182,7 +182,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 *           // Sets the `css-property-name` of the `selector` with value followed by the `suffix` (such as "px")
 		 *
 		 *             'selector' => array(
-		 *                 array( 'css-property-name', 'suffix' ),...
+		 *                 array( 'css-property-name', 'suffix', 'prefix' ),...
 		 *               ),
 		 *
 		 *           // Replaces "@" in `selector` for `selector-replace-value` (such as "@ h2, @ h3" to ".footer h2, .footer h3")
@@ -203,7 +203,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.0.14
+		 * @version  1.4
 		 */
 		public static function preview_scripts() {
 
@@ -262,13 +262,17 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 											if ( ! isset( $property[1] ) ) {
 												$property[1] = '';
 											}
+											if ( ! isset( $property[2] ) ) {
+												$property[2] = '';
+											}
 
 											/**
 											 * $property[0] = CSS style property
 											 * $property[1] = suffix (such as CSS unit)
+											 * $property[2] = prefix (such as CSS linear gradient)
 											 */
 
-											$output_single_css .= $property[0] . ": ' + to + '" . $property[1] . "; ";
+											$output_single_css .= $property[0] . ": " . $property[2] . "' + to + '" . $property[1] . "; ";
 
 										} // /foreach
 

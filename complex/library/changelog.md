@@ -1,5 +1,25 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.4
+
+* **Update**: Changed custom CSS variables format to `[[theme_mod_name]]`, `[[theme_mod_name(alpha_value)]]` respectively
+* **Update**: Renamed `external` folder name to `vendor`
+* **Update**: Moving TGM Plugin Activation script into `includes/vendor/tgmpa` folder
+* **Update**: Custom `get_theme_mod()` made compatible with WordPress native function
+* **Update**: Improved customizer preview JS
+* **Update**: Escaping `get_stylesheet_directory_uri()` output
+* **Fix**: TinyMCE Format button custom formats array sorting
+* **Fix**: Localization functions
+
+#### Files changed:
+
+	init.php
+	includes/admin.php
+	includes/classes/class-core.php
+	includes/classes/class-customize.php
+	includes/classes/class-visual-editor.php
+
+
 ## 1.3.3
 
 * **Update**: Improving SSL URL fixer

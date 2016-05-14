@@ -17,7 +17,7 @@
  * Core class
  *
  * @since    1.0
- * @version  1.3.3
+ * @version  1.4
  *
  * Contents:
  *
@@ -952,7 +952,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * If the file is not located in child theme, output the URL from parent theme.
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.4
 		 *
 		 * @param  string $file_relative_path File to look for (insert also the theme structure relative path)
 		 *
@@ -994,7 +994,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Output
 
-				return $output;
+				return esc_url_raw( $output );
 
 		} // /get_stylesheet_directory_uri
 
@@ -1168,7 +1168,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 *
 		 * This function allows you to hook your custom CSS styles string
 		 * onto 'wmhook_{%= prefix_hook %}_custom_styles' filter hook.
-		 * Then just use a '___customizer_option_id' tags in your custom CSS
+		 * Then just use a '[[customizer_option_id]]' tags in your custom CSS
 		 * styles string where the specific option value should be used.
 		 *
 		 * Caching $replacement into '{%= theme_slug %}_customizer_values' transient.
@@ -1178,7 +1178,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.4
 		 *
 		 * @param  bool $set_cache  Determines whether the results should be cached or not.
 		 * @param  bool $return     Whether to return a value or just run the process.
@@ -1299,13 +1299,13 @@ final class {%= prefix_class %}_Theme_Framework {
 
 							// Finally, modify the output string
 
-								$replacements[ '___' . str_replace( '-', '_', $option_id ) ] = $value;
+								$replacements[ '[[' . str_replace( '-', '_', $option_id ) . ']]' ] = $value;
 
 								// Add also rgba() color interpratation
 
 									if ( 'color' === $option['type'] && ! empty( $alphas ) ) {
 										foreach ( $alphas as $alpha ) {
-											$replacements[ '___' . str_replace( '-', '_', $option_id ) . '|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
+											$replacements[ '[[' . str_replace( '-', '_', $option_id ) . '(' . absint( $alpha ) . ')]]' ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 										} // /foreach
 									}
 
@@ -1316,12 +1316,12 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Background color
 
 								if ( $value = get_background_color() ) {
-									$replacements['___background_color'] = self::maybe_hash_hex_color( $value );
+									$replacements['[[background_color]]'] = self::maybe_hash_hex_color( $value );
 
 
 									if ( ! empty( $alphas ) ) {
 										foreach ( $alphas as $alpha ) {
-											$replacements[ '___background_color|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
+											$replacements[ '[[background_color(' . absint( $alpha ) . ')]]' ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 										} // /foreach
 									}
 								}
@@ -1329,19 +1329,19 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Background image
 
 								if ( $value = esc_url( get_background_image() ) ) {
-									$replacements['___background_image'] = "url('" . esc_url( $value ) . "')";
+									$replacements['[[background_image]]'] = "url('" . esc_url( $value ) . "')";
 								} else {
-									$replacements['___background_image'] = 'none';
+									$replacements['[[background_image]]'] = 'none';
 								}
 
 							// Header text color
 
 								if ( $value = get_header_textcolor() ) {
-									$replacements['___header_textcolor'] = self::maybe_hash_hex_color( $value );
+									$replacements['[[header_textcolor]]'] = self::maybe_hash_hex_color( $value );
 
 									if ( ! empty( $alphas ) ) {
 										foreach ( $alphas as $alpha ) {
-											$replacements[ '___header_textcolor|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
+											$replacements[ '[[header_textcolor(' . absint( $alpha ) . ')]]' ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 										} // /foreach
 									}
 								}
@@ -1349,9 +1349,9 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Header image
 
 								if ( $value = esc_url( get_header_image() ) ) {
-									$replacements['___header_image'] = "url('" . esc_url( $value ) . "')";
+									$replacements['[[header_image]]'] = "url('" . esc_url( $value ) . "')";
 								} else {
-									$replacements['___header_image'] = 'none';
+									$replacements['[[header_image]]'] = 'none';
 								}
 
 						$replacements = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_replacements', $replacements, $theme_options, $output );
@@ -1572,7 +1572,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Accessibility skip links
 		 *
 		 * @since    1.0
-		 * @version  1.0.9
+		 * @version  1.4
 		 *
 		 * @param  string $id     Link target element ID.
 		 * @param  string $text   Link text.
@@ -1592,7 +1592,7 @@ final class {%= prefix_class %}_Theme_Framework {
 			// Helper variables
 
 				if ( empty( $text ) ) {
-					$text = __( 'Skip to content', '{%= text_domain %}' );
+					$text = esc_html__( 'Skip to content', '{%= text_domain %}' );
 				}
 
 

@@ -17,7 +17,7 @@
  * Core class
  *
  * @since    1.0
- * @version  1.3.3
+ * @version  1.4
  *
  * Contents:
  *
@@ -972,7 +972,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * If the file is not located in child theme, output the URL from parent theme.
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.4
 		 *
 		 * @param  string $file_relative_path File to look for (insert also the theme structure relative path)
 		 *
@@ -1014,7 +1014,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Output
 
-				return $output;
+				return esc_url_raw( $output );
 
 		} // /get_stylesheet_directory_uri
 
@@ -1186,13 +1186,13 @@ final class {%= prefix_class %}_Theme_Framework {
 		/**
 		 * Replace variables in the custom CSS
 		 *
-		 * Just use a '___customizer_option_id' tags in your custom CSS
+		 * Just use a '[[customizer_option_id]]' tags in your custom CSS
 		 * styles string where the specific option value should be used.
 		 *
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.4
 		 *
 		 * @param  string $css CSS string with variables to replace.
 		 */
@@ -1294,13 +1294,13 @@ final class {%= prefix_class %}_Theme_Framework {
 
 							// Finally, modify the output string
 
-								$replacements[ '___' . str_replace( '-', '_', $option_id ) ] = $value;
+								$replacements[ '[[' . str_replace( '-', '_', $option_id ) . ']]' ] = $value;
 
 								// Add also rgba() color interpratation
 
 									if ( 'color' === $option['type'] && ! empty( $alphas ) ) {
 										foreach ( $alphas as $alpha ) {
-											$replacements[ '___' . str_replace( '-', '_', $option_id ) . '|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
+											$replacements[ '[[' . str_replace( '-', '_', $option_id ) . '(' . absint( $alpha ) . ')]]' ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 										} // /foreach
 									}
 
@@ -1312,11 +1312,11 @@ final class {%= prefix_class %}_Theme_Framework {
 						// Background color
 
 							if ( $value = get_background_color() ) {
-								$replacements['___background_color'] = self::maybe_hash_hex_color( $value );
+								$replacements['[[background_color]]'] = self::maybe_hash_hex_color( $value );
 
 								if ( ! empty( $alphas ) ) {
 									foreach ( $alphas as $alpha ) {
-										$replacements[ '___background_color|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
+										$replacements[ '[[background_color(' . absint( $alpha ) . ')]]' ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 									} // /foreach
 								}
 							}
@@ -1324,19 +1324,19 @@ final class {%= prefix_class %}_Theme_Framework {
 						// Background image
 
 							if ( $value = esc_url( get_background_image() ) ) {
-								$replacements['___background_image'] = "url('" . esc_url( $value ) . "')";
+								$replacements['[[background_image]]'] = "url('" . esc_url( $value ) . "')";
 							} else {
-								$replacements['___background_image'] = 'none';
+								$replacements['[[background_image]]'] = 'none';
 							}
 
 						// Header text color
 
 							if ( $value = get_header_textcolor() ) {
-								$replacements['___header_textcolor'] = self::maybe_hash_hex_color( $value );
+								$replacements['[[header_textcolor]]'] = self::maybe_hash_hex_color( $value );
 
 								if ( ! empty( $alphas ) ) {
 									foreach ( $alphas as $alpha ) {
-										$replacements[ '___header_textcolor|alpha=' . absint( $alpha ) ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
+										$replacements[ '[[header_textcolor(' . absint( $alpha ) . ')]]' ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 									} // /foreach
 								}
 							}
@@ -1344,9 +1344,9 @@ final class {%= prefix_class %}_Theme_Framework {
 						// Header image
 
 							if ( $value = esc_url( get_header_image() ) ) {
-								$replacements['___header_image'] = "url('" . esc_url( $value ) . "')";
+								$replacements['[[header_image]]'] = "url('" . esc_url( $value ) . "')";
 							} else {
-								$replacements['___header_image'] = 'none';
+								$replacements['[[header_image]]'] = 'none';
 							}
 
 					$replacements = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_replacements', $replacements, $theme_options, $output );
@@ -1582,31 +1582,21 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * transferable from "lite" to "pro" themes.
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.4
 		 *
-		 * @param  string $id     Option ID
-		 * @param  string $type   Output format
-		 * @param  string $suffix
+		 * @param  string      $name     Theme modification name.
+		 * @param  bool|string $default  Default theme modification value. Optional.
 		 *
-		 * @return  mixed Option value.
+		 * @return  mixed  Theme modification value.
 		 */
-		public static function get_theme_mod( $id, $type = '', $suffix = '' ) {
+		public static function get_theme_mod( $name, $default = false ) {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_theme_mod_pre', false, $id, $type, $suffix );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_theme_mod_pre', false, $name, $default );
 
 				if ( false !== $pre ) {
 					return $pre;
-				}
-
-
-			// Requirements check
-
-				$id = trim( $id );
-
-				if ( ! $id ) {
-					return;
 				}
 
 
@@ -1614,50 +1604,41 @@ final class {%= prefix_class %}_Theme_Framework {
 
 				global ${%= prefix_var %}_theme_options, $wp_customize;
 
-				$output = '';
+				// Empty theme mods in customizer
 
-				if (
-						! isset( ${%= prefix_var %}_theme_options )
-						|| (
-								isset( $wp_customize )
-								&& $wp_customize->is_preview()
-							)
-					) {
-					${%= prefix_var %}_theme_options = null;
-				}
+					if (
+							! isset( ${%= prefix_var %}_theme_options )
+							|| (
+									isset( $wp_customize )
+									&& $wp_customize->is_preview()
+								)
+						) {
+						${%= prefix_var %}_theme_options = null;
+					}
 
-				$options = ( ${%= prefix_var %}_theme_options ) ? ( ${%= prefix_var %}_theme_options ) : ( (array) get_option( {%= prefix_constant %}_OPTION_CUSTOMIZER ) );
+				// Get actual theme mods
+
+					$mods = ( ${%= prefix_var %}_theme_options ) ? ( ${%= prefix_var %}_theme_options ) : ( (array) get_option( {%= prefix_constant %}_OPTION_CUSTOMIZER ) );
 
 
 			// Processing
 
-				if (
-						! isset( $options[ $id ] )
-						|| ! $options[ $id ]
-					) {
-					return;
+				if ( isset( $mods[ $name ] ) ) {
+					return apply_filters( 'theme_mod_' . $name, $mods[ $name ] );
 				}
 
-				// Output formatter
-
-					if ( 'css_image_url' === $type ) {
-						$output = "url('" . esc_url( stripslashes( $options[ $id ] ) ) . "')";
-					} elseif ( 'color_hex' === $type ) {
-						$output = '#' . trim( stripslashes( $options[ $id ] ), '#' );
-					} else {
-						$output = ( is_array( $options[ $id ] ) ) ? ( $options[ $id ] ) : ( stripslashes( $options[ $id ] ) );
-					}
-
-				// Add suffix
-
-					if ( is_string( $output ) && $output ) {
-						$output .= (string) $suffix;
-					}
+				if ( is_string( $default ) ) {
+					$default = sprintf(
+							$default,
+							get_template_directory_uri(),
+							get_stylesheet_directory_uri()
+						);
+				}
 
 
 			// Output
 
-				return apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_theme_mod_output', $output, $id, $type, $suffix );
+				return apply_filters( 'theme_mod_' . $name, $default );
 
 		} // /get_theme_mod
 
@@ -1874,7 +1855,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Accessibility skip links
 		 *
 		 * @since    1.0
-		 * @version  1.0.9
+		 * @version  1.4
 		 *
 		 * @param  string $id     Link target element ID.
 		 * @param  string $text   Link text.
@@ -1894,7 +1875,7 @@ final class {%= prefix_class %}_Theme_Framework {
 			// Helper variables
 
 				if ( empty( $text ) ) {
-					$text = __( 'Skip to content', '{%= text_domain %}' );
+					$text = esc_html__( 'Skip to content', '{%= text_domain %}' );
 				}
 
 

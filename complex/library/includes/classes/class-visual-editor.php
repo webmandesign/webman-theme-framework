@@ -14,7 +14,7 @@
  * Visual Editor class
  *
  * @since    1.0
- * @version  1.3
+ * @version  1.4
  *
  * Contents:
  *
@@ -180,7 +180,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		 * @link  http://www.tinymce.com/wiki.php/Configuration:style_formats
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.4
 		 *
 		 * @param  array $init
 		 */
@@ -208,7 +208,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 									'items' => array(
 
 										100 . 'text_styles' . 100 => array(
-											'title'    => __( 'Dropcap text', '{%= text_domain %}' ),
+											'title'    => esc_html__( 'Dropcap text', '{%= text_domain %}' ),
 											'selector' => 'p',
 											'classes'  => 'dropcap-text',
 										),
@@ -333,6 +333,15 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 						) );
 
 					ksort( $style_formats );
+
+						foreach ( $style_formats as $group_key => $group ) {
+							if ( isset( $group['items'] ) ) {
+
+								ksort( $group['items'] );
+								$style_formats[ $group_key ]['items'] = $group['items'];
+
+							}
+						} // /foreach
 
 					if ( ! empty( $style_formats ) ) {
 

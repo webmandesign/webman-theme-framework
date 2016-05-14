@@ -6,7 +6,7 @@
  * @subpackage  Admin
  *
  * @since    1.0
- * @version  1.2
+ * @version  1.4
  *
  * Contents:
  *
@@ -55,7 +55,7 @@
 				apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', true )
 				&& locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php' )
 			) {
-			require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/external/class-tgm-plugin-activation.php' );
+			require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/vendor/tgmpa/class-tgm-plugin-activation.php' );
 			locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php', true );
 		}
 
