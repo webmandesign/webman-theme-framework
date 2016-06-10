@@ -6,7 +6,7 @@
  * @subpackage  Admin
  *
  * @since    1.0
- * @version  1.4
+ * @version  1.5
  *
  * Contents:
  *
@@ -35,9 +35,9 @@
  * 1) Required files
  */
 
-	// Load the theme About page
+	// Load the theme welcome page
 
-		locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'admin/about-page/about-page.php', true );
+		locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'welcome/welcome.php', true );
 
 	// Theme Updater
 

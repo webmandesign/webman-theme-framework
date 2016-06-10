@@ -14,7 +14,7 @@
  * Admin class
  *
  * @since    1.0
- * @version  1.3
+ * @version  1.5
  *
  * Contents:
  *
@@ -40,7 +40,7 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 		 * Constructor
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.5
 		 */
 		private function __construct() {
 
@@ -52,11 +52,11 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 
 						// Styles and scripts
 
-							add_action( 'admin_enqueue_scripts', array( $this, 'assets' ), 998 );
+							add_action( 'admin_enqueue_scripts', __CLASS__ . '::assets', 998 );
 
 						// Admin notices
 
-							add_action( 'admin_notices', array( $this, 'message' ), 998 );
+							add_action( 'admin_notices', __CLASS__ . '::message', 998 );
 
 		} // /__construct
 
@@ -95,42 +95,41 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 		 * Admin assets
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.5
 		 */
 		public static function assets() {
 
-			// Register
+			// Processing
 
-				// Styles
+				// Register
 
-					$register_styles = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_assets_register_styles', array(
-							'{%= prefix_var %}-about'     => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/about.css' ) ),
-							'{%= prefix_var %}-about-rtl' => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/rtl-about.css' ) ),
-							'{%= prefix_var %}-admin'     => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/admin.css' ) ),
-							'{%= prefix_var %}-admin-rtl' => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/rtl-admin.css' ) ),
-						) );
+					// Styles
 
-					foreach ( $register_styles as $handle => $atts ) {
-						$src   = ( isset( $atts['src'] )   ) ? ( $atts['src']   ) : ( $atts[0] );
-						$deps  = ( isset( $atts['deps'] )  ) ? ( $atts['deps']  ) : ( false    );
-						$ver   = ( isset( $atts['ver'] )   ) ? ( $atts['ver']   ) : ( esc_attr( {%= prefix_constant %}_THEME_VERSION ) );
-						$media = ( isset( $atts['media'] ) ) ? ( $atts['media'] ) : ( 'screen' );
+						$register_styles = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_assets_register_styles', array(
+								'{%= prefix_var %}-admin'   => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/admin.css' ) ),
+								'{%= prefix_var %}-welcome' => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/welcome.css' ) ),
+							) );
 
-						wp_register_style( $handle, $src, $deps, $ver, $media );
-					}
+						foreach ( $register_styles as $handle => $atts ) {
+							$src   = ( isset( $atts['src'] )   ) ? ( $atts['src']   ) : ( $atts[0] );
+							$deps  = ( isset( $atts['deps'] )  ) ? ( $atts['deps']  ) : ( false    );
+							$ver   = ( isset( $atts['ver'] )   ) ? ( $atts['ver']   ) : ( esc_attr( {%= prefix_constant %}_THEME_VERSION ) );
+							$media = ( isset( $atts['media'] ) ) ? ( $atts['media'] ) : ( 'screen' );
 
-
-			// Enqueue
-
-				// Styles
-
-					wp_enqueue_style( '{%= prefix_var %}-admin' );
-
-					// RTL languages support
-
-						if ( is_rtl() ) {
-							wp_enqueue_style( '{%= prefix_var %}-admin-rtl' );
+							wp_register_style( $handle, $src, $deps, $ver, $media );
 						}
+
+					// RTL setup
+
+						wp_style_add_data( '{%= prefix_var %}-admin', 'rtl', 'replace' );
+						wp_style_add_data( '{%= prefix_var %}-welcome', 'rtl', 'replace' );
+
+
+				// Enqueue
+
+					// Styles
+
+						wp_enqueue_style( '{%= prefix_var %}-admin' );
 
 		} // /assets
 

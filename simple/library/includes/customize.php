@@ -6,7 +6,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.1
+ * @version  1.5
  *
  * Contents:
  *
@@ -34,4 +34,4 @@
  * 10) Init
  */
 
-	add_action( 'after_setup_theme', array( '{%= prefix_class %}_Theme_Framework_Customize', 'init' ) );
+	add_action( 'after_setup_theme', '{%= prefix_class %}_Theme_Framework_Customize::init' );

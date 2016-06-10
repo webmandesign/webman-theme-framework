@@ -16,7 +16,7 @@
  * Customize class
  *
  * @since    1.0
- * @version  1.3
+ * @version  1.5
  *
  * Contents:
  *
@@ -43,7 +43,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * Constructor
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.5
 		 */
 		private function __construct() {
 
@@ -55,11 +55,11 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 						// Register customizer
 
-							add_action( 'customize_register', array( $this, 'customize' ), 100 ); // After Jetpack logo action
+							add_action( 'customize_register', __CLASS__ . '::customize', 100 ); // After Jetpack logo action
 
 						// Customizer assets
 
-							add_action( 'customize_controls_enqueue_scripts', array( $this, 'assets' ) );
+							add_action( 'customize_controls_enqueue_scripts', __CLASS__ . '::assets' );
 
 		} // /__construct
 

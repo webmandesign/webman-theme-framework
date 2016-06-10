@@ -39,7 +39,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
  *
- * @version  1.4
+ * @version  1.5
  *
  * Contents:
  *
@@ -89,6 +89,10 @@
  * 1) Required files
  */
 
+	// Core class
+
+		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/class-core.php' );
+
 	// Customize (has to be frontend accessible, otherwise it hides theme settings)
 
 		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/customize.php' );
@@ -96,10 +100,6 @@
 	// Admin
 
 		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/admin.php' );
-
-	// Core class
-
-		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/class-core.php' );
 
 
 
@@ -109,4 +109,4 @@
  * 10) Init
  */
 
-	add_action( 'after_setup_theme', array( '{%= prefix_class %}_Theme_Framework', 'init' ), -100 );
+	add_action( 'after_setup_theme', '{%= prefix_class %}_Theme_Framework::init', -50 );

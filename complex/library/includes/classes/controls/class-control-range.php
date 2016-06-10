@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.5
  */
 
 
@@ -39,7 +39,7 @@ class {%= prefix_class %}_Control_Range extends WP_Customize_Control {
 			<span class="slide-number-wrapper">
 				<span id="<?php echo sanitize_title( $this->id ); ?>-slider" class="number-slider"></span>
 			</span>
-			<input type="number" name="<?php echo $this->id; ?>" id="<?php echo sanitize_title( $this->id ); ?>" value="<?php echo esc_attr( intval( $this->value() ) ); ?>" <?php $this->link(); ?> />
+			<input type="number" name="<?php echo $this->id; ?>" id="<?php echo sanitize_title( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); ?> />
 		</label>
 
 		<script><!--
@@ -69,7 +69,7 @@ class {%= prefix_class %}_Control_Range extends WP_Customize_Control {
 										.text( parseInt( ui.value * <?php echo floatval( $this->multiplier ); ?> ) );
 
 								jQuery( '#<?php echo sanitize_title( $this->id ); ?>' )
-									.val( parseInt( ui.value ) )
+									.val( ui.value )
 										.change();
 
 							}

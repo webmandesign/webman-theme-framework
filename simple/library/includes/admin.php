@@ -6,7 +6,7 @@
  * @subpackage  Admin
  *
  * @since    1.2
- * @version  1.4
+ * @version  1.5
  *
  * Contents:
  *
@@ -35,9 +35,9 @@
  * 1) Required files
  */
 
-	// Load the theme About page
+	// Load the theme welcome page
 
-		locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'admin/about-page/about-page.php', true );
+		locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'welcome/welcome.php', true );
 
 	// Admin class
 
@@ -61,4 +61,4 @@
  * 10) Init
  */
 
-	add_action( 'admin_init', array( '{%= prefix_class %}_Theme_Framework_Admin', 'init' ) );
+	add_action( 'admin_init', '{%= prefix_class %}_Theme_Framework_Admin::init' );

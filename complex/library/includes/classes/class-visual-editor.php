@@ -14,7 +14,7 @@
  * Visual Editor class
  *
  * @since    1.0
- * @version  1.4
+ * @version  1.5
  *
  * Contents:
  *
@@ -40,7 +40,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		 * Constructor
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.5
 		 */
 		private function __construct() {
 
@@ -52,9 +52,11 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 						// Visual Editor addons
 
-							add_filter( 'mce_buttons',          array( $this, 'add_buttons_row1' )  );
-							add_filter( 'mce_buttons_2',        array( $this, 'add_buttons_row2' )  );
-							add_filter( 'tiny_mce_before_init', array( $this, 'custom_mce_format' ) );
+							add_filter( 'mce_buttons', __CLASS__ . '::add_buttons_row1' );
+
+							add_filter( 'mce_buttons_2', __CLASS__ . '::add_buttons_row2' );
+
+							add_filter( 'tiny_mce_before_init', __CLASS__ . '::custom_mce_format' );
 
 		} // /__construct
 

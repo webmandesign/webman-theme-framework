@@ -17,7 +17,7 @@
  * Updater class
  *
  * @since    1.0
- * @version  1.3
+ * @version  1.5
  *
  * Contents:
  *
@@ -44,7 +44,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		 * Constructor
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.5
 		 */
 		private function __construct() {
 
@@ -56,11 +56,11 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 						// Admin menu
 
-							add_action( 'admin_menu', array( $this, 'menu' ), 998 );
+							add_action( 'admin_menu', __CLASS__ . '::menu', 998 );
 
 						// Toolbar
 
-							add_action( 'admin_bar_menu', array( $this, 'toolbar' ), 998 );
+							add_action( 'admin_bar_menu', __CLASS__ . '::toolbar', 998 );
 
 		} // /__construct
 
@@ -213,7 +213,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		 * Notifier page renderer
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.5
 		 */
 		public static function page() {
 
@@ -247,12 +247,11 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 				<div class="wrap update-notifier">
 
-					<div id="icon-tools" class="icon32"></div>
 					<h2><strong><?php echo wp_get_theme( '{%= theme_slug %}' )->get( 'Name' ); ?></strong> Theme Updates</h2>
 
 					<br />
 
-					<div id="message" class="error">
+					<div class="message error">
 
 						<p><?php
 
@@ -266,7 +265,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 					</div>
 
-					<div id="instructions">
+					<div class="instructions">
 
 						<?php
 
@@ -340,9 +339,8 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 					</div>
 
-					<div id="changelog" class="note">
+					<div class="changelog note">
 
-						<div class="icon32 icon32-posts-page" id="icon-edit-pages"><br /></div>
 						<h2>Changelog</h2>
 
 						<?php

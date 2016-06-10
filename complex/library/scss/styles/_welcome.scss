@@ -1,11 +1,13 @@
+/* FILE: styles/_welcome.scss */
+
 //
-// About page styles
+// Welcome page styles
 //
 // @package     WebMan WordPress Theme Framework
-// @subpackage  About page
+// @subpackage  Welcome page
 //
-// @since    1.2
-// @version  1.3
+// @since    1.5
+// @version  1.5
 //
 
 
@@ -27,8 +29,7 @@
 	margin-top: 2em;
 }
 
-.about-wrap {
-	direction: ltr;
+.welcome-wrap {
 
 	h1 {
 		margin-left: 0;
@@ -63,10 +64,11 @@
 	}
 
 	.dropcap {
-		float: left;
+		float: $left;
 		display: block;
 		padding: .75em 1em;
-		margin: 0 .5em .25em 0;
+		margin: 0 .5em .25em;
+		margin-#{$left}: 0;
 		font-size: 1.8em;
 		font-weight: bold;
 		background: #3a3c3e;
@@ -78,7 +80,7 @@
 
 	// Header
 
-		.about-text {
+		.welcome-text {
 			margin-left: 0;
 			margin-right: 0;
 
@@ -90,7 +92,7 @@
 
 		.twitter-share-button {
 			vertical-align: middle;
-			margin-left: 3px;
+			margin-#{$left}: 3px;
 		}
 
 

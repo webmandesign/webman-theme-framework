@@ -1,5 +1,45 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.5
+
+* **Add**: Customizer checkbox field custom styles
+* **Update**: Renaming them "About" page to "Welcome" page
+* **Update**: Files loading order
+* **Update**: Not using ID selectors in CSS
+* **Update**: Improved RTL stylesheets loading
+* **Update**: Using `__CLASS__` wherever possible
+* **Update**: Using theme Schema.org class instead of function
+* **Update**: Removed obsolete hook priority setup
+* **Update**: Changed priority of core class loading
+* **Fix**: Customizer range field to accept floating point number values
+* **Fix**: Allowing theme to set an image logo as predefined one (if text logo needed, user need to set custom logo image and then remove it)
+* **Fix**: Removed all admin bar styles references to prevent issues with Theme Check plugin
+
+#### Files changed:
+
+	init.php
+	includes/admin.php
+	includes/customize.php
+	includes/update-notifier.php
+	includes/visual-editor.php
+	includes/classes/class-admin.php
+	includes/classes/class-core.php
+	includes/classes/class-customize.php
+	includes/classes/class-updater.php
+	includes/classes/class-visual-editor.php
+	includes/classes/controls/class-control-range.php
+	js/customize.js
+	scss/admin-rtl.scss
+	scss/admin.scss
+	scss/customize-rtl.scss
+	scss/customize.scss
+	scss/welcome-rtl.scss
+	scss/welcome.scss
+	scss/styles/_admin.scss
+	scss/styles/_customize.scss
+	scss/styles/_welcome.scss
+
+
 ## 1.4
 
 * **Update**: Changed custom CSS variables format to `[[theme_mod_name]]`, `[[theme_mod_name(alpha_value)]]` respectively

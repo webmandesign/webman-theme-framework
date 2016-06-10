@@ -1,5 +1,33 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.5
+
+* **Add**: Customizer checkbox field custom styles
+* **Update**: Renaming them "About" page to "Welcome" page
+* **Update**: Files loading order
+* **Update**: Not using ID selectors in CSS
+* **Update**: Improved RTL stylesheets loading
+* **Update**: Using `__CLASS__` wherever possible
+* **Update**: Using theme Schema.org class instead of function
+* **Update**: Removed obsolete hook priority setup
+* **Update**: Changed priority of core class loading
+* **Fix**: Allowing theme to set an image logo as predefined one (if text logo needed, user need to set custom logo image and then remove it)
+
+#### Files changed:
+
+	init.php
+	includes/admin.php
+	includes/customize.php
+	includes/visual-editor.php
+	includes/classes/class-admin.php
+	includes/classes/class-core.php
+	includes/classes/class-customize.php
+	includes/classes/class-visual-editor.php
+	scss/welcome-rtl.scss
+	scss/welcome.scss
+	scss/styles/_welcome.scss
+
+
 ## 1.4
 
 * **Add**: Including TGM Plugin Activation script into simple framework

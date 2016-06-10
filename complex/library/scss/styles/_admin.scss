@@ -1,0 +1,170 @@
+/* FILE: styles/_admin.scss */
+
+//
+// Admin styles
+//
+// @package     WebMan WordPress Theme Framework
+// @subpackage  Admin
+//
+// @since    1.5
+// @version  1.5
+//
+
+
+
+
+
+// Global classes
+
+	.text-center {
+		text-align: center !important;
+	}
+
+
+
+// Forms
+
+	select.widefat {
+		background-color: #fff;
+	}
+
+	select[multiple] {
+		height: 80px !important;
+	}
+
+
+
+// Custom table
+
+	.wm-table {
+		font-size: .81rem;
+		line-height: inherit;
+
+		th {
+			text-align: $left;
+
+			+ td {
+				padding-#{$left}: 1rem;
+			}
+
+		}
+
+		thead {
+
+			th {
+				padding-top: 1em;
+				padding-bottom: .5em;
+				font-size: 1.17em;
+			}
+
+		}
+
+	}
+
+
+
+// Update notifier
+
+	.update-notifier {
+		line-height: 1.5em;
+
+		hr {
+			margin: 10px 0 20px;
+			border: 0;
+			border-top: 1px solid #dadcde;
+		}
+
+		.instructions {
+			max-width: 640px;
+			margin-#{$right}: 40px;
+			float: $left;
+		}
+
+		.theme-img {
+			float: $left;
+			width: 33%;
+			margin: 10px 20px 20px;
+			margin-#{$left}: 0;
+		}
+
+		ul {
+			clear: both;
+			border-top: 1px solid #dadcde;
+
+			> li {
+				padding: 20px;
+				border-bottom: 1px solid #dadcde;
+			}
+
+		}
+
+		li {
+
+			h4 {
+				margin-top: 0;
+				margin-#{$left}: -20px;
+				text-transform: uppercase;
+				font-size: 1.17em;
+			}
+
+		}
+
+		.note {
+			padding: 10px 20px;
+			font-size: .9em;
+			background: #f3f3f3;
+			border: 1px solid #ccc;
+
+			ul {
+
+				> li {
+					padding: 5px 0;
+					margin: 0;
+				}
+
+			}
+
+		}
+
+		.important-note {
+			clear: both;
+			padding: 20px;
+			margin: 20px 0;
+			line-height: 1.5em;
+			font-size: 1.17em;
+			background: #fa7c7e;
+			color: #fafcfe;
+			border: 2px solid #ea6c6e;
+			border-radius: 2px;
+		}
+
+		.changelog {
+			float: $left;
+			max-width: 400px;
+			margin-top: 30px;
+			padding: 20px;
+		}
+
+	}
+
+
+
+// Widgets admin
+
+	.wm-desc {
+		font-family: Georgia, Times, serif;
+		font-size: 11px;
+		font-style: italic;
+		line-height: 1.25em;
+		color: #6a6c6e;
+		padding-bottom: .62em !important;
+		border-bottom: 1px solid #dadcde;
+	}
+
+	.widget-content {
+
+		textarea {
+			max-width: 100%;
+		}
+
+	}

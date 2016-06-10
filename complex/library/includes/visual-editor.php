@@ -6,7 +6,7 @@
  * @subpackage  Visual Editor
  *
  * @since    1.0
- * @version  1.1
+ * @version  1.5
  *
  * Contents:
  *
@@ -34,4 +34,4 @@
  * 10) Init
  */
 
-	add_action( 'init', array( '{%= prefix_class %}_Theme_Framework_Visual_Editor', 'init' ) );
+	add_action( 'init', '{%= prefix_class %}_Theme_Framework_Visual_Editor::init' );

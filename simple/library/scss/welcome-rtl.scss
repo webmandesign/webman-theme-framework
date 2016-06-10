@@ -1,10 +1,10 @@
-/* FILE: admin.scss */
+/* FILE: welcome-rtl.scss */
 
 //
-// Admin styles
+// Welcome page RTL styles
 //
 // @package     WebMan WordPress Theme Framework
-// @subpackage  Admin
+// @subpackage  Welcome page
 //
 // @since    1.5
 // @version  1.5
@@ -16,11 +16,11 @@
 
 // Setup language direction
 
-	$left: left;
-	$right: right;
+	$left: right;
+	$right: left;
 
 
 
 // Imports
 
-	@import "styles/admin";
+	@import "styles/welcome";

@@ -10,7 +10,7 @@
  * @subpackage  Updater
  *
  * @since    1.0
- * @version  1.1
+ * @version  1.5
  *
  * Contents:
  *
@@ -53,4 +53,4 @@
  * Using `init` hook as it must be loaded before `admin_init` action is fired.
  */
 
-	add_action( 'init', array( '{%= prefix_class %}_Theme_Framework_Updater', 'init' ) );
+	add_action( 'init', '{%= prefix_class %}_Theme_Framework_Updater::init' );

@@ -17,7 +17,7 @@
  * Core class
  *
  * @since    1.0
- * @version  1.4
+ * @version  1.5
  *
  * Contents:
  *
@@ -46,7 +46,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Constructor
 		 *
 		 * @since    1.0
-		 * @version  1.3.3
+		 * @version  1.5
 		 */
 		private function __construct() {
 
@@ -58,20 +58,23 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						// Theme upgrade action
 
-							add_action( 'init', array( $this, 'theme_upgrade' ) );
+							add_action( 'init', __CLASS__ . '::theme_upgrade' );
 
 						// Flushing transients
 
-							add_action( 'switch_theme',  array( $this, 'image_ids_transient_flusher' )      );
-							add_action( 'switch_theme',  array( $this, 'custom_styles_transient_flusher' )  );
-							add_action( 'edit_category', array( $this, 'all_categories_transient_flusher' ) );
-							add_action( 'save_post',     array( $this, 'all_categories_transient_flusher' ) );
+							add_action( 'switch_theme', __CLASS__ . '::image_ids_transient_flusher' );
 
-							add_action( 'wmhook_{%= prefix_hook %}_tf_theme_upgrade', array( $this, 'custom_styles_transient_flusher' ) );
+							add_action( 'switch_theme', __CLASS__ . '::custom_styles_transient_flusher' );
+
+							add_action( 'edit_category', __CLASS__ . '::all_categories_transient_flusher' );
+
+							add_action( 'save_post', __CLASS__ . '::all_categories_transient_flusher' );
+
+							add_action( 'wmhook_{%= prefix_hook %}_tf_theme_upgrade', __CLASS__ . '::custom_styles_transient_flusher' );
 
 						// Customizer saving
 
-							add_action( 'customize_save_after', array( $this, 'custom_styles_cache' ) );
+							add_action( 'customize_save_after', __CLASS__ . '::custom_styles_cache' );
 
 					// Filters
 
@@ -81,7 +84,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						// Widgets improvements
 
-							// add_filter( 'widget_title', array( $this, 'html_widget_title' ) );
+							// add_filter( 'widget_title', __CLASS__ . '::html_widget_title' );
 
 							add_filter( 'show_recent_comments_widget_style', '__return_false' );
 							add_filter( 'widget_text', 'do_shortcode' );
@@ -90,15 +93,15 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						// Table of contents
 
-							add_filter( 'the_content', array( $this, 'add_table_of_contents' ), 10 );
+							add_filter( 'the_content', __CLASS__ . '::add_table_of_contents' );
 
 						// Minify CSS
 
-							add_filter( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output_cache', array( $this, 'minify_css' ), 10 );
+							add_filter( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output_cache', __CLASS__ . '::minify_css' );
 
 						// SSL ready URLs
 
-							add_filter( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output', array( $this, 'fix_ssl_urls' ), 9999 );
+							add_filter( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output', __CLASS__ . '::fix_ssl_urls', 9999 );
 
 		} // /__construct
 
@@ -178,7 +181,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @link  http://blog.rrwd.nl/2014/11/21/html5-headings-in-wordpress-lets-fight/
 		 *
 		 * @since    1.0
-		 * @version  1.3.1
+		 * @version  1.5
 		 *
 		 * @param  string $container_class  If empty, no container will be outputted.
 		 */
@@ -240,6 +243,10 @@ final class {%= prefix_class %}_Theme_Framework {
 								), $img_id );
 
 							$args['logo_image'] = wp_get_attachment_image( absint( $img_id ), 'full', false, $atts );
+
+						} else {
+
+							$args['logo_image'] = '<img src="' . esc_url( $args['logo_image'][0] ) . '" alt="' . esc_attr( sprintf( esc_html_x( '%s logo', 'Site logo image "alt" HTML attribute text.', '{%= text_domain %}' ), $blog_info['name'] ) ) . '" title="' . esc_attr( $args['title_att'] ) . '" />';
 
 						}
 
@@ -455,7 +462,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.5
 		 *
 		 * @param  array $args
 		 */
@@ -516,10 +523,10 @@ final class {%= prefix_class %}_Theme_Framework {
 							case 'author':
 
 								if ( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
-									$helper = ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'name' ) ) : ( '' );
+									$helper = ( is_callable( '{%= prefix_class %}_Schema::get' ) ) ? ( {%= prefix_class %}_Schema::get( 'name' ) ) : ( '' );
 
 									$replacements = array(
-											'{attributes}'  => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'author' ) . {%= prefix_fn %}_schema_org( 'Person' ) ) : ( '' ),
+											'{attributes}'  => ( is_callable( '{%= prefix_class %}_Schema::get' ) ) ? ( {%= prefix_class %}_Schema::get( 'author' ) . {%= prefix_class %}_Schema::get( 'Person' ) ) : ( '' ),
 											'{class}'       => esc_attr( 'byline author vcard entry-meta-element' ),
 											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Written by:', 'Post meta info description: author name.', '{%= text_domain %}' ) . ' </span>',
 											'{content}'     => '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" class="url fn n" rel="author"' . $helper . '>' . get_the_author() . '</a>',
@@ -567,7 +574,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							case 'date':
 
 								if ( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
-									$helper = ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'datePublished' ) ) : ( '' );
+									$helper = ( is_callable( '{%= prefix_class %}_Schema::get' ) ) ? ( {%= prefix_class %}_Schema::get( 'datePublished' ) ) : ( '' );
 
 									$replacements = array(
 											'{attributes}'  => '',
@@ -576,8 +583,8 @@ final class {%= prefix_class %}_Theme_Framework {
 											'{content}'     => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" rel="bookmark"><time datetime="' . esc_attr( get_the_date( 'c' ) ) . '" class="published" title="' . esc_attr( get_the_date() ) . ' | ' . esc_attr( get_the_time( '', $args['post_id'] ) ) . '"' . $helper . '>' . esc_html( get_the_date( $args['date_format'] ) ) . '</time></a>',
 										);
 
-									if ( function_exists( '{%= prefix_fn %}_schema_org' ) ) {
-										$replacements['{content}'] = $replacements['{content}'] . {%= prefix_fn %}_schema_org( 'dateModified', get_the_modified_date( 'c' ) );
+									if ( is_callable( '{%= prefix_class %}_Schema::get' ) ) {
+										$replacements['{content}'] = $replacements['{content}'] . {%= prefix_class %}_Schema::get( 'dateModified', get_the_modified_date( 'c' ) );
 									}
 								}
 
@@ -642,7 +649,7 @@ final class {%= prefix_class %}_Theme_Framework {
 									}
 
 									$replacements = array(
-											'{attributes}'  => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'url' ) ) : ( '' ),
+											'{attributes}'  => ( is_callable( '{%= prefix_class %}_Schema::get' ) ) ? ( {%= prefix_class %}_Schema::get( 'url' ) ) : ( '' ),
 											'{class}'       => esc_attr( 'entry-permalink entry-meta-element' ),
 											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Bookmark link:', 'Post meta info description: post bookmark link.', '{%= text_domain %}' ) . ' </span>',
 											'{content}'     => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" title="' . esc_attr( sprintf( esc_html__( 'Permalink to "%s"', '{%= text_domain %}' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
@@ -657,7 +664,7 @@ final class {%= prefix_class %}_Theme_Framework {
 										&& ( $helper = get_the_tag_list( '', ' ', '', $args['post_id'] ) )
 									) {
 									$replacements = array(
-											'{attributes}'  => ( function_exists( '{%= prefix_fn %}_schema_org' ) ) ? ( {%= prefix_fn %}_schema_org( 'keywords' ) ) : ( '' ),
+											'{attributes}'  => ( is_callable( '{%= prefix_class %}_Schema::get' ) ) ? ( {%= prefix_class %}_Schema::get( 'keywords' ) ) : ( '' ),
 											'{class}'       => esc_attr( 'tags-links entry-meta-element' ),
 											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Tagged as:', 'Post meta info description: tags list.', '{%= text_domain %}' ) . ' </span>',
 											'{content}'     => $helper,

@@ -1,10 +1,10 @@
-/* FILE: admin.scss */
+/* FILE: customize-rtl.scss */
 
 //
-// Admin styles
+// Customize RTL styles
 //
 // @package     WebMan WordPress Theme Framework
-// @subpackage  Admin
+// @subpackage  Customize
 //
 // @since    1.5
 // @version  1.5
@@ -16,11 +16,11 @@
 
 // Setup language direction
 
-	$left: left;
-	$right: right;
+	$left: right;
+	$right: left;
 
 
 
 // Imports
 
-	@import "styles/admin";
+	@import "styles/customize";

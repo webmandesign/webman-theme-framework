@@ -1,4 +1,4 @@
-/* FILE: customize.scss */
+/* FILE: customize-rtl.scss */
 /* FILE: styles/_customize.scss */
 #accordion-panel-theme .no-overflow { overflow: hidden; }
 
@@ -28,11 +28,11 @@
 
 #accordion-panel-theme .customize-control-checkbox .description { margin-top: .38em; font-weight: 400; }
 
-#accordion-panel-theme .matrix { padding: 2px 0 3px; padding-left: 2px; margin-bottom: .5em; border: 2px solid #bbb; overflow: hidden; }
+#accordion-panel-theme .matrix { padding: 2px 0 3px; padding-right: 2px; margin-bottom: .5em; border: 2px solid #bbb; overflow: hidden; }
 
 #accordion-panel-theme .matrix span { display: none; }
 
-#accordion-panel-theme .matrix label { float: left; display: block; width: 33.33%; padding: .5em 0 .5em; padding-left: 4px; margin: 0 -1px -1px; margin-left: 0; text-align: center; border: 1px dotted #bbb; box-sizing: border-box; }
+#accordion-panel-theme .matrix label { float: right; display: block; width: 33.33%; padding: .5em 0 .5em; padding-right: 4px; margin: 0 -1px -1px; margin-right: 0; text-align: center; border: 1px dotted #bbb; box-sizing: border-box; }
 
 #accordion-panel-theme .matrix label:hover { background: #fff; }
 
@@ -42,7 +42,7 @@
 
 #accordion-panel-theme .image-radio span { display: none; }
 
-#accordion-panel-theme .image-radio label { float: left; display: inline-block; margin: 4px; text-align: center; }
+#accordion-panel-theme .image-radio label { float: right; display: inline-block; margin: 4px; text-align: center; }
 
 #accordion-panel-theme .image-radio label.active img, #accordion-panel-theme .image-radio label:hover img { opacity: 1; }
 
@@ -52,6 +52,6 @@
 
 #accordion-panel-theme .customize-control-range .slide-number-wrapper { display: block; width: 90%; width: calc( 100% - 40px); padding: 0 20px; margin: 15px 0; transition: margin .4s; }
 
-#accordion-panel-theme .customize-control-range .ui-slider { position: relative; display: block; width: 100%; height: 2px; margin: 10px 0; text-align: left; background: #fff; border: 2px solid #bbb; border-radius: 10px; }
+#accordion-panel-theme .customize-control-range .ui-slider { position: relative; display: block; width: 100%; height: 2px; margin: 10px 0; text-align: right; background: #fff; border: 2px solid #bbb; border-radius: 10px; }
 
 #accordion-panel-theme .customize-control-range .ui-slider-handle { position: absolute; z-index: 2; min-width: 18px; min-height: 10px; top: 0; padding: .19em .62em; text-align: center; font-size: .81em; font-weight: 700; background-color: #28b; color: #fff; border: 2px solid #069; outline: 0; border-radius: 100px; cursor: e-resize; box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2); -webkit-transform: translateX(-50%) translateY(-50%); -ms-transform: translateX(-50%) translateY(-50%); transform: translateX(-50%) translateY(-50%); -webkit-transform-origin: 50% 50%; -ms-transform-origin: 50% 50%; transform-origin: 50% 50%; }
