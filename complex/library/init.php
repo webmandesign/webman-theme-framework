@@ -26,7 +26,6 @@
  * - prefix_constant
  * - prefix_var
  * - prefix_class
- * - prefix_fn
  * - prefix_hook
  * - text_domain
  *
