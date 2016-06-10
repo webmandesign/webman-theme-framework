@@ -386,7 +386,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		 * Uses the cached version if available, inside the time interval defined.
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.5
 		 *
 		 * @param  int $interval
 		 */
@@ -410,8 +410,8 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 
 			// Helper variables
 
-				$db_cache_field              = '{%= prefix_var %}_notifier_cache_{%= theme_slug %}';
-				$db_cache_field_last_updated = '{%= prefix_var %}_notifier_cache_{%= theme_slug %}_last_updated';
+				$db_cache_field              = '{%= prefix_var %}_notifier_cache';
+				$db_cache_field_last_updated = '{%= prefix_var %}_notifier_cache_last_updated';
 				$last                        = get_transient( $db_cache_field_last_updated );
 
 				// Check the cache
