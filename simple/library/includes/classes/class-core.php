@@ -1185,7 +1185,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.4
+		 * @version  1.5
 		 *
 		 * @param  bool $set_cache  Determines whether the results should be cached or not.
 		 * @param  bool $return     Whether to return a value or just run the process.
@@ -1280,18 +1280,55 @@ final class {%= prefix_class %}_Theme_Framework {
 							// Make sure the image URL is used in CSS format
 
 								if ( 'image' === $option['type'] ) {
+
 									if ( is_array( $value ) && isset( $value['id'] ) ) {
 										$value = absint( $value['id'] );
 									}
+
 									if ( is_numeric( $value ) ) {
 										$value = wp_get_attachment_image_src( absint( $value ), 'full' );
 										$value = $value[0];
 									}
+
 									if ( ! empty( $value ) ) {
 										$value = "url('" . esc_url( $value ) . "')";
 									} else {
 										$value = 'none';
 									}
+
+								}
+
+							// CSS output
+
+								if ( isset( $option['css_output'] ) ) {
+
+									switch ( $option['css_output'] ) {
+										case 'comma_list':
+										case 'comma_list_quoted':
+
+												if ( is_array( $value ) ) {
+
+													if ( 'comma_list_quoted' == $option['css_output'] ) {
+														$value = "'" . implode( "', '", $value ) . "'";
+													} else {
+														$value = implode( ', ', $value );
+													}
+
+												}
+
+												$value .= ',';
+
+											break;
+
+										default:
+
+												if ( is_callable( $option['css_output'] ) ) {
+													$value = call_user_func( $option['css_output'], $value, $option );
+												}
+
+											break;
+									} // /switch
+
 								}
 
 							// Value filtering

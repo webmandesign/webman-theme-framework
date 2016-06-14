@@ -98,7 +98,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * Customizer controls assets
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.5
 		 */
 		public static function assets() {
 
@@ -114,19 +114,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 							'screen'
 						);
 
-					// RTL languages support
+					// RTL setup
 
-						if ( is_rtl() ) {
-
-							wp_enqueue_style(
-									'{%= prefix_var %}-customizer-rtl',
-									{%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/rtl-customize.css' ),
-									false,
-									esc_attr( {%= prefix_constant %}_THEME_VERSION ),
-									'screen'
-								);
-
-						}
+						wp_style_add_data( '{%= prefix_var %}-customizer', 'rtl', 'replace' );
 
 				// Scripts
 
