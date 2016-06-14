@@ -3,6 +3,7 @@
 ## 1.5
 
 * **Add**: Customizer checkbox field custom styles
+* **Add**: Customizer `css_output` theme options setting
 * **Update**: Renaming them "About" page to "Welcome" page
 * **Update**: Files loading order
 * **Update**: Not using ID selectors in CSS
