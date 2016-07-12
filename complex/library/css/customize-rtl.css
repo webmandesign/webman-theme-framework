@@ -36,15 +36,15 @@
 
 #accordion-panel-theme .matrix label:hover { background: #fff; }
 
-#accordion-panel-theme .matrix label.active { background: #aaa; }
+#accordion-panel-theme .matrix label.is-active { background: #aaa; }
 
-#accordion-panel-theme .matrix label.active:hover { background: #ccc; }
+#accordion-panel-theme .matrix label.is-active:hover { background: #ccc; }
 
 #accordion-panel-theme .image-radio span { display: none; }
 
 #accordion-panel-theme .image-radio label { float: right; display: inline-block; margin: 4px; text-align: center; }
 
-#accordion-panel-theme .image-radio label.active img, #accordion-panel-theme .image-radio label:hover img { opacity: 1; }
+#accordion-panel-theme .image-radio label.is-active img, #accordion-panel-theme .image-radio label:hover img { opacity: 1; }
 
 #accordion-panel-theme .image-radio img { display: block; width: 42px; opacity: .5; }
 

@@ -18,7 +18,7 @@
 
 .welcome-wrap .feature-section.col h4 { margin: 1em 0; }
 
-.welcome-wrap .dropcap { float: right; display: block; padding: .75em 1em; margin: 0 .5em .25em; margin-right: 0; font-size: 1.8em; font-weight: bold; background: #3a3c3e; color: #fafcfe; border-radius: .5em; }
+.welcome-wrap .dropcap { display: inline-block; padding: .75em; margin: 0 .5em .25em; margin-right: 0; font-size: 24px; font-weight: 700; background: #23282d; color: #fff; }
 
 .welcome-wrap .welcome-text { margin-left: 0; margin-right: 0; }
 
@@ -26,7 +26,13 @@
 
 .welcome-wrap .twitter-share-button { vertical-align: middle; margin-right: 3px; }
 
-.welcome-wrap .wm-notes { padding: 2em; margin-top: 4em; line-height: 1.4em; font-size: .8em; font-style: italic; background: #fafcfe; box-shadow: 0 1px 20px rgba(0, 0, 0, 0.5); border-radius: 1em; }
+.welcome-wrap .wm-notes { padding: 2.62em 999em; padding-right: 40px; margin: 40px -999em 1.62em; margin-right: -40px; line-height: 1.4em; font-size: .8em; font-style: italic; background: #fafcfe; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+
+.welcome-wrap .wm-notes.special { font-size: 1.28em; font-style: normal; background: #fff; color: #000; }
+
+.welcome-wrap .wm-notes.special p { font-size: 1em; }
+
+.welcome-wrap .wm-notes.special small { font-size: .62em; }
 
 .welcome-wrap .congrats { padding: 1em 0 0; }
 

@@ -1,5 +1,26 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.6
+
+* **Add**: Functionality for conditional CSS comments
+* **Add**: Added support for `input_attrs` customizer option setup
+* **Update**: Skip to content link text updated
+* **Update**: Optimized customizer class
+* **Update**: TGM Plugin Activation 2.6.1
+* **Update**: Using `is-active` class instead of `active`
+* **Update**: Welcome screen styles
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-core.php
+	includes/classes/class-customize.php
+	includes/vendor/tgmpa/class-tgm-plugin-activation.php
+	js/customize.js
+	scss/styles/_customize.scss
+	scss/styles/_welcome.scss
+
+
 ## 1.5
 
 * **Add**: Customizer checkbox field custom styles

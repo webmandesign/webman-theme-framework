@@ -5,7 +5,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.5
+ * @version  1.6
  */
 
 
@@ -22,7 +22,7 @@
 	 * Custom radio select
 	 *
 	 * @since    1.0
-	 * @version  1.5
+	 * @version  1.6
 	 */
 	jQuery( '.custom-radio-container' )
 		.on( 'change', 'input', function() {
@@ -31,9 +31,9 @@
 
 				jQuery( this )
 					.parent()
-						.addClass( 'active' )
+						.addClass( 'is-active' )
 						.siblings()
-						.removeClass( 'active' );
+						.removeClass( 'is-active' );
 
 		} );
 

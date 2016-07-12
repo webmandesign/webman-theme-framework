@@ -7,7 +7,7 @@
 // @subpackage  Welcome page
 //
 // @since    1.5
-// @version  1.5
+// @version  1.6
 //
 
 
@@ -64,16 +64,14 @@
 	}
 
 	.dropcap {
-		float: $left;
-		display: block;
-		padding: .75em 1em;
+		display: inline-block;
+		padding: .75em;
 		margin: 0 .5em .25em;
 		margin-#{$left}: 0;
-		font-size: 1.8em;
-		font-weight: bold;
-		background: #3a3c3e;
-		color: #fafcfe;
-		border-radius: .5em;
+		font-size: 24px;
+		font-weight: 700;
+		background: #23282d;
+		color: #fff;
 	}
 
 
@@ -100,14 +98,33 @@
 	// Important notes
 
 		.wm-notes {
-			padding: 2em;
-			margin-top: 4em;
+			padding: 2.62em 999em;
+			padding-#{$left}: 40px;
+			margin: 40px -999em 1.62em;
+			margin-#{$left}: -40px;
 			line-height: 1.4em;
 			font-size: .8em;
 			font-style: italic;
 			background: #fafcfe;
-			box-shadow: 0 1px 20px rgba( #000, .5 );
-			border-radius: 1em;
+			border-top: 1px solid #ccc;
+			border-bottom: 1px solid #ccc;
+
+			&.special {
+				font-size: 1.28em;
+				font-style: normal;
+				background: #fff;
+				color: #000;
+
+				p {
+					font-size: 1em;
+				}
+
+				small {
+					font-size: .62em;
+				}
+
+			}
+
 		}
 
 

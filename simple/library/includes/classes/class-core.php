@@ -17,7 +17,7 @@
  * Core class
  *
  * @since    1.0
- * @version  1.5
+ * @version  1.6
  *
  * Contents:
  *
@@ -1185,7 +1185,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.5
+		 * @version  1.6
 		 *
 		 * @param  bool $set_cache  Determines whether the results should be cached or not.
 		 * @param  bool $return     Whether to return a value or just run the process.
@@ -1345,12 +1345,19 @@ final class {%= prefix_class %}_Theme_Framework {
 
 								$replacements[ '[[' . str_replace( '-', '_', $option_id ) . ']]' ] = $value;
 
-								// Add also rgba() color interpratation
+								// Add also rgba() color interpretation
 
 									if ( 'color' === $option['type'] && ! empty( $alphas ) ) {
 										foreach ( $alphas as $alpha ) {
 											$replacements[ '[[' . str_replace( '-', '_', $option_id ) . '(' . absint( $alpha ) . ')]]' ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 										} // /foreach
+									}
+
+								// Option related conditional CSS comment
+
+									if ( isset( $option['is_css_condition'] ) && $value ) {
+										$replacements[ '/**if(' . str_replace( '-', '_', $option_id ) . ')' ] = '';
+										$replacements[ 'endif(' . str_replace( '-', '_', $option_id ) . ')**/' ] = '';
 									}
 
 						} // /foreach
@@ -1616,7 +1623,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Accessibility skip links
 		 *
 		 * @since    1.0
-		 * @version  1.4
+		 * @version  1.6
 		 *
 		 * @param  string $id     Link target element ID.
 		 * @param  string $text   Link text.
@@ -1636,7 +1643,7 @@ final class {%= prefix_class %}_Theme_Framework {
 			// Helper variables
 
 				if ( empty( $text ) ) {
-					$text = esc_html__( 'Skip to content', '{%= text_domain %}' );
+					$text = esc_html__( 'Skip to main content', '{%= text_domain %}' );
 				}
 
 

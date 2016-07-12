@@ -16,7 +16,7 @@
  * Customize class
  *
  * @since    1.0
- * @version  1.5
+ * @version  1.6
  *
  * Contents:
  *
@@ -399,7 +399,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.6
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -623,6 +623,21 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 
 								/**
+								 * Generic settings
+								 */
+								$generic = array(
+										'label'           => $theme_option['label'],
+										'description'     => $description,
+										'section'         => $customizer_section,
+										'priority'        => $priority,
+										'type'            => $theme_option['type'],
+										'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
+										'input_attrs'     => ( isset( $theme_option['input_attrs'] ) ) ? ( $theme_option['input_attrs'] ) : ( array() ),
+									);
+
+
+
+								/**
 								 * Options generator
 								 */
 								switch ( $theme_option['type'] ) {
@@ -646,15 +661,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 										$wp_customize->add_control(
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'label'           => $theme_option['label'],
-													'description'     => $description,
-													'section'         => $customizer_section,
-													'priority'        => $priority,
-													'type'            => $theme_option['type'],
-													'choices'         => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
-													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-												)
+												array_merge( $generic, array(
+													'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
+												) )
 											);
 
 									break;
@@ -678,13 +687,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 										$wp_customize->add_control( new WP_Customize_Color_Control(
 												$wp_customize,
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'label'           => $theme_option['label'],
-													'description'     => $description,
-													'section'         => $customizer_section,
-													'priority'        => $priority,
-													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-												)
+												$generic
 											) );
 
 									break;
@@ -707,14 +710,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 										$wp_customize->add_control(
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'type'            => 'email',
-													'label'           => $theme_option['label'],
-													'description'     => $description,
-													'section'         => $customizer_section,
-													'priority'        => $priority,
-													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-												)
+												$generic
 											);
 
 									break;
@@ -798,14 +794,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 										$wp_customize->add_control( new WP_Customize_Image_Control(
 												$wp_customize,
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'label'           => $theme_option['label'],
-													'description'     => $description,
-													'section'         => $customizer_section,
-													'priority'        => $priority,
-													'context'         => {%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-												)
+												array_merge( $generic, array(
+													'context' => {%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												) )
 											) );
 
 									break;
@@ -829,14 +820,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 										$wp_customize->add_control( new {%= prefix_class %}_Control_Multiselect(
 												$wp_customize,
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'label'           => $theme_option['label'],
-													'description'     => $description,
-													'section'         => $customizer_section,
-													'priority'        => $priority,
-													'choices'         => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
-													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-												)
+												array_merge( $generic, array(
+													'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
+												) )
 											) );
 
 									break;
@@ -865,15 +851,10 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 										$wp_customize->add_control( new {%= prefix_class %}_Control_Range(
 												$wp_customize,
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'label'           => $theme_option['label'],
-													'description'     => $description,
-													'section'         => $customizer_section,
-													'priority'        => $priority,
-													'json'            => array( $theme_option['min'], $theme_option['max'], $theme_option['step'] ),
-													'multiplier'      => ( isset( $theme_option['multiplier'] ) ) ? ( $theme_option['multiplier'] ) : ( 1 ),
-													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-												)
+												array_merge( $generic, array(
+													'json'       => array( $theme_option['min'], $theme_option['max'], $theme_option['step'] ),
+													'multiplier' => ( isset( $theme_option['multiplier'] ) ) ? ( $theme_option['multiplier'] ) : ( 1 ),
+												) )
 											) );
 
 									break;
@@ -896,14 +877,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 										$wp_customize->add_control(
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'type'            => 'password',
-													'label'           => $theme_option['label'],
-													'description'     => $description,
-													'section'         => $customizer_section,
-													'priority'        => $priority,
-													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-												)
+												$generic
 											);
 
 									break;
@@ -927,15 +901,10 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 										$wp_customize->add_control( new {%= prefix_class %}_Control_Radio_Matrix(
 												$wp_customize,
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'label'           => $theme_option['label'],
-													'description'     => $description,
-													'section'         => $customizer_section,
-													'priority'        => $priority,
-													'choices'         => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
-													'class'           => ( isset( $theme_option['class'] ) ) ? ( $theme_option['class'] ) : ( '' ),
-													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-												)
+												array_merge( $generic, array(
+													'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
+													'class'   => ( isset( $theme_option['class'] ) ) ? ( $theme_option['class'] ) : ( '' ),
+												) )
 											) );
 
 									break;
@@ -959,14 +928,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 										$wp_customize->add_control( new {%= prefix_class %}_Control_Select(
 												$wp_customize,
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'label'           => $theme_option['label'],
-													'description'     => $description,
-													'section'         => $customizer_section,
-													'priority'        => $priority,
-													'choices'         => ( isset( $theme_option['options'] ) ) ? ( $theme_option['options'] ) : ( '' ),
-													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-												)
+												array_merge( $generic, array(
+													'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
+												) )
 											) );
 
 									break;
@@ -989,13 +953,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 										$wp_customize->add_control(
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'label'           => $theme_option['label'],
-													'description'     => $description,
-													'section'         => $customizer_section,
-													'priority'        => $priority,
-													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-												)
+												$generic
 											);
 
 									break;
@@ -1018,14 +976,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 										$wp_customize->add_control(
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'type'            => 'textarea',
-													'label'           => $theme_option['label'],
-													'description'     => $description,
-													'section'         => $customizer_section,
-													'priority'        => $priority,
-													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-												)
+												$generic
 											);
 
 									break;
@@ -1048,14 +999,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 										$wp_customize->add_control(
 												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
-												array(
-													'type'            => 'url',
-													'label'           => $theme_option['label'],
-													'description'     => $description,
-													'section'         => $customizer_section,
-													'priority'        => $priority,
-													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-												)
+												$generic
 											);
 
 									break;
