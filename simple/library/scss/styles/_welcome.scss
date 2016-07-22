@@ -7,7 +7,7 @@
 // @subpackage  Welcome page
 //
 // @since    1.5
-// @version  1.6
+// @version  1.6.1
 //
 
 
@@ -98,16 +98,13 @@
 	// Important notes
 
 		.wm-notes {
-			padding: 2.62em 999em;
-			padding-#{$left}: 40px;
-			margin: 40px -999em 1.62em;
-			margin-#{$left}: -40px;
+			padding: 2.62em;
+			margin: 40px 0 1.62em;
 			line-height: 1.4em;
 			font-size: .8em;
 			font-style: italic;
 			background: #fafcfe;
-			border-top: 1px solid #ccc;
-			border-bottom: 1px solid #ccc;
+			border: 1px solid #ccc;
 
 			&.special {
 				font-size: 1.28em;

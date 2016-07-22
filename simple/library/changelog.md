@@ -1,5 +1,17 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.6.1
+
+* **Update**: Improving security by using `wp_strip_all_tags` and `wp_kses` instead of `strip_tags`
+* **Update**: Welcome page styles (preventing page overflowing)
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-core.php
+	scss/styles/_welcome.scss
+
+
 ## 1.6
 
 * **Add**: Functionality for conditional CSS comments

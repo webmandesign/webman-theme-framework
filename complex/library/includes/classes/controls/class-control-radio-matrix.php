@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.0
+ * @version  1.6.1
  */
 
 
@@ -43,7 +43,7 @@ class {%= prefix_class %}_Control_Radio_Matrix extends WP_Customize_Control {
 						$title = ' title="' . esc_attr( $name[0] ) . '"';
 						$name  = $name[1];
 					} else {
-						$title = ' title="' . esc_attr( strip_tags( $name ) ) . '"';
+						$title = ' title="' . esc_attr( wp_strip_all_tags( $name ) ) . '"';
 					}
 
 					?>

@@ -17,7 +17,7 @@
  * Core class
  *
  * @since    1.0
- * @version  1.6
+ * @version  1.6.1
  *
  * Contents:
  *
@@ -343,7 +343,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Appends the output at the top and bottom of post content.
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.6.1
 		 *
 		 * @param  string $content
 		 */
@@ -438,9 +438,9 @@ final class {%= prefix_class %}_Theme_Framework {
 
 					$links = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_links', array(
 							// Display table of contents before the post content only in first post part
-								'before' => ( 1 === $page ) ? ( '<div class="post-table-of-contents top" title="' . esc_attr( strip_tags( $title_text ) ) . '">' . $title . '<ol>' . $args['links'] . '</ol></div>' ) : ( '' ),
+								'before' => ( 1 === $page ) ? ( '<div class="post-table-of-contents top" title="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '">' . $title . '<ol>' . $args['links'] . '</ol></div>' ) : ( '' ),
 							// Display table of cotnnets after the post cotnent on each post part
-								'after'  => '<div class="post-table-of-contents bottom" title="' . esc_attr( strip_tags( $title_text ) ) . '">' . $title . '<ol>' . $args['links'] . '</ol></div>',
+								'after'  => '<div class="post-table-of-contents bottom" title="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '">' . $title . '<ol>' . $args['links'] . '</ol></div>',
 						), $args );
 
 					$content = $links['before'] . $content . $links['after'];

@@ -26,7 +26,7 @@
 
 .welcome-wrap .twitter-share-button { vertical-align: middle; margin-left: 3px; }
 
-.welcome-wrap .wm-notes { padding: 2.62em 999em; padding-left: 40px; margin: 40px -999em 1.62em; margin-left: -40px; line-height: 1.4em; font-size: .8em; font-style: italic; background: #fafcfe; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+.welcome-wrap .wm-notes { padding: 2.62em; margin: 40px 0 1.62em; line-height: 1.4em; font-size: .8em; font-style: italic; background: #fafcfe; border: 1px solid #ccc; }
 
 .welcome-wrap .wm-notes.special { font-size: 1.28em; font-style: normal; background: #fff; color: #000; }
 

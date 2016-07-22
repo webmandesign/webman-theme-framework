@@ -17,7 +17,7 @@
  * Updater class
  *
  * @since    1.0
- * @version  1.5
+ * @version  1.6.1
  *
  * Contents:
  *
@@ -386,7 +386,7 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 		 * Uses the cached version if available, inside the time interval defined.
 		 *
 		 * @since    1.0
-		 * @version  1.5
+		 * @version  1.6.1
 		 *
 		 * @param  int $interval
 		 */
@@ -432,7 +432,21 @@ final class {%= prefix_class %}_Theme_Framework_Updater {
 								$cache  = '<?xml version="1.0" encoding="UTF-8"?>';
 								$cache .= '<notifier>';
 									$cache .= '<latest>1.0</latest>';
-									$cache .= '<message><![CDATA[<span style="font-size:125%;color:#f33">Something went wrong: ' . strip_tags( $error, '<a><span><strong>' ) . '</span>]]></message>';
+									$cache .= '<message><![CDATA[<span style="font-size:125%;color:#f33">Something went wrong: ' . wp_kses(
+											$error,
+											array(
+												'a' => array(
+														'href' => true,
+														'class' => true,
+													),
+												'span' => array(
+														'class' => true,
+													),
+												'strong' => array(
+														'class' => true,
+													),
+											)
+										) . '</span>]]></message>';
 									$cache .= '<changelog></changelog>';
 									$cache .= '<changefiles></changefiles>';
 								$cache .= '</notifier>';
