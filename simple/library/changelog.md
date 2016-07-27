@@ -1,5 +1,15 @@
 # WebMan WordPress Theme Framework (Simple) Changelog
 
+## 1.6.3
+
+* **Fix**: Customizer empty label PHP error
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-customize.php
+
+
 ## 1.6.2
 
 * **Add**: Child theme generator (Use Child Theme script)

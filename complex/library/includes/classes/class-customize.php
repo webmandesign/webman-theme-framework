@@ -16,7 +16,7 @@
  * Customize class
  *
  * @since    1.0
- * @version  1.6
+ * @version  1.6.3
  *
  * Contents:
  *
@@ -399,7 +399,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.6
+		 * @version  1.6.3
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -626,7 +626,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 								 * Generic settings
 								 */
 								$generic = array(
-										'label'           => $theme_option['label'],
+										'label'           => ( isset( $theme_option['label'] ) ) ? ( $theme_option['label'] ) : ( '' ),
 										'description'     => $description,
 										'section'         => $customizer_section,
 										'priority'        => $priority,

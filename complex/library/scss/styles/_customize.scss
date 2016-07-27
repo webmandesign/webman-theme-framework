@@ -7,7 +7,7 @@
 // @subpackage  Customize
 //
 // @since    1.5
-// @version  1.6
+// @version  1.6.3
 //
 
 
@@ -56,7 +56,7 @@
 
 			h3 {
 
-				&:first-child {
+				&:first-of-type {
 					margin-top: 0;
 					border: 0;
 				}
@@ -88,7 +88,7 @@
 
 				h3 {
 
-					&:first-child {
+					&:first-of-type {
 						margin-top: 0;
 						border: 0;
 					}
@@ -135,7 +135,7 @@
 			.customize-control-checkbox {
 
 				label {
-					font-weight: 700;
+					font-weight: 600;
 				}
 
 				.description {
@@ -266,7 +266,7 @@
 					padding: .19em .62em;
 					text-align: center;
 					font-size: .81em;
-					font-weight: 700;
+					font-weight: 600;
 					background-color: #28b;
 					color: #fff;
 					border: 2px solid #069;

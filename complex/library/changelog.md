@@ -1,5 +1,18 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.6.3
+
+* **Update**: Customizer styles WordPress 4.6 ready
+* **Update**: Customizer styles
+* **Fix**: Customizer empty label PHP error
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-customize.php
+	scss/styles/_customize.scss
+
+
 ## 1.6.2
 
 * **Add**: Child theme generator (Use Child Theme script)
