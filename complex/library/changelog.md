@@ -1,5 +1,16 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.6.2
+
+* **Add**: Child theme generator (Use Child Theme script)
+
+#### Files changed:
+
+	init.php
+	includes/admin.php
+	includes/vendor/tgmpa/class-tgm-plugin-activation.php
+
+
 ## 1.6.1
 
 * **Update**: Improving security by using `wp_strip_all_tags` and `wp_kses` instead of `strip_tags`

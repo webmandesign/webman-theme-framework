@@ -6,7 +6,7 @@
  * @subpackage  Admin
  *
  * @since    1.0
- * @version  1.5
+ * @version  1.6.2
  *
  * Contents:
  *
@@ -58,6 +58,10 @@
 			require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/vendor/tgmpa/class-tgm-plugin-activation.php' );
 			locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php', true );
 		}
+
+	// Child theme generator
+
+		require_once( trailingslashit( get_template_directory() ) . MONUMENT_VALLEY_LIBRARY_DIR . 'includes/vendor/use-child-theme/class-use-child-theme.php' );
 
 
 
