@@ -16,7 +16,7 @@
  * Customize class
  *
  * @since    1.0
- * @version  1.6.3
+ * @version  1.6.4
  *
  * Contents:
  *
@@ -184,7 +184,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 *
 		 *         ),
 		 *
-		 *     // Or setting custom JavaScript:
+		 *     // And/or setting custom JavaScript:
 		 *
 		 *       'custom' => 'JavaScript here', // Such as "jQuery( '.site-title.type-text' ).toggleClass( 'styled' );"
 		 *
@@ -193,7 +193,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.4
+		 * @version  1.6.4
 		 */
 		public static function preview_scripts() {
 
@@ -228,57 +228,61 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 							$output_single .= "\t" . "function( value ) {"  . "\r\n";
 							$output_single .= "\t\t" . 'value.bind( function( to ) {' . "\r\n";
 
-							if ( isset( $theme_option['preview_js']['css'] ) ) {
+							// CSS
 
-								$output_single .= "\t\t\t" . "var newCss = '';" . "\r\n\r\n";
-								$output_single .= "\t\t\t" . "if ( jQuery( '#jscss-" . $theme_option['id'] . "' ).length ) { jQuery( '#jscss-" . $theme_option['id'] . "' ).remove() }" . "\r\n\r\n";
+								if ( isset( $theme_option['preview_js']['css'] ) ) {
 
-								foreach ( $theme_option['preview_js']['css'] as $selector => $properties ) {
+									$output_single .= "\t\t\t" . "var newCss = '';" . "\r\n\r\n";
+									$output_single .= "\t\t\t" . "if ( jQuery( '#jscss-" . $theme_option['id'] . "' ).length ) { jQuery( '#jscss-" . $theme_option['id'] . "' ).remove() }" . "\r\n\r\n";
 
-									if ( is_array( $properties ) ) {
+									foreach ( $theme_option['preview_js']['css'] as $selector => $properties ) {
 
-										$output_single_css = '';
+										if ( is_array( $properties ) ) {
 
-										foreach ( $properties as $key => $property ) {
+											$output_single_css = '';
 
-											if ( 'selector_replace' === $key ) {
-												$selector = str_replace( '@', $property, $selector );
-												continue;
-											}
+											foreach ( $properties as $key => $property ) {
 
-											if ( ! is_array( $property ) ) {
-												$property = array( $property, '' );
-											}
-											if ( ! isset( $property[1] ) ) {
-												$property[1] = '';
-											}
-											if ( ! isset( $property[2] ) ) {
-												$property[2] = '';
-											}
+												if ( 'selector_replace' === $key ) {
+													$selector = str_replace( '@', $property, $selector );
+													continue;
+												}
 
-											/**
-											 * $property[0] = CSS style property
-											 * $property[1] = suffix (such as CSS unit)
-											 * $property[2] = prefix (such as CSS linear gradient)
-											 */
+												if ( ! is_array( $property ) ) {
+													$property = array( $property, '' );
+												}
+												if ( ! isset( $property[1] ) ) {
+													$property[1] = '';
+												}
+												if ( ! isset( $property[2] ) ) {
+													$property[2] = '';
+												}
 
-											$output_single_css .= $property[0] . ": " . $property[2] . "' + to + '" . $property[1] . "; ";
+												/**
+												 * $property[0] = CSS style property
+												 * $property[1] = suffix (such as CSS unit)
+												 * $property[2] = prefix (such as CSS linear gradient)
+												 */
 
-										} // /foreach
+												$output_single_css .= $property[0] . ": " . $property[2] . "' + to + '" . $property[1] . "; ";
 
-										$output_single .= "\t\t\t" . "newCss += '" . $selector . " { " . $output_single_css . "} ';" . "\r\n";
+											} // /foreach
 
-									}
+											$output_single .= "\t\t\t" . "newCss += '" . $selector . " { " . $output_single_css . "} ';" . "\r\n";
 
-								} // /foreach
+										}
 
-								$output_single .= "\r\n\t\t\t" . "jQuery( document ).find( 'head' ).append( jQuery( '<style id=\'jscss-" . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . "\r\n";
+									} // /foreach
 
-							} elseif ( isset( $theme_option['preview_js']['custom'] ) ) {
+									$output_single .= "\r\n\t\t\t" . "jQuery( document ).find( 'head' ).append( jQuery( '<style id=\'jscss-" . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . "\r\n";
 
-								$output_single .= "\t\t" . $theme_option['preview_js']['custom'] . "\r\n";
+								}
 
-							}
+							// Custom JS
+
+								if ( isset( $theme_option['preview_js']['custom'] ) ) {
+									$output_single .= "\t\t" . $theme_option['preview_js']['custom'] . "\r\n";
+								}
 
 							$output_single .= "\t\t" . '} );' . "\r\n";
 							$output_single .= "\t" . '}'. "\r\n";
