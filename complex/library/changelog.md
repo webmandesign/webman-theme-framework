@@ -1,5 +1,15 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.7
+
+* **Update**: Improving customizer preview JS, also allowing use of both `css` and `custom`
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-customize.php
+
+
 ## 1.6.3
 
 * **Update**: Customizer styles WordPress 4.6 ready

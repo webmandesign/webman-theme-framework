@@ -16,7 +16,7 @@
  * Customize class
  *
  * @since    1.0
- * @version  1.6.4
+ * @version  1.7
  *
  * Contents:
  *
@@ -149,11 +149,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * to trigger a class on an element, for example.
 		 *
 		 * If `preview_js => false` set, the change of the theme option won't trigger the customizer
-		 * preview refresh. This is useful to disable "about theme page", for example.
+		 * preview refresh. This is useful to disable welcome page, for example.
 		 *
 		 * The actual JavaScript is outputted in the footer of the page.
-		 *
-		 * Use this structure for `preview_js` property:
 		 *
 		 * @example
 		 *
@@ -166,20 +164,25 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 *           // Sets the whole value to the `css-property-name` of the `selector`
 		 *
 		 *             'selector' => array(
-		 *                 'css-property-name',...
+		 *                 'background-color',...
 		 *               ),
 		 *
-		 *           // Sets the `css-property-name` of the `selector` with value followed by the `suffix` (such as "px")
+		 *           // Sets the `css-property-name` of the `selector` with specific settings
 		 *
 		 *             'selector' => array(
-		 *                 array( 'css-property-name', 'suffix', 'prefix' ),...
+		 *                 array(
+		 *                     'property'         => 'text-shadow',
+		 *                     'prefix'           => '0 1px 1px rgba(',
+		 *                     'suffix'           => ', .5)',
+		 *                     'process_callback' => 'hexToRgb',
+		 *                   ),...
 		 *               ),
 		 *
 		 *           // Replaces "@" in `selector` for `selector-replace-value` (such as "@ h2, @ h3" to ".footer h2, .footer h3")
 		 *
 		 *             'selector' => array(
 		 *                 'selector_replace' => 'selector-replace-value', // Must be the first array item
-		 *                 'css-property-name',...
+		 *                 'background-color',...
 		 *               ),
 		 *
 		 *         ),
@@ -193,7 +196,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.6.4
+		 * @version  1.7
 		 */
 		public static function preview_scripts() {
 
@@ -249,22 +252,19 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 												}
 
 												if ( ! is_array( $property ) ) {
-													$property = array( $property, '' );
-												}
-												if ( ! isset( $property[1] ) ) {
-													$property[1] = '';
-												}
-												if ( ! isset( $property[2] ) ) {
-													$property[2] = '';
+													$property = array( 'property' => (string) $property );
 												}
 
-												/**
-												 * $property[0] = CSS style property
-												 * $property[1] = suffix (such as CSS unit)
-												 * $property[2] = prefix (such as CSS linear gradient)
-												 */
+												$property = wp_parse_args( (array) $property, array(
+														'property'         => '',
+														'prefix'           => '',
+														'suffix'           => '',
+														'process_callback' => '',
+													) );
 
-												$output_single_css .= $property[0] . ": " . $property[2] . "' + to + '" . $property[1] . "; ";
+												$value = ( empty( $property['process_callback'] ) ) ? ( 'to' ) : ( trim( $property['process_callback'] ) . '( to )' );
+
+												$output_single_css .= $property['property'] . ": " . $property['prefix'] . "' + " . $value . " + '" . $property['suffix'] . "; ";
 
 											} // /foreach
 
