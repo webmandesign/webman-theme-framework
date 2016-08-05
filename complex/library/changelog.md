@@ -1,5 +1,20 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.7.1
+
+* **Add**: Allow custom CSS property in customizer preview JS
+* **Add**: Allow CSS selector before and after in customizer preview JS
+* **Update**: Forcing boolean value in conditional CSS comment replacements
+* **Fix**: Fixing range customizer control issues
+
+#### Files changed:
+
+	init.php
+	includes/classes/class-core.php
+	includes/classes/class-customize.php
+	includes/classes/controls/class-control-range.php
+
+
 ## 1.7
 
 * **Update**: Improving customizer preview JS, also allowing use of both `css` and `custom`

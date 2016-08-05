@@ -17,7 +17,7 @@
  * Core class
  *
  * @since    1.0
- * @version  1.6.1
+ * @version  1.7.1
  *
  * Contents:
  *
@@ -1199,7 +1199,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.6
+		 * @version  1.7.1
 		 *
 		 * @param  string $css CSS string with variables to replace.
 		 */
@@ -1350,7 +1350,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 								// Option related conditional CSS comment
 
-									if ( isset( $option['is_css_condition'] ) && $value ) {
+									if ( isset( $option['is_css_condition'] ) && (bool) $value ) {
 										$replacements[ '/**if(' . str_replace( '-', '_', $option_id ) . ')' ] = '';
 										$replacements[ 'endif(' . str_replace( '-', '_', $option_id ) . ')**/' ] = '';
 									}

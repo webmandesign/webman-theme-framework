@@ -16,7 +16,7 @@
  * Customize class
  *
  * @since    1.0
- * @version  1.7
+ * @version  1.7.1
  *
  * Contents:
  *
@@ -175,13 +175,16 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 *                     'prefix'           => '0 1px 1px rgba(',
 		 *                     'suffix'           => ', .5)',
 		 *                     'process_callback' => 'hexToRgb',
+		 *                     'custom'           => '0 0 0 1em [[value]] ), 0 0 0 2em transparent, 0 0 0 3em [[value]]',
 		 *                   ),...
 		 *               ),
 		 *
 		 *           // Replaces "@" in `selector` for `selector-replace-value` (such as "@ h2, @ h3" to ".footer h2, .footer h3")
 		 *
 		 *             'selector' => array(
-		 *                 'selector_replace' => 'selector-replace-value', // Must be the first array item
+		 *                 'selector_replace' => 'selector-replace-value',
+		 *                 'selector_before'  => '@media only screen and (min-width: 80em) {',
+		 *                 'selector_after'   => '}',
 		 *                 'background-color',...
 		 *               ),
 		 *
@@ -196,7 +199,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.7
+		 * @version  1.7.1
 		 */
 		public static function preview_scripts() {
 
@@ -242,33 +245,52 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 										if ( is_array( $properties ) ) {
 
-											$output_single_css = '';
+											$output_single_css = $selector_before = $selector_after = '';
 
 											foreach ( $properties as $key => $property ) {
 
-												if ( 'selector_replace' === $key ) {
-													$selector = str_replace( '@', $property, $selector );
-													continue;
-												}
+												// Selector setup
 
-												if ( ! is_array( $property ) ) {
-													$property = array( 'property' => (string) $property );
-												}
+													if ( 'selector_replace' === $key ) {
+														$selector = str_replace( '@', $property, $selector );
+														continue;
+													}
 
-												$property = wp_parse_args( (array) $property, array(
-														'property'         => '',
-														'prefix'           => '',
-														'suffix'           => '',
-														'process_callback' => '',
-													) );
+													if ( 'selector_before' === $key ) {
+														$selector_before = $property;
+														continue;
+													}
 
-												$value = ( empty( $property['process_callback'] ) ) ? ( 'to' ) : ( trim( $property['process_callback'] ) . '( to )' );
+													if ( 'selector_after' === $key ) {
+														$selector_after = $property;
+														continue;
+													}
 
-												$output_single_css .= $property['property'] . ": " . $property['prefix'] . "' + " . $value . " + '" . $property['suffix'] . "; ";
+												// CSS properties setup
+
+													if ( ! is_array( $property ) ) {
+														$property = array( 'property' => (string) $property );
+													}
+
+													$property = wp_parse_args( (array) $property, array(
+															'custom'           => '',
+															'prefix'           => '',
+															'process_callback' => '',
+															'property'         => '',
+															'suffix'           => '',
+														) );
+
+													$value = ( empty( $property['process_callback'] ) ) ? ( 'to' ) : ( trim( $property['process_callback'] ) . '( to )' );
+
+													if ( empty( $property['custom'] ) ) {
+														$output_single_css .= $property['property'] . ": " . $property['prefix'] . "' + " . $value . " + '" . $property['suffix'] . "; ";
+													} else {
+														$output_single_css .= $property['property'] . ": " . str_replace( '[[value]]', "' + " . $value . " + '", $property['custom'] ) . "; ";
+													}
 
 											} // /foreach
 
-											$output_single .= "\t\t\t" . "newCss += '" . $selector . " { " . $output_single_css . "} ';" . "\r\n";
+											$output_single .= "\t\t\t" . "newCss += '" . $selector_before . $selector . " { " . $output_single_css . "}" . $selector_after . " ';" . "\r\n";
 
 										}
 
