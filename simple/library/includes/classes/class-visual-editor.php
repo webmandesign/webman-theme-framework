@@ -14,13 +14,14 @@
  * Visual Editor class
  *
  * @since    1.0
- * @version  1.4
+ * @version  1.7.2
  *
  * Contents:
  *
  *  0) Init
  * 10) Buttons
  * 20) Custom formats
+ * 30) Body class
  */
 final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
@@ -40,7 +41,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		 * Constructor
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  1.7.2
 		 */
 		private function __construct() {
 
@@ -48,13 +49,29 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 				// Hooks
 
+					// Actions
+
+						// Editor body class on page template change
+
+							if ( is_admin() ) {
+								add_action( 'admin_enqueue_scripts', __CLASS__ . '::scripts_post_edit', 1000 );
+							}
+
 					// Filters
 
-						// Visual Editor addons
+						// Editor body class
 
-							add_filter( 'mce_buttons',          array( $this, 'add_buttons_row1' )  );
-							add_filter( 'mce_buttons_2',        array( $this, 'add_buttons_row2' )  );
-							add_filter( 'tiny_mce_before_init', array( $this, 'custom_mce_format' ) );
+							if ( is_admin() ) {
+								add_filter( 'tiny_mce_before_init', __CLASS__ . '::body_class' );
+							}
+
+						// Editor addons
+
+							add_filter( 'mce_buttons', __CLASS__ . '::add_buttons_row1' );
+
+							add_filter( 'mce_buttons_2', __CLASS__ . '::add_buttons_row2' );
+
+							add_filter( 'tiny_mce_before_init', __CLASS__ . '::custom_mce_format' );
 
 		} // /__construct
 
@@ -367,6 +384,99 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 				return $init;
 
 		} // /custom_mce_format
+
+
+
+
+
+	/**
+	 * 30) Body class
+	 */
+
+		/**
+		 * Adding editor HTML body classes
+		 *
+		 * @since    1.7.2
+		 * @version  1.7.2
+		 *
+		 * @param  array $init
+		 */
+		public static function body_class( $init ) {
+
+			// Requirements check
+
+				global $post;
+
+				if ( ! isset( $post ) ) {
+					return $init;
+				}
+
+
+			// Helper variables
+
+				$class    = array();
+				$template = get_page_template_slug( $post );
+
+
+			// Processing
+
+				// Setting custom classes
+
+					// Adding `.entry-content` class for compatibility with `main.css` styles
+
+						$class[] = 'entry-content';
+
+					// Page template class
+
+						if ( $template ) {
+							$class[] = 'page-template-' . sanitize_html_class( basename( $template, '.php' ) );
+						}
+
+				// Adding custom classes
+
+					$init['body_class'] = $init['body_class'] . ' ' . implode( ' ', $class );
+
+
+			// Output
+
+				return $init;
+
+		} // /body_class
+
+
+
+		/**
+		 * Adding scripts to post edit screen
+		 *
+		 * @since    1.7.2
+		 * @version  1.7.2
+		 *
+		 * @param  string $hook_suffix
+		 */
+		public static function scripts_post_edit( $hook_suffix = '' ) {
+
+			// Requirements check
+
+				$screen = get_current_screen();
+
+				if ( is_object( $screen ) && 'post' != $screen->base ){
+					return;
+				}
+
+
+			// Processing
+
+				// Scripts
+
+					wp_enqueue_script(
+							'{%= prefix_var %}-post-edit',
+							{%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/post.js' ),
+							array( 'jquery' ),
+							esc_attr( {%= prefix_constant %}_THEME_VERSION ),
+							true
+						);
+
+		} // /scripts_post_edit
 
 
 

@@ -1,5 +1,16 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.7.2
+
+* **Add**: Adding custom classes on TinyMCE editor
+
+#### Files changed:
+
+	init.php
+	js/post.js
+	includes/classes/class-visual-editor.php
+
+
 ## 1.7.1
 
 * **Add**: Allow custom CSS property in customizer preview JS
