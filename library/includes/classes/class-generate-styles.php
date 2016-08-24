@@ -207,7 +207,7 @@ final class {%= prefix_class %}_Theme_Framework_Generate_Styles {
 
 					ob_start();
 
-					require_once( get_template_directory() . '/assets/css-generate/generate-css' . $args['type'] . '.php' );
+					require_once get_template_directory() . '/assets/css-generate/generate-css' . $args['type'] . '.php';
 
 					$output = trim( ob_get_clean() );
 
@@ -962,4 +962,4 @@ final class {%= prefix_class %}_Theme_Framework_Generate_Styles {
 
 } // /{%= prefix_class %}_Theme_Framework_Generate_Styles
 
-add_action( 'after_setup_theme', '{%= prefix_class %}_Theme_Framework_Generate_Styles::init' );
+add_action( 'after_setup_theme', '{%= prefix_class %}_Theme_Framework_Generate_Styles::init', 20 );

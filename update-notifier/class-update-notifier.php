@@ -207,15 +207,14 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 				 */
 				?>
 
-				<div class="wrap update-notifier">
+				<div class="wrap update-notifier-wrap about-wrap">
 
-					<h2><strong><?php echo wp_get_theme( '{%= theme_slug %}' )->get( 'Name' ); ?></strong> Theme Updates</h2>
+					<h1><strong><?php echo wp_get_theme( '{%= theme_slug %}' )->get( 'Name' ); ?></strong> Theme Updates</h1>
 
 					<br />
 
-					<div class="message error">
-
-						<p><?php
+					<div class="about-text">
+						<?php
 
 						if ( isset( self::$xml->message ) && trim( self::$xml->message ) ) {
 							echo '<strong>' . trim( self::$xml->message ) . '</strong><br />';
@@ -223,8 +222,7 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 
 						echo 'You have version ' . {%= prefix_constant %}_THEME_VERSION . ' installed. <strong>Update to version ' . trim( self::$xml->latest ) . ' now.</strong>';
 
-						?></p>
-
+						?>
 					</div>
 
 					<div class="instructions">
@@ -239,9 +237,7 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 
 						?>
 
-							<img src="<?php echo esc_url( wp_get_theme( '{%= theme_slug %}' )->get_screenshot() ); ?>" alt="" class="theme-img" />
-
-							<h3>Update Download and Instructions</h3>
+							<h2 style="text-align: inherit; font-weight: 600;">Update Download and Instructions</h2>
 
 							<p>First, please, re-download the new theme update from the source where you've originally obtained the theme.</p>
 
@@ -261,7 +257,7 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 
 								<li>
 
-									<h4>Preferred, safer, quicker procedure:</h4>
+									<h3>Preferred, safer, quicker procedure:</h3>
 
 									<ol>
 										<li>Upload the theme installation ZIP file using FTP client to your server (into <code>YOUR_WORDPRESS_INSTALLATION/wp-content/themes/</code>).</li>
@@ -274,7 +270,7 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 
 								<li>
 
-									<h4>Easier, slower procedure:</h4>
+									<h3>Easier, slower procedure:</h3>
 
 									<ol>
 										<li>Unzip the zipped theme file (you have just downloaded) on your computer.</li>
@@ -293,9 +289,11 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 
 					</div>
 
-					<div class="changelog note">
+					<hr style="margin: 2.62em 0;">
 
-						<h2>Changelog</h2>
+					<div class="changelog">
+
+						<h2 style="text-align: inherit; font-weight: 600;">Changelog</h2>
 
 						<?php
 
@@ -304,8 +302,6 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 						}
 
 						?>
-
-						<hr />
 
 						<h3>Files changed:</h3>
 

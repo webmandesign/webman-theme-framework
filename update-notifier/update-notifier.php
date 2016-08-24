@@ -65,4 +65,4 @@
  * 20) Required files
  */
 
-	require_once( 'class-update-notifier.php' );
+	require 'class-update-notifier.php';

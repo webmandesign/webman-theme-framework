@@ -88,17 +88,17 @@
 
 	// Core class
 
-		require_once( 'includes/classes/class-core.php' );
+		require 'includes/classes/class-core.php';
 
 	// Customize (has to be frontend accessible, otherwise it hides the theme settings)
 
-		// CSS Styles Generator class
-
-			require_once( 'includes/classes/class-generate-styles.php' );
-
 		// Customize class
 
-			require_once( 'includes/classes/class-customize.php' );
+			require 'includes/classes/class-customize.php';
+
+		// CSS Styles Generator class
+
+			require 'includes/classes/class-generate-styles.php';
 
 	// Admin
 
@@ -110,7 +110,7 @@
 
 			// Admin class
 
-				require_once( 'includes/classes/class-admin.php' );
+				require 'includes/classes/class-admin.php';
 
 			// Plugins suggestions
 
@@ -118,12 +118,12 @@
 						apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', true )
 						&& locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php' )
 					) {
-					require_once( 'includes/vendor/tgmpa/class-tgm-plugin-activation.php' );
+					require 'includes/vendor/tgmpa/class-tgm-plugin-activation.php';
 					locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php', true );
 				}
 
 			// Child theme generator
 
-				require_once( 'includes/vendor/use-child-theme/class-use-child-theme.php' );
+				require 'includes/vendor/use-child-theme/class-use-child-theme.php';
 
 		}
