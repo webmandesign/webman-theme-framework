@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.8
+ * @version  1.8.1
  *
  * Contents:
  *
@@ -1404,3 +1404,5 @@ final class {%= prefix_class %}_Theme_Framework {
 
 
 } // /{%= prefix_class %}_Theme_Framework
+
+add_action( 'after_setup_theme', '{%= prefix_class %}_Theme_Framework::init', -50 );

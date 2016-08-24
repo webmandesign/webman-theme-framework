@@ -2,11 +2,14 @@
 /**
  * Visual Editor class
  *
+ * This is a helper class and does not load automatically with the library.
+ * Load it directly from within your theme's `functions.php` file.
+ *
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Visual Editor
  *
  * @since    1.0
- * @version  1.8
+ * @version  1.8.1
  *
  * Contents:
  *
@@ -475,3 +478,5 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 
 } // /{%= prefix_class %}_Theme_Framework_Visual_Editor
+
+add_action( 'init', '{%= prefix_class %}_Theme_Framework_Visual_Editor::init' );

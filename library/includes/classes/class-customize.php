@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.8
+ * @version  1.8.1
  *
  * Contents:
  *
@@ -407,7 +407,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.6.3
+		 * @version  1.8.1
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -508,12 +508,12 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 					 * @link  http://ottopress.com/2012/making-a-custom-control-for-the-theme-customizer/
 					 */
 
-					require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-hidden.php' );
-					require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-html.php' );
-					require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-multiselect.php' );
-					require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-radio-matrix.php' );
-					require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-range.php' );
-					require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/controls/class-control-select.php' );
+					require_once( 'controls/class-control-hidden.php' );
+					require_once( 'controls/class-control-html.php' );
+					require_once( 'controls/class-control-multiselect.php' );
+					require_once( 'controls/class-control-radio-matrix.php' );
+					require_once( 'controls/class-control-range.php' );
+					require_once( 'controls/class-control-select.php' );
 
 					do_action( 'wmhook_{%= prefix_hook %}_tf_customize_load_controls', $wp_customize );
 
@@ -1041,3 +1041,5 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 
 } // /{%= prefix_class %}_Theme_Framework_Customize
+
+add_action( 'after_setup_theme', '{%= prefix_class %}_Theme_Framework_Customize::init' );

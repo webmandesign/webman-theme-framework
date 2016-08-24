@@ -1,5 +1,21 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.8.1
+
+* **Update**: Improving file loadings
+* **Update**: Removing obsolete files
+
+#### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-admin.php
+	includes/classes/class-core.php
+	includes/classes/class-customize.php
+	includes/classes/class-generate-styles.php
+	includes/classes/class-visual-editor.php
+	
+
 ## 1.8
 
 * **Update**: Merging Complex and Simple library version into a single one

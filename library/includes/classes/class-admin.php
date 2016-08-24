@@ -6,7 +6,7 @@
  * @subpackage  Admin
  *
  * @since    1.0
- * @version  1.5
+ * @version  1.8.1
  *
  * Contents:
  *
@@ -224,3 +224,5 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 
 
 } // /{%= prefix_class %}_Theme_Framework_Admin
+
+add_action( 'admin_init', '{%= prefix_class %}_Theme_Framework_Admin::init' );

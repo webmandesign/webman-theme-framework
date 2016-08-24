@@ -15,7 +15,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
  *
- * @version  1.8
+ * @version  1.8.1
  *
  * Used global hooks:
  *
@@ -88,22 +88,42 @@
 
 	// Core class
 
-		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/classes/class-core.php' );
+		require_once( 'includes/classes/class-core.php' );
 
-	// Customize (has to be frontend accessible, otherwise it hides theme settings)
+	// Customize (has to be frontend accessible, otherwise it hides the theme settings)
 
-		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/customize.php' );
+		// CSS Styles Generator class
+
+			require_once( 'includes/classes/class-generate-styles.php' );
+
+		// Customize class
+
+			require_once( 'includes/classes/class-customize.php' );
 
 	// Admin
 
-		require_once( trailingslashit( get_template_directory() ) . {%= prefix_constant %}_LIBRARY_DIR . 'includes/admin.php' );
+		if ( is_admin() ) {
 
+			// Load the theme welcome page
 
+				locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'welcome/welcome.php', true );
 
+			// Admin class
 
+				require_once( 'includes/classes/class-admin.php' );
 
-/**
- * 10) Init
- */
+			// Plugins suggestions
 
-	add_action( 'after_setup_theme', '{%= prefix_class %}_Theme_Framework::init', -50 );
+				if (
+						apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', true )
+						&& locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php' )
+					) {
+					require_once( 'includes/vendor/tgmpa/class-tgm-plugin-activation.php' );
+					locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php', true );
+				}
+
+			// Child theme generator
+
+				require_once( 'includes/vendor/use-child-theme/class-use-child-theme.php' );
+
+		}
