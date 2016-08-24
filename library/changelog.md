@@ -2,7 +2,8 @@
 
 ## 1.8.1
 
-* **Update**: Improving file loadings
+* **Update**: Improving loading files
+* **Update**: Improving features loading
 * **Update**: Removing obsolete files
 
 #### Files changed:

@@ -5,8 +5,8 @@
 * **Update**: Separating from theme framework library
 * **Update**: Improved conditional checks
 * **Update**: Removed Envato Toolkit support
-* **Update**: Screen styles
-* **Fix**: Theme screenshot URL
+* **Update**: Screen appearance
+* **Update**: Removed theme screenshot
 
 
 *WebMan WordPress Theme Framework, (C) WebMan Design, Oliver Juhas, www.webmandesign.eu*
