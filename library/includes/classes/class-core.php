@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.8.1
+ * @version  1.9
  *
  * Contents:
  *
@@ -18,7 +18,6 @@
  *  20) Branding
  *  30) Post/page
  *  40) Path functions
- *  50) Options
  * 100) Helpers
  */
 final class {%= prefix_class %}_Theme_Framework {
@@ -975,81 +974,6 @@ final class {%= prefix_class %}_Theme_Framework {
 				return esc_url_raw( $output );
 
 		} // /get_stylesheet_directory_uri
-
-
-
-
-
-	/**
-	 * 50) Options
-	 */
-
-		/**
-		 * Get the theme option
-		 *
-		 * Note: Do not use get_theme_mod() as it is not
-		 * transferable from "lite" to "pro" themes.
-		 *
-		 * @since    1.0
-		 * @version  1.4
-		 *
-		 * @param  string      $name     Theme modification name.
-		 * @param  bool|string $default  Default theme modification value. Optional.
-		 *
-		 * @return  mixed  Theme modification value.
-		 */
-		public static function get_theme_mod( $name, $default = false ) {
-
-			// Pre
-
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_theme_mod_pre', false, $name, $default );
-
-				if ( false !== $pre ) {
-					return $pre;
-				}
-
-
-			// Helper variables
-
-				global ${%= prefix_var %}_theme_options, $wp_customize;
-
-				// Empty theme mods in customizer
-
-					if (
-							! isset( ${%= prefix_var %}_theme_options )
-							|| (
-									isset( $wp_customize )
-									&& $wp_customize->is_preview()
-								)
-						) {
-						${%= prefix_var %}_theme_options = null;
-					}
-
-				// Get actual theme mods
-
-					$mods = ( ${%= prefix_var %}_theme_options ) ? ( ${%= prefix_var %}_theme_options ) : ( (array) get_option( {%= prefix_constant %}_OPTION_CUSTOMIZER ) );
-
-
-			// Processing
-
-				if ( isset( $mods[ $name ] ) ) {
-					return apply_filters( 'theme_mod_' . $name, $mods[ $name ] );
-				}
-
-				if ( is_string( $default ) ) {
-					$default = sprintf(
-							$default,
-							get_template_directory_uri(),
-							get_stylesheet_directory_uri()
-						);
-				}
-
-
-			// Output
-
-				return apply_filters( 'theme_mod_' . $name, $default );
-
-		} // /get_theme_mod
 
 
 

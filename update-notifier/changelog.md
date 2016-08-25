@@ -1,6 +1,6 @@
 # WebMan WordPress Theme Update Notifier
 
-## 1.8.1
+## 1.9
 
 * **Update**: Separating from theme framework library
 * **Update**: Improved conditional checks

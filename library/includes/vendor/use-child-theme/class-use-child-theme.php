@@ -29,7 +29,7 @@
  * - Localization text domain
  * - `style.css` file default content
  * - `functions.php` file default content
- * - Reformating the code
+ * - Reformatting the code
  * - Renaming the file
  *
  * Used development variables/prefixes:

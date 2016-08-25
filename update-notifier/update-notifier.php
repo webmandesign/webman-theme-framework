@@ -15,7 +15,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Update Notifier
  *
- * @version  1.8.1
+ * @version  1.9
  *
  * Used development prefixes:
  *
@@ -65,4 +65,4 @@
  * 20) Required files
  */
 
-	require 'class-update-notifier.php';
+	require dirname( __FILE__ ) . '/class-update-notifier.php';

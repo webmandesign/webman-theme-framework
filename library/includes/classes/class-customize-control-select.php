@@ -8,9 +8,9 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.8
+ * @version  1.9
  */
-class {%= prefix_class %}_Control_Select extends WP_Customize_Control {
+class {%= prefix_class %}_Customize_Control_Select extends WP_Customize_Control {
 
 	public $type = 'select';
 
@@ -55,4 +55,4 @@ class {%= prefix_class %}_Control_Select extends WP_Customize_Control {
 
 	} // /render_content
 
-} // /{%= prefix_class %}_Control_Select
+} // /{%= prefix_class %}_Customize_Control_Select

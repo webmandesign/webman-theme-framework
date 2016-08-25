@@ -15,7 +15,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
  *
- * @version  1.8.1
+ * @version  1.9
  *
  * Used global hooks:
  *
@@ -34,9 +34,8 @@
  *
  * Contents:
  *
- *  0) Constants
- *  1) Required files
- * 10) Init
+ * 10) Constants
+ * 20) Load
  */
 
 
@@ -44,61 +43,34 @@
 
 
 /**
- * 0) Constants
+ * 10) Constants
  */
 
 	// Theme version
 
 		if ( ! defined( '{%= prefix_constant %}_THEME_VERSION' ) ) define( '{%= prefix_constant %}_THEME_VERSION', wp_get_theme( '{%= theme_slug %}' )->get( 'Version' ) );
 
-	// Options constants
-
-		if ( ! defined( '{%= prefix_constant %}_OPTION_CUSTOMIZER' ) ) define( '{%= prefix_constant %}_OPTION_CUSTOMIZER', 'theme_mods_{%= theme_slug %}' );
-
-	// Dir constants
-
-		if ( ! defined( '{%= prefix_constant %}_LIBRARY_DIR' ) ) define( '{%= prefix_constant %}_LIBRARY_DIR', trailingslashit( 'library' ) );
-		if ( ! defined( '{%= prefix_constant %}_INCLUDES_DIR' ) ) define( '{%= prefix_constant %}_INCLUDES_DIR', trailingslashit( 'includes' ) );
-
-
-
-	// Global variables
-
-		// Theme options
-
-			/**
-			 * Not using direct `theme_mods` here to prevent issues with child themes upgrade
-			 * and possible advanced, "pro" versions of themes.
-			 *
-			 * Basically, forcing using the parent theme mods.
-			 */
-			${%= prefix_var %}_theme_options = (array) get_option( {%= prefix_constant %}_OPTION_CUSTOMIZER );
-
-			if ( empty( ${%= prefix_var %}_theme_options ) ) {
-				${%= prefix_var %}_theme_options = array();
-			}
-
 
 
 
 
 /**
- * 1) Required files
+ * 20) Load
  */
 
 	// Core class
 
-		require 'includes/classes/class-core.php';
+		require dirname( __FILE__ ) . '/includes/classes/class-core.php';
 
 	// Customize (has to be frontend accessible, otherwise it hides the theme settings)
 
 		// Customize class
 
-			require 'includes/classes/class-customize.php';
+			require dirname( __FILE__ ) . '/includes/classes/class-customize.php';
 
 		// CSS Styles Generator class
 
-			require 'includes/classes/class-generate-styles.php';
+			require dirname( __FILE__ ) . '/includes/classes/class-customize-styles.php';
 
 	// Admin
 
@@ -106,24 +78,24 @@
 
 			// Load the theme welcome page
 
-				locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'welcome/welcome.php', true );
+				locate_template( 'includes/welcome/welcome.php', true );
 
 			// Admin class
 
-				require 'includes/classes/class-admin.php';
+				require dirname( __FILE__ ) . '/includes/classes/class-admin.php';
 
 			// Plugins suggestions
 
 				if (
 						apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', true )
-						&& locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php' )
+						&& locate_template( 'includes/tgmpa/plugins.php' )
 					) {
-					require 'includes/vendor/tgmpa/class-tgm-plugin-activation.php';
-					locate_template( {%= prefix_constant %}_INCLUDES_DIR . 'tgmpa/plugins.php', true );
+					require dirname( __FILE__ ) . '/includes/vendor/tgmpa/class-tgm-plugin-activation.php';
+					locate_template( 'includes/tgmpa/plugins.php', true );
 				}
 
 			// Child theme generator
 
-				require 'includes/vendor/use-child-theme/class-use-child-theme.php';
+				require dirname( __FILE__ ) . '/includes/vendor/use-child-theme/class-use-child-theme.php';
 
 		}

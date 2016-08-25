@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.8.1
+ * @version  1.9
  *
  * Contents:
  *
@@ -90,7 +90,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * Customizer controls assets
 		 *
 		 * @since    1.0
-		 * @version  1.8
+		 * @version  1.9
 		 */
 		public static function assets() {
 
@@ -100,7 +100,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 					wp_enqueue_style(
 							'{%= prefix_var %}-customizer',
-							{%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/customize.css' ),
+							{%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( 'library/css/customize.css' ),
 							false,
 							esc_attr( {%= prefix_constant %}_THEME_VERSION ),
 							'screen'
@@ -181,7 +181,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.7.1
+		 * @version  1.9
 		 */
 		public static function preview_scripts() {
 
@@ -212,7 +212,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 						if ( isset( $theme_option['preview_js'] ) && is_array( $theme_option['preview_js'] ) ) {
 
 							$output_single  = "wp.customize("  . "\r\n";
-							$output_single .= "\t" . "'" . {%= prefix_constant %}_OPTION_CUSTOMIZER . "[" . $theme_option['id'] . "]" . "',"  . "\r\n";
+							$output_single .= "\t" . "'" . $theme_option['id'] . "',"  . "\r\n";
 							$output_single .= "\t" . "function( value ) {"  . "\r\n";
 							$output_single .= "\t\t" . 'value.bind( function( to ) {' . "\r\n";
 
@@ -407,7 +407,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.8.1
+		 * @version  1.9
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -462,13 +462,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 					$customizer_panel   = '';
 					$customizer_section = '{%= theme_slug %}';
 
-				/**
-				 * Use add_setting() -> 'type' => 'option' (instead of 'theme_mod')
-				 * for easier upgrade from standard to "pro" version of the theme.
-				 *
-				 * @link  http://wordpress.stackexchange.com/questions/155072/get-option-vs-get-theme-mod-why-is-one-slower
-				 */
-				$type = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_type', 'option' );
+				// Option type
+
+					$type = 'theme_mod';
 
 
 			// Processing
@@ -508,12 +504,12 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 					 * @link  http://ottopress.com/2012/making-a-custom-control-for-the-theme-customizer/
 					 */
 
-					require_once 'controls/class-control-hidden.php';
-					require_once 'controls/class-control-html.php';
-					require_once 'controls/class-control-multiselect.php';
-					require_once 'controls/class-control-radio-matrix.php';
-					require_once 'controls/class-control-range.php';
-					require_once 'controls/class-control-select.php';
+					require_once dirname( __FILE__ ) . '/class-customize-control-hidden.php';
+					require_once dirname( __FILE__ ) . '/class-customize-control-html.php';
+					require_once dirname( __FILE__ ) . '/class-customize-control-multiselect.php';
+					require_once dirname( __FILE__ ) . '/class-customize-control-radio-matrix.php';
+					require_once dirname( __FILE__ ) . '/class-customize-control-range.php';
+					require_once dirname( __FILE__ ) . '/class-customize-control-select.php';
 
 					do_action( 'wmhook_{%= prefix_hook %}_tf_customize_load_controls', $wp_customize );
 
@@ -657,7 +653,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									case 'radio':
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -668,7 +664,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 											);
 
 										$wp_customize->add_control(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array_merge( $generic, array(
 													'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
 												) )
@@ -682,7 +678,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									case 'color':
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'type'                 => $type,
 													'default'              => trim( $default, '#' ),
@@ -694,7 +690,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 										$wp_customize->add_control( new WP_Customize_Color_Control(
 												$wp_customize,
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												$generic
 											) );
 
@@ -706,7 +702,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									case 'email':
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -717,7 +713,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 											);
 
 										$wp_customize->add_control(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												$generic
 											);
 
@@ -729,7 +725,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									case 'hidden':
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -739,9 +735,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 												)
 											);
 
-										$wp_customize->add_control( new {%= prefix_class %}_Control_Hidden(
+										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Hidden(
 												$wp_customize,
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'label'    => 'HIDDEN FIELD',
 													'section'  => $customizer_section,
@@ -761,16 +757,16 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 										}
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'sanitize_callback'    => 'wp_filter_post_kses',
 													'sanitize_js_callback' => 'wp_filter_post_kses',
 												)
 											);
 
-										$wp_customize->add_control( new {%= prefix_class %}_Control_HTML(
+										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_HTML(
 												$wp_customize,
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'label'           => ( isset( $theme_option['label'] ) ) ? ( $theme_option['label'] ) : ( '' ),
 													'description'     => $description,
@@ -789,7 +785,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									case 'image':
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -801,9 +797,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 										$wp_customize->add_control( new WP_Customize_Image_Control(
 												$wp_customize,
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array_merge( $generic, array(
-													'context' => {%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+													'context' => $option_id,
 												) )
 											) );
 
@@ -815,7 +811,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									case 'multiselect':
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -825,9 +821,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 												)
 											);
 
-										$wp_customize->add_control( new {%= prefix_class %}_Control_Multiselect(
+										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Multiselect(
 												$wp_customize,
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array_merge( $generic, array(
 													'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
 												) )
@@ -846,7 +842,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									case 'range':
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -856,9 +852,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 												)
 											);
 
-										$wp_customize->add_control( new {%= prefix_class %}_Control_Range(
+										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Range(
 												$wp_customize,
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array_merge( $generic, array(
 													'json'       => array( $theme_option['min'], $theme_option['max'], $theme_option['step'] ),
 													'multiplier' => ( isset( $theme_option['multiplier'] ) ) ? ( $theme_option['multiplier'] ) : ( 1 ),
@@ -873,7 +869,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									case 'password':
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -884,7 +880,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 											);
 
 										$wp_customize->add_control(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												$generic
 											);
 
@@ -896,7 +892,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									case 'radiomatrix':
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -906,9 +902,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 												)
 											);
 
-										$wp_customize->add_control( new {%= prefix_class %}_Control_Radio_Matrix(
+										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Radio_Matrix(
 												$wp_customize,
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array_merge( $generic, array(
 													'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
 													'class'   => ( isset( $theme_option['class'] ) ) ? ( $theme_option['class'] ) : ( '' ),
@@ -923,7 +919,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									case 'select':
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -933,9 +929,9 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 												)
 											);
 
-										$wp_customize->add_control( new {%= prefix_class %}_Control_Select(
+										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Select(
 												$wp_customize,
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array_merge( $generic, array(
 													'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
 												) )
@@ -949,7 +945,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									case 'text':
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -960,7 +956,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 											);
 
 										$wp_customize->add_control(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												$generic
 											);
 
@@ -972,7 +968,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									case 'textarea':
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -983,7 +979,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 											);
 
 										$wp_customize->add_control(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												$generic
 											);
 
@@ -995,7 +991,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 									case 'url':
 
 										$wp_customize->add_setting(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												array(
 													'type'                 => $type,
 													'default'              => $default,
@@ -1006,7 +1002,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 											);
 
 										$wp_customize->add_control(
-												{%= prefix_constant %}_OPTION_CUSTOMIZER . '[' . $option_id . ']',
+												$option_id,
 												$generic
 											);
 

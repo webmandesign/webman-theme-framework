@@ -9,7 +9,7 @@
  * @subpackage  Customize
  *
  * @since    1.8
- * @version  1.8.1
+ * @version  1.9
  *
  * Contents:
  *
@@ -19,7 +19,7 @@
  *  30) Filesystem
  * 100) Helpers
  */
-final class {%= prefix_class %}_Theme_Framework_Generate_Styles {
+final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 
 
@@ -157,7 +157,7 @@ final class {%= prefix_class %}_Theme_Framework_Generate_Styles {
 		 * Generate main CSS file
 		 *
 		 * @since    1.0
-		 * @version  1.3.2
+		 * @version  1.9
 		 *
 		 * @param  array $args
 		 */
@@ -242,7 +242,7 @@ final class {%= prefix_class %}_Theme_Framework_Generate_Styles {
 								array(
 									'<strong>' . esc_html__( "ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.", '{%= text_domain %}' ) . '</strong>',
 									'notice-error',
-									'switch_themes',
+									'edit_theme_options',
 									2
 								),
 								( 60 * 60 * 48 )
@@ -280,7 +280,7 @@ final class {%= prefix_class %}_Theme_Framework_Generate_Styles {
 								array(
 									$args['message_before'] . $args['message'] . $args['message_after'],
 									'notice-info',
-									'switch_themes'
+									'edit_theme_options'
 								),
 								( 60 * 60 * 24 )
 							);
@@ -376,7 +376,7 @@ final class {%= prefix_class %}_Theme_Framework_Generate_Styles {
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.8
+		 * @version  1.9
 		 *
 		 * @param  string  $css        CSS string with variables to replace.
 		 *
@@ -465,7 +465,7 @@ final class {%= prefix_class %}_Theme_Framework_Generate_Styles {
 
 							// Get the option value saved in database and apply it when exists
 
-								if ( $mod = {%= prefix_class %}_Theme_Framework::get_theme_mod( $option_id ) ) {
+								if ( $mod = get_theme_mod( $option_id ) ) {
 									$value = $mod;
 								}
 
@@ -726,7 +726,7 @@ final class {%= prefix_class %}_Theme_Framework_Generate_Styles {
 		 * @see  http://wordpress.findincity.net/view/63538464303732726692954/using-wpfilesystem-in-plugins-to-store-customizer-settings
 		 *
 		 * @since    1.0
-		 * @version  1.2.1
+		 * @version  1.9
 		 */
 		public static function get_filesystem() {
 
@@ -764,7 +764,7 @@ final class {%= prefix_class %}_Theme_Framework_Generate_Styles {
 									array(
 										esc_html__( 'The theme writes a files to your server. You do not appear to have your FTP credentials set up in "wp-config.php" file.', '{%= text_domain %}' ) . ' <a href="http://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants" target="_blank">' . esc_html__( 'Please set your FTP credentials first.', '{%= text_domain %}' ) . '</a>',
 										'notice-error',
-										'switch_themes'
+										'edit_theme_options'
 									),
 									( 60 * 60 * 24 )
 								);
@@ -960,6 +960,6 @@ final class {%= prefix_class %}_Theme_Framework_Generate_Styles {
 
 
 
-} // /{%= prefix_class %}_Theme_Framework_Generate_Styles
+} // /{%= prefix_class %}_Theme_Framework_Customize_Styles
 
-add_action( 'after_setup_theme', '{%= prefix_class %}_Theme_Framework_Generate_Styles::init', 20 );
+add_action( 'after_setup_theme', '{%= prefix_class %}_Theme_Framework_Customize_Styles::init', 20 );

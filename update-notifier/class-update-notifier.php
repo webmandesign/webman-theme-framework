@@ -5,8 +5,8 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Update Notifier
  *
- * @since    1.8.1
- * @version  1.8.1
+ * @since    1.9
+ * @version  1.9
  *
  * Contents:
  *
@@ -105,7 +105,7 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 		 * Admin menu link
 		 *
 		 * @since    1.0
-		 * @version  1.8.1
+		 * @version  1.9
 		 */
 		public static function menu() {
 
@@ -142,7 +142,7 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 		 * Toolbar link
 		 *
 		 * @since    1.0
-		 * @version  1.8.1
+		 * @version  1.9
 		 */
 		public static function toolbar() {
 
@@ -187,7 +187,7 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 		 * Notifier page renderer
 		 *
 		 * @since    1.0
-		 * @version  1.8.1
+		 * @version  1.9
 		 */
 		public static function page() {
 
@@ -336,7 +336,7 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 		 * Uses the cached version if available, inside the time interval defined.
 		 *
 		 * @since    1.0
-		 * @version  1.8.1
+		 * @version  1.9
 		 *
 		 * @param  int $interval
 		 */

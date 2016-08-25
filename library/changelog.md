@@ -1,9 +1,15 @@
 # WebMan WordPress Theme Framework Changelog
 
-## 1.8.1
+## 1.9
 
 * **Update**: Improving loading files
-* **Update**: Improving features loading
+* **Update**: Improving features (PHP classes) loading
+* **Update**: Using `require` instead of `require_once` where appropriate
+* **Update**: Removing obsolete constants
+* **Update**: Using `theme_mods` by default
+* **Update**: Updating theme edit capability
+* **Update**: Better file organization
+* **Update**: Renaming customizer related PHP classes and files
 * **Update**: Removing obsolete files
 
 #### Files changed:
@@ -12,8 +18,14 @@
 	init.php
 	includes/classes/class-admin.php
 	includes/classes/class-core.php
+	includes/classes/class-customize-control-hidden.php
+	includes/classes/class-customize-control-html.php
+	includes/classes/class-customize-control-multiselect.php
+	includes/classes/class-customize-control-radio-matrix.php
+	includes/classes/class-customize-control-range.php
+	includes/classes/class-customize-control-select.php
+	includes/classes/class-customize-styles.php
 	includes/classes/class-customize.php
-	includes/classes/class-generate-styles.php
 	includes/classes/class-visual-editor.php
 	
 
