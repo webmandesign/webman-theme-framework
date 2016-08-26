@@ -62,21 +62,17 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 						if ( $supports_generator ) {
 
-							// Customizer saving
+							add_action( 'customize_save_after', __CLASS__ . '::generate_main_css_all', 98 );
 
-								add_action( 'customize_save_after', __CLASS__ . '::generate_main_css_all', 98 );
+							add_action( 'after_switch_theme', __CLASS__ . '::generate_main_css_all' );
 
 						} else {
 
-							// Customizer saving
+							add_action( 'customize_save_after', __CLASS__ . '::custom_styles_cache' );
 
-								add_action( 'customize_save_after', __CLASS__ . '::custom_styles_cache' );
+							add_action( 'switch_theme', __CLASS__ . '::custom_styles_transient_flusher' );
 
-							// Flushing transients
-
-								add_action( 'switch_theme', __CLASS__ . '::custom_styles_transient_flusher' );
-
-								add_action( 'wmhook_{%= prefix_hook %}_tf_theme_upgrade', __CLASS__ . '::custom_styles_transient_flusher' );
+							add_action( 'wmhook_monument_valley_tf_theme_upgrade', __CLASS__ . '::custom_styles_transient_flusher' );
 
 						}
 

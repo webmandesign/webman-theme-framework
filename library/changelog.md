@@ -11,6 +11,7 @@
 * **Update**: Better file organization
 * **Update**: Renaming customizer related PHP classes and files
 * **Update**: Removing obsolete files
+* **Update**: Child theme generator script
 
 #### Files changed:
 
@@ -27,6 +28,7 @@
 	includes/classes/class-customize-styles.php
 	includes/classes/class-customize.php
 	includes/classes/class-visual-editor.php
+	includes/vendor/use-child-theme/class-use-child-theme.php
 	
 
 ## 1.8
