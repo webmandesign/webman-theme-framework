@@ -12,6 +12,8 @@
 * **Update**: Renaming customizer related PHP classes and files
 * **Update**: Removing obsolete files
 * **Update**: Child theme generator script
+* **Update**: Welcome screen styles
+* **Fix**: Removing formats button icons on front-end to prevent empty icons
 
 #### Files changed:
 
@@ -29,6 +31,7 @@
 	includes/classes/class-customize.php
 	includes/classes/class-visual-editor.php
 	includes/vendor/use-child-theme/class-use-child-theme.php
+	scss/styles/_welcome.scss
 	
 
 ## 1.8

@@ -192,7 +192,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		 * @link  http://www.tinymce.com/wiki.php/Configuration:style_formats
 		 *
 		 * @since    1.0
-		 * @version  1.4
+		 * @version  1.9
 		 *
 		 * @param  array $init
 		 */
@@ -234,7 +234,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 										100 . 'text_styles' . 120 => array(
 											'title'  => esc_html__( 'Highlighted (marked) text', '{%= text_domain %}' ),
 											'inline' => 'mark',
-											'icon'   => 'backcolor',
+											'icon'   => ( is_admin() ) ? ( 'backcolor' ) : ( '' ),
 										),
 
 										100 . 'text_styles' . 130 => array(
@@ -244,13 +244,13 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 										100 . 'text_styles' . 140 => array(
 											'title'  => esc_html__( 'Superscript', '{%= text_domain %}' ),
-											'icon'   => 'superscript',
+											'icon'   => ( is_admin() ) ? ( 'superscript' ) : ( '' ),
 											'format' => 'superscript',
 										),
 
 										100 . 'text_styles' . 150 => array(
 											'title'  => esc_html__( 'Subscript', '{%= text_domain %}' ),
-											'icon'   => 'subscript',
+											'icon'   => ( is_admin() ) ? ( 'subscript' ) : ( '' ),
 											'format' => 'subscript',
 										),
 
@@ -317,21 +317,21 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 										300 . 'quotes' . 100 => array(
 											'title' => esc_html__( 'Blockquote', '{%= text_domain %}' ),
 											'block' => 'blockquote',
-											'icon'  => 'blockquote',
+											'icon'  => ( is_admin() ) ? ( 'blockquote' ) : ( '' ),
 										),
 
 										300 . 'quotes' . 110 => array(
 											'title'   => esc_html__( 'Pullquote - align left', '{%= text_domain %}' ),
 											'block'   => 'blockquote',
 											'classes' => 'pullquote alignleft',
-											'icon'    => 'alignleft',
+											'icon'    => ( is_admin() ) ? ( 'alignleft' ) : ( '' ),
 										),
 
 										300 . 'quotes' . 120 => array(
 											'title'   => esc_html__( 'Pullquote - align right', '{%= text_domain %}' ),
 											'block'   => 'blockquote',
 											'classes' => 'pullquote alignright',
-											'icon'    => 'alignright',
+											'icon'    => ( is_admin() ) ? ( 'alignright' ) : ( '' ),
 										),
 
 										300 . 'quotes' . 130 => array(

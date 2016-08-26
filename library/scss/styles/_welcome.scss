@@ -7,7 +7,7 @@
 // @subpackage  Welcome page
 //
 // @since    1.5
-// @version  1.6.1
+// @version  1.9
 //
 
 
@@ -44,6 +44,10 @@
 			font-size: .5em;
 		}
 
+	}
+
+	h2 {
+		text-align: inherit;
 	}
 
 	hr {
@@ -118,6 +122,10 @@
 
 				small {
 					font-size: .62em;
+				}
+
+				.button {
+					margin-top: 1.62em;
 				}
 
 			}

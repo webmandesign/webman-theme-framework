@@ -12,6 +12,8 @@
 
 .welcome-wrap h1 small { font-size: .5em; }
 
+.welcome-wrap h2 { text-align: inherit; }
+
 .welcome-wrap hr { height: 0; margin: 2em 0; border: 0; border-top: 1px solid #caccce; }
 
 .welcome-wrap .feature-section { padding: 0; border: 0; }
@@ -33,6 +35,8 @@
 .welcome-wrap .wm-notes.special p { font-size: 1em; }
 
 .welcome-wrap .wm-notes.special small { font-size: .62em; }
+
+.welcome-wrap .wm-notes.special .button { margin-top: 1.62em; }
 
 .welcome-wrap .congrats { padding: 1em 0 0; }
 
