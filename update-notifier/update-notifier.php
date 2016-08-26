@@ -41,7 +41,10 @@
  * 1) Requirements check
  */
 
-	if ( ! is_admin() ) {
+	if (
+			! is_admin()
+			|| ! defined( '{%= prefix_constant %}_INCLUDES' )
+		) {
 		return;
 	}
 
@@ -55,7 +58,9 @@
 
 	// The time interval for the remote XML cache in the database (86400 seconds = 24 hours)
 
-		if ( ! defined( '{%= prefix_constant %}_UPDATE_NOTIFIER_CACHE_INTERVAL' ) ) define( '{%= prefix_constant %}_UPDATE_NOTIFIER_CACHE_INTERVAL', 86400 );
+		if ( ! defined( '{%= prefix_constant %}_UPDATE_NOTIFIER_CACHE_INTERVAL' ) ) {
+			define( '{%= prefix_constant %}_UPDATE_NOTIFIER_CACHE_INTERVAL', 86400 );
+		}
 
 
 
@@ -65,4 +70,4 @@
  * 20) Required files
  */
 
-	require dirname( __FILE__ ) . '/class-update-notifier.php';
+	require trailingslashit( {%= prefix_constant %}_INCLUDES . basename( dirname( __FILE__ ) ) ) . 'class-update-notifier.php';

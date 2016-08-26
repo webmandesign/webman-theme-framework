@@ -207,7 +207,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 					ob_start();
 
-					require_once get_template_directory() . '/assets/css-generate/generate-css' . $args['type'] . '.php';
+					require_once {%= prefix_constant %}_PATH . 'assets/css-generate/generate-css' . $args['type'] . '.php';
 
 					$output = trim( ob_get_clean() );
 

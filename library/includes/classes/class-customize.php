@@ -100,7 +100,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 					wp_enqueue_style(
 							'{%= prefix_var %}-customizer',
-							{%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( 'library/css/customize.css' ),
+							{%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/customize.css' ),
 							false,
 							esc_attr( {%= prefix_constant %}_THEME_VERSION ),
 							'screen'
@@ -504,12 +504,12 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 					 * @link  http://ottopress.com/2012/making-a-custom-control-for-the-theme-customizer/
 					 */
 
-					require_once dirname( __FILE__ ) . '/class-customize-control-hidden.php';
-					require_once dirname( __FILE__ ) . '/class-customize-control-html.php';
-					require_once dirname( __FILE__ ) . '/class-customize-control-multiselect.php';
-					require_once dirname( __FILE__ ) . '/class-customize-control-radio-matrix.php';
-					require_once dirname( __FILE__ ) . '/class-customize-control-range.php';
-					require_once dirname( __FILE__ ) . '/class-customize-control-select.php';
+					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-hidden.php';
+					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-html.php';
+					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-multiselect.php';
+					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-radio-matrix.php';
+					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-range.php';
+					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-select.php';
 
 					do_action( 'wmhook_{%= prefix_hook %}_tf_customize_load_controls', $wp_customize );
 

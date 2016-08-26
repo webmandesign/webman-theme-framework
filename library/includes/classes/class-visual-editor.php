@@ -465,7 +465,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 					wp_enqueue_script(
 							'{%= prefix_var %}-post-edit',
-							{%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( 'library/js/post.js' ),
+							{%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/post.js' ),
 							array( 'jquery' ),
 							esc_attr( {%= prefix_constant %}_THEME_VERSION ),
 							true

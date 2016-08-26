@@ -48,7 +48,21 @@
 
 	// Theme version
 
-		if ( ! defined( '{%= prefix_constant %}_THEME_VERSION' ) ) define( '{%= prefix_constant %}_THEME_VERSION', wp_get_theme( '{%= theme_slug %}' )->get( 'Version' ) );
+		if ( ! defined( '{%= prefix_constant %}_THEME_VERSION' ) ) {
+			define( '{%= prefix_constant %}_THEME_VERSION', wp_get_theme( '{%= theme_slug %}' )->get( 'Version' ) );
+		}
+
+	// Paths
+
+		if ( ! defined( '{%= prefix_constant %}_PATH' ) ) {
+			define( '{%= prefix_constant %}_PATH', trailingslashit( get_template_directory() ) );
+		}
+
+		if ( ! defined( '{%= prefix_constant %}_LIBRARY_DIR' ) ) {
+			define( '{%= prefix_constant %}_LIBRARY_DIR', trailingslashit( basename( dirname( __FILE__ ) ) ) );
+		}
+
+		define( '{%= prefix_constant %}_LIBRARY', trailingslashit( {%= prefix_constant %}_PATH . {%= prefix_constant %}_LIBRARY_DIR ) );
 
 
 
@@ -60,17 +74,17 @@
 
 	// Core class
 
-		require dirname( __FILE__ ) . '/includes/classes/class-core.php';
+		require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-core.php';
 
 	// Customize (has to be frontend accessible, otherwise it hides the theme settings)
 
 		// Customize class
 
-			require dirname( __FILE__ ) . '/includes/classes/class-customize.php';
+			require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize.php';
 
 		// CSS Styles Generator class
 
-			require dirname( __FILE__ ) . '/includes/classes/class-customize-styles.php';
+			require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-styles.php';
 
 	// Admin
 
@@ -82,7 +96,7 @@
 
 			// Admin class
 
-				require dirname( __FILE__ ) . '/includes/classes/class-admin.php';
+				require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-admin.php';
 
 			// Plugins suggestions
 
@@ -90,12 +104,12 @@
 						apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', true )
 						&& locate_template( 'includes/tgmpa/plugins.php' )
 					) {
-					require dirname( __FILE__ ) . '/includes/vendor/tgmpa/class-tgm-plugin-activation.php';
+					require {%= prefix_constant %}_LIBRARY . 'includes/vendor/tgmpa/class-tgm-plugin-activation.php';
 					locate_template( 'includes/tgmpa/plugins.php', true );
 				}
 
 			// Child theme generator
 
-				require dirname( __FILE__ ) . '/includes/vendor/use-child-theme/class-use-child-theme.php';
+				require {%= prefix_constant %}_LIBRARY . 'includes/vendor/use-child-theme/class-use-child-theme.php';
 
 		}
