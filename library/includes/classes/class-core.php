@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.9
+ * @version  1.9.1
  *
  * Contents:
  *
@@ -154,7 +154,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @link  http://blog.rrwd.nl/2014/11/21/html5-headings-in-wordpress-lets-fight/
 		 *
 		 * @since    1.0
-		 * @version  1.8
+		 * @version  1.9.1
 		 *
 		 * @param  string $container_class  If empty, no container will be outputted.
 		 */
@@ -188,7 +188,7 @@ final class {%= prefix_class %}_Theme_Framework {
 					), $container_class );
 
 				$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_args', array(
-						'logo_image' => ( ! empty( $custom_logo ) ) ? ( array( $custom_logo ) ) : ( false ),
+						'logo_image' => ( ! empty( $custom_logo ) ) ? ( $custom_logo ) : ( false ),
 						'logo_type'  => 'text',
 						'title_att'  => ( $blog_info['description'] ) ? ( $blog_info['name'] . ' | ' . $blog_info['description'] ) : ( $blog_info['name'] ),
 						'url'        => home_url( '/' ),
@@ -200,15 +200,13 @@ final class {%= prefix_class %}_Theme_Framework {
 
 				// Logo image
 
-					if ( ! empty( $args['logo_image'] ) && $args['logo_image'][0] ) {
+					if ( $args['logo_image'] ) {
 
-						$img_id = ( is_numeric( $args['logo_image'][0] ) ) ? ( absint( $args['logo_image'][0] ) ) : ( self::get_image_id_from_url( $args['logo_image'][0] ) );
+						$img_id = ( is_numeric( $args['logo_image'] ) ) ? ( absint( $args['logo_image'] ) ) : ( self::get_image_id_from_url( $args['logo_image'] ) );
 
 						if ( $img_id ) {
 
 							$atts = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_image_atts', array(
-									'alt'   => esc_attr( sprintf( esc_html_x( '%s logo', 'Site logo image "alt" HTML attribute text.', '{%= text_domain %}' ), $blog_info['name'] ) ),
-									'title' => esc_attr( $args['title_att'] ),
 									'class' => '',
 								), $img_id, $args, $blog_info );
 
@@ -216,7 +214,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						} else {
 
-							$args['logo_image'] = '<img src="' . esc_url( $args['logo_image'][0] ) . '" alt="' . esc_attr( sprintf( esc_html_x( '%s logo', 'Site logo image "alt" HTML attribute text.', '{%= text_domain %}' ), $blog_info['name'] ) ) . '" title="' . esc_attr( $args['title_att'] ) . '" />';
+							$args['logo_image'] = '<img src="' . esc_url( $args['logo_image'] ) . '" alt="' . esc_attr( sprintf( esc_html_x( '%s logo', 'Site logo image "alt" HTML attribute text.', '{%= text_domain %}' ), $blog_info['name'] ) ) . '" title="' . esc_attr( $args['title_att'] ) . '" />';
 
 						}
 

@@ -1,5 +1,11 @@
 /* FILE: customize-rtl.scss */
 /* FILE: styles/_customize.scss */
+.customize-control-html h3, #accordion-panel-theme .customize-control h3, .customize-control-html h4, #accordion-panel-theme .customize-control h4 { padding: 1em 20px; margin: 2em -20px .5em; text-transform: uppercase; font-size: 1em; letter-spacing: 1px; color: #555; border-top: 2px solid #bbb; }
+
+.customize-control-html h4, #accordion-panel-theme .customize-control h4 { padding: 1em 0; margin: 1em 0 .5em; border-top-style: dotted; }
+
+.customize-control input[type=tel][size], .customize-control input[type=url][size], .customize-control input[type=text][size], .customize-control input[type=password][size], .customize-control input[type=email][size], .customize-control input[type=number][size], .customize-control input[type=search][size] { width: auto; }
+
 #accordion-panel-theme .no-overflow { overflow: hidden; }
 
 #accordion-panel-theme .donation-link, #accordion-panel-theme .donation-link:hover, #accordion-panel-theme .donation-link:active { display: block; width: 100%; padding: 1em 0; text-transform: uppercase; text-align: center; font-weight: bold; font-size: .81em; background: #0aac8e; color: #fafcfe; }
@@ -8,13 +14,11 @@
 
 #accordion-panel-theme .customize-section-description-container + .customize-control h3:first-of-type { margin-top: 0; border: 0; }
 
-#accordion-panel-theme .customize-control h3, #accordion-panel-theme .customize-control h4 { padding: 1em 20px; margin: 2em -20px .5em; text-transform: uppercase; font-size: 1em; letter-spacing: 1px; color: #555; border-top: 2px solid #bbb; }
-
-#accordion-panel-theme .customize-control h4 { padding: 1em 0; margin: 1em 0 .5em; border-top-style: dotted; }
-
 #accordion-panel-theme .customize-control:first-child h3:first-of-type { margin-top: 0; border: 0; }
 
 #accordion-panel-theme .customize-control hr { margin: 1em 0; background: transparent; border: 0; border-top: 2px dashed #bbb; }
+
+#accordion-panel-theme .customize-control pre { max-height: 8em; padding: .62em; white-space: pre-wrap; background: #eee; border: 1px dashed #ddd; overflow: auto; }
 
 #accordion-panel-theme .customize-control select, #accordion-panel-theme .customize-control textarea { width: 100%; }
 

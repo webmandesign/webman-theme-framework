@@ -41,3 +41,5 @@
 .welcome-wrap .congrats { padding: 1em 0 0; }
 
 .welcome-wrap .congrats p { font-size: 1.15em; }
+
+.welcome-wrap .notice { display: block !important; }

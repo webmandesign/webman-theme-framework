@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.9
+ * @version  1.9.1
  *
  * Contents:
  *
@@ -407,7 +407,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.9
+		 * @version  1.9.1
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -447,6 +447,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 						'radio',
 						'radiomatrix',
 						'range',
+						'section',
 						'select',
 						'text',
 						'textarea',
@@ -522,10 +523,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 							if (
 									is_array( $theme_option )
 									&& isset( $theme_option['type'] )
-									&& (
-											in_array( $theme_option['type'], $allowed_option_types )
-											|| isset( $theme_option['create_section'] )
-										)
+									&& in_array( $theme_option['type'], $allowed_option_types )
 								) {
 
 								// Helper variables
@@ -632,8 +630,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 								$generic = array(
 										'label'           => ( isset( $theme_option['label'] ) ) ? ( $theme_option['label'] ) : ( '' ),
 										'description'     => $description,
-										'section'         => $customizer_section,
-										'priority'        => $priority,
+										'section'         => ( isset( $theme_option['section'] ) ) ? ( $theme_option['section'] ) : ( $customizer_section ),
+										'priority'        => ( isset( $theme_option['priority'] ) ) ? ( $theme_option['priority'] ) : ( $priority ),
 										'type'            => $theme_option['type'],
 										'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 										'input_attrs'     => ( isset( $theme_option['input_attrs'] ) ) ? ( $theme_option['input_attrs'] ) : ( array() ),
@@ -771,8 +769,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 													'label'           => ( isset( $theme_option['label'] ) ) ? ( $theme_option['label'] ) : ( '' ),
 													'description'     => $description,
 													'content'         => $theme_option['content'],
-													'section'         => $customizer_section,
-													'priority'        => $priority,
+													'section'         => ( isset( $theme_option['section'] ) ) ? ( $theme_option['section'] ) : ( $customizer_section ),
+													'priority'        => ( isset( $theme_option['priority'] ) ) ? ( $theme_option['priority'] ) : ( $priority ),
 													'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
 												)
 											) );

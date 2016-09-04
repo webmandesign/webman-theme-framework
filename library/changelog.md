@@ -1,5 +1,22 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.9.1
+
+* **Update**: Updating constants names
+* **Update**: Allow displaying admin notices on welcome screen
+* **Update**: Improving customizer options generator
+* **Update**: Updating customizer controls styles
+
+#### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-core.php
+	includes/classes/class-customize.php
+	scss/styles/_customize.scss
+	scss/styles/_welcome.scss
+
+
 ## 1.9
 
 * **Update**: Improving loading files
