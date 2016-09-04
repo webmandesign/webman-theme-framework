@@ -1,5 +1,10 @@
 # WebMan WordPress Theme Update Notifier
 
+## 1.9.1
+
+* **Update**: Updating constants names
+
+
 ## 1.9
 
 * **Update**: Separating from theme framework library

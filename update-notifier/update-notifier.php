@@ -15,7 +15,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Update Notifier
  *
- * @version  1.9
+ * @version  1.9.1
  *
  * Used development prefixes:
  *
@@ -43,7 +43,7 @@
 
 	if (
 			! is_admin()
-			|| ! defined( '{%= prefix_constant %}_INCLUDES' )
+			|| ! defined( '{%= prefix_constant %}_PATH_INCLUDES' )
 		) {
 		return;
 	}
@@ -70,4 +70,4 @@
  * 20) Required files
  */
 
-	require trailingslashit( {%= prefix_constant %}_INCLUDES . basename( dirname( __FILE__ ) ) ) . 'class-update-notifier.php';
+	require trailingslashit( {%= prefix_constant %}_PATH_INCLUDES . basename( dirname( __FILE__ ) ) ) . 'class-update-notifier.php';
