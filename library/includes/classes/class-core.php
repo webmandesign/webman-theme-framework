@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.9.1
+ * @version  1.9.2
  *
  * Contents:
  *
@@ -430,7 +430,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 		 *
 		 * @since    1.0
-		 * @version  1.8
+		 * @version  1.9.2
 		 *
 		 * @param  array $args
 		 */
@@ -453,7 +453,7 @@ final class {%= prefix_class %}_Theme_Framework {
 						'class'       => 'entry-meta',
 						'container'   => 'div',
 						'date_format' => null,
-						'html'        => '<span class="{class}"{attributes}>{description}{content}</span>',
+						'html'        => '<span class="{class}"{attributes}>{description}{content}</span> ',
 						'html_custom' => array(), // Example: array( 'date' => 'CUSTOM_HTML_WITH_{class}_{attributes}_{description}_AND_{content}_HERE' )
 						'meta'        => array(), // Example: array( 'date', 'author', 'category', 'comments', 'permalink' )
 						'post_id'     => null,

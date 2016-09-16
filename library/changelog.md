@@ -1,5 +1,16 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.9.2
+
+* **Update**: Making sure there is a space between entry meta elements
+
+#### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-core.php
+
+
 ## 1.9.1
 
 * **Update**: Updating constants names
