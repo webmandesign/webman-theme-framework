@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.9.1
+ * @version  1.9.3
  *
  * Contents:
  *
@@ -340,7 +340,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * Sanitize select/radio
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  1.9.3
 		 *
 		 * @param  string               $value WP customizer value to sanitize.
 		 * @param  WP_Customize_Setting $setting
@@ -353,7 +353,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 				// Get list of choices from the control associated with the setting.
 
-					$choices = $setting->manager->get_control( $setting->id )->choices;
+					$choices = (array) $setting->manager->get_control( $setting->id )->choices;
 
 
 			// Output
@@ -365,33 +365,51 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 
 		/**
-		 * No sanitization at all, simply return the value in appropriate format
+		 * Sanitize array
 		 *
-		 * Useful for when the value may be of mixed type, such as array-or-string.
+		 * @since    1.9.3
+		 * @version  1.9.3
 		 *
-		 * @since    1.0
-		 * @version  1.0
-		 *
-		 * @param  mixed $value WP customizer value to sanitize.
+		 * @param  mixed                $value    WP customizer value to sanitize.
+		 * @param  WP_Customize_Setting $setting
 		 */
-		public static function sanitize_return_value( $value ) {
+		public static function sanitize_array( $value, $setting ) {
+
+			// Helper variables
+
+				$value = (array) $value;
+
+				// Get list of choices from the control associated with the setting.
+
+					$choices = (array) $setting->manager->get_control( $setting->id )->choices;
+
+
+			// Requirements check
+
+				if ( empty( $choices ) ) {
+					return array();
+				}
+
 
 			// Processing
 
-				if ( is_array( $value ) ) {
-					$value = (array) $value;
-				} elseif ( is_numeric( $value ) ) {
-					$value = intval( $value );
-				} elseif ( is_string( $value ) ) {
-					$value = (string) $value;
-				}
+				foreach ( $value as $key => $single_value ) {
+
+					if ( ! array_key_exists( esc_attr( $single_value ), $choices ) ) {
+						unset( $value[ $key ] );
+						continue;
+					}
+
+					$value[ $key ] = esc_attr( $single_value );
+
+				} // /foreach
 
 
 			// Output
 
-				return $value;
+				return (array) $value;
 
-		} // /sanitize_return_value
+		} // /sanitize_array
 
 
 
@@ -407,7 +425,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.9.1
+		 * @version  1.9.3
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -814,8 +832,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 													'type'                 => $type,
 													'default'              => $default,
 													'transport'            => $transport,
-													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_return_value' ),
-													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_return_value' ),
+													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_array' ),
+													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_array' ),
 												)
 											);
 

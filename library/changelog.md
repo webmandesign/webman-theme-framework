@@ -1,5 +1,18 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 1.9.3
+
+* **Update**: Removing obsolete code
+* **Fix**: Updating customizer sanitize functions
+
+#### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-core.php
+	includes/classes/class-customize.php
+
+
 ## 1.9.2
 
 * **Update**: Making sure there is a space between entry meta elements

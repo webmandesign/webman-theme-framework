@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.9.2
+ * @version  1.9.3
  *
  * Contents:
  *
@@ -864,61 +864,6 @@ final class {%= prefix_class %}_Theme_Framework {
 	/**
 	 * 40) Path functions
 	 */
-
-		/**
-		 * Outputs path to the specific file
-		 *
-		 * This function looks for the file in the child theme first.
-		 * If the file is not located in child theme, outputs the path from parent theme.
-		 *
-		 * @since    1.0
-		 * @version  1.0
-		 *
-		 * @param  string $file_relative_path File to look for (insert also the theme structure relative path)
-		 *
-		 * @return  string Actual path to the file
-		 */
-		public static function get_stylesheet_directory( $file_relative_path ) {
-
-			// Pre
-
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_stylesheet_directory_pre', false, $file_relative_path );
-
-				if ( false !== $pre ) {
-					return $pre;
-				}
-
-
-			// Helper variables
-
-				$output = '';
-
-				$file_relative_path = trim( $file_relative_path );
-
-
-			// Requirements chek
-
-				if ( ! $file_relative_path ) {
-					return;
-				}
-
-
-			// Processing
-
-				if ( file_exists( trailingslashit( get_stylesheet_directory() ) . $file_relative_path ) ) {
-					$output = trailingslashit( get_stylesheet_directory() ) . $file_relative_path;
-				} else {
-					$output = trailingslashit( get_template_directory() ) . $file_relative_path;
-				}
-
-
-			// Output
-
-				return $output;
-
-		} // /get_stylesheet_directory
-
-
 
 		/**
 		 * Outputs URL to the specific file
