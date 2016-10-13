@@ -6,7 +6,7 @@
  * @subpackage  Admin
  *
  * @since    1.0
- * @version  1.9
+ * @version  2.0
  *
  * Contents:
  *
@@ -14,7 +14,7 @@
  * 10) Assets
  * 20) Messages
  */
-final class {%= prefix_class %}_Theme_Framework_Admin {
+final class {%= prefix_class %}_Library_Admin {
 
 
 
@@ -87,7 +87,7 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 		 * Admin assets
 		 *
 		 * @since    1.0
-		 * @version  1.9
+		 * @version  2.0
 		 */
 		public static function assets() {
 
@@ -97,8 +97,8 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 
 					// Styles
 
-						$register_styles = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_assets_register_styles', array(
-								'{%= prefix_var %}-welcome' => array( {%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/welcome.css' ) ),
+						$register_styles = apply_filters( 'wmhook_{%= prefix_hook %}_library_admin_assets_register_styles', array(
+								'{%= prefix_var %}-welcome' => array( {%= prefix_class %}_Library::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/welcome.css' ) ),
 							) );
 
 						foreach ( $register_styles as $handle => $atts ) {
@@ -145,13 +145,13 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 		 *   );
 		 *
 		 * @since    1.0
-		 * @version  1.9
+		 * @version  2.0
 		 */
 		public static function message() {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_message_pre', false );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_admin_message_pre', false );
 
 				if ( false !== $pre ) {
 					echo $pre;
@@ -172,7 +172,7 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 
 				$class      = 'updated';
 				$repeat     = 0;
-				$capability = apply_filters( 'wmhook_{%= prefix_hook %}_tf_admin_message_capability', 'edit_theme_options' );
+				$capability = apply_filters( 'wmhook_{%= prefix_hook %}_library_admin_message_capability', 'edit_theme_options' );
 				$message    = get_transient( '{%= prefix_var %}_admin_notice' );
 
 
@@ -223,6 +223,6 @@ final class {%= prefix_class %}_Theme_Framework_Admin {
 
 
 
-} // /{%= prefix_class %}_Theme_Framework_Admin
+} // /{%= prefix_class %}_Library_Admin
 
-add_action( 'admin_init', '{%= prefix_class %}_Theme_Framework_Admin::init' );
+add_action( 'admin_init', '{%= prefix_class %}_Library_Admin::init' );

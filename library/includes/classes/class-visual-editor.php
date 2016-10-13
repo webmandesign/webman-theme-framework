@@ -9,7 +9,7 @@
  * @subpackage  Visual Editor
  *
  * @since    1.0
- * @version  1.9
+ * @version  2.0
  *
  * Contents:
  *
@@ -18,7 +18,7 @@
  * 20) Custom formats
  * 30) Body class
  */
-final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
+final class {%= prefix_class %}_Library_Visual_Editor {
 
 
 
@@ -107,7 +107,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		 * First row.
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  2.0
 		 *
 		 * @param  array $buttons
 		 */
@@ -115,7 +115,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_editor_add_buttons_row1_pre', false, $buttons );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_editor_add_buttons_row1_pre', false, $buttons );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -149,7 +149,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		 * Second row.
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  2.0
 		 *
 		 * @param  array $buttons
 		 */
@@ -157,7 +157,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_editor_add_buttons_row2_pre', false, $buttons );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_editor_add_buttons_row2_pre', false, $buttons );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -192,7 +192,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 		 * @link  http://www.tinymce.com/wiki.php/Configuration:style_formats
 		 *
 		 * @since    1.0
-		 * @version  1.9
+		 * @version  2.0
 		 *
 		 * @param  array $init
 		 */
@@ -200,7 +200,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_editor_custom_mce_format_pre', false, $init );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_editor_custom_mce_format_pre', false, $init );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -211,7 +211,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 				// Add custom formats
 
-					$style_formats = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_editor_custom_mce_format', array(
+					$style_formats = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_editor_custom_mce_format', array(
 
 							// Group: Text styles
 
@@ -465,7 +465,7 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 					wp_enqueue_script(
 							'{%= prefix_var %}-post-edit',
-							{%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/post.js' ),
+							{%= prefix_class %}_Library::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/post.js' ),
 							array( 'jquery' ),
 							esc_attr( {%= prefix_constant %}_THEME_VERSION ),
 							true
@@ -477,6 +477,6 @@ final class {%= prefix_class %}_Theme_Framework_Visual_Editor {
 
 
 
-} // /{%= prefix_class %}_Theme_Framework_Visual_Editor
+} // /{%= prefix_class %}_Library_Visual_Editor
 
-add_action( 'init', '{%= prefix_class %}_Theme_Framework_Visual_Editor::init' );
+add_action( 'init', '{%= prefix_class %}_Library_Visual_Editor::init' );

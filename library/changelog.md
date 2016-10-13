@@ -1,11 +1,27 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.0
+
+* **Update**: Renaming `Theme_Framework` to `Library`
+* **Update**: Renaming `_tf_` to `_library_`
+
+### Files changed:
+
+	library/init.php
+	library/includes/classes/class-admin.php
+	library/includes/classes/class-core.php
+	library/includes/classes/class-customize-control-radio-matrix.php
+	library/includes/classes/class-customize-styles.php
+	library/includes/classes/class-customize.php
+	library/includes/classes/class-visual-editor.php
+
+
 ## 1.9.3
 
 * **Update**: Removing obsolete code
 * **Fix**: Updating customizer sanitize functions
 
-#### Files changed:
+### Files changed:
 
 	changelog.md
 	init.php
@@ -17,7 +33,7 @@
 
 * **Update**: Making sure there is a space between entry meta elements
 
-#### Files changed:
+### Files changed:
 
 	changelog.md
 	init.php
@@ -31,7 +47,7 @@
 * **Update**: Improving customizer options generator
 * **Update**: Updating customizer controls styles
 
-#### Files changed:
+### Files changed:
 
 	changelog.md
 	init.php
@@ -56,7 +72,7 @@
 * **Update**: Welcome screen styles
 * **Fix**: Removing formats button icons on front-end to prevent empty icons
 
-#### Files changed:
+### Files changed:
 
 	changelog.md
 	init.php
@@ -89,7 +105,7 @@
 * **Update**: Improving customizer assets loading
 * **Update**: Radio matrix customizer control JavaScript file
 
-#### Files changed:
+### Files changed:
 
 	changelog.md
 	init.php
@@ -113,7 +129,7 @@
 
 * **Add**: Adding custom classes on TinyMCE editor
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	js/post.js
@@ -127,7 +143,7 @@
 * **Update**: Forcing boolean value in conditional CSS comment replacements
 * **Fix**: Fixing range customizer control issues
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/classes/class-core.php
@@ -139,7 +155,7 @@
 
 * **Update**: Improving customizer preview JS, also allowing use of both `css` and `custom`
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/classes/class-customize.php
@@ -151,7 +167,7 @@
 * **Update**: Customizer styles
 * **Fix**: Customizer empty label PHP error
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/classes/class-customize.php
@@ -162,7 +178,7 @@
 
 * **Add**: Child theme generator (Use Child Theme script)
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/admin.php
@@ -174,7 +190,7 @@
 * **Update**: Improving security by using `wp_strip_all_tags` and `wp_kses` instead of `strip_tags`
 * **Update**: Welcome page styles (preventing page overflowing)
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/classes/class-core.php
@@ -193,7 +209,7 @@
 * **Update**: Using `is-active` class instead of `active`
 * **Update**: Welcome screen styles
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/classes/class-core.php
@@ -220,7 +236,7 @@
 * **Fix**: Allowing theme to set an image logo as predefined one (if text logo needed, user need to set custom logo image and then remove it)
 * **Fix**: Removed all admin bar styles references to prevent issues with Theme Check plugin
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/admin.php
@@ -256,7 +272,7 @@
 * **Fix**: TinyMCE Format button custom formats array sorting
 * **Fix**: Localization functions
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/admin.php
@@ -270,7 +286,7 @@
 * **Update**: Improving SSL URL fixer
 * **Update**: Removing obsolete PHP comment
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/classes/class-core.php
@@ -280,7 +296,7 @@
 
 * **Update**: Improved stylesheet generator for better RTL support
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/classes/class-core.php
@@ -291,7 +307,7 @@
 * **Update**: Improved logo function for better compatibility with customizer partial refresh
 * **Update**: Removing obsolete version numbers
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/classes/class-admin.php
@@ -314,7 +330,7 @@
 * **Update**: Stylesheets
 * **Fix**: Fixed SSL issues
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	css/about.css
@@ -341,7 +357,7 @@
 
 * **Update**: Improving admin notice styles
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/classes/class-core.php
@@ -353,7 +369,7 @@
 * **Update**: Porting theme "About" admin page functionality into simple version of the framework
 * **Update**: Updated TGM Plugin Activation class
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/admin.php
@@ -368,7 +384,7 @@
 * **Update**: Adding dismissible admin notices
 * **Fix**: Fixing TGM Plugin Activation admin notice position
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	readme.md
@@ -388,7 +404,7 @@
 * **Update**: Removing obsolete file reference
 * **Fix**: Fixing typos
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/customize.php
@@ -401,7 +417,7 @@
 * **Fix**: Compatibility with child themes
 * **Fix**: Stripping HTML tags in Post Views Count plugin output to prevent errors in theme HTML
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/classes/class-admin.php
@@ -414,7 +430,7 @@
 
 * **Update**: Renaming the `customizer_js` to `preview_js` and improving the function
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/classes/class-customize.php
@@ -427,7 +443,7 @@
 * **Update**: Library files paths
 * **Update**: Theme files paths
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/admin.php
@@ -441,7 +457,7 @@
 
 * **Update**: Compatibility with Readability.com
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/classes/class-core.php
@@ -451,7 +467,7 @@
 
 * **Fix**: Customizer custom option preview JS
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/customize.php
@@ -461,7 +477,7 @@
 
 * **Update**: Removed custom color picker styling
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	scss/customize.scss
@@ -471,7 +487,7 @@
 
 * **Update**: Improved flexibility of accessibility skip link
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/classes/class-core.php
@@ -484,7 +500,7 @@
 * **Update**: Library files paths
 * **Update**: Theme files paths
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	includes/admin.php
@@ -498,7 +514,7 @@
 
 * **Update**: Renaming the `lib` folder to `library`
 
-#### Files changed:
+### Files changed:
 
 	init.php
 	readme.md
@@ -508,7 +524,7 @@
 
 * **Update**: SASS files optimized
 
-#### Files changed:
+### Files changed:
 
 	scss/about.scss
 	scss/customize.scss
@@ -518,7 +534,7 @@
 
 * **Fix**: Time post meta info markup
 
-#### Files changed:
+### Files changed:
 
 	inc/classes/class-core.php
 
@@ -527,7 +543,7 @@
 
 * **Add**: Adding description text for post meta info
 
-#### Files changed:
+### Files changed:
 
 	inc/classes/class-core.php
 
@@ -536,7 +552,7 @@
 
 * **Add**: Support for WordPress 4.4
 
-#### Files changed:
+### Files changed:
 
 	inc/classes/class-core.php
 
@@ -545,7 +561,7 @@
 
 * **Update**: Localization
 
-#### Files changed:
+### Files changed:
 
 	inc/classes/class-core.php
 
@@ -557,7 +573,7 @@
 * **Update**: Adding JS comments
 * **Fix**: Returning site logo "pre" hook output instead of echoing
 
-#### Files changed:
+### Files changed:
 
 	inc/classes/class-core.php
 	inc/classes/class-customize.php

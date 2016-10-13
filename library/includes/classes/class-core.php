@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  1.9.3
+ * @version  2.0
  *
  * Contents:
  *
@@ -20,7 +20,7 @@
  *  40) Path functions
  * 100) Helpers
  */
-final class {%= prefix_class %}_Theme_Framework {
+final class {%= prefix_class %}_Library {
 
 
 
@@ -113,7 +113,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Do action on theme version change
 		 *
 		 * @since    1.0
-		 * @version  1.1
+		 * @version  2.0
 		 */
 		public static function theme_upgrade() {
 
@@ -130,7 +130,7 @@ final class {%= prefix_class %}_Theme_Framework {
 						|| $new_theme_version != $current_theme_version
 					) {
 
-					do_action( 'wmhook_{%= prefix_hook %}_tf_theme_upgrade', $current_theme_version, $new_theme_version );
+					do_action( 'wmhook_{%= prefix_hook %}_library_theme_upgrade', $current_theme_version, $new_theme_version );
 
 					set_transient( '{%= theme_slug %}_version', $new_theme_version );
 
@@ -154,7 +154,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * @link  http://blog.rrwd.nl/2014/11/21/html5-headings-in-wordpress-lets-fight/
 		 *
 		 * @since    1.0
-		 * @version  1.9.1
+		 * @version  2.0
 		 *
 		 * @param  string $container_class  If empty, no container will be outputted.
 		 */
@@ -162,7 +162,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_pre', false, $container_class );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_pre', false, $container_class );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -182,12 +182,12 @@ final class {%= prefix_class %}_Theme_Framework {
 						$custom_logo = ( isset( $custom_logo['id'] ) && $custom_logo['id'] ) ? ( absint( $custom_logo['id'] ) ) : ( false );
 					}
 
-				$blog_info = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_blog_info', array(
+				$blog_info = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_blog_info', array(
 						'name'        => trim( get_bloginfo( 'name' ) ),
 						'description' => trim( get_bloginfo( 'description' ) ),
 					), $container_class );
 
-				$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_args', array(
+				$args = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_args', array(
 						'logo_image' => ( ! empty( $custom_logo ) ) ? ( $custom_logo ) : ( false ),
 						'logo_type'  => 'text',
 						'title_att'  => ( $blog_info['description'] ) ? ( $blog_info['name'] . ' | ' . $blog_info['description'] ) : ( $blog_info['name'] ),
@@ -206,7 +206,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						if ( $img_id ) {
 
-							$atts = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_image_atts', array(
+							$atts = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_image_atts', array(
 									'class' => '',
 								), $img_id, $args, $blog_info );
 
@@ -222,11 +222,11 @@ final class {%= prefix_class %}_Theme_Framework {
 
 					}
 
-					$args['logo_image'] = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_image', $args['logo_image'], $args, $blog_info );
+					$args['logo_image'] = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_image', $args['logo_image'], $args, $blog_info );
 
 				// Logo HTML
 
-					$logo_class = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_class', 'site-title logo type-' . $args['logo_type'], $args, $blog_info );
+					$logo_class = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_class', 'site-title logo type-' . $args['logo_type'], $args, $blog_info );
 
 					if ( $args['container'] ) {
 						$output[10] = '<div class="' . esc_attr( trim( $args['container'] ) ) . '">';
@@ -261,7 +261,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 					// Filter output array
 
-						$output = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_logo_output', $output, $args, $blog_info );
+						$output = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_output', $output, $args, $blog_info );
 
 						ksort( $output );
 
@@ -311,7 +311,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Appends the output at the top and bottom of post content.
 		 *
 		 * @since    1.0
-		 * @version  1.6.1
+		 * @version  2.0
 		 *
 		 * @param  string $content
 		 */
@@ -319,7 +319,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_pre', false, $content );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_add_table_of_contents_pre', false, $content );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -339,10 +339,10 @@ final class {%= prefix_class %}_Theme_Framework {
 						return $content;
 					}
 
-				$title_text = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_title_text', sprintf( esc_html_x( '"%s" table of contents', '%s: post title.', '{%= text_domain %}' ), the_title_attribute( 'echo=0' ) ) );
-				$title      = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_title', '<h2 class="screen-reader-text">' . $title_text . '</h2>' );
+				$title_text = apply_filters( 'wmhook_{%= prefix_hook %}_library_add_table_of_contents_title_text', sprintf( esc_html_x( '"%s" table of contents', '%s: post title.', '{%= text_domain %}' ), the_title_attribute( 'echo=0' ) ) );
+				$title      = apply_filters( 'wmhook_{%= prefix_hook %}_library_add_table_of_contents_title', '<h2 class="screen-reader-text">' . $title_text . '</h2>' );
 
-				$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_args', array(
+				$args = apply_filters( 'wmhook_{%= prefix_hook %}_library_add_table_of_contents_args', array(
 						'disable_first' => true, // First part to have a title of the post (part title won't be parsed)?
 						'links'         => array(), // The output HTML links
 						'post_content'  => ( isset( $post->post_content ) ) ? ( $post->post_content ) : ( '' ), // Get the whole post content
@@ -396,7 +396,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						// Post part item output
 
-							$args['links'][$i] = (string) apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
+							$args['links'][$i] = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_add_table_of_contents_part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
 
 					} // /foreach
 
@@ -404,7 +404,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 					$args['links'] = implode( '', $args['links'] );
 
-					$links = apply_filters( 'wmhook_{%= prefix_hook %}_tf_add_table_of_contents_links', array(
+					$links = apply_filters( 'wmhook_{%= prefix_hook %}_library_add_table_of_contents_links', array(
 							// Display table of contents before the post content only in first post part
 								'before' => ( 1 === $page ) ? ( '<div class="post-table-of-contents top" title="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '">' . $title . '<ol>' . $args['links'] . '</ol></div>' ) : ( '' ),
 							// Display table of cotnnets after the post cotnent on each post part
@@ -430,7 +430,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 		 *
 		 * @since    1.0
-		 * @version  1.9.2
+		 * @version  2.0
 		 *
 		 * @param  array $args
 		 */
@@ -438,7 +438,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_pre', false, $args );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_pre', false, $args );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -449,7 +449,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 				$output = '';
 
-				$args = wp_parse_args( $args, apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_defaults', array(
+				$args = wp_parse_args( $args, apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_defaults', array(
 						'class'       => 'entry-meta',
 						'container'   => 'div',
 						'date_format' => null,
@@ -458,7 +458,7 @@ final class {%= prefix_class %}_Theme_Framework {
 						'meta'        => array(), // Example: array( 'date', 'author', 'category', 'comments', 'permalink' )
 						'post_id'     => null,
 					) ) );
-				$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_args', $args );
+				$args = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_args', $args );
 
 				$args['meta'] = array_filter( (array) $args['meta'] );
 
@@ -480,8 +480,8 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						$helper = '';
 
-						$replacements  = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_replacements', array(), $meta, $args );
-						$output_single = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info', '', $meta, $args );
+						$replacements  = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_replacements', array(), $meta, $args );
+						$output_single = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info', '', $meta, $args );
 						$output       .= $output_single;
 
 					// Predefined metas
@@ -490,7 +490,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 							case 'author':
 
-								if ( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
+								if ( apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
 									$helper = ( is_callable( '{%= prefix_class %}_Schema::get' ) ) ? ( {%= prefix_class %}_Schema::get( 'name' ) ) : ( '' );
 
 									$replacements = array(
@@ -505,7 +505,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							case 'category':
 
 								if (
-										apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args )
+										apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args )
 										&& self::is_categorized_blog()
 										&& ( $helper = get_the_category_list( ', ', '', $args['post_id'] ) )
 									) {
@@ -521,7 +521,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							case 'comments':
 
 								if (
-										apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args )
+										apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args )
 										&& ! post_password_required()
 										&& (
 											comments_open( $args['post_id'] )
@@ -541,7 +541,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							break;
 							case 'date':
 
-								if ( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
+								if ( apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
 									$helper = ( is_callable( '{%= prefix_class %}_Schema::get' ) ) ? ( {%= prefix_class %}_Schema::get( 'datePublished' ) ) : ( '' );
 
 									$replacements = array(
@@ -560,7 +560,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							case 'edit':
 
 								if (
-										apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args )
+										apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args )
 										&& ( $helper = get_edit_post_link( $args['post_id'] ) )
 									) {
 									$the_title_attribute_args = array( 'echo' => false );
@@ -579,7 +579,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							break;
 							case 'likes':
 
-								if ( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
+								if ( apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
 
 									if ( function_exists( 'wp_ulike' ) ) {
 									// WP ULike first
@@ -610,7 +610,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							break;
 							case 'permalink':
 
-								if ( apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
+								if ( apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
 									$the_title_attribute_args = array( 'echo' => false );
 									if ( $args['post_id'] ) {
 										$the_title_attribute_args['post'] = $args['post_id'];
@@ -628,7 +628,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							case 'tags':
 
 								if (
-										apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args )
+										apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args )
 										&& ( $helper = get_the_tag_list( '', ' ', '', $args['post_id'] ) )
 									) {
 									$replacements = array(
@@ -643,7 +643,7 @@ final class {%= prefix_class %}_Theme_Framework {
 							case 'views':
 
 								if (
-										apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_enable_' . $meta, true, $args )
+										apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args )
 										&& function_exists( 'bawpvc_views_sc' )
 										&& ( $helper = bawpvc_views_sc( array() ) )
 									) {
@@ -664,7 +664,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 						// Single meta output
 
-							$replacements = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_post_meta_info_replacements_' . $meta, $replacements, $args );
+							$replacements = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_replacements_' . $meta, $replacements, $args );
 
 							if (
 									empty( $output_single )
@@ -723,7 +723,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Get the paginated heading suffix
 		 *
 		 * @since    1.0
-		 * @version  1.0.2
+		 * @version  2.0
 		 *
 		 * @param  string $tag           Wrapper tag
 		 * @param  string $singular_only Display only on singular posts of specific type
@@ -732,7 +732,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_the_paginated_suffix_pre', false, $tag, $singular_only );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_paginated_suffix_pre', false, $tag, $singular_only );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -817,7 +817,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Checks for <!--more--> tag in post content
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  2.0
 		 *
 		 * @param  mixed $post
 		 */
@@ -825,7 +825,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_has_more_tag_pre', false, $post );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_has_more_tag_pre', false, $post );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -872,7 +872,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * If the file is not located in child theme, output the URL from parent theme.
 		 *
 		 * @since    1.0
-		 * @version  1.4
+		 * @version  2.0
 		 *
 		 * @param  string $file_relative_path File to look for (insert also the theme structure relative path)
 		 *
@@ -882,7 +882,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_stylesheet_directory_uri_pre', false, $file_relative_path );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_stylesheet_directory_uri_pre', false, $file_relative_path );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -960,7 +960,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * unlike WordPress native strip_shortcodes() function.
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  2.0
 		 *
 		 * @param  string $content
 		 */
@@ -968,7 +968,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_remove_shortcodes_pre', false, $content );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_remove_shortcodes_pre', false, $content );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -987,7 +987,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Accessibility skip links
 		 *
 		 * @since    1.0
-		 * @version  1.6
+		 * @version  2.0
 		 *
 		 * @param  string $id     Link target element ID.
 		 * @param  string $text   Link text.
@@ -997,7 +997,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_link_skip_to_pre', false, $id, $text, $class );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_link_skip_to_pre', false, $id, $text, $class );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -1022,7 +1022,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		/**
 		 * Contextual help text
 		 *
-		 * Hook onto `wmhook_{%= prefix_hook %}_tf_contextual_help_texts_array` to add help texts.
+		 * Hook onto `wmhook_{%= prefix_hook %}_library_contextual_help_texts_array` to add help texts.
 		 *
 		 * @example
 		 *
@@ -1042,7 +1042,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 *   );
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  2.0
 		 *
 		 * @param  string    $contextual_help  Help text that appears on the screen.
 		 * @param  string    $screen_id        Screen ID.
@@ -1052,7 +1052,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_contextual_help_pre', false, $contextual_help, $screen_id, $screen );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_contextual_help_pre', false, $contextual_help, $screen_id, $screen );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -1061,7 +1061,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Helper variables
 
-				$texts_array = array_filter( (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_contextual_help_texts_array', array() ) );
+				$texts_array = array_filter( (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_contextual_help_texts_array', array() ) );
 
 
 			// Requirements check
@@ -1100,7 +1100,7 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Get image ID from its URL
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  2.0
 		 *
 		 * @link  http://pippinsplugins.com/retrieve-attachment-id-from-image-url/
 		 * @link  http://make.wordpress.org/core/2012/12/12/php-warning-missing-argument-2-for-wpdb-prepare/
@@ -1111,7 +1111,7 @@ final class {%= prefix_class %}_Theme_Framework {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_image_id_from_url_pre', false, $url );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_image_id_from_url_pre', false, $url );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -1189,13 +1189,13 @@ final class {%= prefix_class %}_Theme_Framework {
 		 * Returns true if a blog has more than 1 category
 		 *
 		 * @since    1.0
-		 * @version  1.3
+		 * @version  2.0
 		 */
 		public static function is_categorized_blog() {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_is_categorized_blog_pre', false );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_is_categorized_blog_pre', false );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -1270,6 +1270,6 @@ final class {%= prefix_class %}_Theme_Framework {
 
 
 
-} // /{%= prefix_class %}_Theme_Framework
+} // /{%= prefix_class %}_Library
 
-add_action( 'after_setup_theme', '{%= prefix_class %}_Theme_Framework::init', -50 );
+add_action( 'after_setup_theme', '{%= prefix_class %}_Library::init', -50 );

@@ -6,7 +6,7 @@
  * @subpackage  Update Notifier
  *
  * @since    1.9
- * @version  1.9
+ * @version  2.0
  *
  * Contents:
  *
@@ -15,7 +15,7 @@
  * 20) Page
  * 30) Get remote data
  */
-final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
+final class {%= prefix_class %}_Library_Update_Notifier {
 
 
 
@@ -129,7 +129,7 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 						// menu_slug
 						'theme-update-notifier',
 						// function
-						'{%= prefix_class %}_Theme_Framework_Update_Notifier::page'
+						'{%= prefix_class %}_Library_Update_Notifier::page'
 					);
 
 				}
@@ -193,7 +193,7 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_updater_page_pre', false );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_updater_page_pre', false );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -344,7 +344,7 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_updater_get_remote_xml_data_pre', false, $interval );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_updater_get_remote_xml_data_pre', false, $interval );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -451,6 +451,6 @@ final class {%= prefix_class %}_Theme_Framework_Update_Notifier {
 
 
 
-} // /{%= prefix_class %}_Theme_Framework_Update_Notifier
+} // /{%= prefix_class %}_Library_Update_Notifier
 
-add_action( 'init', '{%= prefix_class %}_Theme_Framework_Update_Notifier::init' );
+add_action( 'init', '{%= prefix_class %}_Library_Update_Notifier::init' );

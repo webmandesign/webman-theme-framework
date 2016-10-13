@@ -1,5 +1,11 @@
 # WebMan WordPress Theme Update Notifier
 
+## 2.0
+
+* **Update**: Renaming `Theme_Framework` to `Library`
+* **Update**: Renaming `_tf_` to `_library_`
+
+
 ## 1.9.1
 
 * **Update**: Updating constants names

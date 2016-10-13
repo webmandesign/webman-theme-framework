@@ -9,7 +9,7 @@
  * @subpackage  Customize
  *
  * @since    1.8
- * @version  1.9
+ * @version  2.0
  *
  * Contents:
  *
@@ -19,7 +19,7 @@
  *  30) Filesystem
  * 100) Helpers
  */
-final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
+final class {%= prefix_class %}_Library_Customize_Styles {
 
 
 
@@ -37,7 +37,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 		 * Constructor
 		 *
 		 * @since    1.8
-		 * @version  1.8
+		 * @version  2.0
 		 */
 		private function __construct() {
 
@@ -72,7 +72,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 							add_action( 'switch_theme', __CLASS__ . '::custom_styles_transient_flusher' );
 
-							add_action( 'wmhook_monument_valley_tf_theme_upgrade', __CLASS__ . '::custom_styles_transient_flusher' );
+							add_action( 'wmhook_monument_valley_library_theme_upgrade', __CLASS__ . '::custom_styles_transient_flusher' );
 
 						}
 
@@ -82,21 +82,21 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 							// Minify CSS
 
-								add_filter( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_output_min', __CLASS__ . '::minify_css' );
+								add_filter( 'wmhook_{%= prefix_hook %}_library_generate_main_css_output_min', __CLASS__ . '::minify_css' );
 
 							// SSL ready URLs
 
-								add_filter( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_output', '{%= prefix_class %}_Theme_Framework::fix_ssl_urls', 9999 );
+								add_filter( 'wmhook_{%= prefix_hook %}_library_generate_main_css_output', '{%= prefix_class %}_Library::fix_ssl_urls', 9999 );
 
 						} else {
 
 							// Minify CSS
 
-								add_filter( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output_cache', __CLASS__ . '::minify_css' );
+								add_filter( 'wmhook_{%= prefix_hook %}_library_custom_styles_output_cache', __CLASS__ . '::minify_css' );
 
 							// SSL ready URLs
 
-								add_filter( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output', '{%= prefix_class %}_Theme_Framework::fix_ssl_urls', 9999 );
+								add_filter( 'wmhook_{%= prefix_hook %}_library_custom_styles_output', '{%= prefix_class %}_Library::fix_ssl_urls', 9999 );
 
 						}
 
@@ -106,15 +106,15 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 						// Minify CSS
 
-							add_filter( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_output_min', __CLASS__ . '::minify_css' );
+							add_filter( 'wmhook_{%= prefix_hook %}_library_generate_main_css_output_min', __CLASS__ . '::minify_css' );
 
-							add_filter( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output_cache', __CLASS__ . '::minify_css' );
+							add_filter( 'wmhook_{%= prefix_hook %}_library_custom_styles_output_cache', __CLASS__ . '::minify_css' );
 
 						// SSL ready URLs
 
-							add_filter( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_output', '{%= prefix_class %}_Theme_Framework::fix_ssl_urls', 9999 );
+							add_filter( 'wmhook_{%= prefix_hook %}_library_generate_main_css_output', '{%= prefix_class %}_Library::fix_ssl_urls', 9999 );
 
-							add_filter( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output', '{%= prefix_class %}_Theme_Framework::fix_ssl_urls', 9999 );
+							add_filter( 'wmhook_{%= prefix_hook %}_library_custom_styles_output', '{%= prefix_class %}_Library::fix_ssl_urls', 9999 );
 
 		} // /__construct
 
@@ -153,7 +153,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 		 * Generate main CSS file
 		 *
 		 * @since    1.0
-		 * @version  1.9
+		 * @version  2.0
 		 *
 		 * @param  array $args
 		 */
@@ -161,7 +161,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_pre', false, $args );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_pre', false, $args );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -172,13 +172,13 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 				$filesystem = self::get_filesystem();
 
-				$args = wp_parse_args( $args, apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_defaults', array(
+				$args = wp_parse_args( $args, apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_defaults', array(
 						'message'        => '<strong>' . esc_html__( "The main theme CSS stylesheet was regenerated. Please refresh your web browser's and server's cache (if you are using a website server caching solution).", '{%= text_domain %}' ) . '</strong>',
 						'message_after'  => '',
 						'message_before' => '',
 						'type'           => '',
 					) ) );
-				$args = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_args', $args );
+				$args = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_args', $args );
 
 				$output = $output_min = '';
 
@@ -209,7 +209,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 				// Filter output
 
-					$output = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_output', $output, $args );
+					$output = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_output', $output, $args );
 
 				// Requirements check
 
@@ -219,7 +219,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 				// Minify output if set
 
-					$output_min = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_output_min', $output, $args );
+					$output_min = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_output_min', $output, $args );
 
 				// Create the theme CSS folder
 
@@ -251,10 +251,10 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 					}
 
-				$file_name           = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_file_name', '{%= theme_slug %}-styles' . $args['type'], $args );
-				$global_css_path     = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_global_css_path', trailingslashit( $theme_css_dir ) . $file_name . '.css', $args, $file_name );
-				$global_css_url      = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_global_css_url', trailingslashit( $theme_css_url ) . $file_name . '.css', $args, $file_name );
-				$global_css_path_dev = apply_filters( 'wmhook_{%= prefix_hook %}_tf_generate_main_css_global_css_path_dev', trailingslashit( $theme_css_dir ) . 'dev-' . $file_name . '.css', $args, $file_name );
+				$file_name           = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_file_name', '{%= theme_slug %}-styles' . $args['type'], $args );
+				$global_css_path     = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_global_css_path', trailingslashit( $theme_css_dir ) . $file_name . '.css', $args, $file_name );
+				$global_css_url      = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_global_css_url', trailingslashit( $theme_css_url ) . $file_name . '.css', $args, $file_name );
+				$global_css_path_dev = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_global_css_path_dev', trailingslashit( $theme_css_dir ) . 'dev-' . $file_name . '.css', $args, $file_name );
 
 				if (
 						$output
@@ -283,7 +283,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 					// Run custom actions
 
-						do_action( 'wmhook_{%= prefix_hook %}_tf_generate_main_css', $args );
+						do_action( 'wmhook_{%= prefix_hook %}_library_generate_main_css', $args );
 
 					return true;
 
@@ -372,7 +372,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.9
+		 * @version  2.0
 		 *
 		 * @param  string  $css        CSS string with variables to replace.
 		 *
@@ -383,7 +383,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_pre', false, $css, $set_cache, $return );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_pre', false, $css, $set_cache, $return );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -404,7 +404,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 				$output = $css;
 
 				$theme_options = (array) apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
-				$alphas        = array_filter( (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_alphas', array() ) );
+				$alphas        = array_filter( (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_alphas', array() ) );
 
 				$replacements     = array();
 				$set_replacements = true;
@@ -527,7 +527,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 							// Value filtering
 
-								$value = apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_value', $value, $option );
+								$value = apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_value', $value, $option );
 
 							// Convert array to string as otherwise the strtr() function throws error
 
@@ -598,7 +598,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 									$replacements['[[header_image]]'] = 'none';
 								}
 
-						$replacements = (array) apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_replacements', $replacements, $theme_options, $output );
+						$replacements = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_replacements', $replacements, $theme_options, $output );
 
 						// Create a new cache for replacements values, only when saving theme customizer
 
@@ -633,8 +633,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 								$output = strtr( $output, $replacements );
 
 							if ( $set_cache ) {
-								set_transient( '{%= theme_slug %}_custom_css_debug', apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output_cache_debug', $output ) );
-								set_transient( '{%= theme_slug %}_custom_css', apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output_cache', $output ) );
+								set_transient( '{%= theme_slug %}_custom_css_debug', apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_output_cache_debug', $output ) );
+								set_transient( '{%= theme_slug %}_custom_css', apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_output_cache', $output ) );
 							}
 
 						} else {
@@ -648,7 +648,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 			// Output
 
-				$output = (string) apply_filters( 'wmhook_{%= prefix_hook %}_tf_custom_styles_output', $output );
+				$output = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_output', $output );
 
 				if ( $output && $return ) {
 					return trim( (string) $output );
@@ -722,13 +722,13 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 		 * @see  http://wordpress.findincity.net/view/63538464303732726692954/using-wpfilesystem-in-plugins-to-store-customizer-settings
 		 *
 		 * @since    1.0
-		 * @version  1.9
+		 * @version  2.0
 		 */
 		public static function get_filesystem() {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_get_filesystem_pre', false );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_filesystem_pre', false );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -795,7 +795,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 		 * CSS minifier
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  2.0
 		 *
 		 * @param  string $css Code to minimize
 		 */
@@ -803,7 +803,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_minify_css_pre', false, $css );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_minify_css_pre', false, $css );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -842,7 +842,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 		 * Hex color to RGBA
 		 *
 		 * @since    1.0
-		 * @version  1.0
+		 * @version  2.0
 		 *
 		 * @link  http://php.net/manual/en/function.hexdec.php
 		 *
@@ -855,7 +855,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_color_hex_to_rgba_pre', false, $hex, $alpha );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_color_hex_to_rgba_pre', false, $hex, $alpha );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -956,6 +956,6 @@ final class {%= prefix_class %}_Theme_Framework_Customize_Styles {
 
 
 
-} // /{%= prefix_class %}_Theme_Framework_Customize_Styles
+} // /{%= prefix_class %}_Library_Customize_Styles
 
-add_action( 'after_setup_theme', '{%= prefix_class %}_Theme_Framework_Customize_Styles::init', 20 );
+add_action( 'after_setup_theme', '{%= prefix_class %}_Library_Customize_Styles::init', 20 );

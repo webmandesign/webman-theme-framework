@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.9.3
+ * @version  2.0
  *
  * Contents:
  *
@@ -17,7 +17,7 @@
  * 20) Sanitize
  * 30) Customizer core
  */
-final class {%= prefix_class %}_Theme_Framework_Customize {
+final class {%= prefix_class %}_Library_Customize {
 
 
 
@@ -100,7 +100,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 					wp_enqueue_style(
 							'{%= prefix_var %}-customizer',
-							{%= prefix_class %}_Theme_Framework::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/customize.css' ),
+							{%= prefix_class %}_Library::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/customize.css' ),
 							false,
 							esc_attr( {%= prefix_constant %}_THEME_VERSION ),
 							'screen'
@@ -181,13 +181,13 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.9
+		 * @version  2.0
 		 */
 		public static function preview_scripts() {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_preview_scripts_pre', false );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_preview_scripts_pre', false );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -291,7 +291,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 							$output_single .= "\t\t" . '} );' . "\r\n";
 							$output_single .= "\t" . '}'. "\r\n";
 							$output_single .= ');'. "\r\n";
-							$output_single  = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_preview_scripts_option_' . $theme_option['id'], $output_single );
+							$output_single  = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_preview_scripts_option_' . $theme_option['id'], $output_single );
 
 							$output .= $output_single;
 
@@ -305,7 +305,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 			// Output
 
 				if ( $output = trim( $output ) ) {
-					echo apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_preview_scripts_output', '<!-- Theme custom scripts -->' . "\r\n" . '<script type="text/javascript"><!--' . "\r\n" . '( function( $ ) {' . "\r\n\r\n" . trim( $output ) . "\r\n\r\n" . '} )( jQuery );' . "\r\n" . '//--></script>' );
+					echo apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_preview_scripts_output', '<!-- Theme custom scripts -->' . "\r\n" . '<script type="text/javascript"><!--' . "\r\n" . '( function( $ ) {' . "\r\n\r\n" . trim( $output ) . "\r\n\r\n" . '} )( jQuery );' . "\r\n" . '//--></script>' );
 				}
 
 		} // /preview_scripts
@@ -425,7 +425,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  1.9.3
+		 * @version  2.0
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -440,7 +440,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_pre', false, $wp_customize );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_pre', false, $wp_customize );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -453,7 +453,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 				ksort( $theme_options );
 
-				$allowed_option_types = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_allowed_option_types', array(
+				$allowed_option_types = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_allowed_option_types', array(
 						'checkbox',
 						'color',
 						'email',
@@ -474,7 +474,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 				// To make sure our customizer sections start after WordPress default ones
 
-					$priority = absint( apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_priority', 200 ) );
+					$priority = absint( apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_priority', 200 ) );
 
 				// Default section name in case not set (should be overwritten anyway)
 
@@ -530,7 +530,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-range.php';
 					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-select.php';
 
-					do_action( 'wmhook_{%= prefix_hook %}_tf_customize_load_controls', $wp_customize );
+					do_action( 'wmhook_{%= prefix_hook %}_library_customize_load_controls', $wp_customize );
 
 				// Generate customizer options
 
@@ -586,7 +586,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 									}
 
-									$panel_id = apply_filters( 'wmhook_{%= prefix_hook %}_tf_customize_panel_id', $panel_id, $theme_option, $theme_options );
+									$panel_id = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_panel_id', $panel_id, $theme_option, $theme_options );
 
 									if ( $customizer_panel !== $panel_id ) {
 
@@ -674,8 +674,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 													'type'                 => $type,
 													'default'              => $default,
 													'transport'            => $transport,
-													'sanitize_callback'    => ( 'checkbox' === $theme_option['type'] ) ? ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_checkbox' ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_select' ),
-													'sanitize_js_callback' => ( 'checkbox' === $theme_option['type'] ) ? ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_checkbox' ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_select' ),
+													'sanitize_callback'    => ( 'checkbox' === $theme_option['type'] ) ? ( '{%= prefix_class %}_Library_Customize::sanitize_checkbox' ) : ( '{%= prefix_class %}_Library_Customize::sanitize_select' ),
+													'sanitize_js_callback' => ( 'checkbox' === $theme_option['type'] ) ? ( '{%= prefix_class %}_Library_Customize::sanitize_checkbox' ) : ( '{%= prefix_class %}_Library_Customize::sanitize_select' ),
 												)
 											);
 
@@ -832,8 +832,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 													'type'                 => $type,
 													'default'              => $default,
 													'transport'            => $transport,
-													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_array' ),
-													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Theme_Framework_Customize::sanitize_array' ),
+													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Library_Customize::sanitize_array' ),
+													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Library_Customize::sanitize_array' ),
 												)
 											);
 
@@ -940,8 +940,8 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 													'type'                 => $type,
 													'default'              => $default,
 													'transport'            => $transport,
-													'sanitize_callback'    => '{%= prefix_class %}_Theme_Framework_Customize::sanitize_select',
-													'sanitize_js_callback' => '{%= prefix_class %}_Theme_Framework_Customize::sanitize_select',
+													'sanitize_callback'    => '{%= prefix_class %}_Library_Customize::sanitize_select',
+													'sanitize_js_callback' => '{%= prefix_class %}_Library_Customize::sanitize_select',
 												)
 											);
 
@@ -1042,7 +1042,7 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 					if ( $wp_customize->is_preview() ) {
 
-						add_action( 'wp_footer', '{%= prefix_class %}_Theme_Framework_Customize::preview_scripts', 99 );
+						add_action( 'wp_footer', '{%= prefix_class %}_Library_Customize::preview_scripts', 99 );
 
 					}
 
@@ -1052,6 +1052,6 @@ final class {%= prefix_class %}_Theme_Framework_Customize {
 
 
 
-} // /{%= prefix_class %}_Theme_Framework_Customize
+} // /{%= prefix_class %}_Library_Customize
 
-add_action( 'after_setup_theme', '{%= prefix_class %}_Theme_Framework_Customize::init', 20 );
+add_action( 'after_setup_theme', '{%= prefix_class %}_Library_Customize::init', 20 );
