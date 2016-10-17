@@ -7,7 +7,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  1.8
+ * @version  2.0.1
  */
 ( function( exports, $ ) {
 
@@ -15,12 +15,12 @@
 
 
 
-	jQuery( '.custom-radio-container' )
+	$( '.custom-radio-container' )
 		.on( 'change', 'input', function() {
 
 			// Processing
 
-				jQuery( this )
+				$( this )
 					.parent()
 						.addClass( 'is-active' )
 						.siblings()

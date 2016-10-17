@@ -1,5 +1,20 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.0.1
+
+* **Update**: Adding conditional check for WordPress version to TinyMCE page template body class functionality
+* **Update**: Using `$` instead of `jQuery` in JS files
+* **Update**: Improving variables declarations in JS files
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-visual-editor.php
+	js/customize-control-radio-matrix.js
+	js/post.js
+
+
 ## 2.0
 
 * **Update**: Renaming `Theme_Framework` to `Library`
@@ -7,13 +22,14 @@
 
 ### Files changed:
 
-	library/init.php
-	library/includes/classes/class-admin.php
-	library/includes/classes/class-core.php
-	library/includes/classes/class-customize-control-radio-matrix.php
-	library/includes/classes/class-customize-styles.php
-	library/includes/classes/class-customize.php
-	library/includes/classes/class-visual-editor.php
+	changelog.md
+	init.php
+	includes/classes/class-admin.php
+	includes/classes/class-core.php
+	includes/classes/class-customize-control-radio-matrix.php
+	includes/classes/class-customize-styles.php
+	includes/classes/class-customize.php
+	includes/classes/class-visual-editor.php
 
 
 ## 1.9.3

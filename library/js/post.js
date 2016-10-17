@@ -7,7 +7,7 @@
  * @subpackage  Visual Editor
  *
  * @since    1.7.2
- * @version  1.7.2
+ * @version  2.0.1
  */
 
 
@@ -24,34 +24,32 @@ jQuery( document ).ready( function( $ ) {
 	 * Adding page template class on TinyMCE editor HTML body
 	 *
 	 * @since    1.7.2
-	 * @version  1.7.2
+	 * @version  2.0.1
 	 */
 	if ( typeof tinymce !== 'undefined' ) {
 
-		jQuery( '#page_template' )
+		$( '#page_template' )
 			.on( 'change.set-editor-class', function() {
 
 				// Helper variables
 
-					var editor,
-					    body,
-					    template = jQuery( this ).val();
+					var
+						editor,
+						body,
+						pageTemplate = $( this ).val() || '';
 
-					template = template.replace( '.php', '' ).substr( template.lastIndexOf( '/' ) + 1, template.length );
+					pageTemplate = pageTemplate.substr( pageTemplate.lastIndexOf( '/' ) + 1, pageTemplate.length )
+					               .replace( /\.php$/, '' )
+					               .replace( /\./g, '-' );
 
 
 				// Processing
 
-					if ( template && ( editor = tinymce.get( 'content' ) ) ) {
-
+					if ( pageTemplate && ( editor = tinymce.get( 'content' ) ) ) {
 						body = editor.getBody();
-
 						body.className = body.className.replace( /\bpage-template-[^ ]+/, '' );
-
-						editor.dom.addClass( body, template == 'page-template-0' ? 'page-template-default' : 'page-template-' + template );
-
-						jQuery( document ).trigger( 'editor-classchange' );
-
+						editor.dom.addClass( body, 'page-template-' + pageTemplate );
+						$( document ).trigger( 'editor-classchange' );
 					}
 
 			} );

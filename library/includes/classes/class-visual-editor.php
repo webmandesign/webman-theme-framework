@@ -9,7 +9,7 @@
  * @subpackage  Visual Editor
  *
  * @since    1.0
- * @version  2.0
+ * @version  2.0.1
  *
  * Contents:
  *
@@ -392,7 +392,7 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 		 * Adding editor HTML body classes
 		 *
 		 * @since    1.7.2
-		 * @version  1.7.2
+		 * @version  2.0.1
 		 *
 		 * @param  array $init
 		 */
@@ -409,8 +409,9 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 
 			// Helper variables
 
-				$class    = array();
-				$template = get_page_template_slug( $post );
+				global $wp_version;
+
+				$class = array();
 
 
 			// Processing
@@ -423,8 +424,13 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 
 					// Page template class
 
-						if ( $template ) {
-							$class[] = 'page-template-' . sanitize_html_class( basename( $template, '.php' ) );
+						if ( version_compare( $wp_version, '4.7', '<' ) ) {
+
+							if ( $page_template = get_page_template_slug( $post ) ) {
+								$page_template = str_replace( '.', '-', basename( $page_template, '.php' ) );
+								$class[]       = 'page-template-' . sanitize_html_class( $page_template );
+							}
+
 						}
 
 				// Adding custom classes
@@ -444,17 +450,25 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 		 * Adding scripts to post edit screen
 		 *
 		 * @since    1.7.2
-		 * @version  1.9
+		 * @version  2.0.1
 		 *
 		 * @param  string $hook_suffix
 		 */
 		public static function scripts_post_edit( $hook_suffix = '' ) {
 
-			// Requirements check
+			// Helper variables
+
+				global $wp_version;
 
 				$current_screen = get_current_screen();
 
-				if ( isset( $current_screen->base ) && 'post' != $current_screen->base ){
+
+			// Requirements check
+
+				if (
+						version_compare( $wp_version, '4.7', '>=' )
+						|| ( isset( $current_screen->base ) && 'post' != $current_screen->base )
+					) {
 					return;
 				}
 
