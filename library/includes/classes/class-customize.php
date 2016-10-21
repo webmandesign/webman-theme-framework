@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  2.0
+ * @version  2.0.2
  *
  * Contents:
  *
@@ -90,7 +90,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * Customizer controls assets
 		 *
 		 * @since    1.0
-		 * @version  1.9
+		 * @version  2.0.2
 		 */
 		public static function assets() {
 
@@ -100,7 +100,7 @@ final class {%= prefix_class %}_Library_Customize {
 
 					wp_enqueue_style(
 							'{%= prefix_var %}-customizer',
-							{%= prefix_class %}_Library::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/customize.css' ),
+							get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/customize.css' ),
 							false,
 							esc_attr( {%= prefix_constant %}_THEME_VERSION ),
 							'screen'
@@ -425,7 +425,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  2.0
+		 * @version  2.0.2
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -567,26 +567,32 @@ final class {%= prefix_class %}_Library_Customize {
 								 *
 								 * Panels are wrappers for customizer sections.
 								 * Note that the panel will not display unless sections are assigned to it.
-								 * Set the panel name in the section declaration with `in_panel`.
+								 * Set the panel name in the section declaration with `in_panel`:
+								 * - if text, this will become a panel title (ID defaults to `theme-options`)
+								 * - if array, you can set `title`, `id` and `type` (the type will affect panel class)
 								 * Panel has to be defined for each section to prevent all sections within a single panel.
 								 *
 								 * @link  http://make.wordpress.org/core/2014/07/08/customizer-improvements-in-4-0/
 								 */
 								if ( isset( $theme_option['in_panel'] ) ) {
 
+									$panel_type = 'theme-options';
+
 									if ( is_array( $theme_option['in_panel'] ) ) {
 
-										$panel_title = $theme_option['in_panel'][0];
-										$panel_id    = trim( $theme_option['in_panel'][1] );
+										$panel_title = isset( $theme_option['in_panel']['title'] ) ? ( $theme_option['in_panel']['title'] ) : ( '&mdash;' );
+										$panel_id    = isset( $theme_option['in_panel']['id'] ) ? ( $theme_option['in_panel']['id'] ) : ( $panel_type );
+										$panel_type  = isset( $theme_option['in_panel']['type'] ) ? ( $theme_option['in_panel']['type'] ) : ( $panel_type );
 
 									} else {
 
 										$panel_title = $theme_option['in_panel'];
-										$panel_id    = 'theme';
+										$panel_id    = $panel_type;
 
 									}
 
-									$panel_id = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_panel_id', $panel_id, $theme_option, $theme_options );
+									$panel_type = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_panel_type', $panel_type, $theme_option, $theme_options );
+									$panel_id   = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_panel_id', $panel_id, $theme_option, $theme_options );
 
 									if ( $customizer_panel !== $panel_id ) {
 
@@ -596,6 +602,7 @@ final class {%= prefix_class %}_Library_Customize {
 													'title'       => esc_html( $panel_title ),
 													'description' => ( isset( $theme_option['in_panel-description'] ) ) ? ( $theme_option['in_panel-description'] ) : ( '' ), // Hidden at the top of the panel
 													'priority'    => $priority,
+													'type'        => $panel_type, // Sets also the panel class
 												)
 											);
 

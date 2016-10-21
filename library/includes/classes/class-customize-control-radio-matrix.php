@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  2.0
+ * @version  2.0.2
  */
 class {%= prefix_class %}_Customize_Control_Radio_Matrix extends WP_Customize_Control {
 
@@ -26,7 +26,7 @@ class {%= prefix_class %}_Customize_Control_Radio_Matrix extends WP_Customize_Co
 
 				wp_enqueue_script(
 						'{%= prefix_var %}-customize-control-radio-matrix',
-						{%= prefix_class %}_Library::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-control-radio-matrix.js' ),
+						get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-control-radio-matrix.js' ),
 						array( 'customize-controls' ),
 						esc_attr( {%= prefix_constant %}_THEME_VERSION ),
 						true

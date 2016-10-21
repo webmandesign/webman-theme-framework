@@ -9,7 +9,7 @@
  * @subpackage  Visual Editor
  *
  * @since    1.0
- * @version  2.0.1
+ * @version  2.0.2
  *
  * Contents:
  *
@@ -450,7 +450,7 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 		 * Adding scripts to post edit screen
 		 *
 		 * @since    1.7.2
-		 * @version  2.0.1
+		 * @version  2.0.2
 		 *
 		 * @param  string $hook_suffix
 		 */
@@ -479,7 +479,7 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 
 					wp_enqueue_script(
 							'{%= prefix_var %}-post-edit',
-							{%= prefix_class %}_Library::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/post.js' ),
+							get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/post.js' ),
 							array( 'jquery' ),
 							esc_attr( {%= prefix_constant %}_THEME_VERSION ),
 							true

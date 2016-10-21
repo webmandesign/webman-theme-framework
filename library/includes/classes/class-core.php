@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  2.0
+ * @version  2.0.2
  *
  * Contents:
  *
@@ -871,52 +871,40 @@ final class {%= prefix_class %}_Library {
 		 * This function looks for the file in the child theme first.
 		 * If the file is not located in child theme, output the URL from parent theme.
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * Matching the WordPress 4.7+ native `get_theme_file_uri()` function.
 		 *
-		 * @param  string $file_relative_path File to look for (insert also the theme structure relative path)
+		 * @todo  Remove with WordPress 4.9
+		 *
+		 * @since    1.0
+		 * @version  2.0.2
+		 *
+		 * @param  string $file Optional. File to search for in the stylesheet directory.
 		 *
 		 * @return  string Actual URL to the file
 		 */
-		public static function get_stylesheet_directory_uri( $file_relative_path ) {
-
-			// Pre
-
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_stylesheet_directory_uri_pre', false, $file_relative_path );
-
-				if ( false !== $pre ) {
-					return $pre;
-				}
-
+		public static function get_theme_file_uri( $file = '' ) {
 
 			// Helper variables
 
-				$output = '';
-
-				$file_relative_path = trim( $file_relative_path );
-
-
-			// Requirements chek
-
-				if ( ! $file_relative_path ) {
-					return;
-				}
+				$file = ltrim( $file, '/' );
 
 
 			// Processing
 
-				if ( file_exists( trailingslashit( get_stylesheet_directory() ) . $file_relative_path ) ) {
-					$output = trailingslashit( get_stylesheet_directory_uri() ) . $file_relative_path;
+				if ( empty( $file ) ) {
+					$url = get_stylesheet_directory_uri();
+				} elseif ( file_exists( get_stylesheet_directory() . '/' . $file ) ) {
+					$url = get_stylesheet_directory_uri() . '/' . $file;
 				} else {
-					$output = trailingslashit( get_template_directory_uri() ) . $file_relative_path;
+					$url = get_template_directory_uri() . '/' . $file;
 				}
 
 
 			// Output
 
-				return esc_url_raw( $output );
+				return apply_filters( 'theme_file_uri', $url, $file );
 
-		} // /get_stylesheet_directory_uri
+		} // /get_theme_file_uri
 
 
 
@@ -1273,3 +1261,25 @@ final class {%= prefix_class %}_Library {
 } // /{%= prefix_class %}_Library
 
 add_action( 'after_setup_theme', '{%= prefix_class %}_Library::init', -50 );
+
+
+
+
+
+/**
+ * Helper `get_theme_file_uri()` function declaration for WordPress 4.7-
+ *
+ * @todo  Remove with WordPress 4.9
+ *
+ * @since    2.0.2
+ * @version  2.0.2
+ */
+if ( ! function_exists( 'get_theme_file_uri' ) ) {
+	function get_theme_file_uri( $file = '' ) {
+
+		// Output
+
+			return {%= prefix_class %}_Library::get_theme_file_uri( $file );
+
+	}
+} // /get_theme_file_uri

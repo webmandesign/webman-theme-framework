@@ -6,7 +6,7 @@
  * @subpackage  Admin
  *
  * @since    1.0
- * @version  2.0
+ * @version  2.0.2
  *
  * Contents:
  *
@@ -87,7 +87,7 @@ final class {%= prefix_class %}_Library_Admin {
 		 * Admin assets
 		 *
 		 * @since    1.0
-		 * @version  2.0
+		 * @version  2.0.2
 		 */
 		public static function assets() {
 
@@ -98,7 +98,7 @@ final class {%= prefix_class %}_Library_Admin {
 					// Styles
 
 						$register_styles = apply_filters( 'wmhook_{%= prefix_hook %}_library_admin_assets_register_styles', array(
-								'{%= prefix_var %}-welcome' => array( {%= prefix_class %}_Library::get_stylesheet_directory_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/welcome.css' ) ),
+								'{%= prefix_var %}-welcome' => array( get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/welcome.css' ) ),
 							) );
 
 						foreach ( $register_styles as $handle => $atts ) {

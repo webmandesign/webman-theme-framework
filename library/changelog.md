@@ -1,5 +1,23 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.0.2
+
+* **Update**: Improving customizer theme panel styles
+* **Update**: Making it possible to rename customizer theme panel and set its attributes
+* **Update**: Introducing `get_theme_file_uri()` function (will be removed with WordPess 4.9)
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-admin.php
+	includes/classes/class-core.php
+	includes/classes/class-customize-control-radio-matrix.php
+	includes/classes/class-customize.php
+	includes/classes/class-visual-editor.php
+	scss/styles/_customize.scss
+
+
 ## 2.0.1
 
 * **Update**: Adding conditional check for WordPress version to TinyMCE page template body class functionality
