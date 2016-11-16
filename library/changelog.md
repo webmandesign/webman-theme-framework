@@ -1,5 +1,16 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.0.3
+
+* **Update**: Removing obsolete logo method in favor of dedicated template part file within the theme
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-core.php
+
+
 ## 2.0.2
 
 * **Update**: Improving customizer theme panel styles
@@ -123,7 +134,7 @@
 	includes/classes/class-visual-editor.php
 	includes/vendor/use-child-theme/class-use-child-theme.php
 	scss/styles/_welcome.scss
-	
+
 
 ## 1.8
 

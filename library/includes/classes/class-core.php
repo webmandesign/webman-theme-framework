@@ -9,15 +9,14 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  2.0.2
+ * @version  2.0.3
  *
  * Contents:
  *
  *   0) Init
  *  10) Theme upgrade action
- *  20) Branding
- *  30) Post/page
- *  40) Path functions
+ *  20) Post/page
+ *  30) Path functions
  * 100) Helpers
  */
 final class {%= prefix_class %}_Library {
@@ -143,164 +142,7 @@ final class {%= prefix_class %}_Library {
 
 
 	/**
-	 * 20) Branding
-	 */
-
-		/**
-		 * Get the logo
-		 *
-		 * Accessibility rules applied.
-		 *
-		 * @link  http://blog.rrwd.nl/2014/11/21/html5-headings-in-wordpress-lets-fight/
-		 *
-		 * @since    1.0
-		 * @version  2.0
-		 *
-		 * @param  string $container_class  If empty, no container will be outputted.
-		 */
-		public static function get_the_logo( $container_class = 'site-branding' ) {
-
-			// Pre
-
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_pre', false, $container_class );
-
-				if ( false !== $pre ) {
-					return $pre;
-				}
-
-
-			// Helper variables
-
-				$output = array();
-
-				$custom_logo = get_theme_mod( 'custom_logo' ); // Since WordPress 4.5
-
-				// If we don't get WordPress 4.5+ custom logo, try Jetpack Site Logo
-
-					if ( empty( $custom_logo ) && function_exists( 'jetpack_get_site_logo' ) ) {
-						$custom_logo = get_option( 'site_logo', array() );
-						$custom_logo = ( isset( $custom_logo['id'] ) && $custom_logo['id'] ) ? ( absint( $custom_logo['id'] ) ) : ( false );
-					}
-
-				$blog_info = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_blog_info', array(
-						'name'        => trim( get_bloginfo( 'name' ) ),
-						'description' => trim( get_bloginfo( 'description' ) ),
-					), $container_class );
-
-				$args = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_args', array(
-						'logo_image' => ( ! empty( $custom_logo ) ) ? ( $custom_logo ) : ( false ),
-						'logo_type'  => 'text',
-						'title_att'  => ( $blog_info['description'] ) ? ( $blog_info['name'] . ' | ' . $blog_info['description'] ) : ( $blog_info['name'] ),
-						'url'        => home_url( '/' ),
-						'container'  => $container_class,
-					), $blog_info );
-
-
-			// Processing
-
-				// Logo image
-
-					if ( $args['logo_image'] ) {
-
-						$img_id = ( is_numeric( $args['logo_image'] ) ) ? ( absint( $args['logo_image'] ) ) : ( self::get_image_id_from_url( $args['logo_image'] ) );
-
-						if ( $img_id ) {
-
-							$atts = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_image_atts', array(
-									'class' => '',
-								), $img_id, $args, $blog_info );
-
-							$args['logo_image'] = wp_get_attachment_image( absint( $img_id ), 'full', false, $atts );
-
-						} else {
-
-							$args['logo_image'] = '<img src="' . esc_url( $args['logo_image'] ) . '" alt="' . esc_attr( sprintf( esc_html_x( '%s logo', 'Site logo image "alt" HTML attribute text.', '{%= text_domain %}' ), $blog_info['name'] ) ) . '" title="' . esc_attr( $args['title_att'] ) . '" />';
-
-						}
-
-						$args['logo_type'] = 'img';
-
-					}
-
-					$args['logo_image'] = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_image', $args['logo_image'], $args, $blog_info );
-
-				// Logo HTML
-
-					$logo_class = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_class', 'site-title logo type-' . $args['logo_type'], $args, $blog_info );
-
-					if ( $args['container'] ) {
-						$output[10] = '<div class="' . esc_attr( trim( $args['container'] ) ) . '">';
-					}
-
-						if ( is_front_page() ) {
-							$output[20] = '<h1 id="site-title" class="' . esc_attr( $logo_class ) . '">';
-						} else {
-							$output[20] = '<h2 class="screen-reader-text">' . wp_get_document_title() . '</h2>'; // To provide BODY heading on subpages
-							$output[25] = '<a id="site-title" class="' . esc_attr( $logo_class ) . '" href="' . esc_url( $args['url'] ) . '" title="' . esc_attr( $args['title_att'] ) . '" rel="home">';
-						}
-
-							if ( 'text' === $args['logo_type'] ) {
-								$output[30] = '<span class="text-logo">' . $blog_info['name'] . '</span>';
-							} else {
-								$output[30] = $args['logo_image'] . '<span class="screen-reader-text">' . $blog_info['name'] . '</span>';
-							}
-
-						if ( is_front_page() ) {
-							$output[40] = '</h1>';
-						} else {
-							$output[40] = '</a>';
-						}
-
-							if ( $blog_info['description'] ) {
-								$output[50] = '<div class="site-description">' . $blog_info['description'] . '</div>';
-							}
-
-					if ( $args['container'] ) {
-						$output[60] = '</div>';
-					}
-
-					// Filter output array
-
-						$output = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_logo_output', $output, $args, $blog_info );
-
-						ksort( $output );
-
-
-			// Output
-
-				return implode( '', $output );
-
-		} // /get_the_logo
-
-
-
-			/**
-			 * Display the logo
-			 *
-			 * @since    1.0
-			 * @version  1.0
-			 */
-			public static function the_logo() {
-
-				// Helper variables
-
-					$output = self::get_the_logo();
-
-
-				// Output
-
-					if ( $output ) {
-						echo $output;
-					}
-
-			} // /the_logo
-
-
-
-
-
-	/**
-	 * 30) Post/page
+	 * 20) Post/page
 	 */
 
 		/**
@@ -862,7 +704,7 @@ final class {%= prefix_class %}_Library {
 
 
 	/**
-	 * 40) Path functions
+	 * 30) Path functions
 	 */
 
 		/**
