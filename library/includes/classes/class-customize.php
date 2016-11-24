@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  2.0.2
+ * @version  2.0.4
  *
  * Contents:
  *
@@ -425,7 +425,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  2.0.2
+		 * @version  2.0.4
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -629,6 +629,7 @@ final class {%= prefix_class %}_Library_Customize {
 													'title'       => $theme_option['create_section'], // Section title
 													'description' => ( isset( $theme_option['create_section-description'] ) ) ? ( $theme_option['create_section-description'] ) : ( '' ), // Displayed at the top of section
 													'priority'    => $priority,
+													'type'        => 'theme-options', // Sets also the section class
 												)
 										);
 

@@ -1,5 +1,17 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.0.4
+
+* **Fix**: Making customizer styles compatible with WordPress 4.7+
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-customize.php
+	scss/styles/_customize.scss
+
+
 ## 2.0.3
 
 * **Update**: Removing obsolete logo method in favor of dedicated template part file within the theme

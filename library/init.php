@@ -15,7 +15,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
  *
- * @version  2.0.3
+ * @version  2.0.4
  *
  * Used global hooks:
  *
