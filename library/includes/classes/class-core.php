@@ -9,7 +9,7 @@
  * @subpackage  Core
  *
  * @since    1.0
- * @version  2.0.3
+ * @version  2.0.6
  *
  * Contents:
  *
@@ -272,7 +272,7 @@ final class {%= prefix_class %}_Library {
 		 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
 		 *
 		 * @since    1.0
-		 * @version  2.0
+		 * @version  2.0.6
 		 *
 		 * @param  array $args
 		 */
@@ -390,7 +390,7 @@ final class {%= prefix_class %}_Library {
 											'{attributes}'  => '',
 											'{class}'       => esc_attr( 'entry-date entry-meta-element' ),
 											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Posted on:', 'Post meta info description: publish date.', '{%= text_domain %}' ) . ' </span>',
-											'{content}'     => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" rel="bookmark"><time datetime="' . esc_attr( get_the_date( 'c' ) ) . '" class="published" title="' . esc_attr( get_the_date() ) . ' | ' . esc_attr( get_the_time( '', $args['post_id'] ) ) . '"' . $helper . '>' . esc_html( get_the_date( $args['date_format'] ) ) . '</time></a>',
+											'{content}'     => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" rel="bookmark"' . {%= prefix_class %}_Schema::get( 'url' ) . '><time datetime="' . esc_attr( get_the_date( 'c' ) ) . '" class="published" title="' . esc_attr( get_the_date() ) . ' | ' . esc_attr( get_the_time( '', $args['post_id'] ) ) . '"' . $helper . '>' . esc_html( get_the_date( $args['date_format'] ) ) . '</time></a>',
 										);
 
 									if ( is_callable( '{%= prefix_class %}_Schema::get' ) ) {

@@ -1,5 +1,16 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.0.6
+
+* **Add**: Adding Schema.org "url" itemprop on linked post date
+
+### Files changed:
+
+  changelog.md
+  init.php
+  includes/classes/class-core.php
+ 
+
 ## 2.0.5
 
 * **Update**: Using `wp_mkdir_p()` where appropriate
