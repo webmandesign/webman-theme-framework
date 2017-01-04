@@ -1,5 +1,16 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.0.5
+
+* **Update**: Using `wp_mkdir_p()` where appropriate
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-customize-styles.php
+
+
 ## 2.0.4
 
 * **Fix**: Making customizer styles compatible with WordPress 4.7+

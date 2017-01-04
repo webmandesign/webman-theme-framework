@@ -9,7 +9,7 @@
  * @subpackage  Customize
  *
  * @since    1.8
- * @version  2.0
+ * @version  2.0.5
  *
  * Contents:
  *
@@ -153,7 +153,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * Generate main CSS file
 		 *
 		 * @since    1.0
-		 * @version  2.0
+		 * @version  2.0.5
 		 *
 		 * @param  array $args
 		 */
@@ -168,9 +168,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				}
 
 
-			// Helper viariables
-
-				$filesystem = self::get_filesystem();
+			// Helper variables
 
 				$args = wp_parse_args( $args, apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_defaults', array(
 						'message'        => '<strong>' . esc_html__( "The main theme CSS stylesheet was regenerated. Please refresh your web browser's and server's cache (if you are using a website server caching solution).", '{%= text_domain %}' ) . '</strong>',
@@ -184,14 +182,15 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 				$args['type'] = trim( $args['type'] );
 
+				$filesystem = self::get_filesystem();
+
 
 			// Requirements check
 
 				if (
 						! $filesystem
-						|| ! is_object( $filesystem )
-						|| ! is_callable( array( $filesystem, 'mkdir' ) )
 						|| ! is_callable( array( $filesystem, 'put_contents' ) )
+						|| ! function_exists( 'wp_mkdir_p' )
 					) {
 					return;
 				}
@@ -230,7 +229,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 					if (
 							! ( file_exists( $theme_css_dir ) && is_dir( $theme_css_dir ) )
-							&& ! $filesystem->mkdir( $theme_css_dir, FS_CHMOD_DIR )
+							&& ! wp_mkdir_p( $theme_css_dir )
 						) {
 
 						set_transient(
@@ -258,10 +257,10 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 				if (
 						$output
-						&& $filesystem->put_contents( $global_css_path, $output_min, FS_CHMOD_FILE )
+						&& $filesystem->put_contents( $global_css_path, $output_min )
 					) {
 
-					$filesystem->put_contents( $global_css_path_dev, $output, FS_CHMOD_FILE );
+					$filesystem->put_contents( $global_css_path_dev, $output );
 
 					// Store the CSS files paths and urls in DB
 
