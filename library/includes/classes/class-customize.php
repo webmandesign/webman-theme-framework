@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0
- * @version  2.0.4
+ * @version  2.0.7
  *
  * Contents:
  *
@@ -425,7 +425,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0
-		 * @version  2.0.4
+		 * @version  2.0.7
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -783,7 +783,7 @@ final class {%= prefix_class %}_Library_Customize {
 										$wp_customize->add_setting(
 												$option_id,
 												array(
-													'sanitize_callback'    => 'wp_filter_post_kses',
+													'sanitize_callback'    => 'wp_kses_post',
 													'sanitize_js_callback' => 'wp_filter_post_kses',
 												)
 											);

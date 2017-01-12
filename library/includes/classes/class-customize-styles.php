@@ -72,7 +72,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 							add_action( 'switch_theme', __CLASS__ . '::custom_styles_transient_flusher' );
 
-							add_action( 'wmhook_monument_valley_library_theme_upgrade', __CLASS__ . '::custom_styles_transient_flusher' );
+							add_action( 'wmhook_{%= prefix_hook %}_library_theme_upgrade', __CLASS__ . '::custom_styles_transient_flusher' );
 
 						}
 

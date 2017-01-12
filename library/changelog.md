@@ -1,15 +1,28 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.0.7
+
+* **Update**: Using `wp_kses_post` instead of `wp_filter_post_kses` where appropriate
+* **Fix**: Removing Monument Valley theme references
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-customize.php
+	includes/classes/class-customize-styles.php
+
+
 ## 2.0.6
 
 * **Add**: Adding Schema.org "url" itemprop on linked post date
 
 ### Files changed:
 
-  changelog.md
-  init.php
-  includes/classes/class-core.php
- 
+	changelog.md
+	init.php
+	includes/classes/class-core.php
+
 
 ## 2.0.5
 
