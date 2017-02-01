@@ -7,8 +7,8 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Customize
  *
- * @since    1.0
- * @version  2.0.2
+ * @since    1.0.0
+ * @version  2.1.0
  */
 class {%= prefix_class %}_Customize_Control_Radio_Matrix extends WP_Customize_Control {
 
@@ -66,9 +66,9 @@ class {%= prefix_class %}_Customize_Control_Radio_Matrix extends WP_Customize_Co
 
 						?>
 
-						<label for="<?php echo $this->id . ++$i; ?>"<?php echo $active_class . $title; ?>>
+						<label for="<?php echo esc_attr( $this->id . ++$i ); ?>"<?php echo $active_class . $title; ?>>
 							<?php echo $name; ?>
-							<input class="custom-radio-item" type="radio" value="<?php echo $value; ?>" name="<?php echo $this->id; ?>" id="<?php echo $this->id . $i; ?>" <?php echo $this->get_link() . $checked; ?> />
+							<input class="custom-radio-item" type="radio" value="<?php echo esc_attr( $value ); ?>" name="<?php echo esc_attr( $this->id ); ?>" id="<?php echo esc_attr( $this->id . $i ); ?>" <?php echo $this->get_link() . $checked; ?> />
 						</label>
 
 						<?php

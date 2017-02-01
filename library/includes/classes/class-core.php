@@ -8,8 +8,8 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
  *
- * @since    1.0
- * @version  2.0.6
+ * @since    1.0.0
+ * @version  2.1.0
  *
  * Contents:
  *
@@ -36,8 +36,8 @@ final class {%= prefix_class %}_Library {
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0
-		 * @version  1.8
+		 * @since    1.0.0
+		 * @version  1.8.0
 		 */
 		private function __construct() {
 
@@ -82,8 +82,8 @@ final class {%= prefix_class %}_Library {
 		/**
 		 * Initialization (get instance)
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 */
 		public static function init() {
 
@@ -111,8 +111,8 @@ final class {%= prefix_class %}_Library {
 		/**
 		 * Do action on theme version change
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 */
 		public static function theme_upgrade() {
 
@@ -152,8 +152,8 @@ final class {%= prefix_class %}_Library {
 		 * the first H2 heading in each post part.
 		 * Appends the output at the top and bottom of post content.
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.1.0
 		 *
 		 * @param  string $content
 		 */
@@ -229,9 +229,9 @@ final class {%= prefix_class %}_Library {
 						// Set post part class
 
 							if ( $page === $i ) {
-								$class = ' class="current"';
+								$class = ' class="is-current"';
 							} elseif ( $page > $i ) {
-								$class = ' class="passed"';
+								$class = ' class="is-passed"';
 							} else {
 								$class = '';
 							}
@@ -264,308 +264,10 @@ final class {%= prefix_class %}_Library {
 
 
 		/**
-		 * Get the post meta info
-		 *
-		 * hAtom microformats compatible. @link http://goo.gl/LHi4Dy
-		 * Supports WP ULike plugin. @link https://wordpress.org/plugins/wp-ulike/
-		 * Supports ZillaLikes plugin. @link http://www.themezilla.com/plugins/zillalikes/
-		 * Supports Post Views Count plugin. @link https://wordpress.org/plugins/baw-post-views-count/
-		 *
-		 * @since    1.0
-		 * @version  2.0.6
-		 *
-		 * @param  array $args
-		 */
-		public static function get_the_post_meta_info( $args = array() ) {
-
-			// Pre
-
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_pre', false, $args );
-
-				if ( false !== $pre ) {
-					return $pre;
-				}
-
-
-			// Helper variables
-
-				$output = '';
-
-				$args = wp_parse_args( $args, apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_defaults', array(
-						'class'       => 'entry-meta',
-						'container'   => 'div',
-						'date_format' => null,
-						'html'        => '<span class="{class}"{attributes}>{description}{content}</span> ',
-						'html_custom' => array(), // Example: array( 'date' => 'CUSTOM_HTML_WITH_{class}_{attributes}_{description}_AND_{content}_HERE' )
-						'meta'        => array(), // Example: array( 'date', 'author', 'category', 'comments', 'permalink' )
-						'post_id'     => null,
-					) ) );
-				$args = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_args', $args );
-
-				$args['meta'] = array_filter( (array) $args['meta'] );
-
-				if ( $args['post_id'] ) {
-					$args['post_id'] = absint( $args['post_id'] );
-				}
-
-
-			// Requirements check
-
-				if ( empty( $args['meta'] ) ) {
-					return;
-				}
-
-
-			// Processing
-
-				foreach ( $args['meta'] as $meta ) {
-
-						$helper = '';
-
-						$replacements  = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_replacements', array(), $meta, $args );
-						$output_single = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info', '', $meta, $args );
-						$output       .= $output_single;
-
-					// Predefined metas
-
-						switch ( $meta ) {
-
-							case 'author':
-
-								if ( apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
-									$helper = ( is_callable( '{%= prefix_class %}_Schema::get' ) ) ? ( {%= prefix_class %}_Schema::get( 'name' ) ) : ( '' );
-
-									$replacements = array(
-											'{attributes}'  => ( is_callable( '{%= prefix_class %}_Schema::get' ) ) ? ( {%= prefix_class %}_Schema::get( 'author' ) . {%= prefix_class %}_Schema::get( 'Person' ) ) : ( '' ),
-											'{class}'       => esc_attr( 'byline author vcard entry-meta-element' ),
-											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Written by:', 'Post meta info description: author name.', '{%= text_domain %}' ) . ' </span>',
-											'{content}'     => '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" class="url fn n" rel="author"' . $helper . '>' . get_the_author() . '</a>',
-										);
-								}
-
-							break;
-							case 'category':
-
-								if (
-										apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args )
-										&& self::is_categorized_blog()
-										&& ( $helper = get_the_category_list( ', ', '', $args['post_id'] ) )
-									) {
-									$replacements = array(
-											'{attributes}'  => '',
-											'{class}'       => esc_attr( 'cat-links entry-meta-element' ),
-											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Categorized in:', 'Post meta info description: categories list.', '{%= text_domain %}' ) . ' </span>',
-											'{content}'     => $helper,
-										);
-								}
-
-							break;
-							case 'comments':
-
-								if (
-										apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args )
-										&& ! post_password_required()
-										&& (
-											comments_open( $args['post_id'] )
-											|| get_comments_number( $args['post_id'] )
-										)
-									) {
-									$helper       = absint( get_comments_number( $args['post_id'] ) );
-									$element_id   = ( $helper ) ? ( '#comments' ) : ( '#respond' );
-									$replacements = array(
-											'{attributes}'  => '',
-											'{class}'       => esc_attr( 'comments-link entry-meta-element' ),
-											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Comments:', 'Post meta info description: comments count.', '{%= text_domain %}' ) . ' </span>',
-											'{content}'     => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . $element_id . '" title="' . esc_attr( sprintf( esc_html_x( 'Comments: %s', '%s: number of comments.', '{%= text_domain %}' ), number_format_i18n( $helper ) ) ) . '"><span class="comments-title">' . esc_html_x( 'Comments:', 'Title for number of comments in post meta.', '{%= text_domain %}' ) . ' </span><span class="comments-count">' . $helper . '</span></a>',
-										);
-								}
-
-							break;
-							case 'date':
-
-								if ( apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
-									$helper = ( is_callable( '{%= prefix_class %}_Schema::get' ) ) ? ( {%= prefix_class %}_Schema::get( 'datePublished' ) ) : ( '' );
-
-									$replacements = array(
-											'{attributes}'  => '',
-											'{class}'       => esc_attr( 'entry-date entry-meta-element' ),
-											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Posted on:', 'Post meta info description: publish date.', '{%= text_domain %}' ) . ' </span>',
-											'{content}'     => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" rel="bookmark"' . {%= prefix_class %}_Schema::get( 'url' ) . '><time datetime="' . esc_attr( get_the_date( 'c' ) ) . '" class="published" title="' . esc_attr( get_the_date() ) . ' | ' . esc_attr( get_the_time( '', $args['post_id'] ) ) . '"' . $helper . '>' . esc_html( get_the_date( $args['date_format'] ) ) . '</time></a>',
-										);
-
-									if ( is_callable( '{%= prefix_class %}_Schema::get' ) ) {
-										$replacements['{content}'] = $replacements['{content}'] . {%= prefix_class %}_Schema::get( 'dateModified', get_the_modified_date( 'c' ) );
-									}
-								}
-
-							break;
-							case 'edit':
-
-								if (
-										apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args )
-										&& ( $helper = get_edit_post_link( $args['post_id'] ) )
-									) {
-									$the_title_attribute_args = array( 'echo' => false );
-									if ( $args['post_id'] ) {
-										$the_title_attribute_args['post'] = $args['post_id'];
-									}
-
-									$replacements = array(
-											'{attributes}'  => '',
-											'{class}'       => esc_attr( 'entry-edit entry-meta-element' ),
-											'{description}' => '',
-											'{content}'     => '<a href="' . esc_url( $helper ) . '" title="' . esc_attr( sprintf( esc_html__( 'Edit the "%s"', '{%= text_domain %}' ), the_title_attribute( $the_title_attribute_args ) ) ) . '"><span>' . esc_html_x( 'Edit', 'Edit post link.', '{%= text_domain %}' ) . '</span></a>',
-										);
-								}
-
-							break;
-							case 'likes':
-
-								if ( apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
-
-									if ( function_exists( 'wp_ulike' ) ) {
-									// WP ULike first
-
-										$replacements = array(
-												'{attributes}'  => '',
-												'{class}'       => esc_attr( 'entry-likes entry-meta-element' ),
-												'{description}' => '',
-												'{content}'     => wp_ulike( 'put' ),
-											);
-
-									} elseif ( function_exists( 'zilla_likes' ) ) {
-									// ZillaLikes after
-
-										global $zilla_likes;
-
-										$replacements = array(
-												'{attributes}'  => '',
-												'{class}'       => esc_attr( 'entry-likes entry-meta-element' ),
-												'{description}' => '',
-												'{content}'     => $zilla_likes->do_likes(),
-											);
-
-									}
-
-								}
-
-							break;
-							case 'permalink':
-
-								if ( apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args ) ) {
-									$the_title_attribute_args = array( 'echo' => false );
-									if ( $args['post_id'] ) {
-										$the_title_attribute_args['post'] = $args['post_id'];
-									}
-
-									$replacements = array(
-											'{attributes}'  => ( is_callable( '{%= prefix_class %}_Schema::get' ) ) ? ( {%= prefix_class %}_Schema::get( 'url' ) ) : ( '' ),
-											'{class}'       => esc_attr( 'entry-permalink entry-meta-element' ),
-											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Bookmark link:', 'Post meta info description: post bookmark link.', '{%= text_domain %}' ) . ' </span>',
-											'{content}'     => '<a href="' . esc_url( get_permalink( $args['post_id'] ) ) . '" title="' . esc_attr( sprintf( esc_html__( 'Permalink to "%s"', '{%= text_domain %}' ), the_title_attribute( $the_title_attribute_args ) ) ) . '" rel="bookmark"><span>' . get_the_title( $args['post_id'] ) . '</span></a>',
-										);
-								}
-
-							break;
-							case 'tags':
-
-								if (
-										apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args )
-										&& ( $helper = get_the_tag_list( '', ' ', '', $args['post_id'] ) )
-									) {
-									$replacements = array(
-											'{attributes}'  => ( is_callable( '{%= prefix_class %}_Schema::get' ) ) ? ( {%= prefix_class %}_Schema::get( 'keywords' ) ) : ( '' ),
-											'{class}'       => esc_attr( 'tags-links entry-meta-element' ),
-											'{description}' => '<span class="entry-meta-description">' . esc_html_x( 'Tagged as:', 'Post meta info description: tags list.', '{%= text_domain %}' ) . ' </span>',
-											'{content}'     => $helper,
-										);
-								}
-
-							break;
-							case 'views':
-
-								if (
-										apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_enable_' . $meta, true, $args )
-										&& function_exists( 'bawpvc_views_sc' )
-										&& ( $helper = bawpvc_views_sc( array() ) )
-									) {
-									$replacements = array(
-											'{attributes}'  => ' title="' . esc_attr__( 'Views count', '{%= text_domain %}' ) . '"',
-											'{class}'       => esc_attr( 'entry-views entry-meta-element' ),
-											'{description}' => '',
-											'{content}'     => wp_strip_all_tags( $helper ),
-										);
-								}
-
-							break;
-
-							default:
-							break;
-
-						} // /switch
-
-						// Single meta output
-
-							$replacements = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_post_meta_info_replacements_' . $meta, $replacements, $args );
-
-							if (
-									empty( $output_single )
-									&& ! empty( $replacements )
-								) {
-
-								if ( isset( $args['html_custom'][ $meta ] ) ) {
-									$output .= strtr( $args['html_custom'][ $meta ], (array) $replacements );
-								} else {
-									$output .= strtr( $args['html'], (array) $replacements );
-								}
-
-							}
-
-				} // /foreach
-
-				if ( $output ) {
-					$output = '<' . tag_escape( $args['container'] ) . ' class="' . esc_attr( $args['class'] ) . '">' . $output . '</' . tag_escape( $args['container'] ) . '>';
-				}
-
-
-			// Output
-
-				return $output;
-
-		} // /get_the_post_meta_info
-
-
-
-			/**
-			 * Display the post meta info
-			 *
-			 * @since    1.0
-			 * @version  1.0
-			 *
-			 * @param  array $args
-			 */
-			public static function the_post_meta_info( $args = array() ) {
-
-				// Helper variables
-
-					$output = self::get_the_post_meta_info( $args );
-
-
-				// Output
-
-					if ( $output ) {
-						echo $output;
-					}
-
-			} // /the_post_meta_info
-
-
-
-		/**
 		 * Get the paginated heading suffix
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 *
 		 * @param  string $tag           Wrapper tag
 		 * @param  string $singular_only Display only on singular posts of specific type
@@ -632,8 +334,8 @@ final class {%= prefix_class %}_Library {
 			/**
 			 * Display the paginated heading suffix
 			 *
-			 * @since    1.0
-			 * @version  1.0
+			 * @since    1.0.0
+			 * @version  1.0.0
 			 *
 			 * @param  string $tag           Wrapper tag
 			 * @param  string $singular_only Display only on singular posts of specific type
@@ -658,8 +360,8 @@ final class {%= prefix_class %}_Library {
 		/**
 		 * Checks for <!--more--> tag in post content
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 *
 		 * @param  mixed $post
 		 */
@@ -717,7 +419,7 @@ final class {%= prefix_class %}_Library {
 		 *
 		 * @todo  Remove with WordPress 4.9
 		 *
-		 * @since    1.0
+		 * @since    1.0.0
 		 * @version  2.0.2
 		 *
 		 * @param  string $file Optional. File to search for in the stylesheet directory.
@@ -759,7 +461,7 @@ final class {%= prefix_class %}_Library {
 		/**
 		 * Fixing URLs in `is_ssl()` returns TRUE
 		 *
-		 * @since    1.3
+		 * @since    1.3.0
 		 * @version  1.3.3
 		 *
 		 * @param  string $content
@@ -789,8 +491,8 @@ final class {%= prefix_class %}_Library {
 		 * This function keeps the text between shortcodes,
 		 * unlike WordPress native strip_shortcodes() function.
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 *
 		 * @param  string $content
 		 */
@@ -816,8 +518,8 @@ final class {%= prefix_class %}_Library {
 		/**
 		 * Accessibility skip links
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 *
 		 * @param  string $id     Link target element ID.
 		 * @param  string $text   Link text.
@@ -871,8 +573,8 @@ final class {%= prefix_class %}_Library {
 		 *     )
 		 *   );
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 *
 		 * @param  string    $contextual_help  Help text that appears on the screen.
 		 * @param  string    $screen_id        Screen ID.
@@ -929,8 +631,8 @@ final class {%= prefix_class %}_Library {
 		/**
 		 * Get image ID from its URL
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 *
 		 * @link  http://pippinsplugins.com/retrieve-attachment-id-from-image-url/
 		 * @link  http://make.wordpress.org/core/2012/12/12/php-warning-missing-argument-2-for-wpdb-prepare/
@@ -1002,8 +704,8 @@ final class {%= prefix_class %}_Library {
 			/**
 			 * Flush out the transients used in `get_image_id_from_url`
 			 *
-			 * @since    1.0
-			 * @version  1.0
+			 * @since    1.0.0
+			 * @version  1.0.0
 			 */
 			public static function image_ids_transient_flusher() {
 
@@ -1018,8 +720,8 @@ final class {%= prefix_class %}_Library {
 		/**
 		 * Returns true if a blog has more than 1 category
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 */
 		public static function is_categorized_blog() {
 
@@ -1076,8 +778,8 @@ final class {%= prefix_class %}_Library {
 			/**
 			 * Flush out the transients used in `is_categorized_blog`
 			 *
-			 * @since    1.0
-			 * @version  1.0
+			 * @since    1.0.0
+			 * @version  1.0.0
 			 */
 			public static function all_categories_transient_flusher() {
 

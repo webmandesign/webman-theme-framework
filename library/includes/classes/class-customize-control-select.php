@@ -7,8 +7,8 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Customize
  *
- * @since    1.0
- * @version  1.9
+ * @since    1.0.0
+ * @version  2.1.0
  */
 class {%= prefix_class %}_Customize_Control_Select extends WP_Customize_Control {
 
@@ -33,14 +33,12 @@ class {%= prefix_class %}_Customize_Control_Select extends WP_Customize_Control 
 
 						foreach ( $this->choices as $value => $name ) {
 
-							$value = esc_attr( $value );
-
 							if ( 0 === strpos( $value, 'optgroup' ) ) {
 								echo '<optgroup label="' . esc_attr( $name ) . '">';
 							} elseif ( 0 === strpos( $value, '/optgroup' ) ) {
 								echo '</optgroup>';
 							} else {
-								echo '<option value="' . $value . '" ' . selected( $this->value(), $value, false ) . '>' . $name . '</option>';
+								echo '<option value="' . esc_attr( $value ) . '" ' . selected( $this->value(), $value, false ) . '>' . esc_html( $name ) . '</option>';
 							}
 
 						} // /foreach

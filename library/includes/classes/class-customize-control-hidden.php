@@ -7,8 +7,8 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Customize
  *
- * @since    1.0
- * @version  1.9
+ * @since    1.0.0
+ * @version  1.9.0
  */
 class {%= prefix_class %}_Customize_Control_Hidden extends WP_Customize_Control {
 

@@ -7,8 +7,8 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Customize
  *
- * @since    1.0
- * @version  1.9
+ * @since    1.0.0
+ * @version  2.1.0
  */
 class {%= prefix_class %}_Customize_Control_Range extends WP_Customize_Control {
 
@@ -59,7 +59,7 @@ class {%= prefix_class %}_Customize_Control_Range extends WP_Customize_Control {
 				<span class="slide-number-wrapper">
 					<span id="<?php echo sanitize_title( $this->id ); ?>-slider" class="number-slider"></span>
 				</span>
-				<input type="number" name="<?php echo $this->id; ?>" id="<?php echo sanitize_title( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); ?> />
+				<input type="number" name="<?php echo esc_attr( $this->id ); ?>" id="<?php echo sanitize_title( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); ?> />
 			</label>
 
 			<script><!--
@@ -71,7 +71,7 @@ class {%= prefix_class %}_Customize_Control_Range extends WP_Customize_Control {
 
 						jQuery( '#<?php echo sanitize_title( $this->id ); ?>-slider' )
 							.slider( {
-								value  : <?php echo $this->value(); ?>,
+								value  : <?php echo esc_attr( $this->value() ); ?>,
 								min    : <?php echo $this->json[0]; ?>,
 								max    : <?php echo $this->json[1]; ?>,
 								step   : <?php echo $this->json[2]; ?>,

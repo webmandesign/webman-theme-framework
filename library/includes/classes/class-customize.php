@@ -7,8 +7,8 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Customize
  *
- * @since    1.0
- * @version  2.0.7
+ * @since    1.0.0
+ * @version  2.1.0
  *
  * Contents:
  *
@@ -34,8 +34,8 @@ final class {%= prefix_class %}_Library_Customize {
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0
-		 * @version  1.5
+		 * @since    1.0.0
+		 * @version  1.5.0
 		 */
 		private function __construct() {
 
@@ -60,8 +60,8 @@ final class {%= prefix_class %}_Library_Customize {
 		/**
 		 * Initialization (get instance)
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 */
 		public static function init() {
 
@@ -89,7 +89,7 @@ final class {%= prefix_class %}_Library_Customize {
 		/**
 		 * Customizer controls assets
 		 *
-		 * @since    1.0
+		 * @since    1.0.0
 		 * @version  2.0.2
 		 */
 		public static function assets() {
@@ -180,8 +180,8 @@ final class {%= prefix_class %}_Library_Customize {
 		 *
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 */
 		public static function preview_scripts() {
 
@@ -321,8 +321,8 @@ final class {%= prefix_class %}_Library_Customize {
 		/**
 		 * Sanitize checkbox
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 *
 		 * @param  bool $value WP customizer value to sanitize.
 		 */
@@ -339,7 +339,7 @@ final class {%= prefix_class %}_Library_Customize {
 		/**
 		 * Sanitize select/radio
 		 *
-		 * @since    1.0
+		 * @since    1.0.0
 		 * @version  1.9.3
 		 *
 		 * @param  string               $value WP customizer value to sanitize.
@@ -368,7 +368,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * Sanitize array
 		 *
 		 * @since    1.9.3
-		 * @version  1.9.3
+		 * @version  2.1.0
 		 *
 		 * @param  mixed                $value    WP customizer value to sanitize.
 		 * @param  WP_Customize_Setting $setting
@@ -377,7 +377,7 @@ final class {%= prefix_class %}_Library_Customize {
 
 			// Helper variables
 
-				$value = (array) $value;
+				$value = ( ! is_array( $value ) ) ? ( explode( ',', $value ) ) : ( $value );
 
 				// Get list of choices from the control associated with the setting.
 
@@ -424,8 +424,8 @@ final class {%= prefix_class %}_Library_Customize {
 		 *
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
-		 * @since    1.0
-		 * @version  2.0.7
+		 * @since    1.0.0
+		 * @version  2.1.0
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -455,6 +455,7 @@ final class {%= prefix_class %}_Library_Customize {
 
 				$allowed_option_types = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_allowed_option_types', array(
 						'checkbox',
+						'checkboxes',
 						'color',
 						'email',
 						'hidden',
@@ -697,6 +698,33 @@ final class {%= prefix_class %}_Library_Customize {
 									break;
 
 									/**
+									 * Checkboxex, multiselect
+									 */
+									case 'checkboxes':
+									case 'multiselect':
+
+										$wp_customize->add_setting(
+												$option_id,
+												array(
+													'type'                 => $type,
+													'default'              => $default,
+													'transport'            => $transport,
+													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Library_Customize::sanitize_array' ),
+													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Library_Customize::sanitize_array' ),
+												)
+											);
+
+										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Multiselect(
+												$wp_customize,
+												$option_id,
+												array_merge( $generic, array(
+													'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
+												) )
+											) );
+
+									break;
+
+									/**
 									 * Color
 									 */
 									case 'color':
@@ -824,32 +852,6 @@ final class {%= prefix_class %}_Library_Customize {
 												$option_id,
 												array_merge( $generic, array(
 													'context' => $option_id,
-												) )
-											) );
-
-									break;
-
-									/**
-									 * Multiselect
-									 */
-									case 'multiselect':
-
-										$wp_customize->add_setting(
-												$option_id,
-												array(
-													'type'                 => $type,
-													'default'              => $default,
-													'transport'            => $transport,
-													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Library_Customize::sanitize_array' ),
-													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Library_Customize::sanitize_array' ),
-												)
-											);
-
-										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Multiselect(
-												$wp_customize,
-												$option_id,
-												array_merge( $generic, array(
-													'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
 												) )
 											) );
 

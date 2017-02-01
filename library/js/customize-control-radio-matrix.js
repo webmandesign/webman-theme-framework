@@ -6,30 +6,34 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Customize
  *
- * @since    1.0
- * @version  2.0.1
+ * @since    1.0.0
+ * @version  2.1.0
  */
 ( function( exports, $ ) {
 
+	$( document ).ready( function() {
 
 
 
 
-	$( '.custom-radio-container' )
-		.on( 'change', 'input', function() {
 
-			// Processing
+		$( '.custom-radio-container' )
+			.on( 'change', 'input', function() {
 
-				$( this )
-					.parent()
-						.addClass( 'is-active' )
-						.siblings()
-						.removeClass( 'is-active' );
+				// Processing
 
-		} );
+					$( this )
+						.parent()
+							.addClass( 'is-active' )
+							.siblings()
+							.removeClass( 'is-active' );
+
+			} );
 
 
 
 
+
+	} );
 
 } )( wp, jQuery );

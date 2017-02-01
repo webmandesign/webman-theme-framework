@@ -1,5 +1,28 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.1.0
+
+* **Add**: Support for multi-checkbox customizer control
+* **Update**: Removing post meta method in favor of theme template files
+* **Update**: Renaming post table of content active and passed section CSS classes
+* **Update**: Improving customizer controls escaping
+* **Update**: Using semantic versioning
+* **Fix**: Multi-select customizer control check for what is selected
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-core.php
+	includes/classes/class-customize-control-multiselect.php
+	includes/classes/class-customize-control-radio-matrix.php
+	includes/classes/class-customize-control-range.php
+	includes/classes/class-customize-control-select.php
+	includes/classes/class-customize.php
+	js/customize-control-checkboxes.js
+	js/customize-control-radio-matrix.js
+
+
 ## 2.0.7
 
 * **Update**: Using `wp_kses_post` instead of `wp_filter_post_kses` where appropriate

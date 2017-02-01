@@ -8,7 +8,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Customize
  *
- * @since    1.8
+ * @since    1.8.0
  * @version  2.0.5
  *
  * Contents:
@@ -36,8 +36,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		/**
 		 * Constructor
 		 *
-		 * @since    1.8
-		 * @version  2.0
+		 * @since    1.8.0
+		 * @version  2.0.0
 		 */
 		private function __construct() {
 
@@ -123,8 +123,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		/**
 		 * Initialization (get instance)
 		 *
-		 * @since    1.8
-		 * @version  1.8
+		 * @since    1.8.0
+		 * @version  1.8.0
 		 */
 		public static function init() {
 
@@ -152,7 +152,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		/**
 		 * Generate main CSS file
 		 *
-		 * @since    1.0
+		 * @since    1.0.0
 		 * @version  2.0.5
 		 *
 		 * @param  array $args
@@ -300,8 +300,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 			/**
 			 * Generate editor CSS file
 			 *
-			 * @since    1.3
-			 * @version  1.3
+			 * @since    1.3.0
+			 * @version  1.3.0
 			 */
 			public static function generate_main_css_editor() {
 
@@ -316,8 +316,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 			/**
 			 * Generate RTL CSS file
 			 *
-			 * @since    1.3
-			 * @version  1.3
+			 * @since    1.3.0
+			 * @version  1.3.0
 			 */
 			public static function generate_main_css_rtl() {
 
@@ -335,8 +335,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 			/**
 			 * Generate all CSS files
 			 *
-			 * @since    1.3
-			 * @version  1.3
+			 * @since    1.3.0
+			 * @version  1.3.0
 			 */
 			public static function generate_main_css_all() {
 
@@ -370,8 +370,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 *
 		 * @param  string  $css        CSS string with variables to replace.
 		 *
@@ -662,8 +662,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 			 *
 			 * For HTML head inline CSS styles output only.
 			 *
-			 * @since    1.0
-			 * @version  1.1
+			 * @since    1.0.0
+			 * @version  1.1.0
 			 */
 			public static function custom_styles_transient_flusher() {
 
@@ -683,8 +683,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 			 * For HTML head inline CSS styles output only.
 			 * Useful to pass into the action hooks.
 			 *
-			 * @since    1.0
-			 * @version  1.0
+			 * @since    1.0.0
+			 * @version  1.0.0
 			 */
 			public static function custom_styles_cache() {
 
@@ -720,8 +720,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * @see  http://ottopress.com/2011/tutorial-using-the-wp_filesystem/
 		 * @see  http://wordpress.findincity.net/view/63538464303732726692954/using-wpfilesystem-in-plugins-to-store-customizer-settings
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 */
 		public static function get_filesystem() {
 
@@ -793,8 +793,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		/**
 		 * CSS minifier
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 *
 		 * @param  string $css Code to minimize
 		 */
@@ -840,8 +840,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		/**
 		 * Hex color to RGBA
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 *
 		 * @link  http://php.net/manual/en/function.hexdec.php
 		 *
@@ -907,8 +907,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		/**
 		 * Duplicating WordPress native function in case it does not exist yet
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 *
 		 * @link  https://developer.wordpress.org/reference/functions/maybe_hash_hex_color/
 		 * @link  https://developer.wordpress.org/reference/functions/sanitize_hex_color_no_hash/

@@ -8,7 +8,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Visual Editor
  *
- * @since    1.0
+ * @since    1.0.0
  * @version  2.0.2
  *
  * Contents:
@@ -35,7 +35,7 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0
+		 * @since    1.0.0
 		 * @version  1.7.2
 		 */
 		private function __construct() {
@@ -75,8 +75,8 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 		/**
 		 * Initialization (get instance)
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 */
 		public static function init() {
 
@@ -106,8 +106,8 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 		 *
 		 * First row.
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 *
 		 * @param  array $buttons
 		 */
@@ -148,8 +148,8 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 		 *
 		 * Second row.
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 *
 		 * @param  array $buttons
 		 */
@@ -191,8 +191,8 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 		 * @link  http://codex.wordpress.org/TinyMCE_Custom_Styles
 		 * @link  http://www.tinymce.com/wiki.php/Configuration:style_formats
 		 *
-		 * @since    1.0
-		 * @version  2.0
+		 * @since    1.0.0
+		 * @version  2.0.0
 		 *
 		 * @param  array $init
 		 */
