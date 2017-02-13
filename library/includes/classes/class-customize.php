@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0.0
- * @version  2.1.0
+ * @version  2.1.1
  *
  * Contents:
  *
@@ -425,7 +425,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0.0
-		 * @version  2.1.0
+		 * @version  2.1.1
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -455,12 +455,12 @@ final class {%= prefix_class %}_Library_Customize {
 
 				$allowed_option_types = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_allowed_option_types', array(
 						'checkbox',
-						'checkboxes',
 						'color',
 						'email',
 						'hidden',
 						'html',
 						'image',
+						'multicheckbox',
 						'multiselect',
 						'password',
 						'radio',
@@ -507,14 +507,12 @@ final class {%= prefix_class %}_Library_Customize {
 					$wp_customize->get_control( 'background_color' )->section  = 'background_image';
 					$wp_customize->get_control( 'background_color' )->priority = 20;
 
-				// Change background image section title & priority
+				// Change background image section priority
 
-					$wp_customize->get_section( 'background_image' )->title    = esc_html_x( 'Background', 'Customizer section title.', '{%= text_domain %}' );
 					$wp_customize->get_section( 'background_image' )->priority = 30;
 
-				// Change header image section title & priority
+				// Change header image section priority
 
-					$wp_customize->get_section( 'header_image' )->title    = esc_html_x( 'Header', 'Customizer section title.', '{%= text_domain %}' );
 					$wp_customize->get_section( 'header_image' )->priority = 25;
 
 				// Custom controls
@@ -700,7 +698,7 @@ final class {%= prefix_class %}_Library_Customize {
 									/**
 									 * Checkboxex, multiselect
 									 */
-									case 'checkboxes':
+									case 'multicheckbox':
 									case 'multiselect':
 
 										$wp_customize->add_setting(
@@ -842,8 +840,8 @@ final class {%= prefix_class %}_Library_Customize {
 													'type'                 => $type,
 													'default'              => $default,
 													'transport'            => $transport,
-													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'absint' ),
-													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'absint' ),
+													'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_url_raw' ),
+													'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_url_raw' ),
 												)
 											);
 

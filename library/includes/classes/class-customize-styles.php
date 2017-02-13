@@ -9,7 +9,7 @@
  * @subpackage  Customize
  *
  * @since    1.8.0
- * @version  2.0.5
+ * @version  2.1.1
  *
  * Contents:
  *
@@ -371,7 +371,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 		 *
 		 * @since    1.0.0
-		 * @version  2.0.0
+		 * @version  2.1.1
 		 *
 		 * @param  string  $css        CSS string with variables to replace.
 		 *
@@ -454,7 +454,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 							// If we have an ID, get the default value if set
 
-								if ( isset( $option['default'] ) ) {
+								if ( isset( $option['default'] ) && 'image' !== $option['type'] ) {
 									$value = $option['default'];
 								}
 
@@ -536,21 +536,32 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 							// Finally, modify the output string
 
-								$replacements[ '[[' . str_replace( '-', '_', $option_id ) . ']]' ] = $value;
+								$css_option_id = str_replace( '-', '_', $option_id );
+
+								$replacements[ '[[' . $css_option_id . ']]' ] = $value;
 
 								// Add also rgba() color interpretation
 
 									if ( 'color' === $option['type'] && ! empty( $alphas ) ) {
 										foreach ( $alphas as $alpha ) {
-											$replacements[ '[[' . str_replace( '-', '_', $option_id ) . '(' . absint( $alpha ) . ')]]' ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
+											$replacements[ '[[' . $css_option_id . '(' . absint( $alpha ) . ')]]' ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
 										} // /foreach
 									}
 
 								// Option related conditional CSS comment
 
-									if ( isset( $option['is_css_condition'] ) && (bool) $value ) {
-										$replacements[ '/**if(' . str_replace( '-', '_', $option_id ) . ')' ] = '';
-										$replacements[ 'endif(' . str_replace( '-', '_', $option_id ) . ')**/' ] = '';
+									if ( isset( $option['is_css_condition'] ) ) {
+
+										if ( 'image' === $option['type'] && 'none' === $value ) {
+											$value = false;
+										}
+
+										if ( (bool) $value ) {
+											$replacements[ '/**if(' . $css_option_id . ')' ] = $replacements[ 'endif(' . $css_option_id . ')**/' ] = '';
+										} else {
+											$replacements[ '/**if!(' . $css_option_id . ')' ] = $replacements[ 'endif(' . $css_option_id . ')**/' ] = '';
+										}
+
 									}
 
 						} // /foreach

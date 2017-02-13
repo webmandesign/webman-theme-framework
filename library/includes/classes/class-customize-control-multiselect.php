@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0.0
- * @version  2.1.0
+ * @version  2.1.1
  */
 class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Control {
 
@@ -18,13 +18,17 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 
 			// Scripts
 
-				wp_enqueue_script(
-						'{%= prefix_var %}-customize-control-checkboxes',
-						get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-control-checkboxes.js' ),
-						array( 'customize-controls' ),
-						esc_attr( {%= prefix_constant %}_THEME_VERSION ),
-						true
-					);
+				if ( 'multicheckbox' === $this->type ) {
+
+					wp_enqueue_script(
+							'{%= prefix_var %}-customize-control-multicheckbox',
+							get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-control-multicheckbox.js' ),
+							array( 'customize-controls' ),
+							esc_attr( {%= prefix_constant %}_THEME_VERSION ),
+							true
+						);
+
+				}
 
 	} // /enqueue
 
@@ -44,7 +48,7 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 
 		// Output
 
-			if ( 'checkboxes' === $this->type ) {
+			if ( 'multicheckbox' === $this->type ) {
 				$this->render_content_checkbox();
 			} else {
 				$this->render_content_select();

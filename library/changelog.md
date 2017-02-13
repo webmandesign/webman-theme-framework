@@ -1,5 +1,25 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.1.1
+
+* **Add**: Styles generator option value NOT conditional support
+* **Update**: Renaming "checkboxes" to "multicheckbox"
+* **Update**: Optimizing code
+* **Update**: Not changing custom background and header customizer sections titles
+* **Fix**: Styles generator image background (default) value
+* **Fix**: Customizer image field validation
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-customize-control-multiselect.php
+	includes/classes/class-customize-styles.php
+	includes/classes/class-customize.php
+	includes/vendor/tgmpa/class-tgm-plugin-activation.php
+	js/customize-control-multicheckbox.js
+
+
 ## 2.1.0
 
 * **Add**: Support for multi-checkbox customizer control
@@ -26,7 +46,7 @@
 ## 2.0.7
 
 * **Update**: Using `wp_kses_post` instead of `wp_filter_post_kses` where appropriate
-* **Fix**: Removing Monument Valley theme references
+* **Fix**: Removing wrong theme name references
 
 ### Files changed:
 

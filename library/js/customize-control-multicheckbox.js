@@ -7,7 +7,7 @@
  * @subpackage  Customize
  *
  * @since    2.1.0
- * @version  2.1.0
+ * @version  2.1.1
  */
 ( function( exports, $ ) {
 
@@ -17,7 +17,7 @@
 
 
 
-		$( '.customize-control-checkboxes' )
+		$( '.customize-control-multicheckbox' )
 			.on( 'change', 'input[type="checkbox"]', function() {
 
 				// Helper variables
