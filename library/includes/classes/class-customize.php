@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0.0
- * @version  2.1.1
+ * @version  2.2.0
  *
  * Contents:
  *
@@ -90,7 +90,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * Customizer controls assets
 		 *
 		 * @since    1.0.0
-		 * @version  2.0.2
+		 * @version  2.2.0
 		 */
 		public static function assets() {
 
@@ -99,7 +99,7 @@ final class {%= prefix_class %}_Library_Customize {
 				// Styles
 
 					wp_enqueue_style(
-							'{%= prefix_var %}-customizer',
+							'{%= prefix_var %}-customize-controls',
 							get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/customize.css' ),
 							false,
 							esc_attr( {%= prefix_constant %}_THEME_VERSION ),
@@ -109,6 +109,16 @@ final class {%= prefix_class %}_Library_Customize {
 					// RTL setup
 
 						wp_style_add_data( '{%= prefix_var %}-customizer', 'rtl', 'replace' );
+
+				// Scripts
+
+					wp_enqueue_script(
+							'{%= prefix_var %}-customize-controls',
+							get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-controls.js' ),
+							array( 'customize-controls' ),
+							esc_attr( {%= prefix_constant %}_THEME_VERSION ),
+							true
+						);
 
 		} // /assets
 
@@ -425,7 +435,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0.0
-		 * @version  2.1.1
+		 * @version  2.2.0
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -526,7 +536,6 @@ final class {%= prefix_class %}_Library_Customize {
 					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-html.php';
 					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-multiselect.php';
 					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-radio-matrix.php';
-					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-range.php';
 					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-select.php';
 
 					do_action( 'wmhook_{%= prefix_hook %}_library_customize_load_controls', $wp_customize );
@@ -560,6 +569,8 @@ final class {%= prefix_class %}_Library_Customize {
 									}
 
 									$transport = ( isset( $theme_option['preview_js'] ) ) ? ( 'postMessage' ) : ( 'refresh' );
+
+
 
 								/**
 								 * Panels
@@ -858,9 +869,6 @@ final class {%= prefix_class %}_Library_Customize {
 									/**
 									 * Range
 									 *
-									 * Since WP4.0 there is also a "range" native input field. This will output
-									 * HTML5 <input type="range" /> element - thus still using custom one.
-									 *
 									 * intval() used as sanitize callback causes PHP errors!
 									 */
 									case 'range':
@@ -876,14 +884,17 @@ final class {%= prefix_class %}_Library_Customize {
 												)
 											);
 
-										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Range(
-												$wp_customize,
+										$wp_customize->add_control(
 												$option_id,
 												array_merge( $generic, array(
-													'json'       => array( $theme_option['min'], $theme_option['max'], $theme_option['step'] ),
-													'multiplier' => ( isset( $theme_option['multiplier'] ) ) ? ( $theme_option['multiplier'] ) : ( 1 ),
+													'input_attrs' => array(
+														'min'           => $theme_option['min'],
+														'max'           => $theme_option['max'],
+														'step'          => $theme_option['step'],
+														'data-multiply' => ( isset( $theme_option['multiplier'] ) ) ? ( $theme_option['multiplier'] ) : ( 1 ),
+													),
 												) )
-											) );
+											);
 
 									break;
 

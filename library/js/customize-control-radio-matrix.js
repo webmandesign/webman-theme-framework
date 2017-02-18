@@ -7,11 +7,10 @@
  * @subpackage  Customize
  *
  * @since    1.0.0
- * @version  2.1.0
+ * @version  2.2.0
  */
 ( function( exports, $ ) {
-
-	$( document ).ready( function() {
+	$( wp.customize ).on( 'ready', function() {
 
 
 
@@ -35,5 +34,4 @@
 
 
 	} );
-
 } )( wp, jQuery );

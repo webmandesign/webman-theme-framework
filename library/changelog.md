@@ -1,5 +1,24 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.2.0
+
+* **Add**: Conditional hiding of CSS image properties controls
+* **Update**: Range input slider made RTL ready and more accessible
+* **Fix**: CSS styles generator CSS conditionals
+* **Fix**: CSS styles generator checkbox default value
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-customize-styles.php
+	includes/classes/class-customize.php
+	js/customize-control-multicheckbox.js
+	js/customize-control-radio-matrix.js
+	js/customize-controls.js
+	scss/styles/_customize.scss
+
+
 ## 2.1.1
 
 * **Add**: Styles generator option value NOT conditional support

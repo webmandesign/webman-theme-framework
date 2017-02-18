@@ -7,7 +7,7 @@
 // @subpackage  Customize
 //
 // @since    1.5.0
-// @version  2.0.4
+// @version  2.2.0
 //
 
 
@@ -274,48 +274,69 @@
 
 			// Range / jQuery UI Slider
 
-				.customize-control-range {
+				$range_track_size: 1em;
+				$range_thumb_size: 1.5em;
 
-					.slide-number-wrapper {
-						display: block;
-						width: 90%;
-						width: calc( 100% - 40px );
-						padding: 0 20px;
-						margin: 15px 0;
-						transition: margin .4s;
+				@mixin range_track() {
+					width: 100%;
+					height: $range_track_size;
+					cursor: pointer;
+					@include range_track_colors;
+				}
+
+				@mixin range_track_colors() {
+					background: #ccc;
+					border: 0;
+					border-radius: $range_thumb_size;
+					box-shadow: none;
+				}
+
+				@mixin range_thumb() {
+					appearance: none;
+					width: $range_thumb_size;
+					height: $range_thumb_size;
+					margin-top: ( $range_track_size - $range_thumb_size ) / 2;
+					background: #09f;
+					border: 0;
+					border-radius: 3px;
+					box-shadow: none;
+					cursor: pointer;
+				}
+
+				input[type=range] {
+					appearance: none;
+					width: 100%;
+					margin: 1.62em 0;
+					background: transparent;
+
+					&:focus {
+						outline: none;
 					}
 
-					.ui-slider {
-						position: relative;
-						display: block;
-						width: 100%;
-						height: 2px;
-						margin: 10px 0;
-						text-align: $left;
-						background: #fff;
-						border: 2px solid #bbb;
-						border-radius: 10px;
+					&::-webkit-slider-runnable-track { @include range_track; }
+					&::-moz-range-track { @include range_track; }
+					&::-ms-track { @include range_track; }
+
+					&::-webkit-slider-thumb { @include range_thumb; }
+					&::-moz-range-thumb { @include range_thumb; }
+					&::-ms-thumb { @include range_thumb; }
+
+					&::-ms-fill-upper { @include range_track_colors; }
+					&::-ms-fill-lower { @include range_track_colors; }
+
+				}
+
+				.range {
+
+					&-container {
+						display: flex;
+						align-items: center;
 					}
 
-					.ui-slider-handle {
-						position: absolute;
-						z-index: 2;
-						min-width: 18px;
-						min-height: 10px;
-						top: 0;
-						padding: .19em .62em;
-						text-align: center;
-						font-size: .81em;
-						font-weight: 600;
-						background-color: #28b;
-						color: #fff;
-						border: 2px solid #069;
-						outline: 0;
-						border-radius: 100px;
-						cursor: e-resize;
-						box-shadow: inset 0 2px 0 rgba( #fff, .2 );
-						transform: translateX(-50%) translateY(-50%);
-						transform-origin: 50% 50%;
+					&-value {
+						min-width: 16%;
+						padding-#{$left}: 1.62em;
+						text-align: $right;
 					}
 
 				}

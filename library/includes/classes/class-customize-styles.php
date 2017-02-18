@@ -9,7 +9,7 @@
  * @subpackage  Customize
  *
  * @since    1.8.0
- * @version  2.1.1
+ * @version  2.2.0
  *
  * Contents:
  *
@@ -371,7 +371,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 		 *
 		 * @since    1.0.0
-		 * @version  2.1.1
+		 * @version  2.2.0
 		 *
 		 * @param  string  $css        CSS string with variables to replace.
 		 *
@@ -460,7 +460,14 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 							// Get the option value saved in database and apply it when exists
 
-								if ( $mod = get_theme_mod( $option_id ) ) {
+								$mod = get_theme_mod( $option_id );
+
+								/**
+								 * As this is producing CSS output, the only instance
+								 * we check for an empty value is with checkbox controls.
+								 * They can be used in conditional comments in CSS (see below).
+								 */
+								if ( $mod || 'checkbox' === $option['type'] ) {
 									$value = $mod;
 								}
 
@@ -557,9 +564,11 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 										}
 
 										if ( (bool) $value ) {
-											$replacements[ '/**if(' . $css_option_id . ')' ] = $replacements[ 'endif(' . $css_option_id . ')**/' ] = '';
+											$replacements[ '/**if(' . $css_option_id . ')' ]    = '';
+											$replacements[ 'endif(' . $css_option_id . ')**/' ] = '';
 										} else {
-											$replacements[ '/**if!(' . $css_option_id . ')' ] = $replacements[ 'endif(' . $css_option_id . ')**/' ] = '';
+											$replacements[ '/**if!(' . $css_option_id . ')' ]    = '';
+											$replacements[ 'endif!(' . $css_option_id . ')**/' ] = '';
 										}
 
 									}
