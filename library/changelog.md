@@ -1,5 +1,19 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.2.1
+
+* **Add**: Range input value prefix and suffix support
+* **Update**: Range input slider styles
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-customize.php
+	js/customize-controls.js
+	scss/styles/_customize.scss
+
+
 ## 2.2.0
 
 * **Add**: Conditional hiding of CSS image properties controls

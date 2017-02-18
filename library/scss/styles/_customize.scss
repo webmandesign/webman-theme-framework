@@ -7,7 +7,7 @@
 // @subpackage  Customize
 //
 // @since    1.5.0
-// @version  2.2.0
+// @version  2.2.1
 //
 
 
@@ -275,7 +275,11 @@
 			// Range / jQuery UI Slider
 
 				$range_track_size: 1em;
+				$range_track_color: #ccc;
 				$range_thumb_size: 1.5em;
+				$range_thumb_color: #0085ba;
+				$range_value_background: $range_thumb_color;
+				$range_value_color: #fff;
 
 				@mixin range_track() {
 					width: 100%;
@@ -285,7 +289,7 @@
 				}
 
 				@mixin range_track_colors() {
-					background: #ccc;
+					background: $range_track_color;
 					border: 0;
 					border-radius: $range_thumb_size;
 					box-shadow: none;
@@ -296,9 +300,9 @@
 					width: $range_thumb_size;
 					height: $range_thumb_size;
 					margin-top: ( $range_track_size - $range_thumb_size ) / 2;
-					background: #09f;
+					background: $range_thumb_color;
 					border: 0;
-					border-radius: 3px;
+					border-radius: .19em;
 					box-shadow: none;
 					cursor: pointer;
 				}
@@ -331,12 +335,33 @@
 					&-container {
 						display: flex;
 						align-items: center;
+						cursor: default;
 					}
 
 					&-value {
+						position: relative;
 						min-width: 16%;
-						padding-#{$left}: 1.62em;
-						text-align: $right;
+						padding: .38rem;
+						margin-#{$left}: .38rem;
+						text-align: center;
+						font-size: .9em;
+						background: $range_value_background;
+						color: $range_value_color;
+						border-radius: .19rem;
+						cursor: help;
+
+						&::before {
+							content: '';
+							position: absolute;
+							width: .38rem;
+							height: .38rem;
+							#{$left}: 0;
+							top: 50%;
+							margin: -.19rem;
+							background: inherit;
+							transform: rotate( 45deg );
+						}
+
 					}
 
 				}

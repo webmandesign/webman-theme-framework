@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0.0
- * @version  2.2.0
+ * @version  2.2.1
  *
  * Contents:
  *
@@ -435,7 +435,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0.0
-		 * @version  2.2.0
+		 * @version  2.2.1
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -892,6 +892,8 @@ final class {%= prefix_class %}_Library_Customize {
 														'max'           => $theme_option['max'],
 														'step'          => $theme_option['step'],
 														'data-multiply' => ( isset( $theme_option['multiplier'] ) ) ? ( $theme_option['multiplier'] ) : ( 1 ),
+														'data-prefix'   => ( isset( $theme_option['prefix'] ) ) ? ( $theme_option['prefix'] ) : ( '' ),
+														'data-suffix'   => ( isset( $theme_option['suffix'] ) ) ? ( $theme_option['suffix'] ) : ( '' ),
 													),
 												) )
 											);

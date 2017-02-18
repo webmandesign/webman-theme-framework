@@ -10,7 +10,7 @@
  * @subpackage  Customize
  *
  * @since    2.2.0
- * @version  2.2.0
+ * @version  2.2.1
  */
 ( function( exports, $ ) {
 	$( wp.customize ).on( 'ready', function() {
@@ -29,15 +29,17 @@
 					// Helper variables
 
 						var
-							$this = $( this ),
-							value = $this.val() * $this.data( 'multiply' );
+							$this       = $( this ),
+							value       = $this.val() * $this.data( 'multiply' ),
+							valuePrefix = $this.data( 'prefix' ),
+							valueSuffix = $this.data( 'suffix' );
 
 
 					// Processing
 
 						$this
 							.next()
-								.html( Math.round( value ) );
+								.text( valuePrefix + Math.round( value ) + valueSuffix );
 
 				} );
 
@@ -47,14 +49,17 @@
 					// Helper variables
 
 						var
-							$this = $( this ),
-							value = $this.prev().val() * $this.prev().data( 'multiply' );
+							$this       = $( this ),
+							$inputField = $this.prev(),
+							value       = $inputField.val() * $inputField.data( 'multiply' ),
+							valuePrefix = $inputField.data( 'prefix' ),
+							valueSuffix = $inputField.data( 'suffix' );
 
 
 					// Processing
 
 						$this
-							.html( Math.round( value ) );
+							.text( valuePrefix + Math.round( value ) + valueSuffix );
 
 				} );
 
