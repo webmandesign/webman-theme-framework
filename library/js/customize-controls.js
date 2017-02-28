@@ -10,7 +10,7 @@
  * @subpackage  Customize
  *
  * @since    2.2.0
- * @version  2.2.1
+ * @version  2.2.2
  */
 ( function( exports, $ ) {
 	$( wp.customize ).on( 'ready', function() {

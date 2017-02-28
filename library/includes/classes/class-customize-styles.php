@@ -9,7 +9,7 @@
  * @subpackage  Customize
  *
  * @since    1.8.0
- * @version  2.2.0
+ * @version  2.2.2
  *
  * Contents:
  *
@@ -371,7 +371,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 		 *
 		 * @since    1.0.0
-		 * @version  2.2.0
+		 * @version  2.2.2
 		 *
 		 * @param  string  $css        CSS string with variables to replace.
 		 *
@@ -463,11 +463,11 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 								$mod = get_theme_mod( $option_id );
 
 								/**
-								 * As this is producing CSS output, the only instance
-								 * we check for an empty value is with checkbox controls.
-								 * They can be used in conditional comments in CSS (see below).
+								 * As this is producing CSS output, we allow checking
+								 * for an empty or zero value with checkbox and range controls.
+								 * Checkbox can be used in conditional comments in CSS for example (see below).
 								 */
-								if ( $mod || 'checkbox' === $option['type'] ) {
+								if ( $mod || is_numeric( $mod ) || 'checkbox' === $option['type'] ) {
 									$value = $mod;
 								}
 

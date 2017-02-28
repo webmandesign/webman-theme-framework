@@ -1,5 +1,18 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.2.2
+
+* **Fix**: `customize-controls.js` filename
+* **Fix**: Allow for zero value of range customizer control in styles generator
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-customize-styles.php
+	js/customize-controls.js
+
+
 ## 2.2.1
 
 * **Add**: Range input value prefix and suffix support
