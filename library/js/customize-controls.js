@@ -10,7 +10,7 @@
  * @subpackage  Customize
  *
  * @since    2.2.0
- * @version  2.2.2
+ * @version  2.2.3
  */
 ( function( exports, $ ) {
 	$( wp.customize ).on( 'ready', function() {
@@ -31,15 +31,22 @@
 						var
 							$this       = $( this ),
 							value       = $this.val() * $this.data( 'multiply' ),
+							decimals    = $this.data( 'decimals' ),
 							valuePrefix = $this.data( 'prefix' ),
 							valueSuffix = $this.data( 'suffix' );
 
 
 					// Processing
 
+						if ( 1 > decimals ) {
+							decimals = 1;
+						} else {
+							decimals = Math.pow( 10, decimals );
+						}
+
 						$this
 							.next()
-								.text( valuePrefix + Math.round( value ) + valueSuffix );
+								.text( valuePrefix + Math.round( value * decimals ) / decimals + valueSuffix );
 
 				} );
 
@@ -52,14 +59,21 @@
 							$this       = $( this ),
 							$inputField = $this.prev(),
 							value       = $inputField.val() * $inputField.data( 'multiply' ),
+							decimals    = $inputField.data( 'decimals' ),
 							valuePrefix = $inputField.data( 'prefix' ),
 							valueSuffix = $inputField.data( 'suffix' );
 
 
 					// Processing
 
+						if ( 1 > decimals ) {
+							decimals = 1;
+						} else {
+							decimals = Math.pow( 10, decimals );
+						}
+
 						$this
-							.text( valuePrefix + Math.round( value ) + valueSuffix );
+							.text( valuePrefix + Math.round( value * decimals ) / decimals + valueSuffix );
 
 				} );
 

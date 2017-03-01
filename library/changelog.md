@@ -1,5 +1,17 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.2.3
+
+* **Fix**: Displaying decimal places in range customizer control value preview
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-customize.php
+	js/customize-controls.js
+
+
 ## 2.2.2
 
 * **Fix**: `customize-controls.js` filename

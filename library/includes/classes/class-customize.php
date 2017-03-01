@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0.0
- * @version  2.2.1
+ * @version  2.2.3
  *
  * Contents:
  *
@@ -435,7 +435,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0.0
-		 * @version  2.2.1
+		 * @version  2.2.3
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -868,8 +868,6 @@ final class {%= prefix_class %}_Library_Customize {
 
 									/**
 									 * Range
-									 *
-									 * intval() used as sanitize callback causes PHP errors!
 									 */
 									case 'range':
 
@@ -894,6 +892,7 @@ final class {%= prefix_class %}_Library_Customize {
 														'data-multiply' => ( isset( $theme_option['multiplier'] ) ) ? ( $theme_option['multiplier'] ) : ( 1 ),
 														'data-prefix'   => ( isset( $theme_option['prefix'] ) ) ? ( $theme_option['prefix'] ) : ( '' ),
 														'data-suffix'   => ( isset( $theme_option['suffix'] ) ) ? ( $theme_option['suffix'] ) : ( '' ),
+														'data-decimals' => ( isset( $theme_option['decimal_places'] ) ) ? ( absint( $theme_option['decimal_places'] ) ) : ( 0 ),
 													),
 												) )
 											);
