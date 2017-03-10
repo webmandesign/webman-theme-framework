@@ -1,5 +1,16 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.2.4
+
+* **Fix**: Image control default value in custom styles generator
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-customize-styles.php
+
+
 ## 2.2.3
 
 * **Fix**: Displaying decimal places in range customizer control value preview
