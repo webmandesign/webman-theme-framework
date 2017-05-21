@@ -1,5 +1,16 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.2.5
+
+* **Update**: Adding <address> tag support for TinyMCE custom Formats dropdown style
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-visual-editor.php
+
+
 ## 2.2.4
 
 * **Fix**: Image control default value in custom styles generator

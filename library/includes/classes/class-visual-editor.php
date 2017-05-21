@@ -9,7 +9,7 @@
  * @subpackage  Visual Editor
  *
  * @since    1.0.0
- * @version  2.0.2
+ * @version  2.2.5
  *
  * Contents:
  *
@@ -192,7 +192,7 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 		 * @link  http://www.tinymce.com/wiki.php/Configuration:style_formats
 		 *
 		 * @since    1.0.0
-		 * @version  2.0.0
+		 * @version  2.2.5
 		 *
 		 * @param  array $init
 		 */
@@ -227,7 +227,7 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 
 										100 . 'text_styles' . 110 => array(
 											'title'    => esc_html__( 'Uppercase heading or paragraph', '{%= text_domain %}' ),
-											'selector' => 'h1, h2, h3, h4, h5, h6, p',
+											'selector' => 'h1, h2, h3, h4, h5, h6, p, address',
 											'classes'  => 'uppercase',
 										),
 
@@ -256,19 +256,19 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 
 										100 . 'text_styles' . 160 => array(
 											'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 1 ),
-											'selector' => 'h2, h3, h4, h5, h6, p',
+											'selector' => 'h2, h3, h4, h5, h6, p, address',
 											'classes'  => 'h1',
 										),
 
 										100 . 'text_styles' . 170 => array(
 											'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 2 ),
-											'selector' => 'h1, h3, h4, h5, h6, p',
+											'selector' => 'h1, h3, h4, h5, h6, p, address',
 											'classes'  => 'h2',
 										),
 
 										100 . 'text_styles' . 180 => array(
 											'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 3 ),
-											'selector' => 'h1, h2, h4, h5, h6, p',
+											'selector' => 'h1, h2, h4, h5, h6, p, address',
 											'classes'  => 'h3',
 										),
 
@@ -283,25 +283,25 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 
 										200 . 'text_sizes' . 100 => array(
 											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 1 ),
-											'selector' => 'h1, h2, h3, h4, h5, h6, p',
+											'selector' => 'h1, h2, h3, h4, h5, h6, p, address',
 											'classes'  => 'display-1',
 										),
 
 										200 . 'text_sizes' . 110 => array(
 											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 2 ),
-											'selector' => 'h1, h2, h3, h4, h5, h6, p',
+											'selector' => 'h1, h2, h3, h4, h5, h6, p, address',
 											'classes'  => 'display-2',
 										),
 
 										200 . 'text_sizes' . 120 => array(
 											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 3 ),
-											'selector' => 'h1, h2, h3, h4, h5, h6, p',
+											'selector' => 'h1, h2, h3, h4, h5, h6, p, address',
 											'classes'  => 'display-3',
 										),
 
 										200 . 'text_sizes' . 130 => array(
 											'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 4 ),
-											'selector' => 'h1, h2, h3, h4, h5, h6, p',
+											'selector' => 'h1, h2, h3, h4, h5, h6, p, address',
 											'classes'  => 'display-4',
 										),
 
