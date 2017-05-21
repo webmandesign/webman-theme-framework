@@ -15,7 +15,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Update Notifier
  *
- * @version  2.0
+ * @version  2.2.5
  *
  * Used development prefixes:
  *

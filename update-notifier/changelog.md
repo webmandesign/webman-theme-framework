@@ -1,5 +1,11 @@
 # WebMan WordPress Theme Update Notifier
 
+## 2.2.5
+
+* **Update**: Updating admin screen design
+* **Update**: Adopting semantic versioning
+
+
 ## 2.0
 
 * **Update**: Renaming `Theme_Framework` to `Library`

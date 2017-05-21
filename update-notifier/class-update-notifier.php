@@ -5,8 +5,8 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Update Notifier
  *
- * @since    1.9
- * @version  2.0
+ * @since    1.9.0
+ * @version  2.2.5
  *
  * Contents:
  *
@@ -34,8 +34,8 @@ final class {%= prefix_class %}_Library_Update_Notifier {
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0
-		 * @version  1.5
+		 * @since    1.0.0
+		 * @version  1.5.0
 		 */
 		private function __construct() {
 
@@ -75,8 +75,8 @@ final class {%= prefix_class %}_Library_Update_Notifier {
 		/**
 		 * Initialization (get instance)
 		 *
-		 * @since    1.0
-		 * @version  1.0
+		 * @since    1.0.0
+		 * @version  1.0.0
 		 */
 		public static function init() {
 
@@ -104,8 +104,8 @@ final class {%= prefix_class %}_Library_Update_Notifier {
 		/**
 		 * Admin menu link
 		 *
-		 * @since    1.0
-		 * @version  1.9
+		 * @since    1.0.0
+		 * @version  1.9.0
 		 */
 		public static function menu() {
 
@@ -141,8 +141,8 @@ final class {%= prefix_class %}_Library_Update_Notifier {
 		/**
 		 * Toolbar link
 		 *
-		 * @since    1.0
-		 * @version  1.9
+		 * @since    1.0.0
+		 * @version  1.9.0
 		 */
 		public static function toolbar() {
 
@@ -186,8 +186,8 @@ final class {%= prefix_class %}_Library_Update_Notifier {
 		/**
 		 * Notifier page renderer
 		 *
-		 * @since    1.0
-		 * @version  1.9
+		 * @since    1.0.0
+		 * @version  2.2.5
 		 */
 		public static function page() {
 
@@ -225,7 +225,7 @@ final class {%= prefix_class %}_Library_Update_Notifier {
 						?>
 					</div>
 
-					<div class="instructions">
+					<div class="instructions" style="padding: 6%; background: rgba(255,255,255,.9); border: 1px solid rgba(0,0,0,.1);">
 
 						<?php
 
@@ -235,9 +235,9 @@ final class {%= prefix_class %}_Library_Update_Notifier {
 
 						} else {
 
-						?>
+							?>
 
-							<h2 style="text-align: inherit; font-weight: 600;">Update Download and Instructions</h2>
+							<h2 style="margin-top: 0; text-align: inherit; font-size: 2.38em;">Update Download and Instructions</h2>
 
 							<p>First, please, re-download the new theme update from the source where you've originally obtained the theme.</p>
 
@@ -281,7 +281,7 @@ final class {%= prefix_class %}_Library_Update_Notifier {
 
 							</ul>
 
-						<?php
+							<?php
 
 						} // /Custom instructions check
 
@@ -289,11 +289,9 @@ final class {%= prefix_class %}_Library_Update_Notifier {
 
 					</div>
 
-					<hr style="margin: 2.62em 0;">
+					<div class="changelog" style="padding: 6%; margin-top: 2.62em; border: 2px dashed rgba(0,0,0,.1);">
 
-					<div class="changelog">
-
-						<h2 style="text-align: inherit; font-weight: 600;">Changelog</h2>
+						<h2 style="margin-top: 0; text-align: inherit; font-weight: 600;">Changelog</h2>
 
 						<?php
 
@@ -305,13 +303,13 @@ final class {%= prefix_class %}_Library_Update_Notifier {
 
 						<h3>Files changed:</h3>
 
-						<code><?php
+						<pre style="padding: 1em; background: rgba(0,0,0,.07);"><?php
 
 						if ( isset( self::$xml->changefiles ) ) {
-							echo str_replace( ', ', '</code><br /><code>', self::$xml->changefiles );
+							echo str_replace( ', ', "\r\n", self::$xml->changefiles );
 						}
 
-						?></code>
+						?></pre>
 
 					</div>
 
@@ -335,8 +333,8 @@ final class {%= prefix_class %}_Library_Update_Notifier {
 		 * Get the remote XML file contents and return its data.
 		 * Uses the cached version if available, inside the time interval defined.
 		 *
-		 * @since    1.0
-		 * @version  1.9
+		 * @since    1.0.0
+		 * @version  1.9.0
 		 *
 		 * @param  int $interval
 		 */
