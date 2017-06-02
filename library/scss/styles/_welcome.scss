@@ -7,7 +7,7 @@
 // @subpackage  Welcome page
 //
 // @since    1.5.0
-// @version  1.9.1
+// @version  2.2.6
 //
 
 
@@ -130,6 +130,10 @@
 
 			}
 
+			.notice {
+				display: none !important;
+			}
+
 		}
 
 
@@ -143,14 +147,6 @@
 				font-size: 1.15em;
 			}
 
-		}
-
-
-
-	// Allow displaying notices on welcome screen
-
-		.notice {
-			display: block !important;
 		}
 
 }

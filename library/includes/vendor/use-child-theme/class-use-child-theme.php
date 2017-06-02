@@ -6,7 +6,7 @@
  * @subpackage  Plugins
  *
  * @since    1.6.2
- * @version  1.9
+ * @version  2.2.6
  */
 
 
@@ -35,12 +35,12 @@
  * Used development variables/prefixes:
  * - text_domain
  *
- * @version 1.2
+ * @version 1.2.1
  */
 
 
 
-/*
+/**
  * Use Child Theme
  * A drop-in to make it easy to use WordPress child themes
  * @version 0.4
@@ -225,11 +225,9 @@ if ( ! class_exists( 'Use_Child_Theme' ) && is_admin() ) {
 			$output  = '/**' . "\r\n";
 			$output .= ' * Theme Name: ' . $this->theme->get( 'Name' ) . ' Child' . "\r\n";
 			$output .= ' * Template: ' . $this->theme->get_stylesheet() . "\r\n";
-			$output .= ' * Version: 1.0' . "\r\n";
+			$output .= ' * Version: 1.0.0' . "\r\n";
 			$output .= ' * Description: This is a child theme of ' . $this->theme->get( 'Name' ) . "\r\n";
 			$output .= ' */' . "\r\n";
-			$output .= "\r\n";
-			$output .= "\r\n";
 			$output .= "\r\n";
 			$output .= '/* Put your custom CSS styles below... */' . "\r\n";
 
@@ -248,8 +246,6 @@ if ( ! class_exists( 'Use_Child_Theme' ) && is_admin() ) {
 			$output .= ' * @package  ' . $this->theme->get( 'Name' ) . ' Child' . "\r\n";
 			$output .= ' */' . "\r\n";
 			$output .= "\r\n";
-			$output .= "\r\n";
-			$output .= "\r\n";
 			$output .= '/**' . "\r\n";
 			$output .= ' * Enqueue parent theme stylesheet the right way' . "\r\n";
 			$output .= ' */' . "\r\n";
@@ -260,8 +256,6 @@ if ( ! class_exists( 'Use_Child_Theme' ) && is_admin() ) {
 			$output .= '}' . "\r\n";
 			$output .= "\r\n";
 			$output .= "add_action( 'wp_enqueue_scripts', 'child_theme_enqueue_parent_styles', 1000 );\r\n";
-			$output .= "\r\n";
-			$output .= "\r\n";
 			$output .= "\r\n";
 			$output .= '/* Put your custom PHP code below... */' . "\r\n";
 

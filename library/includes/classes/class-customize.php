@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0.0
- * @version  2.2.3
+ * @version  2.2.6
  *
  * Contents:
  *
@@ -90,7 +90,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * Customizer controls assets
 		 *
 		 * @since    1.0.0
-		 * @version  2.2.0
+		 * @version  2.2.6
 		 */
 		public static function assets() {
 
@@ -108,7 +108,7 @@ final class {%= prefix_class %}_Library_Customize {
 
 					// RTL setup
 
-						wp_style_add_data( '{%= prefix_var %}-customizer', 'rtl', 'replace' );
+						wp_style_add_data( '{%= prefix_var %}-customize-controls', 'rtl', 'replace' );
 
 				// Scripts
 

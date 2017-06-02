@@ -1,5 +1,20 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.2.6
+
+* **Update**: Updating child theme generator to 1.2.1
+* **Update**: Do not display admin notices on theme "Welcome" page
+* **Fix**: RTL customizer controls styles loading
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-customize.php
+	includes/vendor/use-child-theme/class-use-child-theme.php
+	scss/styles/_welcome.scss
+
+
 ## 2.2.5
 
 * **Update**: Adding <address> tag support for TinyMCE custom Formats dropdown style

@@ -38,8 +38,8 @@
 
 .welcome-wrap .wm-notes.special .button { margin-top: 1.62em; }
 
+.welcome-wrap .wm-notes .notice { display: none !important; }
+
 .welcome-wrap .congrats { padding: 1em 0 0; }
 
 .welcome-wrap .congrats p { font-size: 1.15em; }
-
-.welcome-wrap .notice { display: block !important; }
