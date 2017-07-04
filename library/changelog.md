@@ -1,5 +1,16 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.2.7
+
+* **Fix**: Removing obsolete slash for ABSPATH
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-customize-styles.php
+
+
 ## 2.2.6
 
 * **Update**: Updating child theme generator to 1.2.1

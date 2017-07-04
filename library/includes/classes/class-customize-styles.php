@@ -9,7 +9,7 @@
  * @subpackage  Customize
  *
  * @since    1.8.0
- * @version  2.2.4
+ * @version  2.2.7
  *
  * Contents:
  *
@@ -750,7 +750,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * @see  http://wordpress.findincity.net/view/63538464303732726692954/using-wpfilesystem-in-plugins-to-store-customizer-settings
 		 *
 		 * @since    1.0.0
-		 * @version  2.0.0
+		 * @version  2.2.7
 		 */
 		public static function get_filesystem() {
 
@@ -771,7 +771,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 							! function_exists( 'get_filesystem_method' )
 							&& ABSPATH
 						) {
-						require_once( ABSPATH . '/wp-admin/includes/file.php' );
+						require_once( ABSPATH . 'wp-admin/includes/file.php' );
 					}
 
 				// Check the filesystem method
