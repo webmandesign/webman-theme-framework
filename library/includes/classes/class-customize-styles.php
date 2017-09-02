@@ -76,7 +76,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 						}
 
-						add_action( 'wmhook_reykjavik_library_generate_main_css', __CLASS__ . '::stylesheet_timestamp' );
+						add_action( 'wmhook_{%= prefix_hook %}_library_generate_main_css', __CLASS__ . '::stylesheet_timestamp' );
 
 					// Filters
 
