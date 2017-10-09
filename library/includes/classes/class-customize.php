@@ -1,6 +1,6 @@
 <?php
 /**
- * Customize class
+ * Customize Options Generator class
  *
  * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
  *

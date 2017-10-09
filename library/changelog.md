@@ -1,5 +1,15 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.5.0
+
+* **Update**:
+
+### Files changed:
+
+	changelog.md
+	init.php
+
+
 ## 2.4.4
 
 * **Update**: Including WPORG theme review required PHP comment into TGMPA class
