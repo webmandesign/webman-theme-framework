@@ -81,6 +81,10 @@
 
 		// Customize class
 
+			require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-sanitize.php';
+
+		// Customize class
+
 			require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize.php';
 
 		// CSS Styles Generator class
@@ -111,6 +115,8 @@
 
 			// Child theme generator
 
-				require {%= prefix_constant %}_LIBRARY . 'includes/vendor/use-child-theme/class-use-child-theme.php';
+				if ( apply_filters( 'wmhook_{%= prefix_hook %}_child_theme_generator_enabled', false ) ) {
+					require {%= prefix_constant %}_LIBRARY . 'includes/vendor/use-child-theme/class-use-child-theme.php';
+				}
 
 		}
