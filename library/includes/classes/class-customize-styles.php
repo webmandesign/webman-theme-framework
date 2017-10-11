@@ -4,6 +4,7 @@
  *
  * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
  * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
+ * @uses  `wmhook_{%= prefix_hook %}_custom_styles_alphas` global hook
  * @uses  `wmhook_{%= prefix_hook %}_enable_rtl` global hook
  *
  * @package     WebMan WordPress Theme Framework
@@ -66,12 +67,12 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 						if ( self::$supports_generator ) {
 
 							add_action( 'customize_save_after', __CLASS__ . '::generate_main_css_all', 98 );
+							add_action( 'wmhook_{%= prefix_hook %}_library_theme_upgrade', __CLASS__ . '::generate_main_css_all' );
 
 						} else {
 
-							add_action( 'customize_save_after', __CLASS__ . '::custom_styles_cache' );
-
 							add_action( 'switch_theme', __CLASS__ . '::custom_styles_cache_flush' );
+							add_action( 'customize_save_after', __CLASS__ . '::custom_styles_cache_flush' );
 							add_action( 'wmhook_{%= prefix_hook %}_library_theme_upgrade', __CLASS__ . '::custom_styles_cache_flush' );
 
 						}
@@ -139,7 +140,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_pre', false, $args );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_pre', ! self::$supports_generator, $args );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -349,30 +350,31 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 	 */
 
 		/**
-		 * Replace variables in the custom CSS
+		 * Replace custom variables in the CSS string
 		 *
-		 * Just use a '[[customizer_option_id]]' tags in your custom CSS styles string
+		 * Use a '[[customizer_option_id]]' variable tags in your CSS styles string
 		 * where the specific option value should be used.
 		 *
-		 * This method allows using a single stylesheet generator, as well as hooking
-		 * your custom CSS styles string onto `wmhook_{%= prefix_hook %}_custom_styles`
-		 * filter hook when producing an inline CSS output in HTML head.
+		 * This method allows using both single stylesheet file generator,
+		 * and outputting the processed CSS as an inline styles.
+		 *
+		 * You can pass the CSS styles string directly to the method `$css` argument,
+		 * or hooking it onto `wmhook_{%= prefix_hook %}_custom_styles` filter.
 		 *
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
+		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles_alphas` global hook
 		 *
 		 * @since    1.0.0
 		 * @version  2.5.0
 		 *
-		 * @param  string  $css        CSS string with variables to replace.
-		 * @param  boolean $set_cache  Determines whether the results should be cached or not.
-		 * @param  boolean $return     Whether to return a value or just run the process.
+		 * @param  string $css  CSS string with variables to replace.
 		 */
-		public static function custom_styles( $css = '', $set_cache = false, $return = true ) {
+		public static function custom_styles( $css = '' ) {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_pre', false, $css, $set_cache, $return );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_pre', false, $css );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -395,9 +397,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				 * just output the cache first.
 				 */
 				if (
-						$return
-						&& ! $set_cache
-						&& ! self::$supports_generator
+						! self::$supports_generator
 						&& ! $is_customize_preview = is_customize_preview()
 					) {
 
@@ -419,7 +419,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				$output = '';
 
 				$theme_options = (array) apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
-				$rgba_alphas   = array_filter( (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_alphas', array() ) );
+				$rgba_alphas   = array_filter( (array) apply_filters( 'wmhook_{%= prefix_hook %}_custom_styles_alphas', array() ) );
 
 				$replacements     = array();
 				$set_replacements = true;
@@ -427,21 +427,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				// For inline styles only
 
 					if ( ! self::$supports_generator ) {
-
-						$replacements = array_unique( array_filter( (array) get_transient( '{%= theme_slug %}_customizer_values' ) ) );
-
-						/**
-						 * Force caching during the first theme display when no cache set,
-						 * and only default values are used.
-						 *
-						 * Cache is being set only after saving the theme customizer.
-						 */
-						if ( empty( $replacements ) ) {
-							$set_cache = true;
-						}
-
+						$replacements     = array_unique( array_filter( (array) get_transient( '{%= theme_slug %}_customizer_values' ) ) );
 						$set_replacements = $is_customize_preview || empty( $replacements );
-
 					}
 
 
@@ -645,9 +632,9 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 						$replacements = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_replacements', $replacements, $theme_options, $css );
 
-						// Create a new cache for replacements values, only when saving theme customizer
+						// Create a new cache for replacements values if it does not exist yet
 
-							if ( $set_cache && ! empty( $replacements ) ) {
+							if ( ! $is_customize_preview ) {
 								set_transient( '{%= theme_slug %}_customizer_values', $replacements );
 							}
 
@@ -663,12 +650,14 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 					$output = strtr( $css, $replacements );
 
 					/**
-					 * Should we set cache of CSS string when in customizer?
+					 * Should we set cache of CSS string?
+					 *
+					 * Cache is set when we are in Customizer and saving settings,
+					 * or when we are not in Customizer and we have no cache.
 					 */
 					if (
-							$is_customize_preview
-							&& $set_cache
-							&& ! self::$supports_generator
+							! self::$supports_generator
+							&& ! $is_customize_preview
 						) {
 
 						set_transient( '{%= theme_slug %}_custom_css_debug', apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_output_cache_debug', $output ) );
@@ -679,38 +668,11 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 			// Output
 
-				if ( $return ) {
-					if ( $output = trim( (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_output', $output ) ) ) {
-						return $output;
-					}
+				if ( $output = trim( (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_output', $output ) ) ) {
+					return $output;
 				}
 
 		} // /custom_styles
-
-
-
-			/**
-			 * Force cache only for the above function
-			 *
-			 * For HTML head inline CSS styles output only.
-			 *
-			 * Presets arguments for `custom_styles` method.
-			 * Useful to pass into the (action) hooks.
-			 *
-			 * @since    1.0.0
-			 * @version  2.5.0
-			 */
-			public static function custom_styles_cache() {
-
-				// Processing
-
-					self::custom_styles(
-						'',   // CSS string, leave empty as it's filtered via theme anyway.
-						true, // Set cache?
-						false // Return output?
-					);
-
-			} // /custom_styles_cache
 
 
 
