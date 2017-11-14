@@ -8,7 +8,7 @@
  * @subpackage  Core
  *
  * @since    2.5.0
- * @version  2.5.4
+ * @version  2.5.6
  *
  * Contents:
  *
@@ -176,6 +176,24 @@ final class {%= prefix_class %}_Library_Sanitize {
 				return ( ( $value ) ? ( (string) $value ) : ( (string) $default ) );
 
 		} // /fonts
+
+
+
+		/**
+		 * Sanitize float
+		 *
+		 * @since    2.5.6
+		 * @version  2.5.6
+		 *
+		 * @param  string $value
+		 */
+		public static function float( $value ) {
+
+			// Output
+
+				return floatval( $value );
+
+		} // /float
 
 
 
