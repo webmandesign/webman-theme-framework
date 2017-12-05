@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0.0
- * @version  2.5.4
+ * @version  2.6.0
  *
  * Contents:
  *
@@ -190,7 +190,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0.0
-		 * @version  2.0.0
+		 * @version  2.6.0
 		 */
 		public static function preview_scripts() {
 
@@ -243,7 +243,15 @@ final class {%= prefix_class %}_Library_Customize {
 												// Selector setup
 
 													if ( 'selector_replace' === $key ) {
-														$selector = str_replace( '@', $property, $selector );
+														if ( is_array( $property ) ) {
+															$selector_replaced = array();
+															foreach ( $property as $replace ) {
+																$selector_replaced[] = str_replace( '@', (string) $replace, $selector );
+															}
+															$selector = implode( ', ', $selector_replaced );
+														} else {
+															$selector = str_replace( '@', (string) $property, $selector );
+														}
 														continue;
 													}
 
