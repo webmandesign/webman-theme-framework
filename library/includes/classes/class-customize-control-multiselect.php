@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0.0
- * @version  2.1.1
+ * @version  2.6.0
  */
 class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Control {
 
@@ -39,9 +39,9 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 		// Requirements check
 
 			if (
-					empty( $this->choices )
-					|| ! is_array( $this->choices )
-				) {
+				empty( $this->choices )
+				|| ! is_array( $this->choices )
+			) {
 				return;
 			}
 

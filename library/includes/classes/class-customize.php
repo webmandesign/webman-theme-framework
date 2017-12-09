@@ -341,7 +341,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0.0
-		 * @version  2.5.4
+		 * @version  2.6.0
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -453,10 +453,10 @@ final class {%= prefix_class %}_Library_Customize {
 						foreach ( $theme_options as $theme_option ) {
 
 							if (
-									is_array( $theme_option )
-									&& isset( $theme_option['type'] )
-									&& in_array( $theme_option['type'], $allowed_option_types )
-								) {
+								is_array( $theme_option )
+								&& isset( $theme_option['type'] )
+								&& in_array( $theme_option['type'], $allowed_option_types )
+							) {
 
 								// Helper variables
 

@@ -15,7 +15,7 @@
  * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
  *
- * @version  2.5.6
+ * @version  2.6.0
  *
  * Used global hooks:
  *
@@ -106,9 +106,9 @@
 			// Plugins suggestions
 
 				if (
-						apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', true )
-						&& locate_template( 'includes/tgmpa/plugins.php' )
-					) {
+					apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', true )
+					&& locate_template( 'includes/tgmpa/plugins.php' )
+				) {
 					require {%= prefix_constant %}_LIBRARY . 'includes/vendor/tgmpa/class-tgm-plugin-activation.php';
 					locate_template( 'includes/tgmpa/plugins.php', true );
 				}

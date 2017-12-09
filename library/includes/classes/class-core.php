@@ -6,7 +6,7 @@
  * @subpackage  Core
  *
  * @since    1.0.0
- * @version  2.4.3
+ * @version  2.6.0
  *
  * Contents:
  *
@@ -105,7 +105,7 @@ final class {%= prefix_class %}_Library {
 		 * Do action on theme version change
 		 *
 		 * @since    1.0.0
-		 * @version  2.0.0
+		 * @version  2.6.0
 		 */
 		public static function theme_upgrade() {
 
@@ -118,9 +118,9 @@ final class {%= prefix_class %}_Library {
 			// Processing
 
 				if (
-						empty( $current_theme_version )
-						|| $new_theme_version != $current_theme_version
-					) {
+					empty( $current_theme_version )
+					|| $new_theme_version != $current_theme_version
+				) {
 
 					do_action( 'wmhook_{%= prefix_hook %}_library_theme_upgrade', $current_theme_version, $new_theme_version );
 
@@ -146,7 +146,7 @@ final class {%= prefix_class %}_Library {
 		 * Appends the output at the top and bottom of post content.
 		 *
 		 * @since    1.0.0
-		 * @version  2.1.0
+		 * @version  2.6.0
 		 *
 		 * @param  string $content
 		 */
@@ -168,9 +168,9 @@ final class {%= prefix_class %}_Library {
 				// Requirements check
 
 					if (
-							! $multipage
-							|| ! is_singular()
-						) {
+						! $multipage
+						|| ! is_singular()
+					) {
 						return $content;
 					}
 
@@ -260,7 +260,7 @@ final class {%= prefix_class %}_Library {
 		 * Get the paginated heading suffix
 		 *
 		 * @since    1.0.0
-		 * @version  2.4.0
+		 * @version  2.6.0
 		 *
 		 * @param  string $tag           Wrapper tag
 		 * @param  string $singular_only Display only on singular posts of specific type
@@ -279,9 +279,9 @@ final class {%= prefix_class %}_Library {
 			// Requirements check
 
 				if (
-						$singular_only
-						&& ! is_singular( $singular_only )
-					) {
+					$singular_only
+					&& ! is_singular( $singular_only )
+				) {
 					return;
 				}
 
@@ -346,7 +346,7 @@ final class {%= prefix_class %}_Library {
 		 * Checks for <!--more--> tag in post content
 		 *
 		 * @since    1.0.0
-		 * @version  2.4.0
+		 * @version  2.6.0
 		 *
 		 * @param  mixed $post
 		 */
@@ -373,9 +373,9 @@ final class {%= prefix_class %}_Library {
 			// Requirements check
 
 				if (
-						! is_object( $post )
-						|| ! isset( $post->post_content )
-					) {
+					! is_object( $post )
+					|| ! isset( $post->post_content )
+				) {
 					return;
 				}
 
@@ -559,7 +559,7 @@ final class {%= prefix_class %}_Library {
 		 *   );
 		 *
 		 * @since    1.0.0
-		 * @version  2.0.0
+		 * @version  2.6.0
 		 *
 		 * @param  string    $contextual_help  Help text that appears on the screen.
 		 * @param  string    $screen_id        Screen ID.
@@ -591,9 +591,9 @@ final class {%= prefix_class %}_Library {
 			// Processing
 
 				if (
-						isset( $texts_array[ $screen_id ] )
-						&& is_array( $texts_array[ $screen_id ] )
-					) {
+					isset( $texts_array[ $screen_id ] )
+					&& is_array( $texts_array[ $screen_id ] )
+				) {
 
 					$help_tabs = $texts_array[ $screen_id ];
 
