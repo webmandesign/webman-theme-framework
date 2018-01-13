@@ -6,7 +6,7 @@
  * @subpackage  Core
  *
  * @since    1.0.0
- * @version  2.6.0
+ * @version  2.6.1
  *
  * Contents:
  *
@@ -146,7 +146,7 @@ final class {%= prefix_class %}_Library {
 		 * Appends the output at the top and bottom of post content.
 		 *
 		 * @since    1.0.0
-		 * @version  2.6.0
+		 * @version  2.6.1
 		 *
 		 * @param  string $content
 		 */
@@ -233,7 +233,7 @@ final class {%= prefix_class %}_Library {
 
 							$args['links'][$i] = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_add_table_of_contents_part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
 
-					} // /foreach
+					}
 
 				// Add table of contents into the post/page content
 
@@ -559,7 +559,7 @@ final class {%= prefix_class %}_Library {
 		 *   );
 		 *
 		 * @since    1.0.0
-		 * @version  2.6.0
+		 * @version  2.6.1
 		 *
 		 * @param  string    $contextual_help  Help text that appears on the screen.
 		 * @param  string    $screen_id        Screen ID.
@@ -605,7 +605,7 @@ final class {%= prefix_class %}_Library {
 							'content' => $tab['tab-content']
 						) );
 
-					} // /foreach
+					}
 
 				}
 

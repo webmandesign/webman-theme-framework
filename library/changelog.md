@@ -1,5 +1,22 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.6.1
+
+* **Update**: Removing obsolete code comments
+* **Fix**: Stylesheet generator functionality
+
+### Files changed:
+
+	changelog.md
+	init.php
+	includes/classes/class-core.php
+	includes/classes/class-customize-control-radio-matrix.php
+	includes/classes/class-customize-control-select.php
+	includes/classes/class-customize-styles.php
+	includes/classes/class-customize.php
+	includes/classes/class-sanitize.php
+
+
 ## 2.6.0
 
 * **Add**: Customizer range control hover color

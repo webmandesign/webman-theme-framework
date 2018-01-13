@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0.0
- * @version  2.1.0
+ * @version  2.6.1
  */
 class {%= prefix_class %}_Customize_Control_Radio_Matrix extends WP_Customize_Control {
 
@@ -73,7 +73,7 @@ class {%= prefix_class %}_Customize_Control_Radio_Matrix extends WP_Customize_Co
 
 						<?php
 
-					} // /foreach
+					}
 
 					?>
 				</div>

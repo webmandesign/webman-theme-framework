@@ -10,7 +10,7 @@
  * @subpackage  Customize
  *
  * @since    1.8.0
- * @version  2.6.0
+ * @version  2.6.1
  *
  * Contents:
  *
@@ -133,7 +133,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * Generate main CSS file
 		 *
 		 * @since    1.0.0
-		 * @version  2.6.0
+		 * @version  2.6.1
 		 *
 		 * @param  string $scope
 		 */
@@ -141,8 +141,12 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 			// Pre
 
-				$scope = '-' . trim( (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_scope', $scope ), ' -' );
-				$pre   = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_pre', ! self::$supports_generator, $scope );
+				$scope = trim( (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_scope', $scope ), ' -' );
+				if ( ! empty( $scope ) ) {
+					$scope = '-' . $scope;
+				}
+
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_pre', ! self::$supports_generator, $scope );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -370,7 +374,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles_alphas` global hook
 		 *
 		 * @since    1.0.0
-		 * @version  2.6.0
+		 * @version  2.6.1
 		 *
 		 * @param  string $css    CSS string with variables to replace.
 		 * @param  string $scope  Optional CSS scope (such as 'editor' for generating editor styles).
@@ -566,7 +570,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 									if ( 'color' === $option['type'] && ! empty( $rgba_alphas ) ) {
 										foreach ( $rgba_alphas as $alpha ) {
 											$replacements[ '[[' . $css_option_id . '(' . absint( $alpha ) . ')]]' ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
-										} // /foreach
+										}
 									}
 
 								// Option related conditional CSS comment
@@ -587,7 +591,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 									}
 
-						} // /foreach
+						}
 
 						// Add WordPress Custom Background and Header support
 
@@ -599,7 +603,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 									if ( ! empty( $rgba_alphas ) ) {
 										foreach ( $rgba_alphas as $alpha ) {
 											$replacements[ '[[background_color(' . absint( $alpha ) . ')]]' ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
-										} // /foreach
+										}
 									}
 								}
 
@@ -619,7 +623,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 									if ( ! empty( $rgba_alphas ) ) {
 										foreach ( $rgba_alphas as $alpha ) {
 											$replacements[ '[[header_textcolor(' . absint( $alpha ) . ')]]' ] = self::color_hex_to_rgba( $value, absint( $alpha ) );
-										} // /foreach
+										}
 									}
 								}
 

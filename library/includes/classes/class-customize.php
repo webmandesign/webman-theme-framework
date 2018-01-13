@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0.0
- * @version  2.6.0
+ * @version  2.6.1
  *
  * Contents:
  *
@@ -190,7 +190,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0.0
-		 * @version  2.6.0
+		 * @version  2.6.1
 		 */
 		public static function preview_scripts() {
 
@@ -272,12 +272,12 @@ final class {%= prefix_class %}_Library_Customize {
 													}
 
 													$property = wp_parse_args( (array) $property, array(
-															'custom'           => '',
-															'prefix'           => '',
-															'process_callback' => '',
-															'property'         => '',
-															'suffix'           => '',
-														) );
+														'custom'           => '',
+														'prefix'           => '',
+														'process_callback' => '',
+														'property'         => '',
+														'suffix'           => '',
+													) );
 
 													$value = ( empty( $property['process_callback'] ) ) ? ( 'to' ) : ( trim( $property['process_callback'] ) . '( to )' );
 
@@ -287,13 +287,13 @@ final class {%= prefix_class %}_Library_Customize {
 														$output_single_css .= $property['property'] . ": " . str_replace( '[[value]]', "' + " . $value . " + '", $property['custom'] ) . "; ";
 													}
 
-											} // /foreach
+											}
 
 											$output_single .= "\t\t\t" . "newCss += '" . $selector_before . $selector . " { " . $output_single_css . "}" . $selector_after . " ';" . "\r\n";
 
 										}
 
-									} // /foreach
+									}
 
 									$output_single .= "\r\n\t\t\t" . "jQuery( document ).find( 'head' ).append( jQuery( '<style id=\'jscss-" . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . "\r\n";
 
@@ -314,7 +314,7 @@ final class {%= prefix_class %}_Library_Customize {
 
 						}
 
-					} // /foreach
+					}
 
 				}
 
@@ -341,7 +341,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 *
 		 * @since    1.0.0
-		 * @version  2.6.0
+		 * @version  2.6.1
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -960,7 +960,7 @@ final class {%= prefix_class %}_Library_Customize {
 
 							} // /if suitable option array
 
-						} // /foreach
+						}
 
 					} // /if skin options are non-empty array
 

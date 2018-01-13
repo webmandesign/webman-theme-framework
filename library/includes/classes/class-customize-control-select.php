@@ -8,7 +8,7 @@
  * @subpackage  Customize
  *
  * @since    1.0.0
- * @version  2.1.0
+ * @version  2.6.1
  */
 class {%= prefix_class %}_Customize_Control_Select extends WP_Customize_Control {
 
@@ -41,7 +41,7 @@ class {%= prefix_class %}_Customize_Control_Select extends WP_Customize_Control 
 								echo '<option value="' . esc_attr( $value ) . '" ' . selected( $this->value(), $value, false ) . '>' . esc_html( $name ) . '</option>';
 							}
 
-						} // /foreach
+						}
 
 						?>
 					</select>
