@@ -6,11 +6,14 @@
  * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
  * @uses  `wmhook_{%= prefix_hook %}_custom_styles_alphas` global hook
  *
- * @package     WebMan WordPress Theme Framework
  * @subpackage  Customize
+ * @subpackage  Stylesheet Generator
+ *
+ * @package    WebMan WordPress Theme Framework
+ * @copyright  WebMan Design, Oliver Juhas
  *
  * @since    1.8.0
- * @version  2.6.1
+ * @version  2.7.0
  *
  * Contents:
  *
@@ -133,7 +136,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * Generate main CSS file
 		 *
 		 * @since    1.0.0
-		 * @version  2.6.1
+		 * @version  2.7.0
 		 *
 		 * @param  string $scope
 		 */
@@ -142,6 +145,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 			// Pre
 
 				$scope = trim( (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_scope', $scope ), ' -' );
+
 				if ( ! empty( $scope ) ) {
 					$scope = '-' . $scope;
 				}
@@ -157,8 +161,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 				$output = $output_min = '';
 
-				$filesystem = self::get_filesystem();
-
+				$filesystem    = self::get_filesystem();
 				$required_file = {%= prefix_constant %}_PATH . 'assets/css-generate/generate-css' . $scope . '.php';
 
 
@@ -180,7 +183,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 					ob_start();
 					require_once $required_file;
-					$output = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_output', trim( ob_get_clean() ), $scope );
+					$output = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_output', trim( ob_get_clean() ), $scope );
 
 					// Requirements check
 
@@ -190,7 +193,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 				// Minify output if set
 
-					$output_min = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_output_min', $output, $scope );
+					$output_min = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_output_min', $output, $scope );
 
 				// Create the theme CSS folder
 
@@ -210,15 +213,15 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 						 */
 
 						set_transient(
-								'{%= prefix_var %}_admin_notice',
-								array(
-									'<strong>' . esc_html__( "ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.", '{%= text_domain %}' ) . '</strong>',
-									'notice-error',
-									'edit_theme_options',
-									2
-								),
-								( 60 * 60 * 48 )
-							);
+							'{%= prefix_var %}_admin_notice',
+							array(
+								'<strong>' . esc_html__( "ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.", '{%= text_domain %}' ) . '</strong>',
+								'notice-error',
+								'edit_theme_options',
+								2
+							),
+							( 60 * 60 * 48 )
+						);
 
 						remove_theme_mod( '__url_css' . $scope );
 						remove_theme_mod( '__path_theme_generated_files' . $scope );
@@ -229,12 +232,12 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 				// Create the theme CSS files
 
-					$file_name = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_file_name', '{%= theme_slug %}-styles' . $scope, $scope );
+					$file_name = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_file_name', '{%= theme_slug %}-styles' . $scope, $scope );
 
-					$global_css_path     = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_global_css_path', trailingslashit( $theme_css_dir ) . $file_name . '.css', $scope, $file_name, $theme_css_dir );
-					$global_css_path_dev = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_global_css_path_dev', trailingslashit( $theme_css_dir ) . 'dev-' . $file_name . '.css', $scope, $file_name, $theme_css_dir );
+					$global_css_path     = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_global_css_path', trailingslashit( $theme_css_dir ) . $file_name . '.css', $scope, $file_name, $theme_css_dir );
+					$global_css_path_dev = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_global_css_path_dev', trailingslashit( $theme_css_dir ) . 'dev-' . $file_name . '.css', $scope, $file_name, $theme_css_dir );
 
-					$global_css_url = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_global_css_url', trailingslashit( $theme_css_url ) . $file_name . '.css', $scope, $file_name, $theme_css_url );
+					$global_css_url = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_global_css_url', trailingslashit( $theme_css_url ) . $file_name . '.css', $scope, $file_name, $theme_css_url );
 
 					if (
 						$output
@@ -374,7 +377,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles_alphas` global hook
 		 *
 		 * @since    1.0.0
-		 * @version  2.6.1
+		 * @version  2.7.0
 		 *
 		 * @param  string $css    CSS string with variables to replace.
 		 * @param  string $scope  Optional CSS scope (such as 'editor' for generating editor styles).
@@ -519,34 +522,27 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 							// CSS output
 
 								if ( isset( $option['css_output'] ) ) {
-
 									switch ( $option['css_output'] ) {
+
 										case 'comma_list':
 										case 'comma_list_quoted':
-
-												if ( is_array( $value ) ) {
-
-													if ( 'comma_list_quoted' == $option['css_output'] ) {
-														$value = "'" . implode( "', '", $value ) . "'";
-													} else {
-														$value = implode( ', ', $value );
-													}
-
+											if ( is_array( $value ) ) {
+												if ( 'comma_list_quoted' == $option['css_output'] ) {
+													$value = "'" . implode( "', '", $value ) . "'";
+												} else {
+													$value = implode( ', ', $value );
 												}
-
-												$value .= ',';
-
+											}
+											$value .= ',';
 											break;
 
 										default:
-
-												if ( is_callable( $option['css_output'] ) ) {
-													$value = call_user_func( $option['css_output'], $value, $option );
-												}
-
+											if ( is_callable( $option['css_output'] ) ) {
+												$value = call_user_func( $option['css_output'], $value, $option );
+											}
 											break;
-									} // /switch
 
+									}
 								}
 
 							// Value filtering
@@ -659,8 +655,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 						$cache = (array) get_transient( self::$cache_key );
 
-						$cache['debug'][ $scope ] = apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_output_cache_debug', $output, $scope );
-						$cache[ $scope ]          = apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_output_cache', $output, $scope );
+						$cache['debug'][ $scope ] = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_output_cache_debug', $output, $scope );
+						$cache[ $scope ]          = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_output_cache', $output, $scope );
 						$cache['__replacements']  = (array) $replacements;
 
 						set_transient( self::$cache_key, $cache );
@@ -719,7 +715,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * @see  http://wordpress.findincity.net/view/63538464303732726692954/using-wpfilesystem-in-plugins-to-store-customizer-settings
 		 *
 		 * @since    1.0.0
-		 * @version  2.6.0
+		 * @version  2.7.0
 		 */
 		public static function get_filesystem() {
 
@@ -750,17 +746,15 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 						&& ! defined( 'FTP_USER' )
 					) {
 
-						// If we don't have filesystem access, display an admin notice
-
-							set_transient(
-									'{%= prefix_var %}_admin_notice',
-									array(
-										esc_html__( 'The theme writes a files to your server. You do not appear to have your FTP credentials set up in "wp-config.php" file.', '{%= text_domain %}' ) . ' <a href="http://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants" target="_blank">' . esc_html__( 'Please set your FTP credentials first.', '{%= text_domain %}' ) . '</a>',
-										'notice-error',
-										'edit_theme_options'
-									),
-									( 60 * 60 * 24 )
-								);
+						set_transient(
+							'{%= prefix_var %}_admin_notice',
+							array(
+								esc_html__( 'The theme writes a files to your server. You do not appear to have your FTP credentials set up in "wp-config.php" file.', '{%= text_domain %}' ) . ' <a href="http://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants" target="_blank">' . esc_html__( 'Please set your FTP credentials first.', '{%= text_domain %}' ) . '</a>',
+								'notice-error',
+								'edit_theme_options'
+							),
+							( 60 * 60 * 24 )
+						);
 
 						return false;
 
@@ -792,7 +786,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * CSS minifier
 		 *
 		 * @since    1.0.0
-		 * @version  2.0.0
+		 * @version  2.7.0
 		 *
 		 * @param  string $css Code to minimize
 		 */
@@ -822,7 +816,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 				// Remove tabs, spaces, line breaks, etc.
 
-					$css = str_replace( array( "\r\n", "\r", "\n", "\t" ), '', $css );
+					$css = str_replace( array( PHP_EOL, "\t" ), '', $css );
 					$css = str_replace( array( '  ', '   ', '    ', '     ' ), ' ', $css );
 					$css = str_replace( array( ' { ', ': ', '; }' ), array( '{', ':', '}' ), $css );
 

@@ -2,11 +2,13 @@
 /**
  * Admin class
  *
- * @package     WebMan WordPress Theme Framework
  * @subpackage  Admin
  *
+ * @package    WebMan WordPress Theme Framework
+ * @copyright  WebMan Design, Oliver Juhas
+ *
  * @since    1.0.0
- * @version  2.0.2
+ * @version  2.7.0
  *
  * Contents:
  *
@@ -87,7 +89,7 @@ final class {%= prefix_class %}_Library_Admin {
 		 * Admin assets
 		 *
 		 * @since    1.0.0
-		 * @version  2.0.2
+		 * @version  2.7.0
 		 */
 		public static function assets() {
 
@@ -97,14 +99,14 @@ final class {%= prefix_class %}_Library_Admin {
 
 					// Styles
 
-						$register_styles = apply_filters( 'wmhook_{%= prefix_hook %}_library_admin_assets_register_styles', array(
-								'{%= prefix_var %}-welcome' => array( get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/welcome.css' ) ),
-							) );
+						$register_styles = array_filter( (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_admin_assets_register_styles', array(
+							'{%= prefix_var %}-welcome' => array( get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/welcome.css' ) ),
+						) ) );
 
 						foreach ( $register_styles as $handle => $atts ) {
-							$src   = ( isset( $atts['src'] )   ) ? ( $atts['src']   ) : ( $atts[0] );
-							$deps  = ( isset( $atts['deps'] )  ) ? ( $atts['deps']  ) : ( false    );
-							$ver   = ( isset( $atts['ver'] )   ) ? ( $atts['ver']   ) : ( esc_attr( {%= prefix_constant %}_THEME_VERSION ) );
+							$src   = ( isset( $atts['src'] ) ) ? ( $atts['src'] ) : ( $atts[0] );
+							$deps  = ( isset( $atts['deps'] ) ) ? ( $atts['deps'] ) : ( false );
+							$ver   = ( isset( $atts['ver'] ) ) ? ( $atts['ver'] ) : ( esc_attr( {%= prefix_constant %}_THEME_VERSION ) );
 							$media = ( isset( $atts['media'] ) ) ? ( $atts['media'] ) : ( 'screen' );
 
 							wp_register_style( $handle, $src, $deps, $ver, $media );
@@ -145,7 +147,7 @@ final class {%= prefix_class %}_Library_Admin {
 		 *   );
 		 *
 		 * @since    1.0.0
-		 * @version  2.0.0
+		 * @version  2.7.0
 		 */
 		public static function message() {
 
@@ -172,7 +174,7 @@ final class {%= prefix_class %}_Library_Admin {
 
 				$class      = 'updated';
 				$repeat     = 0;
-				$capability = apply_filters( 'wmhook_{%= prefix_hook %}_library_admin_message_capability', 'edit_theme_options' );
+				$capability = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_admin_message_capability', 'edit_theme_options' );
 				$message    = get_transient( '{%= prefix_var %}_admin_notice' );
 
 

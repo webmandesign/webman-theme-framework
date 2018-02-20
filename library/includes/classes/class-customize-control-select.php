@@ -4,11 +4,13 @@
  *
  * Customizer select field (with optgroups).
  *
- * @package     WebMan WordPress Theme Framework
  * @subpackage  Customize
  *
+ * @package    WebMan WordPress Theme Framework
+ * @copyright  WebMan Design, Oliver Juhas
+ *
  * @since    1.0.0
- * @version  2.6.1
+ * @version  2.7.0
  */
 class {%= prefix_class %}_Customize_Control_Select extends WP_Customize_Control {
 

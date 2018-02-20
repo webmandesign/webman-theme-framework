@@ -1,5 +1,16 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.7.0
+
+* **Update**:
+* **Fix**:
+
+### Files changed:
+
+	changelog.md
+	init.php
+
+
 ## 2.6.1
 
 * **Update**: Removing obsolete code comments

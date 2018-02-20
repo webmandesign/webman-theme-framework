@@ -4,11 +4,13 @@
  *
  * Customizer multi select field.
  *
- * @package     WebMan WordPress Theme Framework
  * @subpackage  Customize
  *
+ * @package    WebMan WordPress Theme Framework
+ * @copyright  WebMan Design, Oliver Juhas
+ *
  * @since    1.0.0
- * @version  2.6.0
+ * @version  2.7.0
  */
 class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Control {
 
@@ -21,12 +23,12 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 				if ( 'multicheckbox' === $this->type ) {
 
 					wp_enqueue_script(
-							'{%= prefix_var %}-customize-control-multicheckbox',
-							get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-control-multicheckbox.js' ),
-							array( 'customize-controls' ),
-							esc_attr( {%= prefix_constant %}_THEME_VERSION ),
-							true
-						);
+						'{%= prefix_var %}-customize-control-multicheckbox',
+						get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-control-multicheckbox.js' ),
+						array( 'customize-controls' ),
+						esc_attr( {%= prefix_constant %}_THEME_VERSION ),
+						true
+					);
 
 				}
 

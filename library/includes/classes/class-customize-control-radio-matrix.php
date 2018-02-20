@@ -4,11 +4,13 @@
  *
  * Customizer matrix radio fields.
  *
- * @package     WebMan WordPress Theme Framework
  * @subpackage  Customize
  *
+ * @package    WebMan WordPress Theme Framework
+ * @copyright  WebMan Design, Oliver Juhas
+ *
  * @since    1.0.0
- * @version  2.6.1
+ * @version  2.7.0
  */
 class {%= prefix_class %}_Customize_Control_Radio_Matrix extends WP_Customize_Control {
 
@@ -25,12 +27,12 @@ class {%= prefix_class %}_Customize_Control_Radio_Matrix extends WP_Customize_Co
 			// Scripts
 
 				wp_enqueue_script(
-						'{%= prefix_var %}-customize-control-radio-matrix',
-						get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-control-radio-matrix.js' ),
-						array( 'customize-controls' ),
-						esc_attr( {%= prefix_constant %}_THEME_VERSION ),
-						true
-					);
+					'{%= prefix_var %}-customize-control-radio-matrix',
+					get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-control-radio-matrix.js' ),
+					array( 'customize-controls' ),
+					esc_attr( {%= prefix_constant %}_THEME_VERSION ),
+					true
+				);
 
 	} // /enqueue
 

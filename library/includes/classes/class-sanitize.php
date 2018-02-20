@@ -4,11 +4,13 @@
  *
  * @link  https://github.com/WPTRT/code-examples/blob/master/customizer/sanitization-callbacks.php
  *
- * @package     WebMan WordPress Theme Framework
  * @subpackage  Core
  *
+ * @package    WebMan WordPress Theme Framework
+ * @copyright  WebMan Design, Oliver Juhas
+ *
  * @since    2.5.0
- * @version  2.6.1
+ * @version  2.7.0
  *
  * Contents:
  *
