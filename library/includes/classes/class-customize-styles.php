@@ -135,6 +135,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		/**
 		 * Generate main CSS file
 		 *
+		 * @subpackage  Customize Options
+		 *
 		 * @since    1.0.0
 		 * @version  2.7.0
 		 *
@@ -340,6 +342,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 		/**
 		 * Saves stylesheet regeneration timestamp into theme options
+		 *
+		 * @subpackage  Customize Options
 		 *
 		 * @since    2.3.0
 		 * @version  2.3.0
