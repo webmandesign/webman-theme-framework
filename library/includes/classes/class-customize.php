@@ -103,7 +103,7 @@ final class {%= prefix_class %}_Library_Customize {
 						'{%= prefix_var %}-customize-controls',
 						get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/customize.css' ),
 						false,
-						esc_attr( {%= prefix_constant %}_THEME_VERSION ),
+						{%= prefix_constant %}_THEME_VERSION,
 						'screen'
 					);
 
@@ -117,7 +117,7 @@ final class {%= prefix_class %}_Library_Customize {
 						'{%= prefix_var %}-customize-controls',
 						get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-controls.js' ),
 						array( 'customize-controls' ),
-						esc_attr( {%= prefix_constant %}_THEME_VERSION ),
+						{%= prefix_constant %}_THEME_VERSION,
 						true
 					);
 
@@ -190,6 +190,8 @@ final class {%= prefix_class %}_Library_Customize {
 		 *   );
 		 *
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
+		 *
+		 * @subpackage  Customize Options
 		 *
 		 * @since    1.0.0
 		 * @version  2.7.0
@@ -335,6 +337,8 @@ final class {%= prefix_class %}_Library_Customize {
 		 * Customizer renderer
 		 *
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
+		 *
+		 * @subpackage  Customize Options
 		 *
 		 * @since    1.0.0
 		 * @version  2.7.0

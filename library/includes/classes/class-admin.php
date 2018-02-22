@@ -106,7 +106,7 @@ final class {%= prefix_class %}_Library_Admin {
 						foreach ( $register_styles as $handle => $atts ) {
 							$src   = ( isset( $atts['src'] ) ) ? ( $atts['src'] ) : ( $atts[0] );
 							$deps  = ( isset( $atts['deps'] ) ) ? ( $atts['deps'] ) : ( false );
-							$ver   = ( isset( $atts['ver'] ) ) ? ( $atts['ver'] ) : ( esc_attr( {%= prefix_constant %}_THEME_VERSION ) );
+							$ver   = ( isset( $atts['ver'] ) ) ? ( $atts['ver'] ) : ( {%= prefix_constant %}_THEME_VERSION );
 							$media = ( isset( $atts['media'] ) ) ? ( $atts['media'] ) : ( 'screen' );
 
 							wp_register_style( $handle, $src, $deps, $ver, $media );

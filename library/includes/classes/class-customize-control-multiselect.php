@@ -26,7 +26,7 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 						'{%= prefix_var %}-customize-control-multicheckbox',
 						get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-control-multicheckbox.js' ),
 						array( 'customize-controls' ),
-						esc_attr( {%= prefix_constant %}_THEME_VERSION ),
+						{%= prefix_constant %}_THEME_VERSION,
 						true
 					);
 

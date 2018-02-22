@@ -376,6 +376,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles_alphas` global hook
 		 *
+		 * @subpackage  Customize Options
+		 *
 		 * @since    1.0.0
 		 * @version  2.7.0
 		 *

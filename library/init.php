@@ -14,12 +14,6 @@
  * @license    GPL-3.0, http://www.gnu.org/licenses/gpl-3.0.html *
  * @version    2.7.0
  *
- * Used global hooks:
- *
- * @uses  wmhook_{%= prefix_hook %}_theme_options
- * @uses  wmhook_{%= prefix_hook %}_esc_css
- * @uses  wmhook_{%= prefix_hook %}_custom_styles
- *
  * Used development prefixes:
  *
  * @uses theme_slug
