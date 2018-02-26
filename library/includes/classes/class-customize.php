@@ -17,6 +17,7 @@
  *  0) Init
  * 10) Assets
  * 20) Customizer core
+ * 30) Getters
  */
 final class {%= prefix_class %}_Library_Customize {
 
@@ -29,6 +30,10 @@ final class {%= prefix_class %}_Library_Customize {
 	 */
 
 		private static $instance;
+
+		public static $mods = false;
+
+		public static $theme_options_setup = false;
 
 
 
@@ -203,7 +208,7 @@ final class {%= prefix_class %}_Library_Customize {
 				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_preview_scripts_pre', false );
 
 				if ( false !== $pre ) {
-					return $pre;
+					return (string) $pre;
 				}
 
 
@@ -356,9 +361,9 @@ final class {%= prefix_class %}_Library_Customize {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_pre', false, $wp_customize );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_pre', null, $wp_customize );
 
-				if ( false !== $pre ) {
+				if ( null !== $pre ) {
 					return $pre;
 				}
 
@@ -475,6 +480,18 @@ final class {%= prefix_class %}_Library_Customize {
 										$description = $theme_option['description'];
 									}
 
+									if ( isset( $theme_option['sanitize_callback'] ) ) {
+										$sanitize_callback = $theme_option['sanitize_callback'];
+									} else {
+										$sanitize_callback = '';
+									}
+
+									if ( isset( $theme_option['validate_callback'] ) ) {
+										$validate_callback = $theme_option['validate_callback'];
+									} else {
+										$validate_callback = '';
+									}
+
 									$transport = ( isset( $theme_option['preview_js'] ) ) ? ( 'postMessage' ) : ( 'refresh' );
 
 
@@ -569,7 +586,7 @@ final class {%= prefix_class %}_Library_Customize {
 									'section'         => ( isset( $theme_option['section'] ) ) ? ( $theme_option['section'] ) : ( $customizer_section ),
 									'priority'        => ( isset( $theme_option['priority'] ) ) ? ( $theme_option['priority'] ) : ( $priority ),
 									'type'            => $theme_option['type'],
-									'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
+									'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( '' ),
 									'input_attrs'     => ( isset( $theme_option['input_attrs'] ) ) ? ( $theme_option['input_attrs'] ) : ( array() ),
 								);
 
@@ -590,6 +607,7 @@ final class {%= prefix_class %}_Library_Customize {
 												'transport'            => $transport,
 												'sanitize_callback'    => ( 'checkbox' === $theme_option['type'] ) ? ( '{%= prefix_class %}_Library_Sanitize::checkbox' ) : ( '{%= prefix_class %}_Library_Sanitize::select' ),
 												'sanitize_js_callback' => ( 'checkbox' === $theme_option['type'] ) ? ( '{%= prefix_class %}_Library_Sanitize::checkbox' ) : ( '{%= prefix_class %}_Library_Sanitize::select' ),
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control(
@@ -608,8 +626,9 @@ final class {%= prefix_class %}_Library_Customize {
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Library_Sanitize::multi_array' ),
-												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( '{%= prefix_class %}_Library_Sanitize::multi_array' ),
+												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( '{%= prefix_class %}_Library_Sanitize::multi_array' ),
+												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( '{%= prefix_class %}_Library_Sanitize::multi_array' ),
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Multiselect(
@@ -630,6 +649,7 @@ final class {%= prefix_class %}_Library_Customize {
 												'transport'            => $transport,
 												'sanitize_callback'    => 'sanitize_hex_color_no_hash',
 												'sanitize_js_callback' => 'maybe_hash_hex_color',
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control( new WP_Customize_Color_Control(
@@ -648,6 +668,7 @@ final class {%= prefix_class %}_Library_Customize {
 												'transport'            => $transport,
 												'sanitize_callback'    => 'sanitize_email',
 												'sanitize_js_callback' => 'sanitize_email',
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control(
@@ -663,8 +684,9 @@ final class {%= prefix_class %}_Library_Customize {
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
-												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_attr' ),
+												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_attr' ),
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Hidden(
@@ -687,19 +709,15 @@ final class {%= prefix_class %}_Library_Customize {
 											array(
 												'sanitize_callback'    => 'wp_kses_post',
 												'sanitize_js_callback' => 'wp_filter_post_kses',
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_HTML(
 											$wp_customize,
 											$option_id,
-											array(
-												'label'           => ( isset( $theme_option['label'] ) ) ? ( $theme_option['label'] ) : ( '' ),
-												'description'     => $description,
-												'content'         => $theme_option['content'],
-												'section'         => ( isset( $theme_option['section'] ) ) ? ( $theme_option['section'] ) : ( $customizer_section ),
-												'priority'        => ( isset( $theme_option['priority'] ) ) ? ( $theme_option['priority'] ) : ( $priority ),
-												'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( null ),
-											)
+											array_merge( $generic, array(
+												'content' => $theme_option['content'],
+											) )
 										) );
 										break;
 
@@ -710,8 +728,9 @@ final class {%= prefix_class %}_Library_Customize {
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_url_raw' ),
-												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_url_raw' ),
+												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_url_raw' ),
+												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_url_raw' ),
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control( new WP_Customize_Image_Control(
@@ -730,8 +749,9 @@ final class {%= prefix_class %}_Library_Customize {
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'absint' ),
-												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'absint' ),
+												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'absint' ),
+												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'absint' ),
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control(
@@ -757,8 +777,9 @@ final class {%= prefix_class %}_Library_Customize {
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
-												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_attr' ),
+												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_attr' ),
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control(
@@ -774,8 +795,9 @@ final class {%= prefix_class %}_Library_Customize {
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
-												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_attr' ),
+												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_attr' ),
+												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_attr' ),
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Radio_Matrix(
@@ -798,6 +820,7 @@ final class {%= prefix_class %}_Library_Customize {
 												'transport'            => $transport,
 												'sanitize_callback'    => '{%= prefix_class %}_Library_Sanitize::select',
 												'sanitize_js_callback' => '{%= prefix_class %}_Library_Sanitize::select',
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Select(
@@ -816,8 +839,9 @@ final class {%= prefix_class %}_Library_Customize {
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_textarea' ),
-												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_textarea' ),
+												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_textarea' ),
+												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_textarea' ),
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control(
@@ -833,8 +857,9 @@ final class {%= prefix_class %}_Library_Customize {
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_textarea' ),
-												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_textarea' ),
+												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_textarea' ),
+												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_textarea' ),
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control(
@@ -850,8 +875,9 @@ final class {%= prefix_class %}_Library_Customize {
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_url' ),
-												'sanitize_js_callback' => ( isset( $theme_option['validate'] ) ) ? ( $theme_option['validate'] ) : ( 'esc_url' ),
+												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_url' ),
+												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_url' ),
+												'validate_callback'    => $validate_callback,
 											)
 										);
 										$wp_customize->add_control(
@@ -876,6 +902,124 @@ final class {%= prefix_class %}_Library_Customize {
 					}
 
 		} // /customize
+
+
+
+
+
+	/**
+	 * 30) Getters
+	 */
+
+		/**
+		 * Get theme mod or fall back to default automatically
+		 *
+		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
+		 * @link  https://developer.wordpress.org/reference/functions/get_theme_mod/
+		 *
+		 * @subpackage  Customize Options
+		 *
+		 * @since    2.7.0
+		 * @version  2.7.0
+		 *
+		 * @param  string $name
+		 * @param  array  $theme_option_setup
+		 */
+		public static function get_theme_mod( $name, $theme_option_setup = array() ) {
+
+			// Pre
+
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_get_theme_mod_pre', null, $name, $theme_option_setup );
+
+				if ( null !== $pre ) {
+					return $pre;
+				}
+
+
+			// Helper variables
+
+				$output = false;
+
+				if ( false === self::$mods ) {
+					// Cache theme mods
+					self::$mods = get_theme_mods();
+				}
+
+
+			// Processing
+
+				if ( isset( $self::$mods[ $name ] ) ) {
+
+					/**
+					 * Theme option has been modified,
+					 * so we don't need the default value.
+					 */
+					$output = $self::$mods[ $name ];
+
+				} else {
+
+					/**
+					 * We haven't found a modified theme option,
+					 * so we need its default value.
+					 */
+					if ( empty( $theme_option_setup ) ) {
+
+						/**
+						 * We don't have single theme option passed,
+						 * get all theme options setup.
+						 */
+						if ( false === self::$theme_options_setup ) {
+							// Cache theme options setup
+							self::$theme_options_setup = (array) apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
+						}
+
+						foreach ( self::$theme_options_setup as $option ) {
+							if (
+								isset( $option['default'] )
+								&& isset( $option['id'] )
+								&& $name === $option['id']
+							) {
+								$output = $option['default'];
+								$theme_option_setup = $option;
+								break;
+							}
+						}
+
+					} else {
+
+						/**
+						 * We have single theme option passed,
+						 * get the default value from it.
+						 */
+						if (
+							isset( $theme_option_setup['default'] )
+							&& isset( $theme_option_setup['id'] )
+							&& $name === $theme_option_setup['id']
+						) {
+							$output = $theme_option_setup['default'];
+						}
+
+					}
+
+					/**
+					 * @see  https://developer.wordpress.org/reference/functions/get_theme_mod/
+					 */
+					if ( is_string( $output ) ) {
+						$output = sprintf(
+							$output,
+							get_template_directory_uri(),
+							get_stylesheet_directory_uri()
+						);
+					}
+
+				}
+
+
+			// Output
+
+				return apply_filters( 'theme_mod_' . $name, $output, $theme_option_setup );
+
+		} // /get_theme_mod
 
 
 

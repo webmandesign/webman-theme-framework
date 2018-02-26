@@ -100,20 +100,11 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 		 * First row.
 		 *
 		 * @since    1.0.0
-		 * @version  2.0.0
+		 * @version  2.7.0
 		 *
 		 * @param  array $buttons
 		 */
 		public static function add_buttons_row1( $buttons ) {
-
-			// Pre
-
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_editor_add_buttons_row1_pre', false, $buttons );
-
-				if ( false !== $pre ) {
-					return $pre;
-				}
-
 
 			// Processing
 
@@ -142,20 +133,11 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 		 * Second row.
 		 *
 		 * @since    1.0.0
-		 * @version  2.0.0
+		 * @version  2.7.0
 		 *
 		 * @param  array $buttons
 		 */
 		public static function add_buttons_row2( $buttons ) {
-
-			// Pre
-
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_editor_add_buttons_row2_pre', false, $buttons );
-
-				if ( false !== $pre ) {
-					return $pre;
-				}
-
 
 			// Processing
 
@@ -185,20 +167,11 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 		 * @link  http://www.tinymce.com/wiki.php/Configuration:style_formats
 		 *
 		 * @since    1.0.0
-		 * @version  2.6.0
+		 * @version  2.7.0
 		 *
 		 * @param  array $init
 		 */
 		public static function style_formats( $init ) {
-
-			// Pre
-
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_editor_style_formats_pre', false, $init );
-
-				if ( false !== $pre ) {
-					return $pre;
-				}
-
 
 			// Processing
 

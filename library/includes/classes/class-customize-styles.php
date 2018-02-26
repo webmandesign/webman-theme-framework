@@ -152,9 +152,10 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 					$scope = '-' . $scope;
 				}
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_pre', ! self::$supports_generator, $scope );
+				$pre = ( self::$supports_generator ) ? ( null ) : ( false );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_pre', $pre, $scope );
 
-				if ( false !== $pre ) {
+				if ( null !== $pre ) {
 					return $pre;
 				}
 
@@ -214,15 +215,10 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 						 * and exit the method returning `false`.
 						 */
 
-						set_transient(
-							'{%= prefix_var %}_admin_notice',
-							array(
-								'<strong>' . esc_html__( "ERROR: Wasn't able to create a theme CSS folder! Contact the theme support.", '{%= text_domain %}' ) . '</strong>',
-								'notice-error',
-								'edit_theme_options',
-								2
-							),
-							( 60 * 60 * 48 )
+						error_log(
+							__METHOD__ . ': '
+							. 'ERROR: '
+							. 'Theme "' . get_template() . '" was not able to create "' . $theme_css_dir . '" directory.'
 						);
 
 						remove_theme_mod( '__url_css' . $scope );
@@ -395,7 +391,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_custom_styles_pre', false, $css, $scope );
 
 				if ( false !== $pre ) {
-					return $pre;
+					return ( is_string( $pre ) ) ? ( $pre ) : ( $css );
 				}
 
 
@@ -470,31 +466,9 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 									continue;
 								}
 
-							// If we have an ID, get the default value if set
+							// Get modified option value or fall back to default
 
-								if ( isset( $option['default'] ) && 'image' !== $option['type'] ) {
-									$value = $option['default'];
-								}
-
-							// Get the option value saved in database and apply it when exists
-
-								$mod = get_theme_mod( $option_id );
-
-								/**
-								 * As this is producing CSS output, we allow checking
-								 * for an empty or zero value with checkbox and range controls.
-								 * Checkbox can be used in conditional comments in CSS for example (see below).
-								 * Also image control can have a value of `false` in which case the
-								 * option default value is used. If the image control is of empty string
-								 * the `none` is set as value.
-								 */
-								if (
-									$mod
-									|| is_numeric( $mod )
-									|| in_array( $option['type'], array( 'checkbox', 'image' ) )
-								) {
-									$value = $mod;
-								}
+								$value = {%= prefix_class %}_Library_Customize::get_theme_mod( $option_id, $option );
 
 							// Make sure the color value contains '#'
 
@@ -517,8 +491,6 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 									if ( ! empty( $value ) ) {
 										$value = "url('" . esc_url( $value ) . "')";
-									} elseif ( false === $value ) {
-										$value = "url('" . esc_url( $option['default'] ) . "')";
 									} else {
 										$value = 'none';
 									}
@@ -752,14 +724,12 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 						&& ! defined( 'FTP_USER' )
 					) {
 
-						set_transient(
-							'{%= prefix_var %}_admin_notice',
-							array(
-								esc_html__( 'The theme writes a files to your server. You do not appear to have your FTP credentials set up in "wp-config.php" file.', '{%= text_domain %}' ) . ' <a href="http://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants" target="_blank">' . esc_html__( 'Please set your FTP credentials first.', '{%= text_domain %}' ) . '</a>',
-								'notice-error',
-								'edit_theme_options'
-							),
-							( 60 * 60 * 24 )
+						error_log(
+							__METHOD__ . ': '
+							. 'ERROR: '
+							. 'Theme "' . get_template() . '" could not get access to your server to write files to WordPress uploads directory.'
+							. ' '
+							. 'Please try to set up FTP credentials in your "wp-confix.php" file (https://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants) to fix the issue.'
 						);
 
 						return false;
@@ -803,7 +773,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_minify_css_pre', false, $css );
 
 				if ( false !== $pre ) {
-					return $pre;
+					return ( is_string( $pre ) ) ? ( $pre ) : ( $css );
 				}
 
 

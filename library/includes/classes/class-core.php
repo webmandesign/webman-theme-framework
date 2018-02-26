@@ -140,15 +140,6 @@ final class {%= prefix_class %}_Library {
 		 */
 		public static function add_table_of_contents( $content = '' ) {
 
-			// Pre
-
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_add_table_of_contents_pre', false, $content );
-
-				if ( false !== $pre ) {
-					return $pre;
-				}
-
-
 			// Helper variables
 
 				global $page, $numpages, $multipage, $post;
@@ -347,9 +338,9 @@ final class {%= prefix_class %}_Library {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_has_more_tag_pre', false, $post );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_has_more_tag_pre', null, $post );
 
-				if ( false !== $pre ) {
+				if ( null !== $pre ) {
 					return $pre;
 				}
 
@@ -372,7 +363,7 @@ final class {%= prefix_class %}_Library {
 
 			// Output
 
-				return strpos( $post->post_content, '<!--more-->' );
+				return (bool) strpos( $post->post_content, '<!--more-->' );
 
 		} // /has_more_tag
 
@@ -418,20 +409,11 @@ final class {%= prefix_class %}_Library {
 		 * unlike WordPress native strip_shortcodes() function.
 		 *
 		 * @since    1.0.0
-		 * @version  2.0.0
+		 * @version  2.7.0
 		 *
 		 * @param  string $content
 		 */
 		public static function remove_shortcodes( $content ) {
-
-			// Pre
-
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_remove_shortcodes_pre', false, $content );
-
-				if ( false !== $pre ) {
-					return $pre;
-				}
-
 
 			// Output
 
@@ -487,9 +469,9 @@ final class {%= prefix_class %}_Library {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_is_categorized_blog_pre', false );
+				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_is_categorized_blog_pre', null );
 
-				if ( false !== $pre ) {
+				if ( null !== $pre ) {
 					return $pre;
 				}
 
