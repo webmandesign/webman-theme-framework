@@ -6,13 +6,15 @@
  * we conditionally hide corresponding "_attachment", "_position",
  * "_repeat", "_size" and also "_opacity" controls.
  *
+ * WordPress customizer uses jQuery, so, go for it!
+ *
  * @subpackage  Customize
  *
  * @package    WebMan WordPress Theme Framework
  * @copyright  WebMan Design, Oliver Juhas
  *
  * @since    2.2.0
- * @version  2.7.0
+ * @version  2.7.1
  */
 ( function( exports, $ ) {
 	$( wp.customize ).on( 'ready', function() {

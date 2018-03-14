@@ -13,7 +13,7 @@
  * @copyright  WebMan Design, Oliver Juhas
  *
  * @since    1.8.0
- * @version  2.7.0
+ * @version  2.7.1
  *
  * Contents:
  *
@@ -138,7 +138,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * @subpackage  Customize Options
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.0
+		 * @version  2.7.1
 		 *
 		 * @param  string $scope
 		 */
@@ -222,7 +222,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 						);
 
 						remove_theme_mod( '__url_css' . $scope );
-						remove_theme_mod( '__path_theme_generated_files' . $scope );
+						remove_theme_mod( '__path_css' . $scope );
 
 						return false;
 
@@ -230,12 +230,10 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 				// Create the theme CSS files
 
-					$file_name = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_file_name', '{%= theme_slug %}-styles' . $scope, $scope );
+					$file_name = '{%= theme_slug %}-styles' . $scope;
 
-					$global_css_path     = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_global_css_path', trailingslashit( $theme_css_dir ) . $file_name . '.css', $scope, $file_name, $theme_css_dir );
-					$global_css_path_dev = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_global_css_path_dev', trailingslashit( $theme_css_dir ) . 'dev-' . $file_name . '.css', $scope, $file_name, $theme_css_dir );
-
-					$global_css_url = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_generate_main_css_global_css_url', trailingslashit( $theme_css_url ) . $file_name . '.css', $scope, $file_name, $theme_css_url );
+					$global_css_path     = trailingslashit( $theme_css_dir ) . $file_name . '.css';
+					$global_css_path_dev = trailingslashit( $theme_css_dir ) . 'dev-' . $file_name . '.css';
 
 					if (
 						$output
@@ -256,8 +254,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 
 						// Store the CSS files paths and urls in DB
 
-							set_theme_mod( '__url_css' . $scope, $global_css_url );
-							set_theme_mod( '__path_theme_generated_files' . $scope, str_replace( $wp_upload_dir['basedir'], '', $theme_css_dir ) );
+							set_theme_mod( '__url_css' . $scope,  trailingslashit( $theme_css_url ) . $file_name . '.css' );
+							set_theme_mod( '__path_css' . $scope, trailingslashit( $theme_css_dir ) . $file_name . '.css' );
 
 						// Run custom actions
 
@@ -270,7 +268,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				// Well, if we've got down here, there is really nothing we can do...
 
 					remove_theme_mod( '__url_css' . $scope );
-					remove_theme_mod( '__path_theme_generated_files' . $scope );
+					remove_theme_mod( '__path_css' . $scope );
 
 					return false;
 

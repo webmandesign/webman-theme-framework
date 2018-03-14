@@ -1,5 +1,15 @@
 # WebMan WordPress Theme Framework Changelog
 
+## 2.7.1
+
+* **Update**:
+
+### Files changed:
+
+	changelog.md
+	init.php
+
+
 ## 2.7.0
 
 * **Add**: Theme options/mods wrapper with automatic default value fallback

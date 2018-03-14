@@ -8,7 +8,7 @@
  * @copyright  WebMan Design, Oliver Juhas
  *
  * @since    1.0.0
- * @version  2.7.0
+ * @version  2.7.1
  *
  * Contents:
  *
@@ -34,7 +34,7 @@ final class {%= prefix_class %}_Library_Admin {
 		 * Constructor
 		 *
 		 * @since    1.0.0
-		 * @version  1.5.0
+		 * @version  2.7.1
 		 */
 		private function __construct() {
 
@@ -46,7 +46,7 @@ final class {%= prefix_class %}_Library_Admin {
 
 						// Styles and scripts
 
-							add_action( 'admin_enqueue_scripts', __CLASS__ . '::assets', 998 );
+							add_action( 'admin_enqueue_scripts', __CLASS__ . '::assets' );
 
 		} // /__construct
 
@@ -85,7 +85,7 @@ final class {%= prefix_class %}_Library_Admin {
 		 * Admin assets
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.0
+		 * @version  2.7.1
 		 */
 		public static function assets() {
 
@@ -95,18 +95,13 @@ final class {%= prefix_class %}_Library_Admin {
 
 					// Styles
 
-						$register_styles = array_filter( (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_admin_assets_register_styles', array(
-							'{%= prefix_var %}-welcome' => array( get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/welcome.css' ) ),
-						) ) );
-
-						foreach ( $register_styles as $handle => $atts ) {
-							$src   = ( isset( $atts['src'] ) ) ? ( $atts['src'] ) : ( $atts[0] );
-							$deps  = ( isset( $atts['deps'] ) ) ? ( $atts['deps'] ) : ( false );
-							$ver   = ( isset( $atts['ver'] ) ) ? ( $atts['ver'] ) : ( {%= prefix_constant %}_THEME_VERSION );
-							$media = ( isset( $atts['media'] ) ) ? ( $atts['media'] ) : ( 'screen' );
-
-							wp_register_style( $handle, $src, $deps, $ver, $media );
-						}
+						wp_register_style(
+							'{%= prefix_var %}-welcome',
+							get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/welcome.css' ),
+							false,
+							{%= prefix_constant %}_THEME_VERSION,
+							'screen'
+						);
 
 					// RTL setup
 

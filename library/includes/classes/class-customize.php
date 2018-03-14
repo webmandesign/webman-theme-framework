@@ -10,7 +10,7 @@
  * @copyright  WebMan Design, Oliver Juhas
  *
  * @since    1.0.0
- * @version  2.7.0
+ * @version  2.7.1
  *
  * Contents:
  *
@@ -172,7 +172,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 *               'property'         => 'text-shadow',
 		 *               'prefix'           => '0 1px 1px rgba(',
 		 *               'suffix'           => ', .5)',
-		 *               'process_callback' => 'hexToRgb',
+		 *               'process_callback' => '{%= prefix_js %}.Customize.hexToRgb',
 		 *               'custom'           => '0 0 0 1em [[value]] ), 0 0 0 2em transparent, 0 0 0 3em [[value]]',
 		 *             ),...
 		 *           ),
@@ -190,7 +190,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 *
 		 *     // And/or setting custom JavaScript:
 		 *
-		 *       'custom' => 'JavaScript here', // Such as "jQuery( '.site-title.type-text' ).toggleClass( 'styled' );"
+		 *       'custom' => 'JavaScript here', // Such as "$( '.site-title.type-text' ).toggleClass( 'styled' );"
 		 *
 		 *   );
 		 *
@@ -199,7 +199,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @subpackage  Customize Options
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.0
+		 * @version  2.7.1
 		 */
 		public static function preview_scripts() {
 
@@ -237,7 +237,7 @@ final class {%= prefix_class %}_Library_Customize {
 								if ( isset( $theme_option['preview_js']['css'] ) ) {
 
 									$output_single .= "\t\t\t" . "var newCss = '';" . PHP_EOL.PHP_EOL;
-									$output_single .= "\t\t\t" . "if ( jQuery( '#jscss-" . $theme_option['id'] . "' ).length ) { jQuery( '#jscss-" . $theme_option['id'] . "' ).remove() }" . PHP_EOL.PHP_EOL;
+									$output_single .= "\t\t\t" . "if ( $( '#jscss-" . $theme_option['id'] . "' ).length ) { $( '#jscss-" . $theme_option['id'] . "' ).remove() }" . PHP_EOL.PHP_EOL;
 
 									foreach ( $theme_option['preview_js']['css'] as $selector => $properties ) {
 										if ( is_array( $properties ) ) {
@@ -300,7 +300,7 @@ final class {%= prefix_class %}_Library_Customize {
 										}
 									}
 
-									$output_single .= PHP_EOL . "\t\t\t" . "jQuery( document ).find( 'head' ).append( jQuery( '<style id=\'jscss-" . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . PHP_EOL;
+									$output_single .= PHP_EOL . "\t\t\t" . "$( document ).find( 'head' ).append( $( '<style id=\'jscss-" . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . PHP_EOL;
 
 								}
 
