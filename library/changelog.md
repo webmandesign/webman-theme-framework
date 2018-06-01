@@ -1,6 +1,6 @@
 # WebMan WordPress Theme Framework Changelog
 
-## 2.7.1
+## 2.8.0
 
 * **Update**:
 

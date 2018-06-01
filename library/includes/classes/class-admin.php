@@ -8,7 +8,7 @@
  * @copyright  WebMan Design, Oliver Juhas
  *
  * @since    1.0.0
- * @version  2.7.1
+ * @version  2.8.0
  *
  * Contents:
  *
@@ -34,7 +34,7 @@ final class {%= prefix_class %}_Library_Admin {
 		 * Constructor
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.1
+		 * @version  2.8.0
 		 */
 		private function __construct() {
 
@@ -85,7 +85,7 @@ final class {%= prefix_class %}_Library_Admin {
 		 * Admin assets
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.1
+		 * @version  2.8.0
 		 */
 		public static function assets() {
 

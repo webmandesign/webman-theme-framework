@@ -10,7 +10,7 @@
  * @copyright  WebMan Design, Oliver Juhas
  *
  * @since    1.0.0
- * @version  2.7.1
+ * @version  2.8.0
  *
  * Contents:
  *
@@ -199,7 +199,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @subpackage  Customize Options
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.1
+		 * @version  2.8.0
 		 */
 		public static function preview_scripts() {
 

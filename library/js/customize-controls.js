@@ -14,7 +14,7 @@
  * @copyright  WebMan Design, Oliver Juhas
  *
  * @since    2.2.0
- * @version  2.7.1
+ * @version  2.8.0
  */
 ( function( exports, $ ) {
 	$( wp.customize ).on( 'ready', function() {

@@ -13,7 +13,7 @@
  * @copyright  WebMan Design, Oliver Juhas
  *
  * @since    1.8.0
- * @version  2.7.1
+ * @version  2.8.0
  *
  * Contents:
  *
@@ -138,7 +138,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * @subpackage  Customize Options
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.1
+		 * @version  2.8.0
 		 *
 		 * @param  string $scope
 		 */

@@ -10,7 +10,7 @@
  * @copyright  WebMan Design, Oliver Juhas
  *
  * @since    1.0.0
- * @version  2.7.0
+ * @version  2.8.0
  */
 class {%= prefix_class %}_Customize_Control_Select extends WP_Customize_Control {
 
@@ -30,7 +30,7 @@ class {%= prefix_class %}_Customize_Control_Select extends WP_Customize_Control 
 					<span class="customize-control-title"><?php echo $this->label; ?></span>
 					<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php endif; ?>
 
-					<select name="<?php echo $this->id; ?>" <?php $this->link(); ?>>
+					<select name="<?php echo esc_attr( $this->id ); ?>" <?php $this->link(); ?>>
 						<?php
 
 						foreach ( $this->choices as $value => $name ) {

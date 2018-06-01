@@ -12,7 +12,7 @@
  * @package    WebMan WordPress Theme Framework
  * @copyright  WebMan Design, Oliver Juhas
  * @license    GPL-3.0, http://www.gnu.org/licenses/gpl-3.0.html
- * @version    2.7.1
+ * @version    2.8.0
  *
  * Used development prefixes:
  *
