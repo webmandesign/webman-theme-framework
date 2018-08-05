@@ -10,7 +10,7 @@
  * @copyright  WebMan Design, Oliver Juhas
  *
  * @since    2.5.0
- * @version  2.7.0
+ * @version  2.8.0
  *
  * Contents:
  *
@@ -92,7 +92,7 @@ final class {%= prefix_class %}_Library_Sanitize {
 		 * Returns an array of values.
 		 *
 		 * @since    2.5.0
-		 * @version  2.6.1
+		 * @version  2.8.0
 		 *
 		 * @param  mixed $value
 		 * @param  array $choices
@@ -105,7 +105,7 @@ final class {%= prefix_class %}_Library_Sanitize {
 				 * If we get a string in `$value`,
 				 * split it to array using `,` as delimiter.
 				 */
-				$value = ( ! is_array( $value ) ) ? ( explode( ',', (string) $value ) ) : ( $value );
+				$value = ( is_string( $value ) ) ? ( explode( ',', (string) $value ) ) : ( (array) $value );
 
 				/**
 				 * If we pass a customizer control as `$choices`,

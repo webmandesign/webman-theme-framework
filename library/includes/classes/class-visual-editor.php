@@ -167,7 +167,7 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 		 * @link  http://www.tinymce.com/wiki.php/Configuration:style_formats
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.0
+		 * @version  2.8.0
 		 *
 		 * @param  array $init
 		 */
@@ -335,7 +335,7 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 
 				// Removing obsolete tags (this is localized already)
 
-					$heading_1 = ( ! is_admin() ) ? ( 'Heading 1=h1;' ) : ( '' ); // Do not add H1 when in admin, but add it in front-end editor.
+					$heading_1 = ( is_admin() ) ? ( '' ) : ( 'Heading 1=h1;' ); // Do not add H1 when in admin, but add it in front-end editor.
 
 					$init['block_formats'] = 'Paragraph=p;' . $heading_1 . 'Heading 2=h2;Heading 3=h3;Heading 4=h4;Address=address;Preformatted=pre;Code=code';
 

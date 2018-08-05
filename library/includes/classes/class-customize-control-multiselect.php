@@ -64,7 +64,7 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 
 		// Helper variables
 
-			$value_array = ( ! is_array( $this->value() ) ) ? ( explode( ',', $this->value() ) ) : ( $this->value() );
+			$value_array = ( is_string( $this->value() ) ) ? ( explode( ',', $this->value() ) ) : ( (array) $this->value() );
 
 
 		// Output
@@ -97,7 +97,7 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 
 		// Helper variables
 
-			$value_array = ( ! is_array( $this->value() ) ) ? ( explode( ',', $this->value() ) ) : ( $this->value() );
+			$value_array = ( is_string( $this->value() ) ) ? ( explode( ',', $this->value() ) ) : ( (array) $this->value() );
 
 
 		// Output
