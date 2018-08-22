@@ -327,10 +327,12 @@ final class {%= prefix_class %}_Library {
 
 
 		/**
-		 * Checks for <!--more--> tag in post content
+		 * Checks for more tag in post content.
+		 *
+		 * If more tag present, also retrieve its custom text value.
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.0
+		 * @version  2.8.0
 		 *
 		 * @param  mixed $post
 		 */
@@ -347,23 +349,35 @@ final class {%= prefix_class %}_Library {
 
 			// Helper variables
 
+				$output = false;
+
 				if ( empty( $post ) ) {
 					$post = $GLOBALS['post'];
 				} elseif ( is_numeric( $post ) ) {
-					$post = get_post( absint( $post ) );
+					$post = get_post( $post );
 				}
 
 
 			// Requirements check
 
-				if ( ! isset( $post->post_content ) ) {
+				if ( ! is_a( $post, 'WP_Post' ) ) {
 					return;
+				}
+
+
+			// Processing
+
+				if ( preg_match( '/<!--more(.*?)?-->/', $post->post_content, $matches ) ) {
+					$output = true;
+					if ( ! empty( $matches[1] ) ) {
+						$output = strip_tags( wp_kses_no_null( trim( $matches[1] ) ) );
+					}
 				}
 
 
 			// Output
 
-				return (bool) strpos( $post->post_content, '<!--more-->' );
+				return $output;
 
 		} // /has_more_tag
 
