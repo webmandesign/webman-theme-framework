@@ -1,11 +1,11 @@
 <?php
 /**
- * Visual Editor class
+ * Content Editor class
  *
  * This is a helper class and does not load automatically with the library.
  * Load it directly from within your theme's `functions.php` file.
  *
- * @subpackage  Visual Editor
+ * @subpackage  Content Editor
  *
  * @package    WebMan WordPress Theme Framework
  * @copyright  WebMan Design, Oliver Juhas
@@ -20,7 +20,7 @@
  * 20) Custom formats
  * 30) Body class
  */
-final class {%= prefix_class %}_Library_Visual_Editor {
+final class {%= prefix_class %}_Library_Content_Editor {
 
 
 
@@ -387,6 +387,6 @@ final class {%= prefix_class %}_Library_Visual_Editor {
 
 
 
-} // /{%= prefix_class %}_Library_Visual_Editor
+} // /{%= prefix_class %}_Library_Content_Editor
 
-add_action( 'init', '{%= prefix_class %}_Library_Visual_Editor::init' );
+add_action( 'init', '{%= prefix_class %}_Library_Content_Editor::init' );
