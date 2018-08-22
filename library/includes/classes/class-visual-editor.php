@@ -95,7 +95,7 @@ final class {%= prefix_class %}_Library_Content_Editor {
 	 */
 
 		/**
-		 * Add buttons to visual editor
+		 * Add buttons to content editor
 		 *
 		 * First row.
 		 *
@@ -128,7 +128,7 @@ final class {%= prefix_class %}_Library_Content_Editor {
 
 
 		/**
-		 * Add buttons to visual editor
+		 * Add buttons to content editor
 		 *
 		 * Second row.
 		 *
@@ -277,7 +277,7 @@ final class {%= prefix_class %}_Library_Content_Editor {
 						// Group: Quotes
 
 							300 . 'quotes' => array(
-								'title' => esc_html_x( 'Quotes', 'Visual editor blockquote formats group title.', '{%= text_domain %}' ),
+								'title' => esc_html_x( 'Quotes', 'Content editor blockquote formats group title.', '{%= text_domain %}' ),
 								'items' => array(
 
 									300 . 'quotes' . 100 => array(
@@ -301,7 +301,7 @@ final class {%= prefix_class %}_Library_Content_Editor {
 									),
 
 									300 . 'quotes' . 130 => array(
-										'title'  => esc_html_x( 'Cite', 'Visual editor format label for HTML CITE tag used to set the blockquote source.', '{%= text_domain %}' ),
+										'title'  => esc_html_x( 'Cite', 'Content editor format label for HTML CITE tag used to set the blockquote source.', '{%= text_domain %}' ),
 										'inline' => 'cite',
 									),
 
