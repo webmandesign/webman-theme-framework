@@ -2,8 +2,6 @@
 /**
  * Customize Options Generator class
  *
- * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
- *
  * @subpackage  Customize
  *
  * @package    WebMan WordPress Theme Framework
@@ -194,8 +192,6 @@ final class {%= prefix_class %}_Library_Customize {
 		 *
 		 *   );
 		 *
-		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
-		 *
 		 * @subpackage  Customize Options
 		 *
 		 * @since    1.0.0
@@ -214,7 +210,7 @@ final class {%= prefix_class %}_Library_Customize {
 
 			// Helper variables
 
-				$theme_options = (array) apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
+				$theme_options = self::get_options();
 
 				ksort( $theme_options );
 
@@ -341,8 +337,6 @@ final class {%= prefix_class %}_Library_Customize {
 		/**
 		 * Customizer renderer
 		 *
-		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
-		 *
 		 * @subpackage  Customize Options
 		 *
 		 * @since    1.0.0
@@ -370,7 +364,7 @@ final class {%= prefix_class %}_Library_Customize {
 
 			// Helper variables
 
-				$theme_options = (array) apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
+				$theme_options = self::get_options();
 
 				ksort( $theme_options );
 
@@ -912,9 +906,28 @@ final class {%= prefix_class %}_Library_Customize {
 	 */
 
 		/**
-		 * Get theme mod or fall back to default automatically
+		 * Get theme options setup array.
 		 *
 		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
+		 *
+		 * @subpackage  Customize Options
+		 *
+		 * @since    2.8.0
+		 * @version  2.8.0
+		 */
+		public static function get_options() {
+
+			// Output
+
+				return (array) apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
+
+		} // /get_options
+
+
+
+		/**
+		 * Get theme mod or fall back to default automatically
+		 *
 		 * @link  https://developer.wordpress.org/reference/functions/get_theme_mod/
 		 *
 		 * @subpackage  Customize Options
@@ -970,7 +983,7 @@ final class {%= prefix_class %}_Library_Customize {
 						 */
 						if ( false === self::$theme_options_setup ) {
 							// Cache theme options setup
-							self::$theme_options_setup = (array) apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
+							self::$theme_options_setup = self::get_options();
 						}
 
 						foreach ( self::$theme_options_setup as $option ) {

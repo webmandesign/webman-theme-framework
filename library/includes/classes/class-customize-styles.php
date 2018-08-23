@@ -2,7 +2,6 @@
 /**
  * CSS Styles Generator class
  *
- * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
  * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
  * @uses  `wmhook_{%= prefix_hook %}_custom_styles_alphas` global hook
  *
@@ -370,14 +369,13 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * You can pass the CSS styles string directly to the method `$css` argument,
 		 * or hooking it onto `wmhook_{%= prefix_hook %}_custom_styles` filter.
 		 *
-		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
 		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles_alphas` global hook
 		 *
 		 * @subpackage  Customize Options
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.0
+		 * @version  2.8.0
 		 *
 		 * @param  string $css    CSS string with variables to replace.
 		 * @param  string $scope  Optional CSS scope (such as 'editor' for generating editor styles).
@@ -436,7 +434,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				$output       = '';
 				$replacements = array();
 
-				$theme_options = (array) apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
+				$theme_options = {%= prefix_class %}_Library_Customize::get_options();
 				$rgba_alphas   = array_filter( (array) apply_filters( 'wmhook_{%= prefix_hook %}_custom_styles_alphas', array() ) );
 
 
