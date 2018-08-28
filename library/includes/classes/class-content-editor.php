@@ -38,7 +38,7 @@ final class {%= prefix_class %}_Library_Content_Editor {
 		 * Constructor
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.0
+		 * @version  2.8.0
 		 */
 		private function __construct() {
 
@@ -51,7 +51,7 @@ final class {%= prefix_class %}_Library_Content_Editor {
 						// Editor body class
 
 							if ( is_admin() ) {
-								add_filter( 'tiny_mce_before_init', __CLASS__ . '::body_class' );
+								add_filter( 'tiny_mce_before_init', __CLASS__ . '::editor_body_class' );
 							}
 
 						// Editor addons
@@ -355,14 +355,14 @@ final class {%= prefix_class %}_Library_Content_Editor {
 	 */
 
 		/**
-		 * Adding editor HTML body classes
+		 * Adding editor HTML body classes.
 		 *
 		 * @since    1.7.2
 		 * @version  2.8.0
 		 *
 		 * @param  array $init
 		 */
-		public static function body_class( $init ) {
+		public static function editor_body_class( $init ) {
 
 			// Requirements check
 
@@ -381,7 +381,7 @@ final class {%= prefix_class %}_Library_Content_Editor {
 
 				return $init;
 
-		} // /body_class
+		} // /editor_body_class
 
 
 
