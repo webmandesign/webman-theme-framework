@@ -374,7 +374,7 @@ final class {%= prefix_class %}_Library_Content_Editor {
 			// Processing
 
 				// Compatibility with `main.css` styles.
-				$init['body_class'] .= ' entry-content';
+				$init['body_class'] .= ' entry-content '; // TinyMCE only.
 
 
 			// Output
