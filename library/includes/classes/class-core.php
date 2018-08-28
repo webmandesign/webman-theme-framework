@@ -362,7 +362,7 @@ final class {%= prefix_class %}_Library {
 
 			// Requirements check
 
-				if ( ! is_a( $post, 'WP_Post' ) ) {
+				if ( ! $post instanceof WP_Post ) {
 					return;
 				}
 

@@ -55,7 +55,7 @@ final class {%= prefix_class %}_Library_Sanitize {
 		 * The `$choices` has to be associated array!
 		 *
 		 * @since    2.5.0
-		 * @version  2.5.0
+		 * @version  2.8.0
 		 *
 		 * @param  string $value
 		 * @param  array  $choices
@@ -69,7 +69,7 @@ final class {%= prefix_class %}_Library_Sanitize {
 				 * If we pass a customizer control as `$choices`,
 				 * get the list of choices and default value from it.
 				 */
-				if ( is_a( $choices, 'WP_Customize_Setting' ) ) {
+				if ( $choices instanceof WP_Customize_Setting ) {
 					$default = $choices->default;
 					$choices = $choices->manager->get_control( $choices->id )->choices;
 				}
@@ -111,7 +111,7 @@ final class {%= prefix_class %}_Library_Sanitize {
 				 * If we pass a customizer control as `$choices`,
 				 * get the list of choices and default value from it.
 				 */
-				if ( is_a( $choices, 'WP_Customize_Setting' ) ) {
+				if ( $choices instanceof WP_Customize_Setting ) {
 					$choices = $choices->manager->get_control( $choices->id )->choices;
 				}
 
@@ -153,7 +153,7 @@ final class {%= prefix_class %}_Library_Sanitize {
 		 * dashes, single and/or double quotes of `$value` variable.
 		 *
 		 * @since    2.5.0
-		 * @version  2.5.0
+		 * @version  2.8.0
 		 *
 		 * @param  string $value
 		 * @param  string $default
@@ -168,7 +168,7 @@ final class {%= prefix_class %}_Library_Sanitize {
 				 * If we pass a customizer control as `$default`,
 				 * get the default value from it.
 				 */
-				if ( is_a( $default, 'WP_Customize_Setting' ) ) {
+				if ( $choices instanceof WP_Customize_Setting ) {
 					$default = $default->default;
 				}
 
