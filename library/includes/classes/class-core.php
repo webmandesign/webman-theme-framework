@@ -35,7 +35,7 @@ final class {%= prefix_class %}_Library {
 		 * Constructor
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.0
+		 * @version  2.8.0
 		 */
 		private function __construct() {
 
@@ -55,6 +55,8 @@ final class {%= prefix_class %}_Library {
 						add_filter( 'show_recent_comments_widget_style', '__return_false' );
 
 						add_filter( 'the_content', __CLASS__ . '::add_table_of_contents' );
+
+						add_filter( 'wmhook_{%= prefix_hook %}_esc_css', 'wp_strip_all_tags' );
 
 		} // /__construct
 
@@ -543,6 +545,25 @@ final class {%= prefix_class %}_Library {
 					delete_transient( '{%= prefix_var %}_all_categories' );
 
 			} // /all_categories_transient_flusher
+
+
+
+		/**
+		 * Escape CSS code.
+		 *
+		 * @since    2.8.0
+		 * @version  2.8.0
+		 *
+		 * @param  string $css
+		 * @param  string $scope  Optional CSS code identification for better filtering.
+		 */
+		public static function esc_css( $css, $scope = '' ) {
+
+			// Output
+
+				return (string) apply_filters( 'wmhook_{%= prefix_hook %}_esc_css', (string) $css, (string) $scope );
+
+		} // /esc_css
 
 
 

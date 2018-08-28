@@ -2,9 +2,6 @@
 /**
  * CSS Styles Generator class
  *
- * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
- * @uses  `wmhook_{%= prefix_hook %}_custom_styles_alphas` global hook
- *
  * @subpackage  Customize
  * @subpackage  Stylesheet Generator
  *
@@ -44,7 +41,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * Constructor
 		 *
 		 * @since    1.8.0
-		 * @version  2.5.0
+		 * @version  2.8.0
 		 */
 		private function __construct() {
 
@@ -83,10 +80,6 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 						add_action( 'wmhook_{%= prefix_hook %}_library_generate_main_css', __CLASS__ . '::stylesheet_timestamp' );
 
 					// Filters
-
-						// Escape inline CSS
-
-							add_filter( 'wmhook_{%= prefix_hook %}_esc_css', 'wp_strip_all_tags' );
 
 						// Minify CSS
 
@@ -366,11 +359,8 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 * This method allows using both single stylesheet file generator,
 		 * and outputting the processed CSS as an inline styles.
 		 *
-		 * You can pass the CSS styles string directly to the method `$css` argument,
-		 * or hooking it onto `wmhook_{%= prefix_hook %}_custom_styles` filter.
-		 *
-		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles` global hook
-		 * @uses  `wmhook_{%= prefix_hook %}_custom_styles_alphas` global hook
+		 * You can pass the CSS styles string directly as the `$css` method argument,
+		 * or hook it onto `wmhook_{%= prefix_hook %}_custom_styles` filter.
 		 *
 		 * @subpackage  Customize Options
 		 *
@@ -435,7 +425,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				$replacements = array();
 
 				$theme_options = {%= prefix_class %}_Library_Customize::get_options();
-				$rgba_alphas   = array_filter( (array) apply_filters( 'wmhook_{%= prefix_hook %}_custom_styles_alphas', array() ) );
+				$rgba_alphas   = self::get_rgba_alphas();
 
 
 			// Processing
@@ -914,6 +904,22 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				return $color;
 
 		} // /maybe_hash_hex_color
+
+
+
+		/**
+		 * Get RGBA colors possible alpha values.
+		 *
+		 * @since    2.8.0
+		 * @version  2.8.0
+		 */
+		public static function get_rgba_alphas() {
+
+			// Output
+
+				return array_filter( (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_get_rgba_alphas', array() ) );
+
+		} // /get_rgba_alphas
 
 
 

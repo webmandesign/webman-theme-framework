@@ -908,8 +908,6 @@ final class {%= prefix_class %}_Library_Customize {
 		/**
 		 * Get theme options setup array.
 		 *
-		 * @uses  `wmhook_{%= prefix_hook %}_theme_options` global hook
-		 *
 		 * @subpackage  Customize Options
 		 *
 		 * @since    2.8.0
