@@ -10,7 +10,7 @@
  * @copyright  WebMan Design, Oliver Juhas
  *
  * @since    1.0.0
- * @version  2.7.0
+ * @version  2.8.0
  */
 class {%= prefix_class %}_Customize_Control_HTML extends WP_Customize_Control {
 
@@ -29,7 +29,7 @@ class {%= prefix_class %}_Customize_Control_HTML extends WP_Customize_Control {
 			}
 
 			if ( isset( $this->content ) ) {
-				echo $this->content;
+				echo wp_kses_post( $this->content );
 			} else {
 				esc_html_e( 'Please set the `content` parameter for the HTML control.', '{%= text_domain %}' );
 			}
