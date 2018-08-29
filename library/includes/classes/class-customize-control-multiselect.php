@@ -62,7 +62,7 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 
 	public function render_content_checkbox() {
 
-		// Helper variables
+		// Variables
 
 			$value_array = ( is_string( $this->value() ) ) ? ( explode( ',', $this->value() ) ) : ( (array) $this->value() );
 
@@ -95,7 +95,7 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 
 	public function render_content_select() {
 
-		// Helper variables
+		// Variables
 
 			$value_array = ( is_string( $this->value() ) ) ? ( explode( ',', $this->value() ) ) : ( (array) $this->value() );
 

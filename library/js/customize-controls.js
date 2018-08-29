@@ -30,7 +30,7 @@
 				.after( '<span class="range-value" />' )
 				.on( 'input change', function() {
 
-					// Helper variables
+					// Variables
 
 						var
 							$this       = $( this ),
@@ -57,7 +57,7 @@
 			$( '.range-value' )
 				.each( function() {
 
-					// Helper variables
+					// Variables
 
 						var
 							$this       = $( this ),
@@ -99,7 +99,7 @@
 				$.each( backgroundImages, function( i, settingId ) {
 					wp.customize( settingId, function( value ) {
 
-						// Helper variables
+						// Variables
 
 							var
 								selectors = [

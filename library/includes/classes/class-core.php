@@ -99,7 +99,7 @@ final class {%= prefix_class %}_Library {
 		 */
 		public static function theme_upgrade() {
 
-			// Helper variables
+			// Variables
 
 				$current_theme_version = get_transient( '{%= theme_slug %}_version' );
 				$new_theme_version     = wp_get_theme( '{%= theme_slug %}' )->get( 'Version' );
@@ -142,7 +142,7 @@ final class {%= prefix_class %}_Library {
 		 */
 		public static function add_table_of_contents( $content = '' ) {
 
-			// Helper variables
+			// Variables
 
 				global $page, $numpages, $multipage, $post;
 
@@ -270,7 +270,7 @@ final class {%= prefix_class %}_Library {
 				}
 
 
-			// Helper variables
+			// Variables
 
 				global $page, $paged;
 
@@ -313,7 +313,7 @@ final class {%= prefix_class %}_Library {
 			 */
 			public static function the_paginated_suffix( $tag = '', $singular_only = false ) {
 
-				// Helper variables
+				// Variables
 
 					$output = self::get_the_paginated_suffix( $tag, $singular_only );
 
@@ -349,7 +349,7 @@ final class {%= prefix_class %}_Library {
 				}
 
 
-			// Helper variables
+			// Variables
 
 				$output = false;
 

@@ -99,7 +99,7 @@ final class {%= prefix_class %}_Library_Sanitize {
 		 */
 		public static function multi_array( $value, $choices = array() ) {
 
-			// Helper variables
+			// Variables
 
 				/**
 				 * If we get a string in `$value`,

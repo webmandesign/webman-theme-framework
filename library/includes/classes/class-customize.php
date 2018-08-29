@@ -208,7 +208,7 @@ final class {%= prefix_class %}_Library_Customize {
 				}
 
 
-			// Helper variables
+			// Variables
 
 				$theme_options = self::get_options();
 
@@ -362,7 +362,7 @@ final class {%= prefix_class %}_Library_Customize {
 				}
 
 
-			// Helper variables
+			// Variables
 
 				$theme_options = self::get_options();
 
@@ -458,7 +458,7 @@ final class {%= prefix_class %}_Library_Customize {
 								&& in_array( $theme_option['type'], $allowed_option_types )
 							) {
 
-								// Helper variables
+								// Variables
 
 									$priority++;
 
@@ -947,7 +947,7 @@ final class {%= prefix_class %}_Library_Customize {
 				}
 
 
-			// Helper variables
+			// Variables
 
 				$output = false;
 

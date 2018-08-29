@@ -22,7 +22,7 @@
 		$( '.customize-control-multicheckbox' )
 			.on( 'change', 'input[type="checkbox"]', function() {
 
-				// Helper variables
+				// Variables
 
 					var
 						$this   = $( this ),

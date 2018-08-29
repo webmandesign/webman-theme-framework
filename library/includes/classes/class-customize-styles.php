@@ -45,7 +45,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 		 */
 		private function __construct() {
 
-			// Helper variables
+			// Variables
 
 				self::$supports_generator = current_theme_supports( 'stylesheet-generator' );
 
@@ -152,7 +152,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				}
 
 
-			// Helper variables
+			// Variables
 
 				$output = $output_min = '';
 
@@ -419,7 +419,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				}
 
 
-			// Helper variables
+			// Variables
 
 				$output       = '';
 				$replacements = array();
@@ -815,7 +815,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				}
 
 
-			// Helper variables
+			// Variables
 
 				$alpha = absint( $alpha );
 
@@ -881,7 +881,7 @@ final class {%= prefix_class %}_Library_Customize_Styles {
 				}
 
 
-			// Helper variables
+			// Variables
 
 				// 3 or 6 hex digits, or the empty string.
 
