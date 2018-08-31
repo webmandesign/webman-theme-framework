@@ -102,9 +102,6 @@ final class {%= prefix_class %}_Library_Admin {
 							{%= prefix_constant %}_THEME_VERSION,
 							'screen'
 						);
-
-					// RTL setup
-
 						wp_style_add_data( '{%= prefix_var %}-welcome', 'rtl', 'replace' );
 
 		} // /assets

@@ -94,7 +94,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * Customizer controls assets
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.0
+		 * @version  2.8.0
 		 */
 		public static function assets() {
 
@@ -109,10 +109,7 @@ final class {%= prefix_class %}_Library_Customize {
 						{%= prefix_constant %}_THEME_VERSION,
 						'screen'
 					);
-
-					// RTL setup
-
-						wp_style_add_data( '{%= prefix_var %}-customize-controls', 'rtl', 'replace' );
+					wp_style_add_data( '{%= prefix_var %}-customize-controls', 'rtl', 'replace' );
 
 				// Scripts
 
