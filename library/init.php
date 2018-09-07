@@ -100,14 +100,14 @@
 					(bool) apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', true )
 					&& locate_template( 'includes/tgmpa/plugins.php' )
 				) {
-					require {%= prefix_constant %}_LIBRARY . 'includes/vendor/tgmpa/class-tgm-plugin-activation.php';
+					require {%= prefix_constant %}_LIBRARY . 'includes/vendors/tgmpa/class-tgm-plugin-activation.php';
 					locate_template( 'includes/tgmpa/plugins.php', true );
 				}
 
 			// Child theme generator
 
 				if ( (bool) apply_filters( 'wmhook_{%= prefix_hook %}_child_theme_generator_enabled', false ) ) {
-					require {%= prefix_constant %}_LIBRARY . 'includes/vendor/use-child-theme/class-use-child-theme.php';
+					require {%= prefix_constant %}_LIBRARY . 'includes/vendors/use-child-theme/class-use-child-theme.php';
 				}
 
 		}
