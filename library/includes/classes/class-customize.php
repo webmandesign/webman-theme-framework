@@ -337,7 +337,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @subpackage  Customize Options
 		 *
 		 * @since    1.0.0
-		 * @version  2.7.0
+		 * @version  2.8.0
 		 *
 		 * @param  object $wp_customize WP customizer object.
 		 */
@@ -385,9 +385,9 @@ final class {%= prefix_class %}_Library_Customize {
 					'url',
 				) );
 
-				// To make sure our customizer sections start after WordPress default ones
+				// Theme options comes first.
 
-					$priority = absint( apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_priority', 200 ) );
+					$priority = absint( apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_priority', 0 ) );
 
 				// Default section name in case not set (should be overwritten anyway)
 
@@ -400,32 +400,6 @@ final class {%= prefix_class %}_Library_Customize {
 
 
 			// Processing
-
-				// Moving "Widgets" panel after the custom "Theme" panel
-				// @link  https://developer.wordpress.org/themes/advanced-topics/customizer-api/#sections
-
-					if ( $wp_customize->get_panel( 'widgets' ) ) {
-						$wp_customize->get_panel( 'widgets' )->priority = $priority + 10;
-					}
-
-				// Set live preview for predefined controls
-
-					$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
-					$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
-					$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
-
-				// Move background color setting alongside background image
-
-					$wp_customize->get_control( 'background_color' )->section  = 'background_image';
-					$wp_customize->get_control( 'background_color' )->priority = 20;
-
-				// Change background image section priority
-
-					$wp_customize->get_section( 'background_image' )->priority = 30;
-
-				// Change header image section priority
-
-					$wp_customize->get_section( 'header_image' )->priority = 25;
 
 				// Custom controls
 
