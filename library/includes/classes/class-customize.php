@@ -902,7 +902,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @subpackage  Customize Options
 		 *
 		 * @since    2.7.0
-		 * @version  2.7.0
+		 * @version  2.8.0
 		 *
 		 * @param  string $name
 		 * @param  array  $theme_option_setup
@@ -930,13 +930,13 @@ final class {%= prefix_class %}_Library_Customize {
 
 			// Processing
 
-				if ( isset( $self::$mods[ $name ] ) ) {
+				if ( isset( self::$mods[ $name ] ) ) {
 
 					/**
 					 * Theme option has been modified,
 					 * so we don't need the default value.
 					 */
-					$output = $self::$mods[ $name ];
+					$output = self::$mods[ $name ];
 
 				} else {
 
