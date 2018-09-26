@@ -96,12 +96,10 @@
 
 			// Plugins suggestions
 
-				if (
-					(bool) apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', true )
-					&& locate_template( 'includes/tgmpa/plugins.php' )
-				) {
+				$plugins_suggestions = locate_template( 'includes/tgmpa/plugins.php' );
+				if ( (bool) apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', $plugins_suggestions ) ) {
 					require {%= prefix_constant %}_LIBRARY . 'includes/vendors/tgmpa/class-tgm-plugin-activation.php';
-					locate_template( 'includes/tgmpa/plugins.php', true );
+					require $plugins_suggestions;
 				}
 
 			// Child theme generator
