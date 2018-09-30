@@ -950,7 +950,7 @@ final class {%= prefix_class %}_Library_Customize {
 						 * We don't have single theme option passed,
 						 * get all theme options setup.
 						 */
-						if ( false === self::$theme_options_setup ) {
+						if ( empty( self::$theme_options_setup ) ) {
 							// Cache theme options setup
 							self::$theme_options_setup = self::get_options();
 						}
