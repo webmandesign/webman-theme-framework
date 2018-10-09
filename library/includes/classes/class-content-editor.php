@@ -194,7 +194,7 @@ final class {%= prefix_class %}_Library_Content_Editor {
 									100 . 'text_styles' . 110 => array(
 										'title'    => esc_html__( 'Uppercase heading or paragraph', '{%= text_domain %}' ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'is-uppercase' . ' uppercase',
+										'classes'  => 'has-uppercase-text-transform' . ' uppercase',
 									),
 
 									100 . 'text_styles' . 120 => array(
@@ -247,28 +247,33 @@ final class {%= prefix_class %}_Library_Content_Editor {
 								'title' => esc_html__( 'Text sizes', '{%= text_domain %}' ),
 								'items' => array(
 
+									/**
+									 * It's not really necessary to use `.has-display-#-font-size` class here.
+									 * Just using `.display-#` classes.
+									 */
+
 									200 . 'text_sizes' . 100 => array(
 										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 1 ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'has-display-1-font-size' . ' display-1',
+										'classes'  => 'display-1',
 									),
 
 									200 . 'text_sizes' . 110 => array(
 										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 2 ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'has-display-2-font-size' . ' display-2',
+										'classes'  => 'display-2',
 									),
 
 									200 . 'text_sizes' . 120 => array(
 										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 3 ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'has-display-3-font-size' . ' display-3',
+										'classes'  => 'display-3',
 									),
 
 									200 . 'text_sizes' . 130 => array(
 										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 4 ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'has-display-4-font-size' . ' display-4',
+										'classes'  => 'display-4',
 									),
 
 								),
