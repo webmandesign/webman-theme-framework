@@ -188,13 +188,13 @@ final class {%= prefix_class %}_Library_Content_Editor {
 									100 . 'text_styles' . 100 => array(
 										'title'    => esc_html__( 'Dropcap text', '{%= text_domain %}' ),
 										'selector' => 'p',
-										'classes'  => 'has-drop-cap' . ' dropcap-text',
+										'classes'  => 'has-drop-cap',
 									),
 
 									100 . 'text_styles' . 110 => array(
 										'title'    => esc_html__( 'Uppercase heading or paragraph', '{%= text_domain %}' ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'has-uppercase-text-transform' . ' uppercase',
+										'classes'  => 'has-uppercase-text-transform',
 									),
 
 									100 . 'text_styles' . 120 => array(
@@ -247,33 +247,28 @@ final class {%= prefix_class %}_Library_Content_Editor {
 								'title' => esc_html__( 'Text sizes', '{%= text_domain %}' ),
 								'items' => array(
 
-									/**
-									 * It's not really necessary to use `.has-display-#-font-size` class here.
-									 * Just using `.display-#` classes.
-									 */
-
 									200 . 'text_sizes' . 100 => array(
 										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 1 ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'display-1',
+										'classes'  => 'has-display-1-font-size',
 									),
 
 									200 . 'text_sizes' . 110 => array(
 										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 2 ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'display-2',
+										'classes'  => 'has-display-2-font-size',
 									),
 
 									200 . 'text_sizes' . 120 => array(
 										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 3 ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'display-3',
+										'classes'  => 'has-display-3-font-size',
 									),
 
 									200 . 'text_sizes' . 130 => array(
 										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 4 ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'display-4',
+										'classes'  => 'has-display-4-font-size',
 									),
 
 								),
@@ -319,23 +314,16 @@ final class {%= prefix_class %}_Library_Content_Editor {
 
 						foreach ( $style_formats as $group_key => $group ) {
 							if ( isset( $group['items'] ) ) {
-
 								ksort( $group['items'] );
 								$style_formats[ $group_key ]['items'] = $group['items'];
-
 							}
 						}
 
 					if ( ! empty( $style_formats ) ) {
-
-						// Merge old & new formats
-
-							$init['style_formats_merge'] = false;
-
-						// New formats
-
-							$init['style_formats'] = json_encode( $style_formats );
-
+						// Merge old & new formats.
+						$init['style_formats_merge'] = false;
+						// Add new formats.
+						$init['style_formats'] = json_encode( $style_formats );
 					}
 
 				// Removing obsolete tags (this is localized already)
