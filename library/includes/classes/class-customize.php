@@ -339,7 +339,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * @since    1.0.0
 		 * @version  2.8.0
 		 *
-		 * @param  object $wp_customize WP customizer object.
+		 * @param  WP_Customize_Manager $wp_customize
 		 */
 		public static function customize( $wp_customize ) {
 
