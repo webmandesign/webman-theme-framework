@@ -86,7 +86,7 @@
 
 		if ( is_admin() ) {
 
-			// Load the theme welcome page
+			// Load optional theme welcome page
 
 				locate_template( 'includes/welcome/welcome.php', true );
 
@@ -94,7 +94,7 @@
 
 				require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-admin.php';
 
-			// Plugins suggestions
+			// Optional plugins suggestions
 
 				$plugins_suggestions = locate_template( 'includes/tgmpa/plugins.php' );
 				if ( (bool) apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', $plugins_suggestions ) ) {
