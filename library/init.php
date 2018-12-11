@@ -88,7 +88,10 @@
 
 			// Load optional theme welcome page
 
-				locate_template( 'includes/welcome/welcome.php', true );
+				$welcome_page = get_theme_file_path( 'includes/welcome/welcome.php' );
+				if ( file_exists( $welcome_page ) ) {
+					require $welcome_page;
+				}
 
 			// Admin class
 
@@ -96,8 +99,8 @@
 
 			// Optional plugins suggestions
 
-				$plugins_suggestions = locate_template( 'includes/tgmpa/plugins.php' );
-				if ( (bool) apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', $plugins_suggestions ) ) {
+				$plugins_suggestions = get_theme_file_path( 'includes/tgmpa/plugins.php' );
+				if ( (bool) apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', file_exists( $plugins_suggestions ) ) ) {
 					require {%= prefix_constant %}_LIBRARY . 'includes/vendors/tgmpa/class-tgm-plugin-activation.php';
 					require $plugins_suggestions;
 				}
