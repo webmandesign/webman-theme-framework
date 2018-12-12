@@ -13,11 +13,10 @@
  * @version  2.8.0
  */
 ( function( exports, $ ) {
+
+	'use strict';
+
 	$( wp.customize ).on( 'ready', function() {
-
-
-
-
 
 		$( '.custom-radio-container' )
 			.on( 'change', 'input', function() {
@@ -32,9 +31,6 @@
 
 			} );
 
-
-
-
-
 	} );
+
 } )( wp, jQuery );

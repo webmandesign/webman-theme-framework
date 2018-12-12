@@ -17,11 +17,10 @@
  * @version  2.8.0
  */
 ( function( exports, $ ) {
+
+	'use strict';
+
 	$( wp.customize ).on( 'ready', function() {
-
-
-
-
 
 		// Range inputs
 
@@ -134,10 +133,7 @@
 					} );
 				} );
 
-
-
-
-
 	} );
+
 } )( wp, jQuery );
 

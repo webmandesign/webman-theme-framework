@@ -13,11 +13,10 @@
  * @version  2.8.0
  */
 ( function( exports, $ ) {
+
+	'use strict';
+
 	$( wp.customize ).on( 'ready', function() {
-
-
-
-
 
 		$( '.customize-control-multicheckbox' )
 			.on( 'change', 'input[type="checkbox"]', function() {
@@ -49,9 +48,6 @@
 							.trigger( 'change' );
 
 			} );
-
-
-
 
 	} );
 } )( wp, jQuery );
