@@ -27,7 +27,7 @@ class {%= prefix_class %}_Customize_Control_Select extends WP_Customize_Control 
 				?>
 
 				<label>
-					<span class="customize-control-title"><?php echo $this->label; ?></span>
+					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 					<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php endif; ?>
 
 					<select name="<?php echo esc_attr( $this->id ); ?>" <?php $this->link(); ?>>

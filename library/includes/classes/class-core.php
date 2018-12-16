@@ -321,7 +321,7 @@ final class {%= prefix_class %}_Library {
 				// Output
 
 					if ( $output ) {
-						echo $output;
+						echo $output; // WPCS: XSS OK.
 					}
 
 			} // /the_paginated_suffix
