@@ -95,7 +95,7 @@ final class {%= prefix_class %}_Library {
 		 * Do action on theme version change
 		 *
 		 * @since    1.0.0
-		 * @version  2.6.0
+		 * @version  2.8.0
 		 */
 		public static function theme_upgrade() {
 
@@ -112,7 +112,7 @@ final class {%= prefix_class %}_Library {
 					|| $new_theme_version != $current_theme_version
 				) {
 
-					do_action( 'wmhook_{%= prefix_hook %}_library_theme_upgrade', $current_theme_version, $new_theme_version );
+					do_action( 'wmhook_{%= prefix_hook %}_library_theme_upgrade', $new_theme_version, $current_theme_version );
 
 					set_transient( '{%= theme_slug %}_version', $new_theme_version );
 

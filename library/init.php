@@ -70,7 +70,7 @@
 
 	// Customize (has to be frontend accessible, otherwise it hides the theme settings)
 
-		// Customize class
+		// Sanitize class
 
 			require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-sanitize.php';
 
