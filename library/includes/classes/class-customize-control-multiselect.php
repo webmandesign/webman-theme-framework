@@ -21,7 +21,6 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 			// Scripts
 
 				if ( 'multicheckbox' === $this->type ) {
-
 					wp_enqueue_script(
 						'{%= prefix_var %}-customize-control-multicheckbox',
 						get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-control-multicheckbox.js' ),
@@ -29,7 +28,6 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 						{%= prefix_constant %}_THEME_VERSION,
 						true
 					);
-
 				}
 
 	} // /enqueue
@@ -72,7 +70,7 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 			?>
 
 			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-			<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php endif; ?>
+			<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo wp_kses_post( $this->description ); ?></span><?php endif; ?>
 
 			<ul>
 			<?php foreach ( $this->choices as $value => $label ) : ?>
@@ -106,7 +104,7 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 
 			<label>
 				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-				<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php endif; ?>
+				<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo wp_kses_post( $this->description ); ?></span><?php endif; ?>
 
 				<select name="<?php echo esc_attr( $this->id ); ?>" multiple="multiple" <?php $this->link(); ?>>
 					<?php foreach ( $this->choices as $value => $label ) : ?>

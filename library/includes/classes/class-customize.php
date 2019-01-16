@@ -39,7 +39,7 @@ final class {%= prefix_class %}_Library_Customize {
 		 * Constructor
 		 *
 		 * @since    1.0.0
-		 * @version  1.5.0
+		 * @version  2.8.0
 		 */
 		private function __construct() {
 
@@ -49,13 +49,9 @@ final class {%= prefix_class %}_Library_Customize {
 
 					// Actions
 
-						// Register customizer
+						add_action( 'customize_register', __CLASS__ . '::customize', 100 );
 
-							add_action( 'customize_register', __CLASS__ . '::customize', 100 ); // After Jetpack logo action
-
-						// Customizer assets
-
-							add_action( 'customize_controls_enqueue_scripts', __CLASS__ . '::assets' );
+						add_action( 'customize_controls_enqueue_scripts', __CLASS__ . '::assets' );
 
 		} // /__construct
 
@@ -147,45 +143,50 @@ final class {%= prefix_class %}_Library_Customize {
 		 * The actual JavaScript is outputted in the footer of the page.
 		 *
 		 * @example
-		 *
 		 *   'preview_js' => array(
 		 *
 		 *     // Setting CSS styles:
+		 *     'css' => array(
 		 *
-		 *       'css' => array(
-		 *
-		 *         // Sets the whole value to the `css-property-name` of the `selector`
-		 *
-		 *           'selector' => array(
-		 *             'background-color',...
-		 *           ),
-		 *
-		 *         // Sets the `css-property-name` of the `selector` with specific settings
-		 *
-		 *           'selector' => array(
-		 *             array(
-		 *               'property'         => 'text-shadow',
-		 *               'prefix'           => '0 1px 1px rgba(',
-		 *               'suffix'           => ', .5)',
-		 *               'process_callback' => '{%= prefix_js %}.Customize.hexToRgb',
-		 *               'custom'           => '0 0 0 1em [[value]] ), 0 0 0 2em transparent, 0 0 0 3em [[value]]',
-		 *             ),...
-		 *           ),
-		 *
-		 *         // Replaces "@" in `selector` for `selector-replace-value` (such as "@ h2, @ h3" to ".footer h2, .footer h3")
-		 *
-		 *           'selector' => array(
-		 *             'selector_replace' => 'selector-replace-value',
-		 *             'selector_before'  => '@media only screen and (min-width: 80em) {',
-		 *             'selector_after'   => '}',
-		 *             'background-color',...
-		 *           ),
-		 *
+		 *       // CSS variables (the `[[id]]` gets replaced with option ID)
+		 * 			 ':root' => array(
+		 *         '--[[id]]',
+		 *       ),
+		 * 			 ':root' => array(
+		 *         array(
+		 *           'property' => '--[[id]]',
+		 *           'suffix'   => 'px',
+		 *         ),
 		 *       ),
 		 *
-		 *     // And/or setting custom JavaScript:
+		 *       // Sets the whole value to the `css-property-name` of the `selector`
+		 *       'selector' => array(
+		 *         'background-color',...
+		 *       ),
 		 *
-		 *       'custom' => 'JavaScript here', // Such as "$( '.site-title.type-text' ).toggleClass( 'styled' );"
+		 *       // Sets the `css-property-name` of the `selector` with specific settings
+		 *       'selector' => array(
+		 *         array(
+		 *           'property'         => 'text-shadow',
+		 *           'prefix'           => '0 1px 1px rgba(',
+		 *           'suffix'           => ', .5)',
+		 *           'process_callback' => '{%= prefix_js %}.Customize.hexToRgb',
+		 *           'custom'           => '0 0 0 1em [[value]] ), 0 0 0 2em transparent, 0 0 0 3em [[value]]',
+		 *         ),...
+		 *       ),
+		 *
+		 *       // Replaces "@" in `selector` for `selector-replace-value` (such as "@ h2, @ h3" to ".footer h2, .footer h3")
+		 *       'selector' => array(
+		 *         'selector_replace' => 'selector-replace-value',
+		 *         'selector_before'  => '@media only screen and (min-width: 80em) {',
+		 *         'selector_after'   => '}',
+		 *         'background-color',...
+		 *       ),
+		 *
+		 *     ),
+		 *
+		 *     // And/or setting custom JavaScript:
+		 *     'custom' => 'JavaScript here', // Such as "$( '.site-header' ).toggleClass( 'sticky' );"
 		 *
 		 *   );
 		 *
@@ -216,9 +217,18 @@ final class {%= prefix_class %}_Library_Customize {
 
 			// Processing
 
-				if ( is_array( $theme_options ) && ! empty( $theme_options ) ) {
+				if (
+					is_array( $theme_options )
+					&& ! empty( $theme_options )
+				) {
+
 					foreach ( $theme_options as $theme_option ) {
-						if ( isset( $theme_option['preview_js'] ) && is_array( $theme_option['preview_js'] ) ) {
+						$theme_option['id'] = sanitize_title( $theme_option['id'] );
+
+						if (
+							isset( $theme_option['preview_js'] )
+							&& is_array( $theme_option['preview_js'] )
+						) {
 
 							$output_single  = "wp.customize("  . PHP_EOL;
 							$output_single .= "\t" . "'" . $theme_option['id'] . "',"  . PHP_EOL;
@@ -234,7 +244,6 @@ final class {%= prefix_class %}_Library_Customize {
 
 									foreach ( $theme_option['preview_js']['css'] as $selector => $properties ) {
 										if ( is_array( $properties ) ) {
-
 											$output_single_css = $selector_before = $selector_after = '';
 
 											foreach ( $properties as $key => $property ) {
@@ -277,6 +286,13 @@ final class {%= prefix_class %}_Library_Customize {
 														'property'         => '',
 														'suffix'           => '',
 													) );
+
+													// Replace `[[id]]` placeholder with an option ID.
+													$property['property'] = str_replace(
+														'[[id]]',
+														$theme_option['id'],
+														$property['property']
+													);
 
 													$value = ( empty( $property['process_callback'] ) ) ? ( 'to' ) : ( trim( $property['process_callback'] ) . '( to )' );
 

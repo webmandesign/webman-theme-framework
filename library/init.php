@@ -1,13 +1,9 @@
 <?php
 /**
- * WebMan WordPress Theme Framework
- *
- * Theme options with `__` prefix (`get_theme_mod( '__option_id' )`) are theme
- * setup related options and can not be edited via customizer.
- * This way we prevent creating additional options in the database.
+ * WebMan WordPress Theme Framework.
  *
  * @link  https://github.com/webmandesign/webman-theme-framework
- * @link  http://www.webmandesign.eu
+ * @link  https://www.webmandesign.eu
  *
  * @package    WebMan WordPress Theme Framework
  * @copyright  WebMan Design, Oliver Juhas
@@ -64,51 +60,35 @@
  * 20) Load
  */
 
-	// Core class
-
-		require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-core.php';
+	// Core class.
+	require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-core.php';
 
 	// Customize (has to be frontend accessible, otherwise it hides the theme settings)
 
-		// Sanitize class
+		// Sanitize class.
+		require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-sanitize.php';
 
-			require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-sanitize.php';
+		// Customize class.
+		require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize.php';
 
-		// Customize class
-
-			require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize.php';
-
-		// CSS Styles Generator class
-
-			require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-styles.php';
+		// CSS variables generator class.
+		require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-css-variables.php';
 
 	// Admin
 
 		if ( is_admin() ) {
 
-			// Load optional theme welcome page
+			// Optional theme welcome page.
+			$welcome_page = get_theme_file_path( 'includes/welcome/welcome.php' );
+			if ( file_exists( $welcome_page ) ) {
+				require $welcome_page;
+			}
 
-				$welcome_page = get_theme_file_path( 'includes/welcome/welcome.php' );
-				if ( file_exists( $welcome_page ) ) {
-					require $welcome_page;
-				}
-
-			// Admin class
-
-				require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-admin.php';
-
-			// Optional plugins suggestions
-
-				$plugins_suggestions = get_theme_file_path( 'includes/tgmpa/plugins.php' );
-				if ( (bool) apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', file_exists( $plugins_suggestions ) ) ) {
-					require {%= prefix_constant %}_LIBRARY . 'includes/vendors/tgmpa/class-tgm-plugin-activation.php';
-					require $plugins_suggestions;
-				}
-
-			// Child theme generator
-
-				if ( (bool) apply_filters( 'wmhook_{%= prefix_hook %}_child_theme_generator_enabled', false ) ) {
-					require {%= prefix_constant %}_LIBRARY . 'includes/vendors/use-child-theme/class-use-child-theme.php';
-				}
+			// Optional plugins suggestions.
+			$plugins_suggestions = get_theme_file_path( 'includes/tgmpa/plugins.php' );
+			if ( (bool) apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', file_exists( $plugins_suggestions ) ) ) {
+				require {%= prefix_constant %}_LIBRARY . 'includes/vendors/tgmpa/class-tgm-plugin-activation.php';
+				require $plugins_suggestions;
+			}
 
 		}

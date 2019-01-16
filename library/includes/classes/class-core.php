@@ -56,8 +56,6 @@ final class {%= prefix_class %}_Library {
 
 						add_filter( 'the_content', __CLASS__ . '::add_table_of_contents' );
 
-						add_filter( 'wmhook_{%= prefix_hook %}_esc_css', 'wp_strip_all_tags' );
-
 		} // /__construct
 
 
@@ -111,11 +109,8 @@ final class {%= prefix_class %}_Library {
 					empty( $current_theme_version )
 					|| $new_theme_version != $current_theme_version
 				) {
-
 					do_action( 'wmhook_{%= prefix_hook %}_library_theme_upgrade', $new_theme_version, $current_theme_version );
-
 					set_transient( '{%= theme_slug %}_version', $new_theme_version );
-
 				}
 
 		} // /theme_upgrade
@@ -392,10 +387,10 @@ final class {%= prefix_class %}_Library {
 	 */
 
 		/**
-		 * Fixing URLs in `is_ssl()` returns TRUE
+		 * Fixing URLs according to `is_ssl()` function return.
 		 *
 		 * @since    1.3.0
-		 * @version  1.3.3
+		 * @version  2.8.0
 		 *
 		 * @param  string $content
 		 */
@@ -405,9 +400,13 @@ final class {%= prefix_class %}_Library {
 
 				if ( is_ssl() ) {
 					$content = str_ireplace( 'http:', 'https:', $content );
-					$content = str_ireplace( 'xmlns="https:', 'xmlns="http:', $content );
-					$content = str_ireplace( "xmlns='https:", "xmlns='http:", $content );
+				} else {
+					$content = str_ireplace( 'https:', 'http:', $content );
 				}
+
+				// Has to be `http:` only.
+				$content = str_ireplace( 'xmlns="https:', 'xmlns="http:', $content );
+				$content = str_ireplace( "xmlns='https:", "xmlns='http:", $content );
 
 
 			// Output
@@ -545,25 +544,6 @@ final class {%= prefix_class %}_Library {
 					delete_transient( '{%= prefix_var %}_all_categories' );
 
 			} // /all_categories_transient_flusher
-
-
-
-		/**
-		 * Escape CSS code.
-		 *
-		 * @since    2.8.0
-		 * @version  2.8.0
-		 *
-		 * @param  string $css
-		 * @param  string $scope  Optional CSS code identification for better filtering.
-		 */
-		public static function esc_css( $css, $scope = '' ) {
-
-			// Output
-
-				return (string) apply_filters( 'wmhook_{%= prefix_hook %}_esc_css', (string) $css, (string) $scope );
-
-		} // /esc_css
 
 
 
