@@ -1,4 +1,4 @@
-<?php
+<?php defined( 'ABSPATH' ) || exit;
 /**
  * WebMan WordPress Theme Framework.
  *
@@ -63,7 +63,7 @@
 	// Core class.
 	require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-core.php';
 
-	// Customize (has to be frontend accessible, otherwise it hides the theme settings)
+	// Customize (has to be frontend accessible, otherwise it hides the theme settings).
 
 		// Sanitize class.
 		require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-sanitize.php';
@@ -74,21 +74,20 @@
 		// CSS variables generator class.
 		require {%= prefix_constant %}_LIBRARY . 'includes/classes/class-css-variables.php';
 
-	// Admin
+	// Admin area related functionality.
+	if ( is_admin() ) {
 
-		if ( is_admin() ) {
-
-			// Optional theme welcome page.
-			$welcome_page = get_theme_file_path( 'includes/welcome/welcome.php' );
-			if ( file_exists( $welcome_page ) ) {
-				require $welcome_page;
-			}
-
-			// Optional plugins suggestions.
-			$plugins_suggestions = get_theme_file_path( 'includes/tgmpa/plugins.php' );
-			if ( (bool) apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', file_exists( $plugins_suggestions ) ) ) {
-				require {%= prefix_constant %}_LIBRARY . 'includes/vendors/tgmpa/class-tgm-plugin-activation.php';
-				require $plugins_suggestions;
-			}
-
+		// Optional theme welcome page.
+		$welcome_page = get_theme_file_path( 'includes/welcome/welcome.php' );
+		if ( file_exists( $welcome_page ) ) {
+			require $welcome_page;
 		}
+
+		// Optional plugins suggestions.
+		$plugins_suggestions = get_theme_file_path( 'includes/tgmpa/plugins.php' );
+		if ( (bool) apply_filters( 'wmhook_{%= prefix_hook %}_plugins_suggestion_enabled', file_exists( $plugins_suggestions ) ) ) {
+			require {%= prefix_constant %}_LIBRARY . 'includes/vendors/tgmpa/class-tgm-plugin-activation.php';
+			require $plugins_suggestions;
+		}
+
+	}

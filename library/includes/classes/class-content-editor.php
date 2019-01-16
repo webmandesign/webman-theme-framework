@@ -1,4 +1,4 @@
-<?php
+<?php defined( 'ABSPATH' ) || exit;
 /**
  * Content Editor class
  *
@@ -20,7 +20,7 @@
  * 20) Custom formats
  * 30) Body class
  */
-final class {%= prefix_class %}_Library_Content_Editor {
+class {%= prefix_class %}_Library_Content_Editor {
 
 
 

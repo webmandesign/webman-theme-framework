@@ -1,4 +1,4 @@
-<?php
+<?php defined( 'ABSPATH' ) || exit;
 /**
  * Sanitization Methods class
  *
@@ -17,7 +17,7 @@
  * 10) General
  * 20) CSS
  */
-final class {%= prefix_class %}_Library_Sanitize {
+class {%= prefix_class %}_Library_Sanitize {
 
 
 

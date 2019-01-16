@@ -1,4 +1,4 @@
-<?php
+<?php defined( 'ABSPATH' ) || exit;
 /**
  * Customize Options Generator class
  *
@@ -17,7 +17,7 @@
  * 20) Customizer core
  * 30) Getters
  */
-final class {%= prefix_class %}_Library_Customize {
+class {%= prefix_class %}_Library_Customize {
 
 
 

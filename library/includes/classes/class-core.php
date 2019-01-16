@@ -1,4 +1,4 @@
-<?php
+<?php defined( 'ABSPATH' ) || exit;
 /**
  * Core class
  *
@@ -17,7 +17,7 @@
  *  20) Post/page
  * 100) Helpers
  */
-final class {%= prefix_class %}_Library {
+class {%= prefix_class %}_Library {
 
 
 

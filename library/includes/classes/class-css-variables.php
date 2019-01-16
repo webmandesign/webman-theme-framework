@@ -1,4 +1,4 @@
-<?php
+<?php defined( 'ABSPATH' ) || exit;
 /**
  * CSS Variables Generator class.
  *
@@ -16,7 +16,7 @@
  *  10) Getters
  * 100) Helpers
  */
-final class {%= prefix_class %}_Library_CSS_Variables {
+class {%= prefix_class %}_Library_CSS_Variables {
 
 
 
