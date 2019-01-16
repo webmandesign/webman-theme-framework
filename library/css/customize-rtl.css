@@ -14,7 +14,7 @@
 
 .control-section-theme-options .customize-control hr { margin: 1em 0; background: transparent; border: 0; border-top: 2px dashed #bbb; }
 
-.control-section-theme-options .customize-control pre { max-height: 8em; padding: .62em; white-space: pre-wrap; background: #eee; border: 1px dashed #ddd; overflow: auto; }
+.control-section-theme-options .customize-control pre { max-height: 8em; padding: .618em; white-space: pre-wrap; background: #eee; border: 1px dashed #ddd; overflow: auto; }
 
 .control-section-theme-options .customize-control select, .control-section-theme-options .customize-control textarea { width: 100%; }
 
@@ -26,13 +26,13 @@
 
 .control-section-theme-options .customize-control-checkbox label { font-weight: 600; }
 
-.control-section-theme-options .customize-control-checkbox .description { margin-top: .38em; font-weight: 400; }
+.control-section-theme-options .customize-control-checkbox .description { margin-top: .382em; font-weight: 400; }
 
 .control-section-theme-options .matrix { padding: 2px 0 3px; padding-right: 2px; margin-bottom: .5em; border: 2px solid #bbb; overflow: hidden; }
 
 .control-section-theme-options .matrix span { display: none; }
 
-.control-section-theme-options .matrix label { float: right; display: block; width: 33.33%; padding: .5em 0 .5em; padding-right: 4px; margin: 0 -1px -1px; margin-right: 0; text-align: center; border: 1px dotted #bbb; box-sizing: border-box; }
+.control-section-theme-options .matrix label { float: right; display: block; width: 33.333%; padding: .5em 0 .5em; padding-right: 4px; margin: 0 -1px -1px; margin-right: 0; text-align: center; border: 1px dotted #bbb; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 .control-section-theme-options .matrix label:hover { background: #fff; }
 
@@ -50,19 +50,19 @@
 
 .control-section-theme-options .image-radio input { position: relative; top: -.75em; margin: 0; }
 
-.control-section-theme-options input[type=range] { -webkit-appearance: none; -moz-appearance: none; appearance: none; width: 100%; margin: 1.62em 0; background: transparent; }
+.control-section-theme-options input[type=range] { -webkit-appearance: none; -moz-appearance: none; appearance: none; width: 100%; margin: 1.618em 0; background: transparent; }
 
-.control-section-theme-options input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 1em; cursor: pointer; background: #ccc; border: 0; border-radius: 1.5em; box-shadow: none; }
+.control-section-theme-options input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 1em; cursor: pointer; background: #ccc; border: 0; border-radius: 1.5em; -webkit-box-shadow: none; box-shadow: none; }
 
 .control-section-theme-options input[type=range]::-moz-range-track { width: 100%; height: 1em; cursor: pointer; background: #ccc; border: 0; border-radius: 1.5em; box-shadow: none; }
 
 .control-section-theme-options input[type=range]::-ms-track { width: 100%; height: 1em; cursor: pointer; background: #ccc; border: 0; border-radius: 1.5em; box-shadow: none; }
 
-.control-section-theme-options input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 1.5em; height: 1.5em; margin-top: -0.25em; background: #007cad; border: 0; border-radius: .19em; box-shadow: none; cursor: pointer; }
+.control-section-theme-options input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 1.5em; height: 1.5em; margin-top: -0.25em; background: #007cad; border: 0; border-radius: .191em; -webkit-box-shadow: none; box-shadow: none; cursor: pointer; }
 
-.control-section-theme-options input[type=range]::-moz-range-thumb { -moz-appearance: none; appearance: none; width: 1.5em; height: 1.5em; margin-top: -0.25em; background: #007cad; border: 0; border-radius: .19em; box-shadow: none; cursor: pointer; }
+.control-section-theme-options input[type=range]::-moz-range-thumb { -moz-appearance: none; appearance: none; width: 1.5em; height: 1.5em; margin-top: -0.25em; background: #007cad; border: 0; border-radius: .191em; box-shadow: none; cursor: pointer; }
 
-.control-section-theme-options input[type=range]::-ms-thumb { appearance: none; width: 1.5em; height: 1.5em; margin-top: -0.25em; background: #007cad; border: 0; border-radius: .19em; box-shadow: none; cursor: pointer; }
+.control-section-theme-options input[type=range]::-ms-thumb { appearance: none; width: 1.5em; height: 1.5em; margin-top: -0.25em; background: #007cad; border: 0; border-radius: .191em; box-shadow: none; cursor: pointer; }
 
 .control-section-theme-options input[type=range]:focus::-webkit-slider-thumb { background: #ad007c; }
 
@@ -74,7 +74,7 @@
 
 .control-section-theme-options input[type=range]::-ms-fill-lower { background: #ccc; border: 0; border-radius: 1.5em; box-shadow: none; }
 
-.control-section-theme-options .range-container { display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-align-items: center; -ms-flex-align: center; align-items: center; cursor: default; }
+.control-section-theme-options .range-container { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-align: center; -ms-flex-align: center; align-items: center; cursor: default; }
 
 .control-section-theme-options .range-container:hover input[type=range]::-webkit-slider-thumb { background: #ad007c; }
 
@@ -82,8 +82,8 @@
 
 .control-section-theme-options .range-container:hover input[type=range]::-ms-thumb { background: #ad007c; }
 
-.control-section-theme-options .range-value { position: relative; min-width: 16%; padding: .38rem; margin-right: .38rem; text-align: center; font-size: .9em; background: #007cad; color: #fff; border-radius: .19rem; cursor: help; }
+.control-section-theme-options .range-value { position: relative; min-width: 16%; padding: .382rem; margin-right: .382rem; text-align: center; font-size: .9em; background: #007cad; color: #fff; border-radius: .191rem; cursor: help; }
 
-.control-section-theme-options .range-value::before { content: ''; position: absolute; width: .38rem; height: .38rem; right: 0; top: 50%; margin: -.19rem; background: inherit; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); }
+.control-section-theme-options .range-value::before { content: ''; position: absolute; width: .382rem; height: .382rem; right: 0; top: 50%; margin: -.191rem; background: inherit; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); }
 
 .control-section-theme-options .range-container:hover .range-value, .control-section-theme-options input[type=range]:focus + .range-value { background: #ad007c; }

@@ -9,7 +9,7 @@
 // @copyright  WebMan Design, Oliver Juhas
 //
 // @since    1.5.0
-// @version  2.7.0
+// @version  2.8.0
 //
 
 
@@ -113,7 +113,7 @@
 
 				pre {
 					max-height: 8em;
-					padding: .62em;
+					padding: .618em;
 					white-space: pre-wrap;
 					background: #eee;
 					border: 1px dashed #ddd;
@@ -155,7 +155,7 @@
 					}
 
 					.description {
-						margin-top: .38em;
+						margin-top: .382em;
 						font-weight: 400;
 					}
 
@@ -179,7 +179,7 @@
 					label {
 						float: $left;
 						display: block;
-						width: 33.33%;
+						width: 33.333%;
 						padding: .5em 0 .5em;
 						padding-#{$left}: 4px;
 						margin: 0 -1px -1px;
@@ -280,7 +280,7 @@
 					margin-top: ( $range_track_size - $range_thumb_size ) / 2;
 					background: $range_thumb_color;
 					border: 0;
-					border-radius: .19em;
+					border-radius: .191em;
 					box-shadow: none;
 					cursor: pointer;
 				}
@@ -292,7 +292,7 @@
 				input[type=range] {
 					appearance: none;
 					width: 100%;
-					margin: 1.62em 0;
+					margin: 1.618em 0;
 					background: transparent;
 
 					&::-webkit-slider-runnable-track { @include range_track; }
@@ -328,23 +328,23 @@
 					&-value {
 						position: relative;
 						min-width: 16%;
-						padding: .38rem;
-						margin-#{$left}: .38rem;
+						padding: .382rem;
+						margin-#{$left}: .382rem;
 						text-align: center;
 						font-size: .9em;
 						background: $range_value_background;
 						color: $range_value_color;
-						border-radius: .19rem;
+						border-radius: .191rem;
 						cursor: help;
 
 						&::before {
 							content: '';
 							position: absolute;
-							width: .38rem;
-							height: .38rem;
+							width: .382rem;
+							height: .382rem;
 							#{$left}: 0;
 							top: 50%;
-							margin: -.19rem;
+							margin: -.191rem;
 							background: inherit;
 							transform: rotate( 45deg );
 						}
