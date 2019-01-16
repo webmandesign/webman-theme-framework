@@ -27,17 +27,13 @@ final class {%= prefix_class %}_Library {
 	 * 0) Init
 	 */
 
-		private static $instance;
-
-
-
 		/**
-		 * Constructor
+		 * Initialization.
 		 *
 		 * @since    1.0.0
 		 * @version  2.8.0
 		 */
-		private function __construct() {
+		public static function init() {
 
 			// Processing
 
@@ -55,29 +51,6 @@ final class {%= prefix_class %}_Library {
 						add_filter( 'show_recent_comments_widget_style', '__return_false' );
 
 						add_filter( 'the_content', __CLASS__ . '::add_table_of_contents' );
-
-		} // /__construct
-
-
-
-		/**
-		 * Initialization (get instance)
-		 *
-		 * @since    1.0.0
-		 * @version  1.0.0
-		 */
-		public static function init() {
-
-			// Processing
-
-				if ( null === self::$instance ) {
-					self::$instance = new self;
-				}
-
-
-			// Output
-
-				return self::$instance;
 
 		} // /init
 

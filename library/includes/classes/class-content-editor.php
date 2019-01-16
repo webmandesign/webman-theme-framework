@@ -30,17 +30,13 @@ final class {%= prefix_class %}_Library_Content_Editor {
 	 * 0) Init
 	 */
 
-		private static $instance;
-
-
-
 		/**
-		 * Constructor
+		 * Initialization.
 		 *
 		 * @since    1.0.0
 		 * @version  2.8.0
 		 */
-		private function __construct() {
+		public static function init() {
 
 			// Processing
 
@@ -48,41 +44,14 @@ final class {%= prefix_class %}_Library_Content_Editor {
 
 					// Filters
 
-						// Editor body class
+						if ( is_admin() ) {
+							add_filter( 'tiny_mce_before_init', __CLASS__ . '::editor_body_class' );
+						}
 
-							if ( is_admin() ) {
-								add_filter( 'tiny_mce_before_init', __CLASS__ . '::editor_body_class' );
-							}
+						add_filter( 'mce_buttons',   __CLASS__ . '::add_buttons_row1' );
+						add_filter( 'mce_buttons_2', __CLASS__ . '::add_buttons_row2' );
 
-						// Editor addons
-
-							add_filter( 'mce_buttons',   __CLASS__ . '::add_buttons_row1' );
-							add_filter( 'mce_buttons_2', __CLASS__ . '::add_buttons_row2' );
-
-							add_filter( 'tiny_mce_before_init', __CLASS__ . '::style_formats' );
-
-		} // /__construct
-
-
-
-		/**
-		 * Initialization (get instance)
-		 *
-		 * @since    1.0.0
-		 * @version  1.0.0
-		 */
-		public static function init() {
-
-			// Processing
-
-				if ( null === self::$instance ) {
-					self::$instance = new self;
-				}
-
-
-			// Output
-
-				return self::$instance;
+						add_filter( 'tiny_mce_before_init', __CLASS__ . '::style_formats' );
 
 		} // /init
 

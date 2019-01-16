@@ -27,8 +27,6 @@ final class {%= prefix_class %}_Library_Customize {
 	 * 0) Init
 	 */
 
-		private static $instance;
-
 		public static $mods = false;
 
 		public static $theme_options_setup = false;
@@ -36,12 +34,12 @@ final class {%= prefix_class %}_Library_Customize {
 
 
 		/**
-		 * Constructor
+		 * Initialization.
 		 *
 		 * @since    1.0.0
 		 * @version  2.8.0
 		 */
-		private function __construct() {
+		public static function init() {
 
 			// Processing
 
@@ -52,29 +50,6 @@ final class {%= prefix_class %}_Library_Customize {
 						add_action( 'customize_register', __CLASS__ . '::customize', 100 );
 
 						add_action( 'customize_controls_enqueue_scripts', __CLASS__ . '::assets' );
-
-		} // /__construct
-
-
-
-		/**
-		 * Initialization (get instance)
-		 *
-		 * @since    1.0.0
-		 * @version  1.0.0
-		 */
-		public static function init() {
-
-			// Processing
-
-				if ( null === self::$instance ) {
-					self::$instance = new self;
-				}
-
-
-			// Output
-
-				return self::$instance;
 
 		} // /init
 
