@@ -153,7 +153,7 @@ class {%= prefix_class %}_Library_Customize {
 		 *       // Replaces "@" in `selector` for `selector-replace-value` (such as "@ h2, @ h3" to ".footer h2, .footer h3")
 		 *       'selector' => array(
 		 *         'selector_replace' => 'selector-replace-value',
-		 *         'selector_before'  => '@media only screen and (min-width: 80em) {',
+		 *         'selector_before'  => '@media (min-width: 80em) {',
 		 *         'selector_after'   => '}',
 		 *         'background-color',...
 		 *       ),
