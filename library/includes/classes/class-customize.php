@@ -17,7 +17,7 @@
  * 20) Customizer core
  * 30) Getters
  */
-class {%= prefix_class %}_Library_Customize {
+class Theme_Slug_Library_Customize {
 
 
 
@@ -74,21 +74,21 @@ class {%= prefix_class %}_Library_Customize {
 				// Styles
 
 					wp_enqueue_style(
-						'{%= prefix_var %}-customize-controls',
-						get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'css/customize.css' ),
+						'theme_slug-customize-controls',
+						get_theme_file_uri( THEME_SLUG_LIBRARY_DIR . 'css/customize.css' ),
 						false,
-						{%= prefix_constant %}_THEME_VERSION,
+						THEME_SLUG_THEME_VERSION,
 						'screen'
 					);
-					wp_style_add_data( '{%= prefix_var %}-customize-controls', 'rtl', 'replace' );
+					wp_style_add_data( 'theme_slug-customize-controls', 'rtl', 'replace' );
 
 				// Scripts
 
 					wp_enqueue_script(
-						'{%= prefix_var %}-customize-controls',
-						get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-controls.js' ),
+						'theme_slug-customize-controls',
+						get_theme_file_uri( THEME_SLUG_LIBRARY_DIR . 'js/customize-controls.js' ),
 						array( 'customize-controls' ),
-						{%= prefix_constant %}_THEME_VERSION,
+						THEME_SLUG_THEME_VERSION,
 						true
 					);
 
@@ -145,7 +145,7 @@ class {%= prefix_class %}_Library_Customize {
 		 *           'property'         => 'text-shadow',
 		 *           'prefix'           => '0 1px 1px rgba(',
 		 *           'suffix'           => ', .5)',
-		 *           'process_callback' => '{%= prefix_js %}.Customize.hexToRgb',
+		 *           'process_callback' => 'themeSlug.Customize.hexToRgb',
 		 *           'custom'           => '0 0 0 1em [[value]] ), 0 0 0 2em transparent, 0 0 0 3em [[value]]',
 		 *         ),...
 		 *       ),
@@ -174,7 +174,7 @@ class {%= prefix_class %}_Library_Customize {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_preview_scripts_pre', false );
+				$pre = apply_filters( 'wmhook_theme_slug_library_customize_preview_scripts_pre', false );
 
 				if ( false !== $pre ) {
 					return (string) $pre;
@@ -297,7 +297,7 @@ class {%= prefix_class %}_Library_Customize {
 							$output_single .= "\t\t" . '} );' . PHP_EOL;
 							$output_single .= "\t" . '}'. PHP_EOL;
 							$output_single .= ');'. PHP_EOL;
-							$output_single  = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_preview_scripts_option_' . $theme_option['id'], $output_single );
+							$output_single  = (string) apply_filters( 'wmhook_theme_slug_library_customize_preview_scripts_option_' . $theme_option['id'], $output_single );
 
 							$output .= $output_single;
 
@@ -309,7 +309,7 @@ class {%= prefix_class %}_Library_Customize {
 			// Output
 
 				if ( $output = trim( $output ) ) {
-					echo (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_preview_scripts_output', '<!-- Theme custom scripts -->' . PHP_EOL . '<script type="text/javascript"><!--' . PHP_EOL . '( function( $ ) {' . PHP_EOL.PHP_EOL . trim( $output ) . PHP_EOL.PHP_EOL . '} )( jQuery );' . PHP_EOL . '//--></script>' );
+					echo (string) apply_filters( 'wmhook_theme_slug_library_customize_preview_scripts_output', '<!-- Theme custom scripts -->' . PHP_EOL . '<script type="text/javascript"><!--' . PHP_EOL . '( function( $ ) {' . PHP_EOL.PHP_EOL . trim( $output ) . PHP_EOL.PHP_EOL . '} )( jQuery );' . PHP_EOL . '//--></script>' );
 				}
 
 		} // /preview_scripts
@@ -343,7 +343,7 @@ class {%= prefix_class %}_Library_Customize {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_pre', null, $wp_customize );
+				$pre = apply_filters( 'wmhook_theme_slug_library_customize_pre', null, $wp_customize );
 
 				if ( null !== $pre ) {
 					return $pre;
@@ -356,7 +356,7 @@ class {%= prefix_class %}_Library_Customize {
 
 				ksort( $theme_options );
 
-				$allowed_option_types = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_allowed_option_types', array(
+				$allowed_option_types = (array) apply_filters( 'wmhook_theme_slug_library_customize_allowed_option_types', array(
 					'checkbox',
 					'color',
 					'email',
@@ -378,12 +378,12 @@ class {%= prefix_class %}_Library_Customize {
 
 				// Theme options comes first.
 
-					$priority = absint( apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_priority', 0 ) );
+					$priority = absint( apply_filters( 'wmhook_theme_slug_library_customize_priority', 0 ) );
 
 				// Default section name in case not set (should be overwritten anyway)
 
 					$customizer_panel   = '';
-					$customizer_section = '{%= theme_slug %}';
+					$customizer_section = 'theme-slug';
 
 				// Option type
 
@@ -399,13 +399,13 @@ class {%= prefix_class %}_Library_Customize {
 					 * @link  http://ottopress.com/2012/making-a-custom-control-for-the-theme-customizer/
 					 */
 
-					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-hidden.php';
-					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-html.php';
-					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-multiselect.php';
-					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-radio-matrix.php';
-					require_once {%= prefix_constant %}_LIBRARY . 'includes/classes/class-customize-control-select.php';
+					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-hidden.php';
+					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-html.php';
+					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-multiselect.php';
+					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-radio-matrix.php';
+					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-select.php';
 
-					do_action( 'wmhook_{%= prefix_hook %}_library_customize_load_controls', $wp_customize );
+					do_action( 'wmhook_theme_slug_library_customize_load_controls', $wp_customize );
 
 				// Generate customizer options
 
@@ -477,8 +477,8 @@ class {%= prefix_class %}_Library_Customize {
 										$panel_id    = $panel_type;
 									}
 
-									$panel_type = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_panel_type', $panel_type, $theme_option, $theme_options );
-									$panel_id   = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_panel_id', $panel_id, $theme_option, $theme_options );
+									$panel_type = (string) apply_filters( 'wmhook_theme_slug_library_customize_panel_type', $panel_type, $theme_option, $theme_options );
+									$panel_id   = (string) apply_filters( 'wmhook_theme_slug_library_customize_panel_id', $panel_id, $theme_option, $theme_options );
 
 									if ( $customizer_panel !== $panel_id ) {
 										$wp_customize->add_panel(
@@ -561,8 +561,8 @@ class {%= prefix_class %}_Library_Customize {
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( 'checkbox' === $theme_option['type'] ) ? ( '{%= prefix_class %}_Library_Sanitize::checkbox' ) : ( '{%= prefix_class %}_Library_Sanitize::select' ),
-												'sanitize_js_callback' => ( 'checkbox' === $theme_option['type'] ) ? ( '{%= prefix_class %}_Library_Sanitize::checkbox' ) : ( '{%= prefix_class %}_Library_Sanitize::select' ),
+												'sanitize_callback'    => ( 'checkbox' === $theme_option['type'] ) ? ( 'Theme_Slug_Library_Sanitize::checkbox' ) : ( 'Theme_Slug_Library_Sanitize::select' ),
+												'sanitize_js_callback' => ( 'checkbox' === $theme_option['type'] ) ? ( 'Theme_Slug_Library_Sanitize::checkbox' ) : ( 'Theme_Slug_Library_Sanitize::select' ),
 												'validate_callback'    => $validate_callback,
 											)
 										);
@@ -582,12 +582,12 @@ class {%= prefix_class %}_Library_Customize {
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( '{%= prefix_class %}_Library_Sanitize::multi_array' ),
-												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( '{%= prefix_class %}_Library_Sanitize::multi_array' ),
+												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'Theme_Slug_Library_Sanitize::multi_array' ),
+												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'Theme_Slug_Library_Sanitize::multi_array' ),
 												'validate_callback'    => $validate_callback,
 											)
 										);
-										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Multiselect(
+										$wp_customize->add_control( new Theme_Slug_Customize_Control_Multiselect(
 											$wp_customize,
 											$option_id,
 											array_merge( $generic, array(
@@ -645,7 +645,7 @@ class {%= prefix_class %}_Library_Customize {
 												'validate_callback'    => $validate_callback,
 											)
 										);
-										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Hidden(
+										$wp_customize->add_control( new Theme_Slug_Customize_Control_Hidden(
 											$wp_customize,
 											$option_id,
 											array(
@@ -668,7 +668,7 @@ class {%= prefix_class %}_Library_Customize {
 												'validate_callback'    => $validate_callback,
 											)
 										);
-										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_HTML(
+										$wp_customize->add_control( new Theme_Slug_Customize_Control_HTML(
 											$wp_customize,
 											$option_id,
 											array_merge( $generic, array(
@@ -756,7 +756,7 @@ class {%= prefix_class %}_Library_Customize {
 												'validate_callback'    => $validate_callback,
 											)
 										);
-										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Radio_Matrix(
+										$wp_customize->add_control( new Theme_Slug_Customize_Control_Radio_Matrix(
 											$wp_customize,
 											$option_id,
 											array_merge( $generic, array(
@@ -774,12 +774,12 @@ class {%= prefix_class %}_Library_Customize {
 												'type'                 => $type,
 												'default'              => $default,
 												'transport'            => $transport,
-												'sanitize_callback'    => '{%= prefix_class %}_Library_Sanitize::select',
-												'sanitize_js_callback' => '{%= prefix_class %}_Library_Sanitize::select',
+												'sanitize_callback'    => 'Theme_Slug_Library_Sanitize::select',
+												'sanitize_js_callback' => 'Theme_Slug_Library_Sanitize::select',
 												'validate_callback'    => $validate_callback,
 											)
 										);
-										$wp_customize->add_control( new {%= prefix_class %}_Customize_Control_Select(
+										$wp_customize->add_control( new Theme_Slug_Customize_Control_Select(
 											$wp_customize,
 											$option_id,
 											array_merge( $generic, array(
@@ -879,7 +879,7 @@ class {%= prefix_class %}_Library_Customize {
 
 			// Output
 
-				return (array) apply_filters( 'wmhook_{%= prefix_hook %}_theme_options', array() );
+				return (array) apply_filters( 'wmhook_theme_slug_theme_options', array() );
 
 		} // /get_options
 
@@ -902,7 +902,7 @@ class {%= prefix_class %}_Library_Customize {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_customize_get_theme_mod_pre', null, $name, $theme_option_setup );
+				$pre = apply_filters( 'wmhook_theme_slug_library_customize_get_theme_mod_pre', null, $name, $theme_option_setup );
 
 				if ( null !== $pre ) {
 					return $pre;
@@ -998,6 +998,6 @@ class {%= prefix_class %}_Library_Customize {
 
 
 
-} // /{%= prefix_class %}_Library_Customize
+} // /Theme_Slug_Library_Customize
 
-add_action( 'after_setup_theme', '{%= prefix_class %}_Library_Customize::init', 20 );
+add_action( 'after_setup_theme', 'Theme_Slug_Library_Customize::init', 20 );

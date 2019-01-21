@@ -12,7 +12,7 @@
  * @since    1.0.0
  * @version  2.8.0
  */
-class {%= prefix_class %}_Customize_Control_Select extends WP_Customize_Control {
+class Theme_Slug_Customize_Control_Select extends WP_Customize_Control {
 
 	public $type = 'select';
 
@@ -55,4 +55,4 @@ class {%= prefix_class %}_Customize_Control_Select extends WP_Customize_Control 
 
 	} // /render_content
 
-} // /{%= prefix_class %}_Customize_Control_Select
+} // /Theme_Slug_Customize_Control_Select

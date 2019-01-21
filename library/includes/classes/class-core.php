@@ -17,7 +17,7 @@
  *  20) Post/page
  * 100) Helpers
  */
-class {%= prefix_class %}_Library {
+class Theme_Slug_Library {
 
 
 
@@ -72,8 +72,8 @@ class {%= prefix_class %}_Library {
 
 			// Variables
 
-				$current_theme_version = get_transient( '{%= theme_slug %}_version' );
-				$new_theme_version     = wp_get_theme( '{%= theme_slug %}' )->get( 'Version' );
+				$current_theme_version = get_transient( 'theme-slug_version' );
+				$new_theme_version     = wp_get_theme( 'theme-slug' )->get( 'Version' );
 
 
 			// Processing
@@ -82,8 +82,8 @@ class {%= prefix_class %}_Library {
 					empty( $current_theme_version )
 					|| $new_theme_version != $current_theme_version
 				) {
-					do_action( 'wmhook_{%= prefix_hook %}_library_theme_upgrade', $new_theme_version, $current_theme_version );
-					set_transient( '{%= theme_slug %}_version', $new_theme_version );
+					do_action( 'wmhook_theme_slug_library_theme_upgrade', $new_theme_version, $current_theme_version );
+					set_transient( 'theme-slug_version', $new_theme_version );
 				}
 
 		} // /theme_upgrade
@@ -123,12 +123,12 @@ class {%= prefix_class %}_Library {
 						return $content;
 					}
 
-				$title_text = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_add_table_of_contents_title_text', sprintf(
-					esc_html_x( '"%s" table of contents', '%s: post title.', '{%= text_domain %}' ),
+				$title_text = (string) apply_filters( 'wmhook_theme_slug_library_add_table_of_contents_title_text', sprintf(
+					esc_html_x( '"%s" table of contents', '%s: post title.', 'theme-slug' ),
 					the_title_attribute( 'echo=0' )
 				) );
 
-				$args = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_add_table_of_contents_args', array(
+				$args = (array) apply_filters( 'wmhook_theme_slug_library_add_table_of_contents_args', array(
 					'disable_first' => true, // First part to have a title of the post (part title won't be parsed)?
 					'links'         => array(), // The output HTML links
 					'post_content'  => ( isset( $post->post_content ) ) ? ( $post->post_content ) : ( '' ), // Get the whole post content
@@ -163,7 +163,7 @@ class {%= prefix_class %}_Library {
 								preg_match( '/<' . tag_escape( $args['tag'] ) . '(.*?)>(.*?)<\/' . tag_escape( $args['tag'] ) . '>/', $part, $matches );
 
 								if ( ! isset( $matches[2] ) || ! $matches[2] ) {
-									$part_title = sprintf( esc_html__( 'Page %s', '{%= text_domain %}' ), number_format_i18n( $i ) );
+									$part_title = sprintf( esc_html__( 'Page %s', 'theme-slug' ), number_format_i18n( $i ) );
 								} else {
 									$part_title = $matches[2];
 								}
@@ -182,7 +182,7 @@ class {%= prefix_class %}_Library {
 
 						// Post part item output
 
-							$args['links'][$i] = (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_add_table_of_contents_part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
+							$args['links'][$i] = (string) apply_filters( 'wmhook_theme_slug_library_add_table_of_contents_part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
 
 					}
 
@@ -190,7 +190,7 @@ class {%= prefix_class %}_Library {
 
 					$args['links'] = implode( '', $args['links'] );
 
-					$links = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_add_table_of_contents_links', array(
+					$links = (array) apply_filters( 'wmhook_theme_slug_library_add_table_of_contents_links', array(
 						'before' => ( 1 === $page ) ? ( '<nav class="post-table-of-contents top" title="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '" aria-label="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '"><ol>' . $args['links'] . '</ol></nav>' ) : ( '' ),
 						'after'  => '<nav class="post-table-of-contents bottom" title="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '" aria-label="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '"><ol>' . $args['links'] . '</ol></nav>',
 					), $args );
@@ -221,7 +221,7 @@ class {%= prefix_class %}_Library {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_get_the_paginated_suffix_pre', false, $tag, $singular_only );
+				$pre = apply_filters( 'wmhook_theme_slug_library_get_the_paginated_suffix_pre', false, $tag, $singular_only );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -256,7 +256,7 @@ class {%= prefix_class %}_Library {
 			// Processing
 
 				if ( 1 < $paginated ) {
-					$output = ' ' . $tag[0] . sprintf( esc_html_x( '(page %s)', 'Paginated content title suffix, %s: page number.', '{%= text_domain %}' ), number_format_i18n( $paginated ) ) . $tag[1];
+					$output = ' ' . $tag[0] . sprintf( esc_html_x( '(page %s)', 'Paginated content title suffix, %s: page number.', 'theme-slug' ), number_format_i18n( $paginated ) ) . $tag[1];
 				}
 
 
@@ -310,7 +310,7 @@ class {%= prefix_class %}_Library {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_has_more_tag_pre', null, $post );
+				$pre = apply_filters( 'wmhook_theme_slug_library_has_more_tag_pre', null, $post );
 
 				if ( null !== $pre ) {
 					return $pre;
@@ -426,7 +426,7 @@ class {%= prefix_class %}_Library {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_link_skip_to_pre', false, $id, $text, $class, $html );
+				$pre = apply_filters( 'wmhook_theme_slug_library_link_skip_to_pre', false, $id, $text, $class, $html );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -436,7 +436,7 @@ class {%= prefix_class %}_Library {
 			// Processing
 
 				if ( empty( $text ) ) {
-					$text = __( 'Skip to main content', '{%= text_domain %}' );
+					$text = __( 'Skip to main content', 'theme-slug' );
 				}
 
 
@@ -461,7 +461,7 @@ class {%= prefix_class %}_Library {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_{%= prefix_hook %}_library_is_categorized_blog_pre', null );
+				$pre = apply_filters( 'wmhook_theme_slug_library_is_categorized_blog_pre', null );
 
 				if ( null !== $pre ) {
 					return $pre;
@@ -470,7 +470,7 @@ class {%= prefix_class %}_Library {
 
 			// Processing
 
-				if ( false === ( $all_cats = get_transient( '{%= prefix_var %}_all_categories' ) ) ) {
+				if ( false === ( $all_cats = get_transient( 'theme_slug_all_categories' ) ) ) {
 
 					$all_cats = get_categories( array(
 						'fields'     => 'ids',
@@ -480,7 +480,7 @@ class {%= prefix_class %}_Library {
 
 					$all_cats = count( $all_cats );
 
-					set_transient( '{%= prefix_var %}_all_categories', $all_cats );
+					set_transient( 'theme_slug_all_categories', $all_cats );
 
 				}
 
@@ -514,7 +514,7 @@ class {%= prefix_class %}_Library {
 
 				// Processing
 
-					delete_transient( '{%= prefix_var %}_all_categories' );
+					delete_transient( 'theme_slug_all_categories' );
 
 			} // /all_categories_transient_flusher
 
@@ -522,6 +522,6 @@ class {%= prefix_class %}_Library {
 
 
 
-} // /{%= prefix_class %}_Library
+} // /Theme_Slug_Library
 
-add_action( 'after_setup_theme', '{%= prefix_class %}_Library::init', -50 );
+add_action( 'after_setup_theme', 'Theme_Slug_Library::init', -50 );

@@ -942,7 +942,7 @@
 ## 1.0.13
 
 * **Update**: Renaming the `include` folder to `includes`
-* **Update**: Updating `{%= prefix_constant %}_INCLUDE_DIR` constant name to `{%= prefix_constant %}_INCLUDES_DIR`
+* **Update**: Updating `THEME_SLUG_INCLUDE_DIR` constant name to `THEME_SLUG_INCLUDES_DIR`
 * **Update**: Library files paths
 * **Update**: Theme files paths
 
@@ -999,7 +999,7 @@
 ## 1.0.8
 
 * **Update**: Renaming the `inc` folder to `include`
-* **Update**: Updating `{%= prefix_constant %}_INCLUDE_DIR` constant
+* **Update**: Updating `THEME_SLUG_INCLUDE_DIR` constant
 * **Update**: Library files paths
 * **Update**: Theme files paths
 

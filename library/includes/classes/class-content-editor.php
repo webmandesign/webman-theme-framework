@@ -20,7 +20,7 @@
  * 20) Custom formats
  * 30) Body class
  */
-class {%= prefix_class %}_Library_Content_Editor {
+class Theme_Slug_Library_Content_Editor {
 
 
 
@@ -146,63 +146,63 @@ class {%= prefix_class %}_Library_Content_Editor {
 
 				// Add custom formats
 
-					$style_formats = (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_editor_style_formats', array(
+					$style_formats = (array) apply_filters( 'wmhook_theme_slug_library_editor_style_formats', array(
 
 						// Group: Text styles
 
 							100 . 'text_styles' => array(
-								'title' => esc_html__( 'Text styles', '{%= text_domain %}' ),
+								'title' => esc_html__( 'Text styles', 'theme-slug' ),
 								'items' => array(
 
 									100 . 'text_styles' . 100 => array(
-										'title'    => esc_html__( 'Dropcap text', '{%= text_domain %}' ),
+										'title'    => esc_html__( 'Dropcap text', 'theme-slug' ),
 										'selector' => 'p',
 										'classes'  => 'has-drop-cap',
 									),
 
 									100 . 'text_styles' . 110 => array(
-										'title'    => esc_html__( 'Uppercase heading or paragraph', '{%= text_domain %}' ),
+										'title'    => esc_html__( 'Uppercase heading or paragraph', 'theme-slug' ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
 										'classes'  => 'has-uppercase-text-transform',
 									),
 
 									100 . 'text_styles' . 120 => array(
-										'title'  => esc_html__( 'Highlighted (marked) text', '{%= text_domain %}' ),
+										'title'  => esc_html__( 'Highlighted (marked) text', 'theme-slug' ),
 										'inline' => 'mark',
 										'icon'   => ( is_admin() ) ? ( 'backcolor' ) : ( '' ),
 									),
 
 									100 . 'text_styles' . 130 => array(
-										'title'  => esc_html__( 'Small text', '{%= text_domain %}' ),
+										'title'  => esc_html__( 'Small text', 'theme-slug' ),
 										'inline' => 'small',
 									),
 
 									100 . 'text_styles' . 140 => array(
-										'title'  => esc_html__( 'Superscript', '{%= text_domain %}' ),
+										'title'  => esc_html__( 'Superscript', 'theme-slug' ),
 										'icon'   => ( is_admin() ) ? ( 'superscript' ) : ( '' ),
 										'format' => 'superscript',
 									),
 
 									100 . 'text_styles' . 150 => array(
-										'title'  => esc_html__( 'Subscript', '{%= text_domain %}' ),
+										'title'  => esc_html__( 'Subscript', 'theme-slug' ),
 										'icon'   => ( is_admin() ) ? ( 'subscript' ) : ( '' ),
 										'format' => 'subscript',
 									),
 
 									100 . 'text_styles' . 160 => array(
-										'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 1 ),
+										'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', 'theme-slug' ), 1 ),
 										'selector' => 'h2, h3, h4, h5, h6, p, address',
 										'classes'  => 'h1',
 									),
 
 									100 . 'text_styles' . 170 => array(
-										'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 2 ),
+										'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', 'theme-slug' ), 2 ),
 										'selector' => 'h3, h4, h5, h6, h1, p, address',
 										'classes'  => 'h2',
 									),
 
 									100 . 'text_styles' . 180 => array(
-										'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', '{%= text_domain %}' ), 3 ),
+										'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', 'theme-slug' ), 3 ),
 										'selector' => 'h4, h5, h6, h1, h2, p, address',
 										'classes'  => 'h3',
 									),
@@ -213,29 +213,29 @@ class {%= prefix_class %}_Library_Content_Editor {
 						// Group: Text size
 
 							200 . 'text_sizes' => array(
-								'title' => esc_html__( 'Text sizes', '{%= text_domain %}' ),
+								'title' => esc_html__( 'Text sizes', 'theme-slug' ),
 								'items' => array(
 
 									200 . 'text_sizes' . 100 => array(
-										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 1 ),
+										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', 'theme-slug' ), 1 ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
 										'classes'  => 'has-display-1-font-size',
 									),
 
 									200 . 'text_sizes' . 110 => array(
-										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 2 ),
+										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', 'theme-slug' ), 2 ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
 										'classes'  => 'has-display-2-font-size',
 									),
 
 									200 . 'text_sizes' . 120 => array(
-										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 3 ),
+										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', 'theme-slug' ), 3 ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
 										'classes'  => 'has-display-3-font-size',
 									),
 
 									200 . 'text_sizes' . 130 => array(
-										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', '{%= text_domain %}' ), 4 ),
+										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', 'theme-slug' ), 4 ),
 										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
 										'classes'  => 'has-display-4-font-size',
 									),
@@ -246,31 +246,31 @@ class {%= prefix_class %}_Library_Content_Editor {
 						// Group: Quotes
 
 							300 . 'quotes' => array(
-								'title' => esc_html_x( 'Quotes', 'Content editor blockquote formats group title.', '{%= text_domain %}' ),
+								'title' => esc_html_x( 'Quotes', 'Content editor blockquote formats group title.', 'theme-slug' ),
 								'items' => array(
 
 									300 . 'quotes' . 100 => array(
-										'title' => esc_html__( 'Blockquote', '{%= text_domain %}' ),
+										'title' => esc_html__( 'Blockquote', 'theme-slug' ),
 										'block' => 'blockquote',
 										'icon'  => ( is_admin() ) ? ( 'blockquote' ) : ( '' ),
 									),
 
 									300 . 'quotes' . 110 => array(
-										'title'   => esc_html__( 'Pullquote - align left', '{%= text_domain %}' ),
+										'title'   => esc_html__( 'Pullquote - align left', 'theme-slug' ),
 										'block'   => 'blockquote',
 										'classes' => 'pullquote alignleft',
 										'icon'    => ( is_admin() ) ? ( 'alignleft' ) : ( '' ),
 									),
 
 									300 . 'quotes' . 120 => array(
-										'title'   => esc_html__( 'Pullquote - align right', '{%= text_domain %}' ),
+										'title'   => esc_html__( 'Pullquote - align right', 'theme-slug' ),
 										'block'   => 'blockquote',
 										'classes' => 'pullquote alignright',
 										'icon'    => ( is_admin() ) ? ( 'alignright' ) : ( '' ),
 									),
 
 									300 . 'quotes' . 130 => array(
-										'title'  => esc_html_x( 'Cite', 'Content editor format label for HTML CITE tag used to set the blockquote source.', '{%= text_domain %}' ),
+										'title'  => esc_html_x( 'Cite', 'Content editor format label for HTML CITE tag used to set the blockquote source.', 'theme-slug' ),
 										'inline' => 'cite',
 									),
 
@@ -349,6 +349,6 @@ class {%= prefix_class %}_Library_Content_Editor {
 
 
 
-} // /{%= prefix_class %}_Library_Content_Editor
+} // /Theme_Slug_Library_Content_Editor
 
-add_action( 'init', '{%= prefix_class %}_Library_Content_Editor::init' );
+add_action( 'init', 'Theme_Slug_Library_Content_Editor::init' );

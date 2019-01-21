@@ -12,7 +12,7 @@
  * @since    1.0.0
  * @version  2.8.0
  */
-class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Control {
+class Theme_Slug_Customize_Control_Multiselect extends WP_Customize_Control {
 
 	public function enqueue() {
 
@@ -22,10 +22,10 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 
 				if ( 'multicheckbox' === $this->type ) {
 					wp_enqueue_script(
-						'{%= prefix_var %}-customize-control-multicheckbox',
-						get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/customize-control-multicheckbox.js' ),
+						'theme_slug-customize-control-multicheckbox',
+						get_theme_file_uri( THEME_SLUG_LIBRARY_DIR . 'js/customize-control-multicheckbox.js' ),
 						array( 'customize-controls' ),
-						{%= prefix_constant %}_THEME_VERSION,
+						THEME_SLUG_THEME_VERSION,
 						true
 					);
 				}
@@ -112,11 +112,11 @@ class {%= prefix_class %}_Customize_Control_Multiselect extends WP_Customize_Con
 					<?php endforeach; ?>
 				</select>
 
-				<em><?php esc_html_e( 'Press CTRL key for multiple selection.', '{%= text_domain %}' ); ?></em>
+				<em><?php esc_html_e( 'Press CTRL key for multiple selection.', 'theme-slug' ); ?></em>
 			</label>
 
 			<?php
 
 	} // /render_content_select
 
-} // /{%= prefix_class %}_Customize_Control_Multiselect
+} // /Theme_Slug_Customize_Control_Multiselect

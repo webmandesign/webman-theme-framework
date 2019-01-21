@@ -16,7 +16,7 @@
  *  10) Getters
  * 100) Helpers
  */
-class {%= prefix_class %}_Library_CSS_Variables {
+class Theme_Slug_Library_CSS_Variables {
 
 
 
@@ -26,7 +26,7 @@ class {%= prefix_class %}_Library_CSS_Variables {
 	 * 0) Init
 	 */
 
-		public static $cache_key = '{%= prefix_var %}_css_vars';
+		public static $cache_key = 'theme_slug_css_vars';
 
 
 
@@ -48,7 +48,7 @@ class {%= prefix_class %}_Library_CSS_Variables {
 
 						add_action( 'switch_theme', __CLASS__ . '::cache_flush' );
 						add_action( 'customize_save_after', __CLASS__ . '::cache_flush' );
-						add_action( 'wmhook_{%= prefix_hook %}_library_theme_upgrade', __CLASS__ . '::cache_flush' );
+						add_action( 'wmhook_theme_slug_library_theme_upgrade', __CLASS__ . '::cache_flush' );
 
 		} // /init
 
@@ -88,7 +88,7 @@ class {%= prefix_class %}_Library_CSS_Variables {
 
 			// Processing
 
-				foreach ( (array) {%= prefix_class %}_Library_Customize::get_options() as $option ) {
+				foreach ( (array) Theme_Slug_Library_Customize::get_options() as $option ) {
 					if ( ! isset( $option['css_var'] ) ) {
 						continue;
 					}
@@ -98,7 +98,7 @@ class {%= prefix_class %}_Library_CSS_Variables {
 					 * @todo  Double check the `typography_custom_fonts` option name.
 					 */
 					if (
-						'{%= prefix_class %}_Library_Sanitize::css_fonts' === $option['css_var']
+						'Theme_Slug_Library_Sanitize::css_fonts' === $option['css_var']
 						&& ! get_theme_mod( 'typography_custom_fonts', false )
 					) {
 						continue;
@@ -157,7 +157,7 @@ class {%= prefix_class %}_Library_CSS_Variables {
 					// Allow filtering the whole `$css_vars` for each option individually.
 					// This way we can add an option related additional CSS variables.
 					$css_vars = apply_filters(
-						'wmhook_{%= prefix_hook %}_library_css_variables_get_variables_array_single_option',
+						'wmhook_theme_slug_library_css_variables_get_variables_array_single_option',
 						$css_vars,
 						$option,
 						$value
@@ -172,7 +172,7 @@ class {%= prefix_class %}_Library_CSS_Variables {
 
 			// Output
 
-				return (array) apply_filters( 'wmhook_{%= prefix_hook %}_library_css_variables_get_variables_array', $css_vars );
+				return (array) apply_filters( 'wmhook_theme_slug_library_css_variables_get_variables_array', $css_vars );
 
 		} // /get_variables_array
 
@@ -201,7 +201,7 @@ class {%= prefix_class %}_Library_CSS_Variables {
 
 			// Output
 
-				return (string) apply_filters( 'wmhook_{%= prefix_hook %}_library_css_variables_get_variables_string', trim( (string) $css_vars ) );
+				return (string) apply_filters( 'wmhook_theme_slug_library_css_variables_get_variables_string', trim( (string) $css_vars ) );
 
 		} // /get_variables_string
 
@@ -246,7 +246,7 @@ class {%= prefix_class %}_Library_CSS_Variables {
 
 				wp_enqueue_script(
 					'css-vars-ponyfill',
-					get_theme_file_uri( {%= prefix_constant %}_LIBRARY_DIR . 'js/vendors/css-vars-ponyfill/css-vars-ponyfill.min.js' ),
+					get_theme_file_uri( THEME_SLUG_LIBRARY_DIR . 'js/vendors/css-vars-ponyfill/css-vars-ponyfill.min.js' ),
 					array(),
 					'1.16.1'
 				);
@@ -278,6 +278,6 @@ class {%= prefix_class %}_Library_CSS_Variables {
 
 
 
-} // /{%= prefix_class %}_Library_CSS_Variables
+} // /Theme_Slug_Library_CSS_Variables
 
-add_action( 'after_setup_theme', '{%= prefix_class %}_Library_CSS_Variables::init', 20 );
+add_action( 'after_setup_theme', 'Theme_Slug_Library_CSS_Variables::init', 20 );

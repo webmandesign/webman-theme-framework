@@ -17,7 +17,7 @@
  * 10) General
  * 20) CSS
  */
-class {%= prefix_class %}_Library_Sanitize {
+class Theme_Slug_Library_Sanitize {
 
 
 
@@ -496,4 +496,4 @@ class {%= prefix_class %}_Library_Sanitize {
 
 
 
-} // /{%= prefix_class %}_Library_Sanitize
+} // /Theme_Slug_Library_Sanitize

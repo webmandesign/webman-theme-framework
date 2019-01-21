@@ -12,7 +12,7 @@
  * @since    1.0.0
  * @version  2.7.0
  */
-class {%= prefix_class %}_Customize_Control_Hidden extends WP_Customize_Control {
+class Theme_Slug_Customize_Control_Hidden extends WP_Customize_Control {
 
 	public $type = 'hidden';
 
@@ -30,4 +30,4 @@ class {%= prefix_class %}_Customize_Control_Hidden extends WP_Customize_Control 
 
 	} // /render_content
 
-} // /{%= prefix_class %}_Customize_Control_Hidden
+} // /Theme_Slug_Customize_Control_Hidden
