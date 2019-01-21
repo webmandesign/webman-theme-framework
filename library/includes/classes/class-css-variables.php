@@ -48,7 +48,7 @@ class Theme_Slug_Library_CSS_Variables {
 
 						add_action( 'switch_theme', __CLASS__ . '::cache_flush' );
 						add_action( 'customize_save_after', __CLASS__ . '::cache_flush' );
-						add_action( 'wmhook_theme_slug_library_theme_upgrade', __CLASS__ . '::cache_flush' );
+						add_action( 'hook/theme_slug/Library/theme_upgrade', __CLASS__ . '::cache_flush' );
 
 		} // /init
 
@@ -154,14 +154,19 @@ class Theme_Slug_Library_CSS_Variables {
 
 					$css_vars[ '--' . sanitize_title( $option['id'] ) ] = esc_attr( $value );
 
-					// Allow filtering the whole `$css_vars` for each option individually.
-					// This way we can add an option related additional CSS variables.
-					$css_vars = apply_filters(
-						'wmhook_theme_slug_library_css_variables_get_variables_array_single_option',
-						$css_vars,
-						$option,
-						$value
-					);
+					/**
+					 * Filters CSS variables output in array after each single variable processing.
+					 *
+					 * Allows filtering the whole `$css_vars` array for each option individually.
+					 * This way we can add an option related additional CSS variables.
+					 *
+					 * @since  2.8.0
+					 *
+					 * @param  string $css_vars  Array of CSS variable name and value pairs.
+					 * @param  array  $option    Single theme option setup array.
+					 * @param  string $value     Single CSS variable value.
+					 */
+					$css_vars = apply_filters( 'hook/theme_slug/Library_CSS_Variables/get_variables_array/per_option', $css_vars, $option, $value );
 				}
 
 				// Cache the results.
@@ -172,7 +177,14 @@ class Theme_Slug_Library_CSS_Variables {
 
 			// Output
 
-				return (array) apply_filters( 'wmhook_theme_slug_library_css_variables_get_variables_array', $css_vars );
+				/**
+				 * Filters CSS variables output in array.
+				 *
+				 * @since  2.8.0
+				 *
+				 * @param  array $css_vars  Array of CSS variable name and value pairs.
+				 */
+				return (array) apply_filters( 'hook/theme_slug/Library_CSS_Variables/get_variables_array', $css_vars );
 
 		} // /get_variables_array
 
@@ -201,7 +213,14 @@ class Theme_Slug_Library_CSS_Variables {
 
 			// Output
 
-				return (string) apply_filters( 'wmhook_theme_slug_library_css_variables_get_variables_string', trim( (string) $css_vars ) );
+				/**
+				 * Filters CSS variables output in string.
+				 *
+				 * @since  2.8.0
+				 *
+				 * @param  string $css_vars  String of CSS variable name and value pairs ready for CSS code output.
+				 */
+				return (string) apply_filters( 'hook/theme_slug/Library_CSS_Variables/get_variables_string', trim( (string) $css_vars ) );
 
 		} // /get_variables_string
 

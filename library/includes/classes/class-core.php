@@ -82,7 +82,7 @@ class Theme_Slug_Library {
 					empty( $current_theme_version )
 					|| $new_theme_version != $current_theme_version
 				) {
-					do_action( 'wmhook_theme_slug_library_theme_upgrade', $new_theme_version, $current_theme_version );
+					do_action( 'hook/theme_slug/Library/theme_upgrade', $new_theme_version, $current_theme_version );
 					set_transient( 'theme-slug_version', $new_theme_version );
 				}
 
@@ -123,16 +123,38 @@ class Theme_Slug_Library {
 						return $content;
 					}
 
-				$title_text = (string) apply_filters( 'wmhook_theme_slug_library_add_table_of_contents_title_text', sprintf(
+				/**
+				 * Filters post table of content title.
+				 *
+				 * @since  __1.0.0
+				 *
+				 * @param  string $title_text
+				 */
+				$title_text = (string) apply_filters( 'hook/theme_slug/Library/add_table_of_contents/title_text', sprintf(
 					esc_html_x( '"%s" table of contents', '%s: post title.', 'theme-slug' ),
 					the_title_attribute( 'echo=0' )
 				) );
 
-				$args = (array) apply_filters( 'wmhook_theme_slug_library_add_table_of_contents_args', array(
+				/**
+				 * Filters post table of content setup arguments.
+				 *
+				 * @example
+				 *   array(
+				 *     'disable_first' => true,
+				 *     'links'         => array(),
+				 *     'post_content'  => ( isset( $post->post_content ) ) ? ( $post->post_content ) : ( '' ),
+				 *     'tag'           => 'h2',
+				 *   )
+				 *
+				 * @since  __1.0.0
+				 *
+				 * @param  array $args
+				 */
+				$args = (array) apply_filters( 'hook/theme_slug/Library/add_table_of_contents/args', array(
 					'disable_first' => true, // First part to have a title of the post (part title won't be parsed)?
-					'links'         => array(), // The output HTML links
-					'post_content'  => ( isset( $post->post_content ) ) ? ( $post->post_content ) : ( '' ), // Get the whole post content
-					'tag'           => 'h2', // HTML heading tag to parse as a post part title
+					'links'         => array(), // The output HTML links.
+					'post_content'  => ( isset( $post->post_content ) ) ? ( $post->post_content ) : ( '' ), // Get the whole post content.
+					'tag'           => 'h2', // HTML heading tag to parse as a post part title.
 				) );
 
 				// Post part counter
@@ -182,7 +204,18 @@ class Theme_Slug_Library {
 
 						// Post part item output
 
-							$args['links'][$i] = (string) apply_filters( 'wmhook_theme_slug_library_add_table_of_contents_part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
+							/**
+							 * Filters post table of content single part HTML output.
+							 *
+							 * @since  __1.0.0
+							 *
+							 * @param  string $single_part
+							 * @param  int    $i
+							 * @param  string $part_title
+							 * @param  string $class
+							 * @param  array  $args
+							 */
+							$args['links'][$i] = (string) apply_filters( 'hook/theme_slug/Library/add_table_of_contents/part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
 
 					}
 
@@ -190,12 +223,26 @@ class Theme_Slug_Library {
 
 					$args['links'] = implode( '', $args['links'] );
 
-					$links = (array) apply_filters( 'wmhook_theme_slug_library_add_table_of_contents_links', array(
+					/**
+					 * Filters post table of content output array.
+					 *
+					 * @example
+					 *   array(
+					 *     'before' => '<nav class="post-table-of-contents before-content"><ol>' . $args['links'] . '</ol></nav>',
+					 *     'after'  => '<nav class="post-table-of-contents after-content"><ol>' . $args['links'] . '</ol></nav>',
+					 *   )
+					 *
+					 * @since  __1.0.0
+					 *
+					 * @param  array $table_of_content
+					 * @param  array $args
+					 */
+					$table_of_content = (array) apply_filters( 'hook/theme_slug/Library/add_table_of_contents/links', array(
 						'before' => ( 1 === $page ) ? ( '<nav class="post-table-of-contents top" title="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '" aria-label="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '"><ol>' . $args['links'] . '</ol></nav>' ) : ( '' ),
 						'after'  => '<nav class="post-table-of-contents bottom" title="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '" aria-label="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '"><ol>' . $args['links'] . '</ol></nav>',
 					), $args );
 
-					$content = $links['before'] . $content . $links['after'];
+					$content = $table_of_content['before'] . $content . $table_of_content['after'];
 
 
 			// Output
@@ -207,21 +254,30 @@ class Theme_Slug_Library {
 
 
 		/**
-		 * Get the paginated heading suffix
+		 * Get the paginated heading suffix.
 		 *
 		 * @subpackage  Pagination
 		 *
 		 * @since    1.0.0
 		 * @version  2.6.0
 		 *
-		 * @param  string $tag           Wrapper tag
-		 * @param  string $singular_only Display only on singular posts of specific type
+		 * @param  string $tag            Wrapper tag.
+		 * @param  mixed  $singular_only  Display only on singular posts of specific type.
 		 */
 		public static function get_the_paginated_suffix( $tag = '', $singular_only = false ) {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_theme_slug_library_get_the_paginated_suffix_pre', false, $tag, $singular_only );
+				/**
+				 * Bypass filter for Theme_Slug_Library::get_the_paginated_suffix().
+				 *
+				 * @since  2.8.0
+				 *
+				 * @param  mixed  $pre            Default: false. If not false, method returns this value.
+				 * @param  string $tag            Wrapper tag.
+				 * @param  mixed  $singular_only  Display only on singular posts of specific type.
+				 */
+				$pre = apply_filters( 'hook/theme_slug/Library/get_the_paginated_suffix/pre', false, $tag, $singular_only );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -310,7 +366,14 @@ class Theme_Slug_Library {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_theme_slug_library_has_more_tag_pre', null, $post );
+				/**
+				 * Bypass filter for Theme_Slug_Library::has_more_tag().
+				 *
+				 * @since  2.8.0
+				 *
+				 * @param  mixed $pre  Default: null. If not null, method returns the value.
+				 */
+				$pre = apply_filters( 'hook/theme_slug/Library/has_more_tag/pre', null, $post );
 
 				if ( null !== $pre ) {
 					return $pre;
@@ -426,7 +489,18 @@ class Theme_Slug_Library {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_theme_slug_library_link_skip_to_pre', false, $id, $text, $class, $html );
+				/**
+				 * Bypass filter for Theme_Slug_Library::link_skip_to().
+				 *
+				 * @since  2.8.0
+				 *
+				 * @param  mixed  $pre    Default: false. If not false, method returns this value.
+				 * @param  string $id     Link target element ID.
+				 * @param  string $text   Link text.
+				 * @param  string $class  Additional link CSS classes.
+				 * @param  string $html   Output html, use "%s" for actual link output.
+				 */
+				$pre = apply_filters( 'hook/theme_slug/Library/link_skip_to/pre', false, $id, $text, $class, $html );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -461,7 +535,14 @@ class Theme_Slug_Library {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_theme_slug_library_is_categorized_blog_pre', null );
+				/**
+				 * Bypass filter for Theme_Slug_Library::is_categorized_blog().
+				 *
+				 * @since  2.8.0
+				 *
+				 * @param  mixed $pre  Default: null. If not null, method returns the value.
+				 */
+				$pre = apply_filters( 'hook/theme_slug/Library/is_categorized_blog/pre', null );
 
 				if ( null !== $pre ) {
 					return $pre;

@@ -130,7 +130,7 @@ class Theme_Slug_Library_Content_Editor {
 	 */
 
 		/**
-		 * Customizing formats dropdown items
+		 * Customizing formats dropdown items.
 		 *
 		 * @link  http://codex.wordpress.org/TinyMCE_Custom_Styles
 		 * @link  http://www.tinymce.com/wiki.php/Configuration:style_formats
@@ -146,7 +146,14 @@ class Theme_Slug_Library_Content_Editor {
 
 				// Add custom formats
 
-					$style_formats = (array) apply_filters( 'wmhook_theme_slug_library_editor_style_formats', array(
+					/**
+					 * Filters TinyMCE editor formats dropdown items.
+					 *
+					 * @since  2.8.0
+					 *
+					 * @param  array $style_formats
+					 */
+					$style_formats = (array) apply_filters( 'hook/theme_slug/Library_Content_Editor/style_formats', array(
 
 						// Group: Text styles
 

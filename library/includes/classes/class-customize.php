@@ -47,7 +47,7 @@ class Theme_Slug_Library_Customize {
 
 					// Actions
 
-						add_action( 'customize_register', __CLASS__ . '::customize', 100 );
+						add_action( 'customize_register', __CLASS__ . '::register', 100 );
 
 						add_action( 'customize_controls_enqueue_scripts', __CLASS__ . '::assets' );
 
@@ -174,7 +174,14 @@ class Theme_Slug_Library_Customize {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_theme_slug_library_customize_preview_scripts_pre', false );
+				/**
+				 * Bypass filter for Theme_Slug_Library_Customize::preview_scripts().
+				 *
+				 * @since  2.8.0
+				 *
+				 * @param  mixed $pre  Default: false. If not false, method returns this value as string.
+				 */
+				$pre = apply_filters( 'hook/theme_slug/Library_Customize/preview_scripts/pre', false );
 
 				if ( false !== $pre ) {
 					return (string) $pre;
@@ -198,7 +205,7 @@ class Theme_Slug_Library_Customize {
 				) {
 
 					foreach ( $theme_options as $theme_option ) {
-						$theme_option['id'] = sanitize_title( $theme_option['id'] );
+						$option_id = sanitize_title( $theme_option['id'] );
 
 						if (
 							isset( $theme_option['preview_js'] )
@@ -206,7 +213,7 @@ class Theme_Slug_Library_Customize {
 						) {
 
 							$output_single  = "wp.customize("  . PHP_EOL;
-							$output_single .= "\t" . "'" . $theme_option['id'] . "',"  . PHP_EOL;
+							$output_single .= "\t" . "'" . $option_id . "',"  . PHP_EOL;
 							$output_single .= "\t" . "function( value ) {"  . PHP_EOL;
 							$output_single .= "\t\t" . 'value.bind( function( to ) {' . PHP_EOL;
 
@@ -215,7 +222,7 @@ class Theme_Slug_Library_Customize {
 								if ( isset( $theme_option['preview_js']['css'] ) ) {
 
 									$output_single .= "\t\t\t" . "var newCss = '';" . PHP_EOL.PHP_EOL;
-									$output_single .= "\t\t\t" . "if ( $( '#jscss-" . $theme_option['id'] . "' ).length ) { $( '#jscss-" . $theme_option['id'] . "' ).remove() }" . PHP_EOL.PHP_EOL;
+									$output_single .= "\t\t\t" . "if ( $( '#jscss-" . $option_id . "' ).length ) { $( '#jscss-" . $option_id . "' ).remove() }" . PHP_EOL.PHP_EOL;
 
 									foreach ( $theme_option['preview_js']['css'] as $selector => $properties ) {
 										if ( is_array( $properties ) ) {
@@ -265,7 +272,7 @@ class Theme_Slug_Library_Customize {
 													// Replace `[[id]]` placeholder with an option ID.
 													$property['property'] = str_replace(
 														'[[id]]',
-														$theme_option['id'],
+														$option_id,
 														$property['property']
 													);
 
@@ -284,7 +291,7 @@ class Theme_Slug_Library_Customize {
 										}
 									}
 
-									$output_single .= PHP_EOL . "\t\t\t" . "$( document ).find( 'head' ).append( $( '<style id=\'jscss-" . $theme_option['id'] . "\'> ' + newCss + '</style>' ) );" . PHP_EOL;
+									$output_single .= PHP_EOL . "\t\t\t" . "$( document ).find( 'head' ).append( $( '<style id=\'jscss-" . $option_id . "\'> ' + newCss + '</style>' ) );" . PHP_EOL;
 
 								}
 
@@ -297,7 +304,33 @@ class Theme_Slug_Library_Customize {
 							$output_single .= "\t\t" . '} );' . PHP_EOL;
 							$output_single .= "\t" . '}'. PHP_EOL;
 							$output_single .= ');'. PHP_EOL;
-							$output_single  = (string) apply_filters( 'wmhook_theme_slug_library_customize_preview_scripts_option_' . $theme_option['id'], $output_single );
+
+        /**
+         * Filters the theme modification, or 'theme_mod', value.
+         *
+         * The dynamic portion of the hook name, `$name`, refers to
+         * the key name of the modification array. For example,
+         * 'header_textcolor', 'header_image', and so on depending
+         * on the theme options.
+         *
+         * @since 2.2.0
+         *
+         * @param string $current_mod The value of the current theme modification.
+         */
+        return apply_filters( "theme_mod_{$name}", $mods[$name] );
+
+							/**
+							 * Filters single customizer theme option preview JavaScript code.
+							 *
+							 * The dynamic portion of the hook name, `$option_id`, refers to the single theme
+							 * option ID. For example, 'color_accent', 'color_accent_text', and so on depending
+							 * on the theme options.
+							 *
+							 * @since  2.8.0
+							 *
+							 * @param  string $output_single
+							 */
+							$output_single = (string) apply_filters( "hook/theme_slug/Library_Customize/preview_scripts/option_{$option_id}", $output_single );
 
 							$output .= $output_single;
 
@@ -309,7 +342,14 @@ class Theme_Slug_Library_Customize {
 			// Output
 
 				if ( $output = trim( $output ) ) {
-					echo (string) apply_filters( 'wmhook_theme_slug_library_customize_preview_scripts_output', '<!-- Theme custom scripts -->' . PHP_EOL . '<script type="text/javascript"><!--' . PHP_EOL . '( function( $ ) {' . PHP_EOL.PHP_EOL . trim( $output ) . PHP_EOL.PHP_EOL . '} )( jQuery );' . PHP_EOL . '//--></script>' );
+					/**
+					 * Filters final output of customizer theme options preview JavaScript code.
+					 *
+					 * @since  2.8.0
+					 *
+					 * @param  string $output
+					 */
+					echo (string) apply_filters( 'hook/theme_slug/Library_Customize/preview_scripts/output', '<!-- Theme custom scripts -->' . PHP_EOL . '<script type="text/javascript"><!--' . PHP_EOL . '( function( $ ) {' . PHP_EOL.PHP_EOL . trim( $output ) . PHP_EOL.PHP_EOL . '} )( jQuery );' . PHP_EOL . '//--></script>' );
 				}
 
 		} // /preview_scripts
@@ -323,7 +363,7 @@ class Theme_Slug_Library_Customize {
 	 */
 
 		/**
-		 * Customizer renderer
+		 * Customizer renderer.
 		 *
 		 * @subpackage  Customize Options
 		 *
@@ -332,7 +372,7 @@ class Theme_Slug_Library_Customize {
 		 *
 		 * @param  WP_Customize_Manager $wp_customize
 		 */
-		public static function customize( $wp_customize ) {
+		public static function register( $wp_customize ) {
 
 			// Requirements check
 
@@ -343,7 +383,15 @@ class Theme_Slug_Library_Customize {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_theme_slug_library_customize_pre', null, $wp_customize );
+				/**
+				 * Bypass filter for Theme_Slug_Library_Customize::register().
+				 *
+				 * @since  2.8.0
+				 *
+				 * @param  mixed                $pre           Default: null. If not null, method returns the value.
+				 * @param  WP_Customize_Manager $wp_customize  Customizer object.
+				 */
+				$pre = apply_filters( 'hook/theme_slug/Library_Customize/register/pre', null, $wp_customize );
 
 				if ( null !== $pre ) {
 					return $pre;
@@ -356,7 +404,14 @@ class Theme_Slug_Library_Customize {
 
 				ksort( $theme_options );
 
-				$allowed_option_types = (array) apply_filters( 'wmhook_theme_slug_library_customize_allowed_option_types', array(
+				/**
+				 * Filters customizer allowed option types for the theme options.
+				 *
+				 * @since  2.8.0
+				 *
+				 * @param  array $option_types
+				 */
+				$allowed_option_types = (array) apply_filters( 'hook/theme_slug/Library_Customize/register/allowed_option_types', array(
 					'checkbox',
 					'color',
 					'email',
@@ -378,7 +433,16 @@ class Theme_Slug_Library_Customize {
 
 				// Theme options comes first.
 
-					$priority = absint( apply_filters( 'wmhook_theme_slug_library_customize_priority', 0 ) );
+					$priority = absint(
+						/**
+						 * Filters customizer theme options priority.
+						 *
+						 * @since  2.8.0
+						 *
+						 * @param  int $priority
+						 */
+						apply_filters( 'hook/theme_slug/Library_Customize/register/priority', 0 )
+					);
 
 				// Default section name in case not set (should be overwritten anyway)
 
@@ -405,7 +469,7 @@ class Theme_Slug_Library_Customize {
 					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-radio-matrix.php';
 					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-select.php';
 
-					do_action( 'wmhook_theme_slug_library_customize_load_controls', $wp_customize );
+					do_action( 'hook/theme_slug/Library_Customize/register/load_controls', $wp_customize );
 
 				// Generate customizer options
 
@@ -477,8 +541,27 @@ class Theme_Slug_Library_Customize {
 										$panel_id    = $panel_type;
 									}
 
-									$panel_type = (string) apply_filters( 'wmhook_theme_slug_library_customize_panel_type', $panel_type, $theme_option, $theme_options );
-									$panel_id   = (string) apply_filters( 'wmhook_theme_slug_library_customize_panel_id', $panel_id, $theme_option, $theme_options );
+									/**
+									 * Filters customizer theme options panel type.
+									 *
+									 * @since  2.8.0
+									 *
+									 * @param  string $panel_type
+									 * @param  string $theme_option
+									 * @param  array  $theme_options
+									 */
+									$panel_type = (string) apply_filters( 'hook/theme_slug/Library_Customize/register/panel_type', $panel_type, $theme_option, $theme_options );
+
+									/**
+									 * Filters customizer theme options panel id.
+									 *
+									 * @since  2.8.0
+									 *
+									 * @param  string $panel_id
+									 * @param  string $theme_option
+									 * @param  array  $theme_options
+									 */
+									$panel_id = (string) apply_filters( 'hook/theme_slug/Library_Customize/register/panel_id', $panel_id, $theme_option, $theme_options );
 
 									if ( $customizer_panel !== $panel_id ) {
 										$wp_customize->add_panel(
@@ -857,7 +940,7 @@ class Theme_Slug_Library_Customize {
 						add_action( 'wp_footer', __CLASS__ . '::preview_scripts', 99 );
 					}
 
-		} // /customize
+		} // /register
 
 
 
@@ -879,7 +962,14 @@ class Theme_Slug_Library_Customize {
 
 			// Output
 
-				return (array) apply_filters( 'wmhook_theme_slug_theme_options', array() );
+				/**
+				 * Filters customizer theme options setup array.
+				 *
+				 * @since  2.8.0
+				 *
+				 * @param  array $theme_options
+				 */
+				return (array) apply_filters( 'hook/theme_slug/Library_Customize/get_options', array() );
 
 		} // /get_options
 
@@ -902,7 +992,16 @@ class Theme_Slug_Library_Customize {
 
 			// Pre
 
-				$pre = apply_filters( 'wmhook_theme_slug_library_customize_get_theme_mod_pre', null, $name, $theme_option_setup );
+				/**
+				 * Bypass filter for Theme_Slug_Library_Customize::get_theme_mod().
+				 *
+				 * @since  2.8.0
+				 *
+				 * @param  mixed  $pre                 Default: false. If not false, method returns this value.
+				 * @param  string $name                Theme mod name.
+				 * @param  array  $theme_option_setup  Optional single theme option setup array.
+				 */
+				$pre = apply_filters( 'hook/theme_slug/Library_Customize/get_theme_mod/pre', null, $name, $theme_option_setup );
 
 				if ( null !== $pre ) {
 					return $pre;

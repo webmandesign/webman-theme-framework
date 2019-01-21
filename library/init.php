@@ -82,7 +82,16 @@
 
 		// Optional plugins suggestions.
 		$plugins_suggestions = get_theme_file_path( 'includes/tgmpa/plugins.php' );
-		if ( (bool) apply_filters( 'wmhook_theme_slug_plugins_suggestion_enabled', file_exists( $plugins_suggestions ) ) ) {
+		/**
+		 * Whether to enable TGMPA plugins recommendations.
+		 *
+		 * @link  http://tgmpluginactivation.com/
+		 *
+		 * @since  2.8.0
+		 *
+		 * @param  boolean $enabled  Default: file_exists( get_theme_file_path( 'includes/tgmpa/plugins.php' ) ).
+		 */
+		if ( (bool) apply_filters( 'hook/theme_slug/Library/plugins_suggestion_enabled', file_exists( $plugins_suggestions ) ) ) {
 			require THEME_SLUG_LIBRARY . 'includes/vendors/tgmpa/class-tgm-plugin-activation.php';
 			require $plugins_suggestions;
 		}
