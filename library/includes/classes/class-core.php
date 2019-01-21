@@ -82,6 +82,15 @@ class Theme_Slug_Library {
 					empty( $current_theme_version )
 					|| $new_theme_version != $current_theme_version
 				) {
+
+					/**
+					 * Fires when theme is being upgraded.
+					 *
+					 * @since  2.8.0
+					 *
+					 * @param  string $new_theme_version
+					 * @param  string $current_theme_version
+					 */
 					do_action( 'hook/theme_slug/Library/theme_upgrade', $new_theme_version, $current_theme_version );
 					set_transient( 'theme-slug_version', $new_theme_version );
 				}

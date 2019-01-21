@@ -469,8 +469,6 @@ class Theme_Slug_Library_Customize {
 					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-radio-matrix.php';
 					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-select.php';
 
-					do_action( 'hook/theme_slug/Library_Customize/register/load_controls', $wp_customize );
-
 				// Generate customizer options
 
 					if (
