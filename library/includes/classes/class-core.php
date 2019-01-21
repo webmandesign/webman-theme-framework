@@ -126,7 +126,7 @@ class Theme_Slug_Library {
 				/**
 				 * Filters post table of content title.
 				 *
-				 * @since  __1.0.0
+				 * @since  2.8.0
 				 *
 				 * @param  string $title_text
 				 */
@@ -146,7 +146,7 @@ class Theme_Slug_Library {
 				 *     'tag'           => 'h2',
 				 *   )
 				 *
-				 * @since  __1.0.0
+				 * @since  2.8.0
 				 *
 				 * @param  array $args
 				 */
@@ -207,7 +207,7 @@ class Theme_Slug_Library {
 							/**
 							 * Filters post table of content single part HTML output.
 							 *
-							 * @since  __1.0.0
+							 * @since  2.8.0
 							 *
 							 * @param  string $single_part
 							 * @param  int    $i
@@ -232,7 +232,7 @@ class Theme_Slug_Library {
 					 *     'after'  => '<nav class="post-table-of-contents after-content"><ol>' . $args['links'] . '</ol></nav>',
 					 *   )
 					 *
-					 * @since  __1.0.0
+					 * @since  2.8.0
 					 *
 					 * @param  array $table_of_content
 					 * @param  array $args
