@@ -115,7 +115,7 @@ class Theme_Slug_Library_CSS_Variables {
 						isset( $option['sanitize_callback'] )
 						&& is_callable( $option['sanitize_callback'] )
 					) {
-						$mod = call_user_func( $option['validate'], $mod );
+						$mod = call_user_func( $option['sanitize_callback'], $mod );
 					}
 					if (
 						! empty( $mod )
@@ -152,7 +152,8 @@ class Theme_Slug_Library_CSS_Variables {
 						);
 					}
 
-					$css_vars[ '--' . sanitize_title( $option['id'] ) ] = esc_attr( $value );
+					// Do not apply `esc_attr()` as it will escape quote marks, such as in background image URL.
+					$css_vars[ '--' . sanitize_title( $option['id'] ) ] = $value;
 
 					/**
 					 * Filters CSS variables output in array after each single variable processing.

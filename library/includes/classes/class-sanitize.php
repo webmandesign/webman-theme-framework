@@ -169,7 +169,7 @@ class Theme_Slug_Library_Sanitize {
 				 * If we pass a customizer control as `$default`,
 				 * get the default value from it.
 				 */
-				if ( $choices instanceof WP_Customize_Setting ) {
+				if ( $default instanceof WP_Customize_Setting ) {
 					$default = $default->default;
 				}
 

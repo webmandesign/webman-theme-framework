@@ -203,14 +203,12 @@ class Theme_Slug_Library_Customize {
 					is_array( $theme_options )
 					&& ! empty( $theme_options )
 				) {
-
 					foreach ( $theme_options as $theme_option ) {
-						$option_id = sanitize_title( $theme_option['id'] );
-
 						if (
 							isset( $theme_option['preview_js'] )
 							&& is_array( $theme_option['preview_js'] )
 						) {
+							$option_id = sanitize_title( $theme_option['id'] );
 
 							$output_single  = "wp.customize("  . PHP_EOL;
 							$output_single .= "\t" . "'" . $option_id . "',"  . PHP_EOL;
@@ -304,20 +302,6 @@ class Theme_Slug_Library_Customize {
 							$output_single .= "\t\t" . '} );' . PHP_EOL;
 							$output_single .= "\t" . '}'. PHP_EOL;
 							$output_single .= ');'. PHP_EOL;
-
-        /**
-         * Filters the theme modification, or 'theme_mod', value.
-         *
-         * The dynamic portion of the hook name, `$name`, refers to
-         * the key name of the modification array. For example,
-         * 'header_textcolor', 'header_image', and so on depending
-         * on the theme options.
-         *
-         * @since 2.2.0
-         *
-         * @param string $current_mod The value of the current theme modification.
-         */
-        return apply_filters( "theme_mod_{$name}", $mods[$name] );
 
 							/**
 							 * Filters single customizer theme option preview JavaScript code.
