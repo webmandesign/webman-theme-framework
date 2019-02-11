@@ -268,12 +268,18 @@ class Theme_Slug_Library_CSS_Variables {
 					'css-vars-ponyfill',
 					get_theme_file_uri( THEME_SLUG_LIBRARY_DIR . 'js/vendors/css-vars-ponyfill/css-vars-ponyfill.min.js' ),
 					array(),
-					'1.16.1'
+					'1.16.1',
+					true
 				);
 
 				wp_add_inline_script(
 					'css-vars-ponyfill',
-					"cssVars( { onlyVars: true, exclude: 'link:not([href^=\"" . esc_url_raw( get_theme_root_uri() ) . "\"])' } );"
+					'window.onload = function() {' . PHP_EOL .
+					"\t" . 'cssVars( {' . PHP_EOL .
+					"\t\t" . 'onlyVars: true,' . PHP_EOL .
+					"\t\t" . 'exclude: \'link:not([href^="' . esc_url_raw( get_theme_root_uri() ) . '"])\'' . PHP_EOL .
+					"\t" . '} );' . PHP_EOL .
+					'};'
 				);
 
 		} // /compatibility
