@@ -153,7 +153,7 @@ class Theme_Slug_Library_Content_Editor {
 					 *
 					 * @param  array $style_formats
 					 */
-					$style_formats = (array) apply_filters( 'hook/theme_slug/Library_Content_Editor/style_formats', array(
+					$style_formats = (array) apply_filters( 'theme_slug/Library_Content_Editor/style_formats', array(
 
 						// Group: Text styles
 
