@@ -74,12 +74,6 @@
 	// Admin area related functionality.
 	if ( is_admin() ) {
 
-		// Optional theme welcome page.
-		$welcome_page = get_theme_file_path( 'includes/welcome/welcome.php' );
-		if ( file_exists( $welcome_page ) ) {
-			require $welcome_page;
-		}
-
 		// Optional plugins suggestions.
 		$plugins_suggestions = get_theme_file_path( 'includes/tgmpa/plugins.php' );
 		/**

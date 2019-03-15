@@ -1029,9 +1029,9 @@ class Theme_Slug_Library_Customize {
 
 						foreach ( self::$theme_options_setup as $option ) {
 							if (
-								isset( $option['default'] )
-								&& isset( $option['id'] )
+								isset( $option['id'] )
 								&& $name === $option['id']
+								&& isset( $option['default'] )
 							) {
 								$output = $option['default'];
 								$theme_option_setup = $option;
