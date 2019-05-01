@@ -256,6 +256,7 @@ class Theme_Slug_Library_CSS_Variables {
 		 * Ensure CSS variables compatibility with older browsers.
 		 *
 		 * @link  https://github.com/jhildenbiddle/css-vars-ponyfill
+		 * @link  https://www.jsdelivr.com/package/npm/css-vars-ponyfill?path=dist
 		 *
 		 * @since    2.8.0
 		 * @version  2.8.0
@@ -268,7 +269,7 @@ class Theme_Slug_Library_CSS_Variables {
 					'css-vars-ponyfill',
 					get_theme_file_uri( THEME_SLUG_LIBRARY_DIR . 'js/vendors/css-vars-ponyfill/css-vars-ponyfill.min.js' ),
 					array(),
-					'1.16.1',
+					'2.0.2',
 					true
 				);
 
@@ -276,7 +277,7 @@ class Theme_Slug_Library_CSS_Variables {
 					'css-vars-ponyfill',
 					'window.onload = function() {' . PHP_EOL .
 					"\t" . 'cssVars( {' . PHP_EOL .
-					"\t\t" . 'onlyVars: true,' . PHP_EOL .
+					"\t\t" . 'preserveStatic: false,' . PHP_EOL .
 					"\t\t" . 'exclude: \'link:not([href^="' . esc_url_raw( get_theme_root_uri() ) . '"])\'' . PHP_EOL .
 					"\t" . '} );' . PHP_EOL .
 					'};'

@@ -70,7 +70,7 @@ class Theme_Slug_Customize_Control_Multiselect extends WP_Customize_Control {
 			?>
 
 			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-			<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo wp_kses_post( $this->description ); ?></span><?php endif; ?>
+			<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo wp_kses_post( force_balance_tags( $this->description ) ); ?></span><?php endif; ?>
 
 			<ul>
 			<?php foreach ( $this->choices as $value => $label ) : ?>
@@ -104,7 +104,7 @@ class Theme_Slug_Customize_Control_Multiselect extends WP_Customize_Control {
 
 			<label>
 				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-				<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo wp_kses_post( $this->description ); ?></span><?php endif; ?>
+				<?php if ( $this->description ) : ?><span class="description customize-control-description"><?php echo wp_kses_post( force_balance_tags( $this->description ) ); ?></span><?php endif; ?>
 
 				<select name="<?php echo esc_attr( $this->id ); ?>" multiple="multiple" <?php $this->link(); ?>>
 					<?php foreach ( $this->choices as $value => $label ) : ?>

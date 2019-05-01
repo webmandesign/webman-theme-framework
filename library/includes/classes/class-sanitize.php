@@ -176,7 +176,7 @@ class Theme_Slug_Library_Sanitize {
 
 			// Output
 
-				return ( ( $value ) ? ( (string) $value ) : ( (string) $default ) );
+				return ( $value ) ? ( (string) $value ) : ( (string) $default );
 
 		} // /fonts
 

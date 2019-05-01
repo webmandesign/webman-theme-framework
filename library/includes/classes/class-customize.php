@@ -515,9 +515,9 @@ class Theme_Slug_Library_Customize {
 									$panel_type = 'theme-options';
 
 									if ( is_array( $theme_option['in_panel'] ) ) {
-										$panel_title = isset( $theme_option['in_panel']['title'] ) ? ( $theme_option['in_panel']['title'] ) : ( '&mdash;' );
-										$panel_id    = isset( $theme_option['in_panel']['id'] ) ? ( $theme_option['in_panel']['id'] ) : ( $panel_type );
-										$panel_type  = isset( $theme_option['in_panel']['type'] ) ? ( $theme_option['in_panel']['type'] ) : ( $panel_type );
+										$panel_title = ( isset( $theme_option['in_panel']['title'] ) ) ? ( $theme_option['in_panel']['title'] ) : ( '&mdash;' );
+										$panel_id    = ( isset( $theme_option['in_panel']['id'] ) ) ? ( $theme_option['in_panel']['id'] ) : ( $panel_type );
+										$panel_type  = ( isset( $theme_option['in_panel']['type'] ) ) ? ( $theme_option['in_panel']['type'] ) : ( $panel_type );
 									} else {
 										$panel_title = $theme_option['in_panel'];
 										$panel_id    = $panel_type;

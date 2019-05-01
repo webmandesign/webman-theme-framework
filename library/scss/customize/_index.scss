@@ -1,0 +1,14 @@
+/* FILE: customize/_index.scss */
+
+@import '_extend';
+@import '_base';
+
+.control-section-theme-options {
+	@import '_control';
+	@import '_control-checkbox';
+	@import '_control-hidden';
+	@import '_control-html';
+	@import '_control-matrix';
+	@import '_control-radio-image';
+	@import '_control-range';
+}

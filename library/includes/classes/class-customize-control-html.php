@@ -29,13 +29,13 @@ class Theme_Slug_Customize_Control_HTML extends WP_Customize_Control {
 			}
 
 			if ( isset( $this->content ) ) {
-				echo wp_kses_post( $this->content );
+				echo wp_kses_post( force_balance_tags( $this->content ) );
 			} else {
 				esc_html_e( 'Please set the `content` parameter for the HTML control.', 'theme-slug' );
 			}
 
 			if ( isset( $this->description ) && ! empty( $this->description ) ) {
-				echo '<span class="description customize-control-description">' . wp_kses_post( $this->description ) . '</span>';
+				echo '<span class="description customize-control-description">' . wp_kses_post( force_balance_tags( $this->description ) ) . '</span>';
 			}
 
 	} // /render_content

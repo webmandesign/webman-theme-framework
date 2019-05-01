@@ -1,0 +1,38 @@
+/* FILE: customize/__control-radio-image.scss */
+
+.image-radio {
+
+	span {
+		display: none;
+	}
+
+	label {
+		float: $left;
+		display: inline-block;
+		margin: 4px;
+		text-align: center;
+
+		&.is-active,
+		&:hover {
+
+			img {
+				opacity: 1;
+			}
+
+		}
+
+	}
+
+	img {
+		display: block;
+		width: 42px;
+		opacity: .5;
+	}
+
+	input {
+		position: relative;
+		top: -.75em;
+		margin: 0;
+	}
+
+}

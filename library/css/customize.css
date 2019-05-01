@@ -1,10 +1,14 @@
 /* FILE: customize.scss */
-/* FILE: styles/_customize.scss */
-.customize-control-html h3, .control-section-theme-options .customize-control h3, .customize-control-html h4, .control-section-theme-options .customize-control h4 { padding: 1em 20px; margin: 2em -20px .5em; text-transform: uppercase; font-size: 1em; letter-spacing: 1px; color: #555; border-top: 2px solid #bbb; }
+/* FILE: customize/_index.scss */
+/* FILE: customize/__extend.scss */
+.control-section-theme-options .customize-control h3, .control-section-theme-options .customize-control-html h3, .control-section-theme-options .customize-control h4, .control-section-theme-options .customize-control-html h4 { padding: 1em 20px; margin: 2em -20px .5em; text-transform: uppercase; font-size: 1em; letter-spacing: 1px; color: #555; border-top: 2px solid #bbb; }
 
-.customize-control-html h4, .control-section-theme-options .customize-control h4 { padding: 1em 0; margin: 1em 0 .5em; border-top-style: dotted; }
+.control-section-theme-options .customize-control h4, .control-section-theme-options .customize-control-html h4 { padding: 1em 0; margin: 1em 0 .5em; border-top-style: dotted; }
 
+/* FILE: customize/__base.scss */
 .customize-control input[type=tel][size], .customize-control input[type=url][size], .customize-control input[type=text][size], .customize-control input[type=password][size], .customize-control input[type=email][size], .customize-control input[type=number][size], .customize-control input[type=search][size] { width: auto; }
+
+.control-section-theme-options { /* FILE: customize/__control.scss */ /* FILE: customize/__control-checkbox.scss */ /* FILE: customize/__control-hidden.scss */ /* FILE: customize/__control-html.scss */ /* FILE: customize/__control-matrix.scss */ /* FILE: customize/__control-radio-image.scss */ /* FILE: customize/__control-range.scss */ }
 
 .control-section-theme-options .no-overflow { overflow: hidden; }
 
@@ -22,11 +26,11 @@
 
 .control-section-theme-options .customize-control textarea { min-height: 12em; resize: vertical; }
 
-.control-section-theme-options .customize-control-hidden { display: none !important; }
-
 .control-section-theme-options .customize-control-checkbox label { font-weight: 600; }
 
 .control-section-theme-options .customize-control-checkbox .description { margin-top: .382em; font-weight: 400; }
+
+.control-section-theme-options .customize-control-hidden { display: none !important; }
 
 .control-section-theme-options .matrix { padding: 2px 0 3px; padding-left: 2px; margin-bottom: .5em; border: 2px solid #bbb; overflow: hidden; }
 

@@ -1,0 +1,41 @@
+/* FILE: customize/__control-matrix.scss */
+
+.matrix {
+	padding: 2px 0 3px;
+	padding-#{$left}: 2px;
+	margin-bottom: .5em;
+	border: 2px solid #bbb;
+	overflow: hidden;
+
+	span {
+		display: none;
+	}
+
+	label {
+		float: $left;
+		display: block;
+		width: 33.333%;
+		padding: .5em 0 .5em;
+		padding-#{$left}: 4px;
+		margin: 0 -1px -1px;
+		margin-#{$left}: 0;
+		text-align: center;
+		border: 1px dotted #bbb;
+		box-sizing: border-box;
+
+		&:hover {
+			background: #fff;
+		}
+
+		&.is-active {
+			background: #aaa;
+
+			&:hover {
+				background: #ccc;
+			}
+
+		}
+
+	}
+
+}
