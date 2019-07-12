@@ -4,8 +4,6 @@
  *
  * Customizer select field (with optgroups).
  *
- * @subpackage  Customize
- *
  * @package    WebMan WordPress Theme Framework
  * @copyright  WebMan Design, Oliver Juhas
  *

@@ -7,8 +7,6 @@
  * Modification:
  * - Changed localization text domain
  *
- * @subpackage  Plugins
- *
  * @package    WebMan WordPress Theme Framework
  * @copyright  WebMan Design, Oliver Juhas
  *

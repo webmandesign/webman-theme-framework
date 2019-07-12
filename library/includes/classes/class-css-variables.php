@@ -2,10 +2,7 @@
 /**
  * CSS Variables Generator class.
  *
- * @subpackage  CSS Variables
- *
- * @package     WebMan WordPress Theme Framework
- * @subpackage  Customize
+ * @package  WebMan WordPress Theme Framework
  *
  * @since    2.8.0
  * @version  2.8.0

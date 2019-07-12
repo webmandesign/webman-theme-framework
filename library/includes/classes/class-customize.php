@@ -2,8 +2,6 @@
 /**
  * Customize Options Generator class
  *
- * @subpackage  Customize
- *
  * @package    WebMan WordPress Theme Framework
  * @copyright  WebMan Design, Oliver Juhas
  *
@@ -164,8 +162,6 @@ class Theme_Slug_Library_Customize {
 		 *     'custom' => 'JavaScript here', // Such as "$( '.site-header' ).toggleClass( 'sticky' );"
 		 *
 		 *   );
-		 *
-		 * @subpackage  Customize Options
 		 *
 		 * @since    1.0.0
 		 * @version  2.8.0
@@ -348,8 +344,6 @@ class Theme_Slug_Library_Customize {
 
 		/**
 		 * Customizer renderer.
-		 *
-		 * @subpackage  Customize Options
 		 *
 		 * @since    1.0.0
 		 * @version  2.8.0
@@ -935,8 +929,6 @@ class Theme_Slug_Library_Customize {
 		/**
 		 * Get theme options setup array.
 		 *
-		 * @subpackage  Customize Options
-		 *
 		 * @since    2.8.0
 		 * @version  2.8.0
 		 */
@@ -961,8 +953,6 @@ class Theme_Slug_Library_Customize {
 		 * Get theme mod or fall back to default automatically
 		 *
 		 * @link  https://developer.wordpress.org/reference/functions/get_theme_mod/
-		 *
-		 * @subpackage  Customize Options
 		 *
 		 * @since    2.7.0
 		 * @version  2.8.0

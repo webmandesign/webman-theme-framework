@@ -5,8 +5,6 @@
  * This is a helper class and does not load automatically with the library.
  * Load it directly from within your theme's `functions.php` file.
  *
- * @subpackage  Content Editor
- *
  * @package    WebMan WordPress Theme Framework
  * @copyright  WebMan Design, Oliver Juhas
  *

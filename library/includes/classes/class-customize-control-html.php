@@ -4,8 +4,6 @@
  *
  * Customizer custom HTML.
  *
- * @subpackage  Customize
- *
  * @package    WebMan WordPress Theme Framework
  * @copyright  WebMan Design, Oliver Juhas
  *

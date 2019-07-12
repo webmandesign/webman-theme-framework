@@ -4,8 +4,6 @@
  * Customizer matrix radio fields.
  * WordPress customizer uses jQuery, so, go for it!
  *
- * @subpackage  Customize
- *
  * @package    WebMan WordPress Theme Framework
  * @copyright  WebMan Design, Oliver Juhas
  *

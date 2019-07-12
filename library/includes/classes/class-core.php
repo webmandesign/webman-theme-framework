@@ -2,8 +2,6 @@
 /**
  * Core class
  *
- * @subpackage  Core
- *
  * @package    WebMan WordPress Theme Framework
  * @copyright  WebMan Design, Oliver Juhas
  *
@@ -265,8 +263,6 @@ class Theme_Slug_Library {
 		/**
 		 * Get the paginated heading suffix.
 		 *
-		 * @subpackage  Pagination
-		 *
 		 * @since    1.0.0
 		 * @version  2.6.0
 		 *
@@ -335,8 +331,6 @@ class Theme_Slug_Library {
 
 			/**
 			 * Display the paginated heading suffix
-			 *
-			 * @subpackage  Pagination
 			 *
 			 * @since    1.0.0
 			 * @version  1.0.0

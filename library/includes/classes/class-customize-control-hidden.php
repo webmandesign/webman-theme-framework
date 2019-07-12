@@ -4,8 +4,6 @@
  *
  * Customizer hidden input field.
  *
- * @subpackage  Customize
- *
  * @package    WebMan WordPress Theme Framework
  * @copyright  WebMan Design, Oliver Juhas
  *

@@ -4,8 +4,6 @@
  *
  * Customizer matrix radio fields.
  *
- * @subpackage  Customize
- *
  * @package    WebMan WordPress Theme Framework
  * @copyright  WebMan Design, Oliver Juhas
  *
