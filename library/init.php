@@ -1,4 +1,4 @@
-<?php defined( 'ABSPATH' ) || exit;
+<?php
 /**
  * WebMan WordPress Theme Framework.
  *
@@ -22,6 +22,9 @@
  * 10) Constants
  * 20) Load
  */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 
 
@@ -85,7 +88,7 @@
 		 *
 		 * @param  boolean $enabled  Default: file_exists( get_theme_file_path( 'includes/tgmpa/plugins.php' ) ).
 		 */
-		if ( (bool) apply_filters( 'theme_slug/Library/plugins_suggestion_enabled', file_exists( $plugins_suggestions ) ) ) {
+		if ( (bool) apply_filters( 'theme_slug/library/plugins_suggestion_enabled', file_exists( $plugins_suggestions ) ) ) {
 			require THEME_SLUG_LIBRARY . 'includes/vendors/tgmpa/class-tgm-plugin-activation.php';
 			require $plugins_suggestions;
 		}

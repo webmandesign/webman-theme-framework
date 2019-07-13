@@ -1,4 +1,4 @@
-<?php defined( 'ABSPATH' ) || exit;
+<?php
 /**
  * Customize Options Generator class
  *
@@ -15,6 +15,10 @@
  * 20) Customizer core
  * 30) Getters
  */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 class Theme_Slug_Library_Customize {
 
 
@@ -173,11 +177,14 @@ class Theme_Slug_Library_Customize {
 				/**
 				 * Bypass filter for Theme_Slug_Library_Customize::preview_scripts().
 				 *
+				 * Returning a non-false value will short-circuit the method,
+				 * returning the passed value instead.
+				 *
 				 * @since  2.8.0
 				 *
 				 * @param  mixed $pre  Default: false. If not false, method returns this value as string.
 				 */
-				$pre = apply_filters( 'theme_slug/Library_Customize/preview_scripts/pre', false );
+				$pre = apply_filters( 'pre/theme_slug/library_customize/preview_scripts', false );
 
 				if ( false !== $pre ) {
 					return (string) $pre;
@@ -310,7 +317,7 @@ class Theme_Slug_Library_Customize {
 							 *
 							 * @param  string $output_single
 							 */
-							$output_single = (string) apply_filters( "theme_slug/Library_Customize/preview_scripts/option_{$option_id}", $output_single );
+							$output_single = (string) apply_filters( "theme_slug/library_customize/preview_scripts/option_{$option_id}", $output_single );
 
 							$output .= $output_single;
 
@@ -318,10 +325,12 @@ class Theme_Slug_Library_Customize {
 					}
 				}
 
+				$output = trim( $output );
+
 
 			// Output
 
-				if ( $output = trim( $output ) ) {
+				if ( $output ) {
 					/**
 					 * Filters final output of customizer theme options preview JavaScript code.
 					 *
@@ -329,7 +338,7 @@ class Theme_Slug_Library_Customize {
 					 *
 					 * @param  string $output
 					 */
-					echo (string) apply_filters( 'theme_slug/Library_Customize/preview_scripts/output', '<!-- Theme custom scripts -->' . PHP_EOL . '<script type="text/javascript"><!--' . PHP_EOL . '( function( $ ) {' . PHP_EOL.PHP_EOL . trim( $output ) . PHP_EOL.PHP_EOL . '} )( jQuery );' . PHP_EOL . '//--></script>' );
+					echo (string) apply_filters( 'theme_slug/library_customize/preview_scripts/output', '<!-- Theme custom scripts -->' . PHP_EOL . '<script type="text/javascript"><!--' . PHP_EOL . '( function( $ ) {' . PHP_EOL.PHP_EOL . trim( $output ) . PHP_EOL.PHP_EOL . '} )( jQuery );' . PHP_EOL . '//--></script>' );
 				}
 
 		} // /preview_scripts
@@ -364,12 +373,15 @@ class Theme_Slug_Library_Customize {
 				/**
 				 * Bypass filter for Theme_Slug_Library_Customize::register().
 				 *
+				 * Returning a non-null value will short-circuit the method,
+				 * returning the passed value instead.
+				 *
 				 * @since  2.8.0
 				 *
 				 * @param  mixed                $pre           Default: null. If not null, method returns the value.
 				 * @param  WP_Customize_Manager $wp_customize  Customizer object.
 				 */
-				$pre = apply_filters( 'theme_slug/Library_Customize/register/pre', null, $wp_customize );
+				$pre = apply_filters( 'pre/theme_slug/library_customize/register', null, $wp_customize );
 
 				if ( null !== $pre ) {
 					return $pre;
@@ -389,7 +401,7 @@ class Theme_Slug_Library_Customize {
 				 *
 				 * @param  array $option_types
 				 */
-				$allowed_option_types = (array) apply_filters( 'theme_slug/Library_Customize/register/allowed_option_types', array(
+				$allowed_option_types = (array) apply_filters( 'theme_slug/library_customize/register/allowed_option_types', array(
 					'checkbox',
 					'color',
 					'email',
@@ -419,7 +431,7 @@ class Theme_Slug_Library_Customize {
 						 *
 						 * @param  int $priority
 						 */
-						apply_filters( 'theme_slug/Library_Customize/register/priority', 0 )
+						apply_filters( 'theme_slug/library_customize/register/priority', 0 )
 					);
 
 				// Default section name in case not set (should be overwritten anyway)
@@ -526,7 +538,7 @@ class Theme_Slug_Library_Customize {
 									 * @param  string $theme_option
 									 * @param  array  $theme_options
 									 */
-									$panel_type = (string) apply_filters( 'theme_slug/Library_Customize/register/panel_type', $panel_type, $theme_option, $theme_options );
+									$panel_type = (string) apply_filters( 'theme_slug/library_customize/register/panel_type', $panel_type, $theme_option, $theme_options );
 
 									/**
 									 * Filters customizer theme options panel id.
@@ -537,7 +549,7 @@ class Theme_Slug_Library_Customize {
 									 * @param  string $theme_option
 									 * @param  array  $theme_options
 									 */
-									$panel_id = (string) apply_filters( 'theme_slug/Library_Customize/register/panel_id', $panel_id, $theme_option, $theme_options );
+									$panel_id = (string) apply_filters( 'theme_slug/library_customize/register/panel_id', $panel_id, $theme_option, $theme_options );
 
 									if ( $customizer_panel !== $panel_id ) {
 										$wp_customize->add_panel(
@@ -943,7 +955,7 @@ class Theme_Slug_Library_Customize {
 				 *
 				 * @param  array $theme_options
 				 */
-				return (array) apply_filters( 'theme_slug/Library_Customize/get_options', array() );
+				return (array) apply_filters( 'theme_slug/library_customize/get_options', array() );
 
 		} // /get_options
 
@@ -967,13 +979,16 @@ class Theme_Slug_Library_Customize {
 				/**
 				 * Bypass filter for Theme_Slug_Library_Customize::get_theme_mod().
 				 *
+				 * Returning a non-null value will short-circuit the method,
+				 * returning the passed value instead.
+				 *
 				 * @since  2.8.0
 				 *
 				 * @param  mixed  $pre                 Default: false. If not false, method returns this value.
 				 * @param  string $name                Theme mod name.
 				 * @param  array  $theme_option_setup  Optional single theme option setup array.
 				 */
-				$pre = apply_filters( 'theme_slug/Library_Customize/get_theme_mod/pre', null, $name, $theme_option_setup );
+				$pre = apply_filters( 'pre/theme_slug/library_customize/get_theme_mod', null, $name, $theme_option_setup );
 
 				if ( null !== $pre ) {
 					return $pre;
@@ -1061,7 +1076,7 @@ class Theme_Slug_Library_Customize {
 
 			// Output
 
-				return apply_filters( 'theme_mod_' . $name, $output, $theme_option_setup );
+				return apply_filters( "theme_mod_{$name}", $output, $theme_option_setup );
 
 		} // /get_theme_mod
 

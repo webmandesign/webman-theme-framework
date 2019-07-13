@@ -1,4 +1,4 @@
-<?php defined( 'ABSPATH' ) || exit;
+<?php
 /**
  * Sanitization Methods class
  *
@@ -15,6 +15,10 @@
  * 10) General
  * 20) CSS
  */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 class Theme_Slug_Library_Sanitize {
 
 

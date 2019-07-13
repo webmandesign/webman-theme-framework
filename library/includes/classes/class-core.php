@@ -1,4 +1,4 @@
-<?php defined( 'ABSPATH' ) || exit;
+<?php
 /**
  * Core class
  *
@@ -15,6 +15,10 @@
  *  20) Post/page
  * 100) Helpers
  */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 class Theme_Slug_Library {
 
 
@@ -89,7 +93,7 @@ class Theme_Slug_Library {
 					 * @param  string $new_theme_version
 					 * @param  string $current_theme_version
 					 */
-					do_action( 'theme_slug/Library/theme_upgrade', $new_theme_version, $current_theme_version );
+					do_action( 'theme_slug/library/theme_upgrade', $new_theme_version, $current_theme_version );
 					set_transient( 'theme-slug_version', $new_theme_version );
 				}
 
@@ -137,7 +141,7 @@ class Theme_Slug_Library {
 				 *
 				 * @param  string $title_text
 				 */
-				$title_text = (string) apply_filters( 'theme_slug/Library/add_table_of_contents/title_text', sprintf(
+				$title_text = (string) apply_filters( 'theme_slug/library/add_table_of_contents/title_text', sprintf(
 					esc_html_x( '"%s" table of contents', '%s: post title.', 'theme-slug' ),
 					the_title_attribute( 'echo=0' )
 				) );
@@ -157,7 +161,7 @@ class Theme_Slug_Library {
 				 *
 				 * @param  array $args
 				 */
-				$args = (array) apply_filters( 'theme_slug/Library/add_table_of_contents/args', array(
+				$args = (array) apply_filters( 'theme_slug/library/add_table_of_contents/args', array(
 					'disable_first' => true, // First part to have a title of the post (part title won't be parsed)?
 					'links'         => array(), // The output HTML links.
 					'post_content'  => ( isset( $post->post_content ) ) ? ( $post->post_content ) : ( '' ), // Get the whole post content.
@@ -222,7 +226,7 @@ class Theme_Slug_Library {
 							 * @param  string $class
 							 * @param  array  $args
 							 */
-							$args['links'][$i] = (string) apply_filters( 'theme_slug/Library/add_table_of_contents/part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
+							$args['links'][$i] = (string) apply_filters( 'theme_slug/library/add_table_of_contents/part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
 
 					}
 
@@ -244,7 +248,7 @@ class Theme_Slug_Library {
 					 * @param  array $table_of_content
 					 * @param  array $args
 					 */
-					$table_of_content = (array) apply_filters( 'theme_slug/Library/add_table_of_contents/links', array(
+					$table_of_content = (array) apply_filters( 'theme_slug/library/add_table_of_contents/links', array(
 						'before' => ( 1 === $page ) ? ( '<nav class="post-table-of-contents top" title="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '" aria-label="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '"><ol>' . $args['links'] . '</ol></nav>' ) : ( '' ),
 						'after'  => '<nav class="post-table-of-contents bottom" title="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '" aria-label="' . esc_attr( wp_strip_all_tags( $title_text ) ) . '"><ol>' . $args['links'] . '</ol></nav>',
 					), $args );
@@ -276,13 +280,16 @@ class Theme_Slug_Library {
 				/**
 				 * Bypass filter for Theme_Slug_Library::get_the_paginated_suffix().
 				 *
+				 * Returning a non-false value will short-circuit the method,
+				 * returning the passed value instead.
+				 *
 				 * @since  2.8.0
 				 *
 				 * @param  mixed  $pre            Default: false. If not false, method returns this value.
 				 * @param  string $tag            Wrapper tag.
 				 * @param  mixed  $singular_only  Display only on singular posts of specific type.
 				 */
-				$pre = apply_filters( 'theme_slug/Library/get_the_paginated_suffix/pre', false, $tag, $singular_only );
+				$pre = apply_filters( 'pre/theme_slug/library/get_the_paginated_suffix', false, $tag, $singular_only );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -372,11 +379,14 @@ class Theme_Slug_Library {
 				/**
 				 * Bypass filter for Theme_Slug_Library::has_more_tag().
 				 *
+				 * Returning a non-null value will short-circuit the method,
+				 * returning the passed value instead.
+				 *
 				 * @since  2.8.0
 				 *
 				 * @param  mixed $pre  Default: null. If not null, method returns the value.
 				 */
-				$pre = apply_filters( 'theme_slug/Library/has_more_tag/pre', null, $post );
+				$pre = apply_filters( 'pre/theme_slug/library/has_more_tag', null, $post );
 
 				if ( null !== $pre ) {
 					return $pre;
@@ -495,6 +505,9 @@ class Theme_Slug_Library {
 				/**
 				 * Bypass filter for Theme_Slug_Library::link_skip_to().
 				 *
+				 * Returning a non-false value will short-circuit the method,
+				 * returning the passed value instead.
+				 *
 				 * @since  2.8.0
 				 *
 				 * @param  mixed  $pre    Default: false. If not false, method returns this value.
@@ -503,7 +516,7 @@ class Theme_Slug_Library {
 				 * @param  string $class  Additional link CSS classes.
 				 * @param  string $html   Output html, use "%s" for actual link output.
 				 */
-				$pre = apply_filters( 'theme_slug/Library/link_skip_to/pre', false, $id, $text, $class, $html );
+				$pre = apply_filters( 'pre/theme_slug/library/link_skip_to', false, $id, $text, $class, $html );
 
 				if ( false !== $pre ) {
 					return $pre;
@@ -541,11 +554,14 @@ class Theme_Slug_Library {
 				/**
 				 * Bypass filter for Theme_Slug_Library::is_categorized_blog().
 				 *
+				 * Returning a non-null value will short-circuit the method,
+				 * returning the passed value instead.
+				 *
 				 * @since  2.8.0
 				 *
 				 * @param  mixed $pre  Default: null. If not null, method returns the value.
 				 */
-				$pre = apply_filters( 'theme_slug/Library/is_categorized_blog/pre', null );
+				$pre = apply_filters( 'pre/theme_slug/library/is_categorized_blog', null );
 
 				if ( null !== $pre ) {
 					return $pre;
@@ -554,7 +570,8 @@ class Theme_Slug_Library {
 
 			// Processing
 
-				if ( false === ( $all_cats = get_transient( 'theme_slug_all_categories' ) ) ) {
+				$all_cats = get_transient( 'theme_slug_all_categories' );
+				if ( false === $all_cats ) {
 
 					$all_cats = get_categories( array(
 						'fields'     => 'ids',

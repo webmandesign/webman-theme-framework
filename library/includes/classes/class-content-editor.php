@@ -1,4 +1,4 @@
-<?php defined( 'ABSPATH' ) || exit;
+<?php
 /**
  * Content Editor class
  *
@@ -18,6 +18,10 @@
  * 20) Custom formats
  * 30) Body class
  */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 class Theme_Slug_Library_Content_Editor {
 
 
@@ -151,7 +155,7 @@ class Theme_Slug_Library_Content_Editor {
 					 *
 					 * @param  array $style_formats
 					 */
-					$style_formats = (array) apply_filters( 'theme_slug/Library_Content_Editor/style_formats', array(
+					$style_formats = (array) apply_filters( 'theme_slug/library_content_editor/style_formats', array(
 
 						// Group: Text styles
 

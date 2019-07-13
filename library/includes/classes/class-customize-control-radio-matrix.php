@@ -1,4 +1,4 @@
-<?php defined( 'ABSPATH' ) || exit;
+<?php
 /**
  * Customizer custom controls
  *
@@ -10,6 +10,10 @@
  * @since    1.0.0
  * @version  2.8.0
  */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 class Theme_Slug_Customize_Control_Radio_Matrix extends WP_Customize_Control {
 
 	public $type = 'radiomatrix';

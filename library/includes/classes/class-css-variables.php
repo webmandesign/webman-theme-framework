@@ -1,4 +1,4 @@
-<?php defined( 'ABSPATH' ) || exit;
+<?php
 /**
  * CSS Variables Generator class.
  *
@@ -13,6 +13,10 @@
  *  10) Getters
  * 100) Helpers
  */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 class Theme_Slug_Library_CSS_Variables {
 
 
@@ -45,7 +49,7 @@ class Theme_Slug_Library_CSS_Variables {
 
 						add_action( 'switch_theme', __CLASS__ . '::cache_flush' );
 						add_action( 'customize_save_after', __CLASS__ . '::cache_flush' );
-						add_action( 'theme_slug/Library/theme_upgrade', __CLASS__ . '::cache_flush' );
+						add_action( 'theme_slug/library/theme_upgrade', __CLASS__ . '::cache_flush' );
 
 		} // /init
 
@@ -164,7 +168,7 @@ class Theme_Slug_Library_CSS_Variables {
 					 * @param  array  $option    Single theme option setup array.
 					 * @param  string $value     Single CSS variable value.
 					 */
-					$css_vars = apply_filters( 'theme_slug/Library_CSS_Variables/get_variables_array/per_option', $css_vars, $option, $value );
+					$css_vars = apply_filters( 'theme_slug/library_css_variables/get_variables_array/per_option', $css_vars, $option, $value );
 				}
 
 				// Cache the results.
@@ -182,7 +186,7 @@ class Theme_Slug_Library_CSS_Variables {
 				 *
 				 * @param  array $css_vars  Array of CSS variable name and value pairs.
 				 */
-				return (array) apply_filters( 'theme_slug/Library_CSS_Variables/get_variables_array', $css_vars );
+				return (array) apply_filters( 'theme_slug/library_css_variables/get_variables_array', $css_vars );
 
 		} // /get_variables_array
 
@@ -218,7 +222,7 @@ class Theme_Slug_Library_CSS_Variables {
 				 *
 				 * @param  string $css_vars  String of CSS variable name and value pairs ready for CSS code output.
 				 */
-				return (string) apply_filters( 'theme_slug/Library_CSS_Variables/get_variables_string', trim( (string) $css_vars ) );
+				return (string) apply_filters( 'theme_slug/library_css_variables/get_variables_string', trim( (string) $css_vars ) );
 
 		} // /get_variables_string
 
