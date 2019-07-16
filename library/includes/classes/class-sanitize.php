@@ -39,8 +39,10 @@ class Theme_Slug_Library_Sanitize {
 		 * @version  2.5.0
 		 *
 		 * @param  bool $value
+		 *
+		 * @return  bool
 		 */
-		public static function checkbox( $value ) {
+		public static function checkbox( bool $value ): bool {
 
 			// Output
 
@@ -63,8 +65,10 @@ class Theme_Slug_Library_Sanitize {
 		 * @param  string $value
 		 * @param  array  $choices
 		 * @param  string $default
+		 *
+		 * @return  string
 		 */
-		public static function select( $value, $choices = array(), $default = '' ) {
+		public static function select( string $value, array $choices = array(), string $default = '' ): string {
 
 			// Processing
 
@@ -97,10 +101,12 @@ class Theme_Slug_Library_Sanitize {
 		 * @since    2.5.0
 		 * @version  2.8.0
 		 *
-		 * @param  mixed $value
-		 * @param  array $choices
+		 * @param  string|array $value
+		 * @param  array        $choices
+		 *
+		 * @return  array
 		 */
-		public static function multi_array( $value, $choices = array() ) {
+		public static function multi_array( $value, array $choices = array() ): array {
 
 			// Variables
 
@@ -129,20 +135,18 @@ class Theme_Slug_Library_Sanitize {
 			// Processing
 
 				foreach ( $value as $key => $single_value ) {
-
 					if ( ! array_key_exists( $single_value, $choices ) ) {
 						unset( $value[ $key ] );
 						continue;
 					}
 
 					$value[ $key ] = esc_attr( $single_value );
-
 				}
 
 
 			// Output
 
-				return (array) $value;
+				return $value;
 
 		} // /multi_array
 
@@ -160,8 +164,10 @@ class Theme_Slug_Library_Sanitize {
 		 *
 		 * @param  string $value
 		 * @param  string $default
+		 *
+		 * @return  string
 		 */
-		public static function fonts( $value, $default = '' ) {
+		public static function fonts( string $value, string $default = '' ): string {
 
 			// Processing
 
@@ -196,9 +202,11 @@ class Theme_Slug_Library_Sanitize {
 		 * @since    2.5.6
 		 * @version  2.5.6
 		 *
-		 * @param  string $value
+		 * @param  float|int|string $value
+		 *
+		 * @return  float
 		 */
-		public static function float( $value ) {
+		public static function float( $value ): float {
 
 			// Output
 
@@ -225,8 +233,10 @@ class Theme_Slug_Library_Sanitize {
 		 * @param  number $value
 		 * @param  string $suffix
 		 * @param  string $sanitize
+		 *
+		 * @return  string
 		 */
-		public static function get_number_with_suffix( $value, $suffix = '%', $sanitize = 'absint' ) {
+		public static function get_number_with_suffix( number $value, string $suffix = '%', string $sanitize = 'absint' ): string {
 
 			// Output
 
@@ -247,8 +257,10 @@ class Theme_Slug_Library_Sanitize {
 		 * @version  2.8.0
 		 *
 		 * @param  int $value
+		 *
+		 * @return  string
 		 */
-		public static function css_pixels( $value ) {
+		public static function css_pixels( int $value ): string {
 
 			// Output
 
@@ -265,8 +277,10 @@ class Theme_Slug_Library_Sanitize {
 		 * @version  2.8.0
 		 *
 		 * @param  int $value
+		 *
+		 * @return  string
 		 */
-		public static function css_percent( $value ) {
+		public static function css_percent( int $value ): string {
 
 			// Output
 
@@ -283,8 +297,10 @@ class Theme_Slug_Library_Sanitize {
 		 * @version  2.8.0
 		 *
 		 * @param  int $value
+		 *
+		 * @return  string
 		 */
-		public static function css_rem( $value ) {
+		public static function css_rem( int $value ): string {
 
 			// Output
 
@@ -301,8 +317,10 @@ class Theme_Slug_Library_Sanitize {
 		 * @version  2.8.0
 		 *
 		 * @param  int $value
+		 *
+		 * @return  string
 		 */
-		public static function css_em( $value ) {
+		public static function css_em( int $value ): string {
 
 			// Output
 
@@ -319,8 +337,10 @@ class Theme_Slug_Library_Sanitize {
 		 * @version  2.8.0
 		 *
 		 * @param  int $value
+		 *
+		 * @return  string
 		 */
-		public static function css_vh( $value ) {
+		public static function css_vh( int $value ): string {
 
 			// Output
 
@@ -337,8 +357,10 @@ class Theme_Slug_Library_Sanitize {
 		 * @version  2.8.0
 		 *
 		 * @param  int $value
+		 *
+		 * @return  string
 		 */
-		public static function css_vw( $value ) {
+		public static function css_vw( int $value ): string {
 
 			// Output
 
@@ -355,8 +377,10 @@ class Theme_Slug_Library_Sanitize {
 		 * @version  2.8.0
 		 *
 		 * @param  string $fonts
+		 *
+		 * @return  string
 		 */
-		public static function css_fonts( $fonts ) {
+		public static function css_fonts( string $fonts ): string {
 
 			// Variables
 
@@ -393,7 +417,7 @@ class Theme_Slug_Library_Sanitize {
 
 			// Output
 
-				return (string) $fonts;
+				return $fonts;
 
 		} // /css_fonts
 
@@ -405,9 +429,11 @@ class Theme_Slug_Library_Sanitize {
 		 * @since    2.8.0
 		 * @version  2.8.0
 		 *
-		 * @param  mixed $image  Could be a URL, numeric image ID or an array with `id` image ID key.
+		 * @param  array|int|string $image  Could be a URL, numeric image ID or an array with `id` image ID key.
+		 *
+		 * @return  string
 		 */
-		public static function css_image_url( $image ) {
+		public static function css_image_url( $image ): string {
 
 			// Variables
 
@@ -448,9 +474,11 @@ class Theme_Slug_Library_Sanitize {
 		 * @since    2.8.0
 		 * @version  2.8.0
 		 *
-		 * @param  mixed $repeat
+		 * @param  bool|string $repeat
+		 *
+		 * @return  string
 		 */
-		public static function css_checkbox_background_repeat( $repeat ) {
+		public static function css_checkbox_background_repeat( $repeat ): string {
 
 			// Processing
 
@@ -477,9 +505,11 @@ class Theme_Slug_Library_Sanitize {
 		 * @since    2.8.0
 		 * @version  2.8.0
 		 *
-		 * @param  mixed $attachment
+		 * @param  bool|string $attachment
+		 *
+		 * @return  string
 		 */
-		public static function css_checkbox_background_attachment( $attachment ) {
+		public static function css_checkbox_background_attachment( $attachment ): string {
 
 			// Processing
 

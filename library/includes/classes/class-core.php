@@ -34,6 +34,8 @@ class Theme_Slug_Library {
 		 *
 		 * @since    1.0.0
 		 * @version  2.8.0
+		 *
+		 * @return  void
 		 */
 		public static function init() {
 
@@ -44,9 +46,6 @@ class Theme_Slug_Library {
 					// Actions
 
 						add_action( 'init', __CLASS__ . '::theme_upgrade' );
-
-						add_action( 'edit_category', __CLASS__ . '::all_categories_transient_flusher' );
-						add_action( 'save_post',     __CLASS__ . '::all_categories_transient_flusher' );
 
 					// Filters
 
@@ -69,6 +68,8 @@ class Theme_Slug_Library {
 		 *
 		 * @since    1.0.0
 		 * @version  2.8.0
+		 *
+		 * @return  void
 		 */
 		public static function theme_upgrade() {
 
@@ -118,8 +119,10 @@ class Theme_Slug_Library {
 		 * @version  2.7.0
 		 *
 		 * @param  string $content
+		 *
+		 * @return  string
 		 */
-		public static function add_table_of_contents( $content = '' ) {
+		public static function add_table_of_contents( string $content = '' ): string {
 
 			// Variables
 
@@ -168,69 +171,58 @@ class Theme_Slug_Library {
 					'tag'           => 'h2', // HTML heading tag to parse as a post part title.
 				) );
 
-				// Post part counter
-
-					$i = 0;
+				// Post part counter.
+				$i = 0;
 
 
 			// Processing
 
 				$args['post_content'] = explode( '<!--nextpage-->', (string) $args['post_content'] );
 
-				// Get post parts titles
+				// Get post parts titles.
+				foreach ( $args['post_content'] as $part ) {
 
-					foreach ( $args['post_content'] as $part ) {
+					// Current post part number.
+					$i++;
 
-						// Current post part number
+					// Get the title for post part.
+					if ( $args['disable_first'] && 1 === $i ) {
+						$part_title = get_the_title();
+					} else {
+						preg_match( '/<' . tag_escape( $args['tag'] ) . '(.*?)>(.*?)<\/' . tag_escape( $args['tag'] ) . '>/', $part, $matches );
 
-							$i++;
-
-						// Get the title for post part
-
-							if ( $args['disable_first'] && 1 === $i ) {
-
-								$part_title = get_the_title();
-
-							} else {
-
-								preg_match( '/<' . tag_escape( $args['tag'] ) . '(.*?)>(.*?)<\/' . tag_escape( $args['tag'] ) . '>/', $part, $matches );
-
-								if ( ! isset( $matches[2] ) || ! $matches[2] ) {
-									$part_title = sprintf( esc_html__( 'Page %s', 'theme-slug' ), number_format_i18n( $i ) );
-								} else {
-									$part_title = $matches[2];
-								}
-
-							}
-
-						// Set post part class
-
-							if ( $page === $i ) {
-								$class = ' class="is-current"';
-							} elseif ( $page > $i ) {
-								$class = ' class="is-passed"';
-							} else {
-								$class = '';
-							}
-
-						// Post part item output
-
-							/**
-							 * Filters post table of content single part HTML output.
-							 *
-							 * @since  2.8.0
-							 *
-							 * @param  string $single_part
-							 * @param  int    $i
-							 * @param  string $part_title
-							 * @param  string $class
-							 * @param  array  $args
-							 */
-							$args['links'][$i] = (string) apply_filters( 'theme_slug/library/add_table_of_contents/part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
-
+						if ( ! isset( $matches[2] ) || ! $matches[2] ) {
+							$part_title = sprintf( esc_html__( 'Page %s', 'theme-slug' ), number_format_i18n( $i ) );
+						} else {
+							$part_title = $matches[2];
+						}
 					}
 
-				// Add table of contents into the post/page content
+					// Set post part class.
+					if ( $page === $i ) {
+						$class = ' class="is-current"';
+					} elseif ( $page > $i ) {
+						$class = ' class="is-passed"';
+					} else {
+						$class = '';
+					}
+
+					/**
+					 * Filters post table of content single part HTML output.
+					 *
+					 * @since  2.8.0
+					 *
+					 * @param  string $single_part
+					 * @param  int    $i
+					 * @param  string $part_title
+					 * @param  string $class
+					 * @param  array  $args
+					 */
+					$args['links'][$i] = (string) apply_filters( 'theme_slug/library/add_table_of_contents/part', '<li' . $class . '>' . _wp_link_page( $i ) . $part_title . '</a></li>', $i, $part_title, $class, $args );
+
+				}
+
+				// Add table of contents into the post/page content.
 
 					$args['links'] = implode( '', $args['links'] );
 
@@ -271,9 +263,11 @@ class Theme_Slug_Library {
 		 * @version  2.6.0
 		 *
 		 * @param  string $tag            Wrapper tag.
-		 * @param  mixed  $singular_only  Display only on singular posts of specific type.
+		 * @param  string $singular_only  Display only on singular posts of specific type.
+		 *
+		 * @return  string
 		 */
-		public static function get_the_paginated_suffix( $tag = '', $singular_only = false ) {
+		public static function get_the_paginated_suffix( string $tag = '', string $singular_only = '' ): string {
 
 			// Pre
 
@@ -302,7 +296,7 @@ class Theme_Slug_Library {
 					$singular_only
 					&& ! is_singular( $singular_only )
 				) {
-					return;
+					return '';
 				}
 
 
@@ -344,8 +338,10 @@ class Theme_Slug_Library {
 			 *
 			 * @param  string $tag            Wrapper tag.
 			 * @param  string $singular_only  Display only on singular posts of specific type.
+			 *
+			 * @return  void
 			 */
-			public static function the_paginated_suffix( $tag = '', $singular_only = false ) {
+			public static function the_paginated_suffix( string $tag = '', string $singular_only = '' ) {
 
 				// Variables
 
@@ -370,7 +366,9 @@ class Theme_Slug_Library {
 		 * @since    1.0.0
 		 * @version  2.8.0
 		 *
-		 * @param  mixed $post
+		 * @param  null|int|WP_Post $post
+		 *
+		 * @return  bool|string
 		 */
 		public static function has_more_tag( $post = null ) {
 
@@ -442,8 +440,10 @@ class Theme_Slug_Library {
 		 * @version  2.8.0
 		 *
 		 * @param  string $content
+		 *
+		 * @return  string
 		 */
-		static public function fix_ssl_urls( $content ) {
+		static public function fix_ssl_urls( string $content ): string {
 
 			// Processing
 
@@ -476,8 +476,10 @@ class Theme_Slug_Library {
 		 * @version  2.7.0
 		 *
 		 * @param  string $content
+		 *
+		 * @return  string
 		 */
-		public static function remove_shortcodes( $content ) {
+		public static function remove_shortcodes( string $content ): string {
 
 			// Output
 
@@ -497,8 +499,10 @@ class Theme_Slug_Library {
 		 * @param  string $text   Link text.
 		 * @param  string $class  Additional link CSS classes.
 		 * @param  string $html   Output html, use "%s" for actual link output.
+		 *
+		 * @return  string
 		 */
-		public static function link_skip_to( $id = 'content', $text = '', $class = '', $html = '%s' ) {
+		public static function link_skip_to( string $id = 'content', string $text = '', string $class = '', string $html = '%s' ): string {
 
 			// Pre
 
@@ -538,86 +542,6 @@ class Theme_Slug_Library {
 				);
 
 		} // /link_skip_to
-
-
-
-		/**
-		 * Returns true if a blog has more than 1 category
-		 *
-		 * @since    1.0.0
-		 * @version  2.7.0
-		 */
-		public static function is_categorized_blog() {
-
-			// Pre
-
-				/**
-				 * Bypass filter for Theme_Slug_Library::is_categorized_blog().
-				 *
-				 * Returning a non-null value will short-circuit the method,
-				 * returning the passed value instead.
-				 *
-				 * @since  2.8.0
-				 *
-				 * @param  mixed $pre  Default: null. If not null, method returns the value.
-				 */
-				$pre = apply_filters( 'pre/theme_slug/library/is_categorized_blog', null );
-
-				if ( null !== $pre ) {
-					return $pre;
-				}
-
-
-			// Processing
-
-				$all_cats = get_transient( 'theme_slug_all_categories' );
-				if ( false === $all_cats ) {
-
-					$all_cats = get_categories( array(
-						'fields'     => 'ids',
-						'hide_empty' => true,
-						'number'     => 2, // We only need to know if there is more than one category.
-					) );
-
-					$all_cats = count( $all_cats );
-
-					set_transient( 'theme_slug_all_categories', $all_cats );
-
-				}
-
-
-			// Output
-
-				if ( $all_cats > 1 ) {
-					return true;
-				} else {
-					return false;
-				}
-
-		} // /is_categorized_blog
-
-
-
-			/**
-			 * Flush out the transients used in `is_categorized_blog`
-			 *
-			 * @since    1.0.0
-			 * @version  1.0.0
-			 */
-			public static function all_categories_transient_flusher() {
-
-				// Requirements check
-
-					if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-						return;
-					}
-
-
-				// Processing
-
-					delete_transient( 'theme_slug_all_categories' );
-
-			} // /all_categories_transient_flusher
 
 
 

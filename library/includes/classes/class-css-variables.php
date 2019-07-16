@@ -36,6 +36,8 @@ class Theme_Slug_Library_CSS_Variables {
 		 *
 		 * @since    2.8.0
 		 * @version  2.8.0
+		 *
+		 * @return  void
 		 */
 		public static function init() {
 
@@ -66,8 +68,10 @@ class Theme_Slug_Library_CSS_Variables {
 		 *
 		 * @since    2.8.0
 		 * @version  2.8.0
+		 *
+		 * @return  array
 		 */
-		public static function get_variables_array() {
+		public static function get_variables_array(): array {
 
 			// Variables
 
@@ -199,8 +203,10 @@ class Theme_Slug_Library_CSS_Variables {
 		 * @version  2.8.0
 		 *
 		 * @param  string $separator
+		 *
+		 * @return  string
 		 */
-		public static function get_variables_string( $separator = ' ' ) {
+		public static function get_variables_string( string $separator = ' ' ): string {
 
 			// Variables
 
@@ -209,7 +215,15 @@ class Theme_Slug_Library_CSS_Variables {
 
 			// Processing
 
-				$css_vars = array_map( __CLASS__ . '::get_variable_declaration', array_keys( $css_vars ), $css_vars );
+				$css_vars = array_map(
+					function( $variable, $value ) {
+						// Actual CSS code declaring a variable.
+						return (string) $variable . ': ' . (string) $value . ';';
+					},
+					array_keys( $css_vars ), // $variable
+					$css_vars // $value
+				);
+
 				$css_vars = implode( (string) $separator, $css_vars );
 
 
@@ -228,25 +242,6 @@ class Theme_Slug_Library_CSS_Variables {
 
 
 
-		/**
-		 * Get CSS variable declaration.
-		 *
-		 * @since    2.8.0
-		 * @version  2.8.0
-		 *
-		 * @param  string $variable
-		 * @param  string $value
-		 */
-		public static function get_variable_declaration( $variable, $value ) {
-
-			// Output
-
-				return (string) $variable . ': ' . (string) $value . ';';
-
-		} // /get_variable_declaration
-
-
-
 
 
 	/**
@@ -261,6 +256,8 @@ class Theme_Slug_Library_CSS_Variables {
 		 *
 		 * @since    2.8.0
 		 * @version  2.8.0
+		 *
+		 * @return  void
 		 */
 		public static function compatibility() {
 
@@ -293,6 +290,8 @@ class Theme_Slug_Library_CSS_Variables {
 		 *
 		 * @since    2.8.0
 		 * @version  2.8.0
+		 *
+		 * @return  void
 		 */
 		public static function cache_flush() {
 

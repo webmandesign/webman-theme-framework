@@ -37,6 +37,8 @@ class Theme_Slug_Library_Content_Editor {
 		 *
 		 * @since    1.0.0
 		 * @version  2.8.0
+		 *
+		 * @return  void
 		 */
 		public static function init() {
 
@@ -74,20 +76,20 @@ class Theme_Slug_Library_Content_Editor {
 		 * @version  2.7.0
 		 *
 		 * @param  array $buttons
+		 *
+		 * @return  array
 		 */
-		public static function add_buttons_row1( $buttons ) {
+		public static function add_buttons_row1( array $buttons ): array {
 
 			// Processing
 
-				// Inserting buttons after "more" button
-
-					$pos = array_search( 'wp_more', $buttons, true );
-
-					if ( false !== $pos ) {
-						$add     = array_slice( $buttons, 0, $pos + 1 );
-						$add[]   = 'wp_page';
-						$buttons = array_merge( $add, array_slice( $buttons, $pos + 1 ) );
-					}
+				// Inserting buttons after "more" button.
+				$pos = array_search( 'wp_more', $buttons, true );
+				if ( false !== $pos ) {
+					$add     = array_slice( $buttons, 0, $pos + 1 );
+					$add[]   = 'wp_page';
+					$buttons = array_merge( $add, array_slice( $buttons, $pos + 1 ) );
+				}
 
 
 			// Output
@@ -107,14 +109,15 @@ class Theme_Slug_Library_Content_Editor {
 		 * @version  2.7.0
 		 *
 		 * @param  array $buttons
+		 *
+		 * @return  array
 		 */
-		public static function add_buttons_row2( $buttons ) {
+		public static function add_buttons_row2( array $buttons ): array {
 
 			// Processing
 
-				// Inserting buttons at the beginning of the row
-
-					array_unshift( $buttons, 'styleselect' );
+				// Inserting buttons at the beginning of the row.
+				array_unshift( $buttons, 'styleselect' );
 
 
 			// Output
@@ -141,8 +144,10 @@ class Theme_Slug_Library_Content_Editor {
 		 * @version  2.8.0
 		 *
 		 * @param  array $init
+		 *
+		 * @return  array
 		 */
-		public static function style_formats( $init ) {
+		public static function style_formats( array $init ): array {
 
 			// Processing
 
@@ -157,145 +162,142 @@ class Theme_Slug_Library_Content_Editor {
 					 */
 					$style_formats = (array) apply_filters( 'theme_slug/library_content_editor/style_formats', array(
 
-						// Group: Text styles
+						// Group: Text styles.
+						100 . 'text_styles' => array(
+							'title' => esc_html__( 'Text styles', 'theme-slug' ),
+							'items' => array(
 
-							100 . 'text_styles' => array(
-								'title' => esc_html__( 'Text styles', 'theme-slug' ),
-								'items' => array(
-
-									100 . 'text_styles' . 100 => array(
-										'title'    => esc_html__( 'Dropcap text', 'theme-slug' ),
-										'selector' => 'p',
-										'classes'  => 'has-drop-cap',
-									),
-
-									100 . 'text_styles' . 110 => array(
-										'title'    => esc_html__( 'Uppercase heading or paragraph', 'theme-slug' ),
-										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'has-uppercase-text-transform',
-									),
-
-									100 . 'text_styles' . 120 => array(
-										'title'  => esc_html__( 'Highlighted (marked) text', 'theme-slug' ),
-										'inline' => 'mark',
-										'icon'   => ( is_admin() ) ? ( 'backcolor' ) : ( '' ),
-									),
-
-									100 . 'text_styles' . 130 => array(
-										'title'  => esc_html__( 'Small text', 'theme-slug' ),
-										'inline' => 'small',
-									),
-
-									100 . 'text_styles' . 140 => array(
-										'title'  => esc_html__( 'Superscript', 'theme-slug' ),
-										'icon'   => ( is_admin() ) ? ( 'superscript' ) : ( '' ),
-										'format' => 'superscript',
-									),
-
-									100 . 'text_styles' . 150 => array(
-										'title'  => esc_html__( 'Subscript', 'theme-slug' ),
-										'icon'   => ( is_admin() ) ? ( 'subscript' ) : ( '' ),
-										'format' => 'subscript',
-									),
-
-									100 . 'text_styles' . 160 => array(
-										'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', 'theme-slug' ), 1 ),
-										'selector' => 'h2, h3, h4, h5, h6, p, address',
-										'classes'  => 'h1',
-									),
-
-									100 . 'text_styles' . 170 => array(
-										'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', 'theme-slug' ), 2 ),
-										'selector' => 'h3, h4, h5, h6, h1, p, address',
-										'classes'  => 'h2',
-									),
-
-									100 . 'text_styles' . 180 => array(
-										'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', 'theme-slug' ), 3 ),
-										'selector' => 'h4, h5, h6, h1, h2, p, address',
-										'classes'  => 'h3',
-									),
-
+								100 . 'text_styles' . 100 => array(
+									'title'    => esc_html__( 'Dropcap text', 'theme-slug' ),
+									'selector' => 'p',
+									'classes'  => 'has-drop-cap',
 								),
-							),
 
-						// Group: Text size
-
-							200 . 'text_sizes' => array(
-								'title' => esc_html__( 'Text sizes', 'theme-slug' ),
-								'items' => array(
-
-									200 . 'text_sizes' . 100 => array(
-										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', 'theme-slug' ), 1 ),
-										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'has-display-1-font-size',
-									),
-
-									200 . 'text_sizes' . 110 => array(
-										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', 'theme-slug' ), 2 ),
-										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'has-display-2-font-size',
-									),
-
-									200 . 'text_sizes' . 120 => array(
-										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', 'theme-slug' ), 3 ),
-										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'has-display-3-font-size',
-									),
-
-									200 . 'text_sizes' . 130 => array(
-										'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', 'theme-slug' ), 4 ),
-										'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
-										'classes'  => 'has-display-4-font-size',
-									),
-
+								100 . 'text_styles' . 110 => array(
+									'title'    => esc_html__( 'Uppercase heading or paragraph', 'theme-slug' ),
+									'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
+									'classes'  => 'has-uppercase-text-transform',
 								),
-							),
 
-						// Group: Quotes
-
-							300 . 'quotes' => array(
-								'title' => esc_html_x( 'Quotes', 'Content editor blockquote formats group title.', 'theme-slug' ),
-								'items' => array(
-
-									300 . 'quotes' . 100 => array(
-										'title' => esc_html__( 'Blockquote', 'theme-slug' ),
-										'block' => 'blockquote',
-										'icon'  => ( is_admin() ) ? ( 'blockquote' ) : ( '' ),
-									),
-
-									300 . 'quotes' . 110 => array(
-										'title'   => esc_html__( 'Pullquote - align left', 'theme-slug' ),
-										'block'   => 'blockquote',
-										'classes' => 'pullquote alignleft',
-										'icon'    => ( is_admin() ) ? ( 'alignleft' ) : ( '' ),
-									),
-
-									300 . 'quotes' . 120 => array(
-										'title'   => esc_html__( 'Pullquote - align right', 'theme-slug' ),
-										'block'   => 'blockquote',
-										'classes' => 'pullquote alignright',
-										'icon'    => ( is_admin() ) ? ( 'alignright' ) : ( '' ),
-									),
-
-									300 . 'quotes' . 130 => array(
-										'title'  => esc_html_x( 'Cite', 'Content editor format label for HTML CITE tag used to set the blockquote source.', 'theme-slug' ),
-										'inline' => 'cite',
-									),
-
+								100 . 'text_styles' . 120 => array(
+									'title'  => esc_html__( 'Highlighted (marked) text', 'theme-slug' ),
+									'inline' => 'mark',
+									'icon'   => ( is_admin() ) ? ( 'backcolor' ) : ( '' ),
 								),
+
+								100 . 'text_styles' . 130 => array(
+									'title'  => esc_html__( 'Small text', 'theme-slug' ),
+									'inline' => 'small',
+								),
+
+								100 . 'text_styles' . 140 => array(
+									'title'  => esc_html__( 'Superscript', 'theme-slug' ),
+									'icon'   => ( is_admin() ) ? ( 'superscript' ) : ( '' ),
+									'format' => 'superscript',
+								),
+
+								100 . 'text_styles' . 150 => array(
+									'title'  => esc_html__( 'Subscript', 'theme-slug' ),
+									'icon'   => ( is_admin() ) ? ( 'subscript' ) : ( '' ),
+									'format' => 'subscript',
+								),
+
+								100 . 'text_styles' . 160 => array(
+									'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', 'theme-slug' ), 1 ),
+									'selector' => 'h2, h3, h4, h5, h6, p, address',
+									'classes'  => 'h1',
+								),
+
+								100 . 'text_styles' . 170 => array(
+									'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', 'theme-slug' ), 2 ),
+									'selector' => 'h3, h4, h5, h6, h1, p, address',
+									'classes'  => 'h2',
+								),
+
+								100 . 'text_styles' . 180 => array(
+									'title'    => sprintf( esc_html_x( 'Heading %d text style', '%d = HTML heading size number.', 'theme-slug' ), 3 ),
+									'selector' => 'h4, h5, h6, h1, h2, p, address',
+									'classes'  => 'h3',
+								),
+
 							),
+						),
+
+						// Group: Text size.
+						200 . 'text_sizes' => array(
+							'title' => esc_html__( 'Text sizes', 'theme-slug' ),
+							'items' => array(
+
+								200 . 'text_sizes' . 100 => array(
+									'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', 'theme-slug' ), 1 ),
+									'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
+									'classes'  => 'has-display-1-font-size',
+								),
+
+								200 . 'text_sizes' . 110 => array(
+									'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', 'theme-slug' ), 2 ),
+									'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
+									'classes'  => 'has-display-2-font-size',
+								),
+
+								200 . 'text_sizes' . 120 => array(
+									'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', 'theme-slug' ), 3 ),
+									'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
+									'classes'  => 'has-display-3-font-size',
+								),
+
+								200 . 'text_sizes' . 130 => array(
+									'title'    => sprintf( esc_html_x( 'Display %d', '%d: Display text size number.', 'theme-slug' ), 4 ),
+									'selector' => 'p, h1, h2, h3, h4, h5, h6, address',
+									'classes'  => 'has-display-4-font-size',
+								),
+
+							),
+						),
+
+						// Group: Quotes.
+						300 . 'quotes' => array(
+							'title' => esc_html_x( 'Quotes', 'Content editor blockquote formats group title.', 'theme-slug' ),
+							'items' => array(
+
+								300 . 'quotes' . 100 => array(
+									'title' => esc_html__( 'Blockquote', 'theme-slug' ),
+									'block' => 'blockquote',
+									'icon'  => ( is_admin() ) ? ( 'blockquote' ) : ( '' ),
+								),
+
+								300 . 'quotes' . 110 => array(
+									'title'   => esc_html__( 'Pullquote - align left', 'theme-slug' ),
+									'block'   => 'blockquote',
+									'classes' => 'pullquote alignleft',
+									'icon'    => ( is_admin() ) ? ( 'alignleft' ) : ( '' ),
+								),
+
+								300 . 'quotes' . 120 => array(
+									'title'   => esc_html__( 'Pullquote - align right', 'theme-slug' ),
+									'block'   => 'blockquote',
+									'classes' => 'pullquote alignright',
+									'icon'    => ( is_admin() ) ? ( 'alignright' ) : ( '' ),
+								),
+
+								300 . 'quotes' . 130 => array(
+									'title'  => esc_html_x( 'Cite', 'Content editor format label for HTML CITE tag used to set the blockquote source.', 'theme-slug' ),
+									'inline' => 'cite',
+								),
+
+							),
+						),
 
 					) );
 
+					// Sort the array.
 					ksort( $style_formats );
-
-						foreach ( $style_formats as $group_key => $group ) {
-							if ( isset( $group['items'] ) ) {
-								ksort( $group['items'] );
-								$style_formats[ $group_key ]['items'] = $group['items'];
-							}
+					foreach ( $style_formats as $group_key => $group ) {
+						if ( isset( $group['items'] ) ) {
+							ksort( $group['items'] );
+							$style_formats[ $group_key ]['items'] = $group['items'];
 						}
+					}
 
 					if ( ! empty( $style_formats ) ) {
 						// Merge old & new formats.
@@ -304,11 +306,10 @@ class Theme_Slug_Library_Content_Editor {
 						$init['style_formats'] = json_encode( $style_formats );
 					}
 
-				// Removing obsolete tags (this is localized already)
-
-					$heading_1 = ( is_admin() ) ? ( '' ) : ( 'Heading 1=h1;' ); // Do not add H1 when in admin, but add it in front-end editor.
-
-					$init['block_formats'] = 'Paragraph=p;' . $heading_1 . 'Heading 2=h2;Heading 3=h3;Heading 4=h4;Address=address;Preformatted=pre;Code=code';
+				// Removing obsolete tags (this is localized already).
+				// Do not add H1 when in admin, but add it in front-end editor.
+				$heading_1 = ( is_admin() ) ? ( '' ) : ( 'Heading 1=h1;' );
+				$init['block_formats'] = 'Paragraph=p;' . $heading_1 . 'Heading 2=h2;Heading 3=h3;Heading 4=h4;Address=address;Preformatted=pre;Code=code';
 
 
 			// Output
@@ -332,8 +333,10 @@ class Theme_Slug_Library_Content_Editor {
 		 * @version  2.8.0
 		 *
 		 * @param  array $init
+		 *
+		 * @return  array
 		 */
-		public static function editor_body_class( $init ) {
+		public static function editor_body_class( array $init ): array {
 
 			// Requirements check
 

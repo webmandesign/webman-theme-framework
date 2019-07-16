@@ -40,6 +40,8 @@ class Theme_Slug_Library_Customize {
 		 *
 		 * @since    1.0.0
 		 * @version  2.8.0
+		 *
+		 * @return  void
 		 */
 		public static function init() {
 
@@ -68,6 +70,8 @@ class Theme_Slug_Library_Customize {
 		 *
 		 * @since    1.0.0
 		 * @version  2.8.0
+		 *
+		 * @return  void
 		 */
 		public static function assets() {
 
@@ -169,6 +173,8 @@ class Theme_Slug_Library_Customize {
 		 *
 		 * @since    1.0.0
 		 * @version  2.8.0
+		 *
+		 * @return  void
 		 */
 		public static function preview_scripts() {
 
@@ -358,15 +364,10 @@ class Theme_Slug_Library_Customize {
 		 * @version  2.8.0
 		 *
 		 * @param  WP_Customize_Manager $wp_customize
+		 *
+		 * @return  void
 		 */
-		public static function register( $wp_customize ) {
-
-			// Requirements check
-
-				if ( ! isset( $wp_customize ) ) {
-					return;
-				}
-
+		public static function register( WP_Customize_Manager $wp_customize ) {
 
 			// Pre
 
@@ -943,8 +944,10 @@ class Theme_Slug_Library_Customize {
 		 *
 		 * @since    2.8.0
 		 * @version  2.8.0
+		 *
+		 * @return  array
 		 */
-		public static function get_options() {
+		public static function get_options(): array {
 
 			// Output
 
@@ -971,8 +974,10 @@ class Theme_Slug_Library_Customize {
 		 *
 		 * @param  string $name
 		 * @param  array  $theme_option_setup
+		 *
+		 * @return  mixed
 		 */
-		public static function get_theme_mod( $name, $theme_option_setup = array() ) {
+		public static function get_theme_mod( string $name, array $theme_option_setup = array() ) {
 
 			// Pre
 
