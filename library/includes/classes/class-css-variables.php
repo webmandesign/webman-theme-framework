@@ -87,7 +87,8 @@ class Theme_Slug_Library_CSS_Variables {
 					! empty( $css_vars )
 					&& ! $is_customize_preview
 				) {
-					return (array) $css_vars;
+					// The filter is documented below.
+					return (array) apply_filters( 'theme_slug/library_css_variables/get_variables_array', $css_vars );
 				}
 
 
