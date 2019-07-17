@@ -459,6 +459,7 @@ class Theme_Slug_Library_Customize {
 					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-multiselect.php';
 					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-radio-matrix.php';
 					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-select.php';
+					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-text.php';
 
 				// Generate customizer options
 
@@ -839,7 +840,7 @@ class Theme_Slug_Library_Customize {
 										break;
 
 									case 'select':
-										// Supporting optgroups too.
+										// Supports optgroups too.
 										$wp_customize->add_setting(
 											$option_id,
 											array(
@@ -861,6 +862,7 @@ class Theme_Slug_Library_Customize {
 										break;
 
 									case 'text':
+										// Supports datalist too.
 										$wp_customize->add_setting(
 											$option_id,
 											array(
@@ -872,10 +874,13 @@ class Theme_Slug_Library_Customize {
 												'validate_callback'    => $validate_callback,
 											)
 										);
-										$wp_customize->add_control(
+										$wp_customize->add_control( new Theme_Slug_Customize_Control_Text(
+											$wp_customize,
 											$option_id,
-											$generic
-										);
+											array_merge( $generic, array(
+												'choices' => ( isset( $theme_option['datalist'] ) ) ? ( $theme_option['datalist'] ) : ( array() ),
+											) )
+										) );
 										break;
 
 									case 'textarea':
@@ -975,7 +980,7 @@ class Theme_Slug_Library_Customize {
 		 * @param  string $name
 		 * @param  array  $theme_option_setup
 		 *
-		 * @return  mixed
+		 * @return  mixed  Stored or default theme mod value of any type.
 		 */
 		public static function get_theme_mod( string $name, array $theme_option_setup = array() ) {
 

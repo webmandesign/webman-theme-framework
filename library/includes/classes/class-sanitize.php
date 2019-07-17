@@ -62,13 +62,13 @@ class Theme_Slug_Library_Sanitize {
 		 * @since    2.5.0
 		 * @version  2.8.0
 		 *
-		 * @param  string $value
-		 * @param  array  $choices
-		 * @param  string $default
+		 * @param  string                      $value
+		 * @param  array|WP_Customize_Setting  $choices
+		 * @param  string                      $default
 		 *
 		 * @return  string
 		 */
-		public static function select( string $value, array $choices = array(), string $default = '' ): string {
+		public static function select( string $value, $choices = array(), string $default = '' ): string {
 
 			// Processing
 
@@ -101,12 +101,12 @@ class Theme_Slug_Library_Sanitize {
 		 * @since    2.5.0
 		 * @version  2.8.0
 		 *
-		 * @param  string|array $value
-		 * @param  array        $choices
+		 * @param  string|array               $value
+		 * @param  array|WP_Customize_Setting $choices
 		 *
 		 * @return  array
 		 */
-		public static function multi_array( $value, array $choices = array() ): array {
+		public static function multi_array( $value, $choices = array() ): array {
 
 			// Variables
 
@@ -162,12 +162,12 @@ class Theme_Slug_Library_Sanitize {
 		 * @since    2.5.0
 		 * @version  2.8.0
 		 *
-		 * @param  string $value
-		 * @param  string $default
+		 * @param  string                      $value
+		 * @param  string|WP_Customize_Setting $default
 		 *
 		 * @return  string
 		 */
-		public static function fonts( string $value, string $default = '' ): string {
+		public static function fonts( string $value, $default = '' ): string {
 
 			// Processing
 
