@@ -262,41 +262,26 @@ class Theme_Slug_Library {
 		 * @since    1.0.0
 		 * @version  2.6.0
 		 *
-		 * @param  string $tag            Wrapper tag.
-		 * @param  string $singular_only  Display only on singular posts of specific type.
-		 *
 		 * @return  string
 		 */
-		public static function get_the_paginated_suffix( string $tag = '', string $singular_only = '' ): string {
+		public static function get_paginated_suffix(): string {
 
 			// Pre
 
 				/**
-				 * Bypass filter for Theme_Slug_Library::get_the_paginated_suffix().
+				 * Bypass filter for Theme_Slug_Library::get_paginated_suffix().
 				 *
 				 * Returning a non-false value will short-circuit the method,
 				 * returning the passed value instead.
 				 *
 				 * @since  2.8.0
 				 *
-				 * @param  mixed  $pre            Default: false. If not false, method returns this value.
-				 * @param  string $tag            Wrapper tag.
-				 * @param  mixed  $singular_only  Display only on singular posts of specific type.
+				 * @param  mixed $pre  Default: false. If not false, method returns this value.
 				 */
-				$pre = apply_filters( 'pre/theme_slug/library/get_the_paginated_suffix', false, $tag, $singular_only );
+				$pre = apply_filters( 'pre/theme_slug/library/get_paginated_suffix', false );
 
 				if ( false !== $pre ) {
 					return $pre;
-				}
-
-
-			// Requirements check
-
-				if (
-					$singular_only
-					&& ! is_singular( $singular_only )
-				) {
-					return '';
 				}
 
 
@@ -307,18 +292,18 @@ class Theme_Slug_Library {
 				$output    = '';
 				$paginated = max( absint( $page ), absint( $paged ) );
 
-				$tag = trim( $tag );
-				if ( $tag ) {
-					$tag = array( '<' . tag_escape( $tag ) . '>', '</' . tag_escape( $tag ) . '>' );
-				} else {
-					$tag = array( '', '' );
-				}
-
 
 			// Processing
 
 				if ( 1 < $paginated ) {
-					$output = ' ' . $tag[0] . sprintf( esc_html_x( '(page %s)', 'Paginated content title suffix, %s: page number.', 'theme-slug' ), number_format_i18n( $paginated ) ) . $tag[1];
+					$output =
+						'<small class="page-number">'
+						. ' '
+						. sprintf(
+							esc_html_x( '(page %s)', 'Paginated content title suffix, %s: page number.', 'theme-slug' ),
+							number_format_i18n( $paginated )
+						)
+						. '</small>';
 				}
 
 
@@ -326,26 +311,23 @@ class Theme_Slug_Library {
 
 				return $output;
 
-		} // /get_the_paginated_suffix
+		} // /get_paginated_suffix
 
 
 
 			/**
-			 * Display the paginated heading suffix
+			 * Display the paginated heading suffix.
 			 *
 			 * @since    1.0.0
 			 * @version  1.0.0
 			 *
-			 * @param  string $tag            Wrapper tag.
-			 * @param  string $singular_only  Display only on singular posts of specific type.
-			 *
 			 * @return  void
 			 */
-			public static function the_paginated_suffix( string $tag = '', string $singular_only = '' ) {
+			public static function the_paginated_suffix() {
 
 				// Variables
 
-					$output = self::get_the_paginated_suffix( $tag, $singular_only );
+					$output = self::get_paginated_suffix();
 
 
 				// Output

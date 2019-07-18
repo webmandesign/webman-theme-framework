@@ -31,7 +31,7 @@ class Theme_Slug_Library_Customize {
 
 		public static $mods = false;
 
-		public static $theme_options_setup = false;
+		public static $theme_options = array();
 
 
 
@@ -46,6 +46,21 @@ class Theme_Slug_Library_Customize {
 		public static function init() {
 
 			// Processing
+
+				// Setup
+
+					/**
+					 * Filters customizer theme options setup array.
+					 *
+					 * This is being triggered at `after_setup_theme` action hook
+					 * with priority 20, so all theme options setters/modifiers
+					 * should be hooked onto this filter beforehand!
+					 *
+					 * @since  2.8.0
+					 *
+					 * @param  array $theme_options
+					 */
+					self::$theme_options = (array) apply_filters( 'theme_slug/library_customize/get_options', array() );
 
 				// Hooks
 
@@ -956,14 +971,7 @@ class Theme_Slug_Library_Customize {
 
 			// Output
 
-				/**
-				 * Filters customizer theme options setup array.
-				 *
-				 * @since  2.8.0
-				 *
-				 * @param  array $theme_options
-				 */
-				return (array) apply_filters( 'theme_slug/library_customize/get_options', array() );
+				return (array) self::$theme_options;
 
 		} // /get_options
 
@@ -1035,14 +1043,9 @@ class Theme_Slug_Library_Customize {
 
 						/**
 						 * We don't have single theme option passed,
-						 * get all theme options setup.
+						 * get the default value checking all theme options.
 						 */
-						if ( empty( self::$theme_options_setup ) ) {
-							// Cache theme options setup
-							self::$theme_options_setup = self::get_options();
-						}
-
-						foreach ( self::$theme_options_setup as $option ) {
+						foreach ( self::get_options() as $option ) {
 							if (
 								isset( $option['id'] )
 								&& $name === $option['id']

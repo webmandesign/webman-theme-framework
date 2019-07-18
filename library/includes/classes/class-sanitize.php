@@ -236,7 +236,7 @@ class Theme_Slug_Library_Sanitize {
 		 *
 		 * @return  string
 		 */
-		public static function get_number_with_suffix( number $value, string $suffix = '%', string $sanitize = 'absint' ): string {
+		public static function get_number_with_suffix( $value, string $suffix = '%', string $sanitize = 'absint' ): string {
 
 			// Output
 
