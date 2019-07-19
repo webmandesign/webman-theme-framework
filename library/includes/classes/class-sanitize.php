@@ -426,8 +426,11 @@ class Theme_Slug_Library_Sanitize {
 
 				$fonts = implode( ', ', $fonts );
 
-				// Optional CSS comment at the end of font-family declaration.
-				if ( ! empty( $css_comment ) ) {
+				// Optional CSS debug comment at the end of font-family declaration.
+				if (
+					defined( 'WP_DEBUG' ) && WP_DEBUG
+					&& ! empty( $css_comment )
+				) {
 					$fonts .= ' /* ' . $css_comment . ' */';
 				}
 
