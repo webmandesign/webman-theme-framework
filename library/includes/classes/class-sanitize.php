@@ -46,7 +46,7 @@ class Theme_Slug_Library_Sanitize {
 
 			// Output
 
-				return ( ( isset( $value ) && true == $value ) ? ( true ) : ( false ) );
+				return ( ( isset( $value ) && $value ) ? ( true ) : ( false ) );
 
 		} // /checkbox
 
@@ -84,7 +84,7 @@ class Theme_Slug_Library_Sanitize {
 
 			// Output
 
-				return ( array_key_exists( $value, (array) $choices ) ? ( esc_attr( $value ) ) : ( esc_attr( $default ) ) );
+				return ( isset( $choices[ $value ] ) ) ? ( esc_attr( $value ) ) : ( esc_attr( $default ) );
 
 		} // /select
 
@@ -157,7 +157,7 @@ class Theme_Slug_Library_Sanitize {
 		 *
 		 * Sanitization callback for `font-family` CSS property value.
 		 * Allows only alphanumeric characters, spaces, commas, underscores,
-		 * dashes, single and/or double quotes of `$value` variable.
+		 * dashes, single/double quote inside the `$value`.
 		 *
 		 * @since    2.5.0
 		 * @version  2.8.0
@@ -171,7 +171,7 @@ class Theme_Slug_Library_Sanitize {
 
 			// Processing
 
-				$value = trim( preg_replace( '/[^a-zA-Z0-9 ,_\-\'\"]+/', '', (string) $value ) );
+				$value = trim( preg_replace( '/[^a-zA-Z0-9 ,_\-\'\"]+/', '', $value ) );
 
 				/**
 				 * If we pass a customizer control as `$default`,
@@ -184,7 +184,7 @@ class Theme_Slug_Library_Sanitize {
 
 			// Output
 
-				return ( $value ) ? ( (string) $value ) : ( (string) $default );
+				return ( $value ) ? ( $value ) : ( $default );
 
 		} // /fonts
 
@@ -384,19 +384,17 @@ class Theme_Slug_Library_Sanitize {
 
 			// Variables
 
-				/**
-				 * @link  https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
-				 */
-				$font_family_generic = array(
-					'serif',
+				$css_comment  = '';
+				$system_fonts = array(
+					'-apple-system',
+					'BlinkMacSystemFont',
+					'"Segoe UI"',
+					'Roboto',
+					'Oxygen-Sans',
+					'Ubuntu',
+					'Cantarell',
+					'"Helvetica Neue"',
 					'sans-serif',
-					'monospace',
-					'cursive',
-					'fantasy',
-					'system-ui',
-					'inherit',
-					'initial',
-					'unset',
 				);
 
 
@@ -404,15 +402,34 @@ class Theme_Slug_Library_Sanitize {
 
 				$fonts = explode( ',', (string) self::fonts( $fonts ) );
 
-				foreach ( $fonts as $key => $font_family ) {
-					$font_family = trim( $font_family, "\"' \t\n\r\0\x0B" );
-					if ( ! in_array( $font_family, $font_family_generic ) ) {
-						$font_family = '"' . $font_family . '"';
+				foreach ( $fonts as $key => $family ) {
+					$family = trim( $family, "\"' \t\n\r\0\x0B" );
+
+					// If we are bypassing Google Fonts, let us know in CSS comment.
+					if (
+						is_callable( 'Theme_Slug_Google_Fonts::get_bypass_font_family' )
+						&& $family === Theme_Slug_Google_Fonts::get_bypass_font_family()
+					) {
+						unset( $fonts[ $key ] );
+						$css_comment .= $family;
+						continue;
 					}
-					$fonts[ $key ] = $font_family;
+
+					if ( 'system' === $family ) {
+						$family = implode( ', ', $system_fonts );
+					} elseif ( strpos( $family, ' ' ) ) {
+						$family = '"' . $family . '"';
+					}
+
+					$fonts[ $key ] = $family;
 				}
 
-				$fonts = implode( ', ', (array) $fonts );
+				$fonts = implode( ', ', $fonts );
+
+				// Optional CSS comment at the end of font-family declaration.
+				if ( ! empty( $css_comment ) ) {
+					$fonts .= ' /* ' . $css_comment . ' */';
+				}
 
 
 			// Output
