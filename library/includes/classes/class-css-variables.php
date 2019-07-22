@@ -2,6 +2,8 @@
 /**
  * CSS Variables Generator class.
  *
+ * Data are being cached in transient as they are global for the website.
+ *
  * @package  WebMan WordPress Theme Framework
  *
  * @since    2.8.0
@@ -27,7 +29,7 @@ class Theme_Slug_Library_CSS_Variables {
 	 * 0) Init
 	 */
 
-		public static $cache_key = 'theme_slug_css_vars';
+		public static $transient_cache_key = 'theme_slug_css_vars';
 
 
 
@@ -49,9 +51,9 @@ class Theme_Slug_Library_CSS_Variables {
 
 						add_action( 'wp_enqueue_scripts', __CLASS__ . '::compatibility', 0 );
 
-						add_action( 'switch_theme', __CLASS__ . '::cache_flush' );
-						add_action( 'customize_save_after', __CLASS__ . '::cache_flush' );
-						add_action( 'theme_slug/library/theme_upgrade', __CLASS__ . '::cache_flush' );
+						add_action( 'switch_theme', __CLASS__ . '::transient_cache_flush' );
+						add_action( 'customize_save_after', __CLASS__ . '::transient_cache_flush' );
+						add_action( 'theme_slug/library/theme_upgrade', __CLASS__ . '::transient_cache_flush' );
 
 		} // /init
 
@@ -77,7 +79,7 @@ class Theme_Slug_Library_CSS_Variables {
 
 				$is_customize_preview = is_customize_preview();
 
-				$css_vars = (array) get_transient( self::$cache_key );
+				$css_vars = (array) get_transient( self::$transient_cache_key );
 				$css_vars = array_filter( $css_vars, 'trim', ARRAY_FILTER_USE_KEY );
 
 
@@ -176,9 +178,9 @@ class Theme_Slug_Library_CSS_Variables {
 					$css_vars = apply_filters( 'theme_slug/library_css_variables/get_variables_array/per_option', $css_vars, $option, $value );
 				}
 
-				// Cache the results.
+				// Cache the results in transient.
 				if ( ! $is_customize_preview ) {
-					set_transient( self::$cache_key, (array) $css_vars );
+					set_transient( self::$transient_cache_key, (array) $css_vars );
 				}
 
 
@@ -287,20 +289,20 @@ class Theme_Slug_Library_CSS_Variables {
 
 
 		/**
-		 * Flush the cached CSS variables array.
+		 * Flush the transient of cached CSS variables array.
 		 *
 		 * @since    2.8.0
 		 * @version  2.8.0
 		 *
 		 * @return  void
 		 */
-		public static function cache_flush() {
+		public static function transient_cache_flush() {
 
 			// Processing
 
-				delete_transient( self::$cache_key );
+				delete_transient( self::$transient_cache_key );
 
-		} // /cache_flush
+		} // /transient_cache_flush
 
 
 

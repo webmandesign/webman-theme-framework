@@ -1018,7 +1018,7 @@ class Theme_Slug_Library_Customize {
 				$output = false;
 
 				if ( false === self::$mods ) {
-					// Cache theme mods
+					// Soft cache theme mods in class property.
 					self::$mods = get_theme_mods();
 				}
 
