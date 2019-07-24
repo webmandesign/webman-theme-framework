@@ -264,6 +264,14 @@ class Theme_Slug_Library_CSS_Variables {
 		 */
 		public static function compatibility() {
 
+			// Requirements check
+
+				// https://caniuse.com/#feat=css-variables
+				if ( ! isset( $GLOBALS['is_IE'] ) || ! $GLOBALS['is_IE'] ) {
+					return;
+				}
+
+
 			// Processing
 
 				wp_enqueue_script(
@@ -273,6 +281,8 @@ class Theme_Slug_Library_CSS_Variables {
 					'2.0.2',
 					true
 				);
+
+				wp_script_add_data( 'css-vars-ponyfill', 'conditional', 'IE' );
 
 				wp_add_inline_script(
 					'css-vars-ponyfill',
