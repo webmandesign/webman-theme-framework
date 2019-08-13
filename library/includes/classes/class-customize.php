@@ -68,6 +68,8 @@ class Theme_Slug_Library_Customize {
 
 						add_action( 'customize_register', __CLASS__ . '::register', 100 );
 
+						add_action( 'theme_slug/library_customize/register/add_option', 'Theme_Slug_Library_Control::add_control', 10, 2 );
+
 						add_action( 'customize_controls_enqueue_scripts', __CLASS__ . '::assets' );
 
 		} // /init
@@ -467,7 +469,7 @@ class Theme_Slug_Library_Customize {
 							 * @since  2.8.0
 							 *
 							 * @param  string $panel_type
-							 * @param  string $option
+							 * @param  array  $option
 							 * @param  array  $options
 							 */
 							$panel_type = (string) apply_filters( 'theme_slug/library_customize/register/panel_type', $panel_type, $option, $options );
@@ -478,7 +480,7 @@ class Theme_Slug_Library_Customize {
 							 * @since  2.8.0
 							 *
 							 * @param  string $panel_id
-							 * @param  string $option
+							 * @param  array  $option
 							 * @param  array  $options
 							 */
 							$panel_id = (string) apply_filters( 'theme_slug/library_customize/register/panel_id', $panel_id, $option, $options );
@@ -533,7 +535,15 @@ class Theme_Slug_Library_Customize {
 
 						// Generate option control.
 						if ( ! in_array( $option['type'], array( 'panel', 'section' ) ) ) {
-							Theme_Slug_Library_Control::add_control( $option, $wp_customize );
+							/**
+							 * Action for adding the theme option customizer setting and control.
+							 *
+							 * @since  2.8.0
+							 *
+							 * @param  array                $option
+							 * @param  WP_Customize_Manager $wp_customize
+							 */
+							do_action( 'theme_slug/library_customize/register/add_option', $option, $wp_customize );
 						}
 					}
 				}
