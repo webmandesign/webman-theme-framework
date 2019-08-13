@@ -68,6 +68,9 @@ defined( 'ABSPATH' ) || exit;
 		// Sanitize class.
 		require THEME_SLUG_LIBRARY . 'includes/classes/class-sanitize.php';
 
+		// Controls.
+		require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control.php';
+
 		// Customize class.
 		require THEME_SLUG_LIBRARY . 'includes/classes/class-customize.php';
 

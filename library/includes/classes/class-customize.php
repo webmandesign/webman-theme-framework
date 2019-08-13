@@ -31,7 +31,7 @@ class Theme_Slug_Library_Customize {
 
 		public static $mods = false;
 
-		public static $theme_options = array();
+		public static $options = array();
 
 
 
@@ -58,9 +58,9 @@ class Theme_Slug_Library_Customize {
 					 *
 					 * @since  2.8.0
 					 *
-					 * @param  array $theme_options
+					 * @param  array $options
 					 */
-					self::$theme_options = (array) apply_filters( 'theme_slug/library_customize/get_options', array() );
+					self::$options = (array) apply_filters( 'theme_slug/library_customize/get_options', array() );
 
 				// Hooks
 
@@ -214,9 +214,9 @@ class Theme_Slug_Library_Customize {
 
 			// Variables
 
-				$theme_options = self::get_options();
+				$options = self::get_options();
 
-				ksort( $theme_options );
+				ksort( $options );
 
 				$output = $output_single = '';
 
@@ -224,15 +224,15 @@ class Theme_Slug_Library_Customize {
 			// Processing
 
 				if (
-					is_array( $theme_options )
-					&& ! empty( $theme_options )
+					is_array( $options )
+					&& ! empty( $options )
 				) {
-					foreach ( $theme_options as $theme_option ) {
+					foreach ( $options as $option ) {
 						if (
-							isset( $theme_option['preview_js'] )
-							&& is_array( $theme_option['preview_js'] )
+							isset( $option['preview_js'] )
+							&& is_array( $option['preview_js'] )
 						) {
-							$option_id = sanitize_title( $theme_option['id'] );
+							$option_id = sanitize_title( $option['id'] );
 
 							$output_single  = "wp.customize("  . PHP_EOL;
 							$output_single .= "\t" . "'" . $option_id . "',"  . PHP_EOL;
@@ -241,12 +241,12 @@ class Theme_Slug_Library_Customize {
 
 							// CSS
 
-								if ( isset( $theme_option['preview_js']['css'] ) ) {
+								if ( isset( $option['preview_js']['css'] ) ) {
 
 									$output_single .= "\t\t\t" . "var newCss = '';" . PHP_EOL.PHP_EOL;
 									$output_single .= "\t\t\t" . "if ( $( '#jscss-" . $option_id . "' ).length ) { $( '#jscss-" . $option_id . "' ).remove() }" . PHP_EOL.PHP_EOL;
 
-									foreach ( $theme_option['preview_js']['css'] as $selector => $properties ) {
+									foreach ( $option['preview_js']['css'] as $selector => $properties ) {
 										if ( is_array( $properties ) ) {
 											$output_single_css = $selector_before = $selector_after = '';
 
@@ -319,8 +319,8 @@ class Theme_Slug_Library_Customize {
 
 							// Custom JS
 
-								if ( isset( $theme_option['preview_js']['custom'] ) ) {
-									$output_single .= "\t\t" . $theme_option['preview_js']['custom'] . PHP_EOL;
+								if ( isset( $option['preview_js']['custom'] ) ) {
+									$output_single .= "\t\t" . $option['preview_js']['custom'] . PHP_EOL;
 								}
 
 							$output_single .= "\t\t" . '} );' . PHP_EOL;
@@ -406,548 +406,142 @@ class Theme_Slug_Library_Customize {
 
 			// Variables
 
-				$theme_options = self::get_options();
-
-				ksort( $theme_options );
-
-				/**
-				 * Filters customizer allowed option types for the theme options.
-				 *
-				 * @since  2.8.0
-				 *
-				 * @param  array $option_types
-				 */
-				$allowed_option_types = (array) apply_filters( 'theme_slug/library_customize/register/allowed_option_types', array(
-					'checkbox',
-					'color',
-					'email',
-					'hidden',
-					'html',
-					'image',
-					'multicheckbox',
-					'multiselect',
-					'password',
-					'radio',
-					'radiomatrix',
-					'range',
-					'section',
-					'select',
-					'text',
-					'textarea',
-					'url',
-				) );
+				$panel   = '';
+				$section = 'theme-slug';
+				$options = self::get_options();
 
 				// Theme options comes first.
-
-					$priority = absint(
-						/**
-						 * Filters customizer theme options priority.
-						 *
-						 * @since  2.8.0
-						 *
-						 * @param  int $priority
-						 */
-						apply_filters( 'theme_slug/library_customize/register/priority', 0 )
-					);
-
-				// Default section name in case not set (should be overwritten anyway)
-
-					$customizer_panel   = '';
-					$customizer_section = 'theme-slug';
-
-				// Option type
-
-					$type = 'theme_mod';
+				$priority = absint(
+					/**
+					 * Filters customizer theme options priority.
+					 *
+					 * @since  2.8.0
+					 *
+					 * @param  int $priority
+					 */
+					apply_filters( 'theme_slug/library_customize/register/priority', 0 )
+				);
 
 
 			// Processing
 
-				// Custom controls
+				ksort( $options );
 
-					/**
-					 * @link  https://github.com/bueltge/Wordpress-Theme-Customizer-Custom-Controls
-					 * @link  http://ottopress.com/2012/making-a-custom-control-for-the-theme-customizer/
-					 */
+				// Generate customizer options.
+				foreach ( $options as $key => $option ) {
+					if ( isset( $option['type'] ) ) {
+						$priority++;
 
-					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-hidden.php';
-					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-html.php';
-					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-multiselect.php';
-					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-radio-matrix.php';
-					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-select.php';
-					require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-text.php';
+						// Preset option args.
+						if ( ! isset( $option['id'] ) ) {
+							$option['id'] = 'theme_slug' . '_key_' . sanitize_title( $key );
+						}
+						if ( ! isset( $option['priority'] ) ) {
+							$option['priority'] = $priority;;
+						}
 
-				// Generate customizer options
+						/**
+						 * Create panel.
+						 *
+						 * Note that the panel will not display unless sections are assigned to it.
+						 * Set the panel name in the section declaration with `in_panel`:
+						 * - if text, this will become a panel title (ID defaults to `theme-options`),
+						 * - if array, you can set `title`, `id` and `type` (the type will affect panel class).
+						 * Panel has to be defined for each section to prevent all sections within a single panel.
+						 */
+						if ( isset( $option['in_panel'] ) ) {
+							$panel_type = 'theme-options';
 
-					if (
-						is_array( $theme_options )
-						&& ! empty( $theme_options )
-					) {
-						foreach ( $theme_options as $theme_option ) {
-							if (
-								is_array( $theme_option )
-								&& isset( $theme_option['type'] )
-								&& in_array( $theme_option['type'], $allowed_option_types )
-							) {
+							if ( is_array( $option['in_panel'] ) ) {
+								$panel_title = ( isset( $option['in_panel']['title'] ) ) ? ( $option['in_panel']['title'] ) : ( '&mdash;' );
+								$panel_id    = ( isset( $option['in_panel']['id'] ) ) ? ( $option['in_panel']['id'] ) : ( $panel_type );
+								$panel_type  = ( isset( $option['in_panel']['type'] ) ) ? ( $option['in_panel']['type'] ) : ( $panel_type );
+							} else {
+								$panel_title = $option['in_panel'];
+								$panel_id    = $panel_type;
+							}
 
-								// Variables
+							/**
+							 * Filters customizer theme options panel type.
+							 *
+							 * @since  2.8.0
+							 *
+							 * @param  string $panel_type
+							 * @param  string $option
+							 * @param  array  $options
+							 */
+							$panel_type = (string) apply_filters( 'theme_slug/library_customize/register/panel_type', $panel_type, $option, $options );
 
-									$priority++;
+							/**
+							 * Filters customizer theme options panel id.
+							 *
+							 * @since  2.8.0
+							 *
+							 * @param  string $panel_id
+							 * @param  string $option
+							 * @param  array  $options
+							 */
+							$panel_id = (string) apply_filters( 'theme_slug/library_customize/register/panel_id', $panel_id, $option, $options );
 
-									$option_id = $default = $description = '';
-
-									if ( isset( $theme_option['id'] ) ) {
-										$option_id = $theme_option['id'];
-									}
-									if ( isset( $theme_option['default'] ) ) {
-										$default = $theme_option['default'];
-									}
-									if ( isset( $theme_option['description'] ) ) {
-										$description = $theme_option['description'];
-									}
-
-									if ( isset( $theme_option['sanitize_callback'] ) ) {
-										$sanitize_callback = $theme_option['sanitize_callback'];
-									} else {
-										$sanitize_callback = '';
-									}
-
-									if ( isset( $theme_option['validate_callback'] ) ) {
-										$validate_callback = $theme_option['validate_callback'];
-									} else {
-										$validate_callback = '';
-									}
-
-									$transport = ( isset( $theme_option['preview_js'] ) ) ? ( 'postMessage' ) : ( 'refresh' );
-
-
-
-								/**
-								 * Panels
-								 *
-								 * Panels are wrappers for customizer sections.
-								 * Note that the panel will not display unless sections are assigned to it.
-								 * Set the panel name in the section declaration with `in_panel`:
-								 * - if text, this will become a panel title (ID defaults to `theme-options`)
-								 * - if array, you can set `title`, `id` and `type` (the type will affect panel class)
-								 * Panel has to be defined for each section to prevent all sections within a single panel.
-								 *
-								 * @link  http://make.wordpress.org/core/2014/07/08/customizer-improvements-in-4-0/
-								 */
-								if ( isset( $theme_option['in_panel'] ) ) {
-
-									$panel_type = 'theme-options';
-
-									if ( is_array( $theme_option['in_panel'] ) ) {
-										$panel_title = ( isset( $theme_option['in_panel']['title'] ) ) ? ( $theme_option['in_panel']['title'] ) : ( '&mdash;' );
-										$panel_id    = ( isset( $theme_option['in_panel']['id'] ) ) ? ( $theme_option['in_panel']['id'] ) : ( $panel_type );
-										$panel_type  = ( isset( $theme_option['in_panel']['type'] ) ) ? ( $theme_option['in_panel']['type'] ) : ( $panel_type );
-									} else {
-										$panel_title = $theme_option['in_panel'];
-										$panel_id    = $panel_type;
-									}
-
-									/**
-									 * Filters customizer theme options panel type.
-									 *
-									 * @since  2.8.0
-									 *
-									 * @param  string $panel_type
-									 * @param  string $theme_option
-									 * @param  array  $theme_options
-									 */
-									$panel_type = (string) apply_filters( 'theme_slug/library_customize/register/panel_type', $panel_type, $theme_option, $theme_options );
-
-									/**
-									 * Filters customizer theme options panel id.
-									 *
-									 * @since  2.8.0
-									 *
-									 * @param  string $panel_id
-									 * @param  string $theme_option
-									 * @param  array  $theme_options
-									 */
-									$panel_id = (string) apply_filters( 'theme_slug/library_customize/register/panel_id', $panel_id, $theme_option, $theme_options );
-
-									if ( $customizer_panel !== $panel_id ) {
-										$wp_customize->add_panel(
-											$panel_id,
-											array(
-												'title'       => esc_html( $panel_title ),
-												'description' => ( isset( $theme_option['in_panel-description'] ) ) ? ( $theme_option['in_panel-description'] ) : ( '' ), // Hidden at the top of the panel
-												'priority'    => $priority,
-												'type'        => $panel_type, // Sets also the panel class
-											)
-										);
-										$customizer_panel = $panel_id;
-									}
-
-								}
-
-
-
-								/**
-								 * Sections
-								 */
-								if ( isset( $theme_option['create_section'] ) && trim( $theme_option['create_section'] ) ) {
-
-									if ( empty( $option_id ) ) {
-										$option_id = sanitize_title( trim( $theme_option['create_section'] ) );
-									}
-
-									$customizer_section = array(
-										'id'    => $option_id,
-										'setup' => array(
-											'title'       => $theme_option['create_section'], // Section title
-											'description' => ( isset( $theme_option['create_section-description'] ) ) ? ( $theme_option['create_section-description'] ) : ( '' ), // Displayed at the top of section
-											'priority'    => $priority,
-											'type'        => 'theme-options', // Sets also the section class
-										)
-									);
-
-									if ( ! isset( $theme_option['in_panel'] ) ) {
-										$customizer_panel = '';
-									} else {
-										$customizer_section['setup']['panel'] = $customizer_panel;
-									}
-
-									$wp_customize->add_section(
-										$customizer_section['id'],
-										$customizer_section['setup']
-									);
-
-									$customizer_section = $customizer_section['id'];
-
-								}
-
-
-
-								/**
-								 * Generic settings
-								 */
-								$generic = array(
-									'label'           => ( isset( $theme_option['label'] ) ) ? ( $theme_option['label'] ) : ( '' ),
-									'description'     => $description,
-									'section'         => ( isset( $theme_option['section'] ) ) ? ( $theme_option['section'] ) : ( $customizer_section ),
-									'priority'        => ( isset( $theme_option['priority'] ) ) ? ( $theme_option['priority'] ) : ( $priority ),
-									'type'            => $theme_option['type'],
-									'active_callback' => ( isset( $theme_option['active_callback'] ) ) ? ( $theme_option['active_callback'] ) : ( '' ),
-									'input_attrs'     => ( isset( $theme_option['input_attrs'] ) ) ? ( $theme_option['input_attrs'] ) : ( array() ),
+							if ( $panel !== $panel_id ) {
+								$wp_customize->add_panel(
+									$panel_id,
+									array(
+										'title'    => esc_html( $panel_title ),
+										'priority' => $option['priority'],
+										// Type also sets the panel class.
+										'type' => $panel_type,
+										// Description is hidden at the top of the panel.
+										'description' => ( isset( $option['in_panel-description'] ) ) ? ( $option['in_panel-description'] ) : ( '' ),
+									)
 								);
-
-
-
-								/**
-								 * Options generator
-								 */
-								switch ( $theme_option['type'] ) {
-
-									case 'checkbox':
-									case 'radio':
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'type'                 => $type,
-												'default'              => $default,
-												'transport'            => $transport,
-												'sanitize_callback'    => ( 'checkbox' === $theme_option['type'] ) ? ( 'Theme_Slug_Library_Sanitize::checkbox' ) : ( 'Theme_Slug_Library_Sanitize::select' ),
-												'sanitize_js_callback' => ( 'checkbox' === $theme_option['type'] ) ? ( 'Theme_Slug_Library_Sanitize::checkbox' ) : ( 'Theme_Slug_Library_Sanitize::select' ),
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control(
-											$option_id,
-											array_merge( $generic, array(
-												'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
-											) )
-										);
-										break;
-
-									case 'multicheckbox':
-									case 'multiselect':
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'type'                 => $type,
-												'default'              => $default,
-												'transport'            => $transport,
-												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'Theme_Slug_Library_Sanitize::multi_array' ),
-												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'Theme_Slug_Library_Sanitize::multi_array' ),
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control( new Theme_Slug_Customize_Control_Multiselect(
-											$wp_customize,
-											$option_id,
-											array_merge( $generic, array(
-												'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
-											) )
-										) );
-										break;
-
-									case 'color':
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'type'                 => $type,
-												'default'              => trim( $default, '#' ),
-												'transport'            => $transport,
-												'sanitize_callback'    => 'sanitize_hex_color_no_hash',
-												'sanitize_js_callback' => 'maybe_hash_hex_color',
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control( new WP_Customize_Color_Control(
-											$wp_customize,
-											$option_id,
-											$generic
-										) );
-										break;
-
-									case 'email':
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'type'                 => $type,
-												'default'              => $default,
-												'transport'            => $transport,
-												'sanitize_callback'    => 'sanitize_email',
-												'sanitize_js_callback' => 'sanitize_email',
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control(
-											$option_id,
-											$generic
-										);
-										break;
-
-									case 'hidden':
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'type'                 => $type,
-												'default'              => $default,
-												'transport'            => $transport,
-												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_attr' ),
-												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_attr' ),
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control( new Theme_Slug_Customize_Control_Hidden(
-											$wp_customize,
-											$option_id,
-											array(
-												'label'    => 'HIDDEN FIELD',
-												'section'  => $customizer_section,
-												'priority' => $priority,
-											)
-										) );
-										break;
-
-									case 'html':
-										if ( empty( $option_id ) ) {
-											$option_id = 'custom-title-' . $priority;
-										}
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'sanitize_callback'    => 'wp_kses_post',
-												'sanitize_js_callback' => 'wp_filter_post_kses',
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control( new Theme_Slug_Customize_Control_HTML(
-											$wp_customize,
-											$option_id,
-											array_merge( $generic, array(
-												'content' => $theme_option['content'],
-											) )
-										) );
-										break;
-
-									case 'image':
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'type'                 => $type,
-												'default'              => $default,
-												'transport'            => $transport,
-												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_url_raw' ),
-												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_url_raw' ),
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control( new WP_Customize_Image_Control(
-											$wp_customize,
-											$option_id,
-											array_merge( $generic, array(
-												'context' => $option_id,
-											) )
-										) );
-										break;
-
-									case 'range':
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'type'                 => $type,
-												'default'              => $default,
-												'transport'            => $transport,
-												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'absint' ),
-												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'absint' ),
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control(
-											$option_id,
-											array_merge( $generic, array(
-												'input_attrs' => array(
-													'min'           => $theme_option['min'],
-													'max'           => $theme_option['max'],
-													'step'          => $theme_option['step'],
-													'data-multiply' => ( isset( $theme_option['multiplier'] ) ) ? ( $theme_option['multiplier'] ) : ( 1 ),
-													'data-prefix'   => ( isset( $theme_option['prefix'] ) ) ? ( $theme_option['prefix'] ) : ( '' ),
-													'data-suffix'   => ( isset( $theme_option['suffix'] ) ) ? ( $theme_option['suffix'] ) : ( '' ),
-													'data-decimals' => ( isset( $theme_option['decimal_places'] ) ) ? ( absint( $theme_option['decimal_places'] ) ) : ( 0 ),
-												),
-											) )
-										);
-										break;
-
-									case 'password':
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'type'                 => $type,
-												'default'              => $default,
-												'transport'            => $transport,
-												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_attr' ),
-												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_attr' ),
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control(
-											$option_id,
-											$generic
-										);
-										break;
-
-									case 'radiomatrix':
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'type'                 => $type,
-												'default'              => $default,
-												'transport'            => $transport,
-												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_attr' ),
-												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_attr' ),
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control( new Theme_Slug_Customize_Control_Radio_Matrix(
-											$wp_customize,
-											$option_id,
-											array_merge( $generic, array(
-												'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
-												'class'   => ( isset( $theme_option['class'] ) ) ? ( $theme_option['class'] ) : ( '' ),
-											) )
-										) );
-										break;
-
-									case 'select':
-										// Supports optgroups too.
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'type'                 => $type,
-												'default'              => $default,
-												'transport'            => $transport,
-												'sanitize_callback'    => 'Theme_Slug_Library_Sanitize::select',
-												'sanitize_js_callback' => 'Theme_Slug_Library_Sanitize::select',
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control( new Theme_Slug_Customize_Control_Select(
-											$wp_customize,
-											$option_id,
-											array_merge( $generic, array(
-												'choices' => ( isset( $theme_option['choices'] ) ) ? ( $theme_option['choices'] ) : ( '' ),
-											) )
-										) );
-										break;
-
-									case 'text':
-										// Supports datalist too.
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'type'                 => $type,
-												'default'              => $default,
-												'transport'            => $transport,
-												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_textarea' ),
-												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_textarea' ),
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control( new Theme_Slug_Customize_Control_Text(
-											$wp_customize,
-											$option_id,
-											array_merge( $generic, array(
-												'choices' => ( isset( $theme_option['datalist'] ) ) ? ( $theme_option['datalist'] ) : ( array() ),
-											) )
-										) );
-										break;
-
-									case 'textarea':
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'type'                 => $type,
-												'default'              => $default,
-												'transport'            => $transport,
-												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_textarea' ),
-												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_textarea' ),
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control(
-											$option_id,
-											$generic
-										);
-										break;
-
-									case 'url':
-										$wp_customize->add_setting(
-											$option_id,
-											array(
-												'type'                 => $type,
-												'default'              => $default,
-												'transport'            => $transport,
-												'sanitize_callback'    => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_url' ),
-												'sanitize_js_callback' => ( $sanitize_callback ) ? ( $sanitize_callback ) : ( 'esc_url' ),
-												'validate_callback'    => $validate_callback,
-											)
-										);
-										$wp_customize->add_control(
-											$option_id,
-											$generic
-										);
-										break;
-
-									default:
-										break;
-
-								}
-
+								$panel = $panel_id;
 							}
 						}
-					}
 
-				// Assets needed for customizer preview
+						// Create section.
+						if ( isset( $option['create_section'] ) && trim( $option['create_section'] ) ) {
+							$section = array(
+								'id'    => $option['id'],
+								'setup' => array(
+									'title'       => $option['create_section'],
+									'description' => ( isset( $option['create_section-description'] ) ) ? ( $option['create_section-description'] ) : ( '' ),
+									'priority'    => $option['priority'],
+									// Type also sets the section class.
+									'type' => 'theme-options',
+								)
+							);
 
-					if ( $wp_customize->is_preview() ) {
-						add_action( 'wp_footer', __CLASS__ . '::preview_scripts', 99 );
+							if ( ! isset( $option['in_panel'] ) ) {
+								$panel = '';
+							} else {
+								$section['setup']['panel'] = $panel;
+							}
+
+							$wp_customize->add_section(
+								$section['id'],
+								$section['setup']
+							);
+
+							$section = $section['id'];
+						}
+
+						// Now that the section is created set it for the option.
+						if ( ! isset( $option['section'] ) ) {
+							$option['section'] = $section;
+						}
+
+						// Generate option control.
+						if ( ! in_array( $option['type'], array( 'panel', 'section' ) ) ) {
+							Theme_Slug_Library_Control::add_control( $option, $wp_customize );
+						}
 					}
+				}
+
+				// Assets needed for customizer preview.
+				if ( $wp_customize->is_preview() ) {
+					add_action( 'wp_footer', __CLASS__ . '::preview_scripts', 99 );
+				}
 
 		} // /register
 
@@ -971,7 +565,7 @@ class Theme_Slug_Library_Customize {
 
 			// Output
 
-				return (array) self::$theme_options;
+				return (array) self::$options;
 
 		} // /get_options
 
@@ -986,11 +580,11 @@ class Theme_Slug_Library_Customize {
 		 * @version  2.8.0
 		 *
 		 * @param  string $name
-		 * @param  array  $theme_option_setup
+		 * @param  array  $option_setup
 		 *
 		 * @return  mixed  Stored or default theme mod value of any type.
 		 */
-		public static function get_theme_mod( string $name, array $theme_option_setup = array() ) {
+		public static function get_theme_mod( string $name, array $option_setup = array() ) {
 
 			// Pre
 
@@ -1002,11 +596,11 @@ class Theme_Slug_Library_Customize {
 				 *
 				 * @since  2.8.0
 				 *
-				 * @param  mixed  $pre                 Default: false. If not false, method returns this value.
-				 * @param  string $name                Theme mod name.
-				 * @param  array  $theme_option_setup  Optional single theme option setup array.
+				 * @param  mixed  $pre           Default: false. If not false, method returns this value.
+				 * @param  string $name          Theme mod name.
+				 * @param  array  $option_setup  Optional single theme option setup array.
 				 */
-				$pre = apply_filters( 'pre/theme_slug/library_customize/get_theme_mod', null, $name, $theme_option_setup );
+				$pre = apply_filters( 'pre/theme_slug/library_customize/get_theme_mod', null, $name, $option_setup );
 
 				if ( null !== $pre ) {
 					return $pre;
@@ -1039,7 +633,7 @@ class Theme_Slug_Library_Customize {
 					 * We haven't found a modified theme option,
 					 * so we need its default value.
 					 */
-					if ( empty( $theme_option_setup ) ) {
+					if ( empty( $option_setup ) ) {
 
 						/**
 						 * We don't have single theme option passed,
@@ -1052,7 +646,7 @@ class Theme_Slug_Library_Customize {
 								&& isset( $option['default'] )
 							) {
 								$output = $option['default'];
-								$theme_option_setup = $option;
+								$option_setup = $option;
 								break;
 							}
 						}
@@ -1064,11 +658,11 @@ class Theme_Slug_Library_Customize {
 						 * get the default value from it.
 						 */
 						if (
-							isset( $theme_option_setup['default'] )
-							&& isset( $theme_option_setup['id'] )
-							&& $name === $theme_option_setup['id']
+							isset( $option_setup['default'] )
+							&& isset( $option_setup['id'] )
+							&& $name === $option_setup['id']
 						) {
-							$output = $theme_option_setup['default'];
+							$output = $option_setup['default'];
 						}
 
 					}
@@ -1089,7 +683,7 @@ class Theme_Slug_Library_Customize {
 
 			// Output
 
-				return apply_filters( "theme_mod_{$name}", $output, $theme_option_setup );
+				return apply_filters( "theme_mod_{$name}", $output, $option_setup );
 
 		} // /get_theme_mod
 
