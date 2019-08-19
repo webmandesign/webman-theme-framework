@@ -10,9 +10,8 @@
  * Contents:
  *
  *  0) Init
- * 10) Add setting
- * 20) Add control
- * 30) Getters
+ * 10) Create option
+ * 20) Getters
  */
 
 // Exit if accessed directly.
@@ -78,8 +77,30 @@ class Theme_Slug_Library_Control {
 
 
 	/**
-	 * 10) Add setting
+	 * 10) Add option
 	 */
+
+		/**
+		 * Adds, creates customizer option control.
+		 *
+		 * @since    2.8.0
+		 * @version  2.8.0
+		 *
+		 * @param  array                $option
+		 * @param  WP_Customize_Manager $wp_customize
+		 *
+		 * @return  void
+		 */
+		public static function add_option( array $option, WP_Customize_Manager $wp_customize ) {
+
+			// Processing
+
+				self::add_setting( $option, $wp_customize );
+				self::add_control( $option, $wp_customize );
+
+		} // /add_option
+
+
 
 		/**
 		 * Add setting.
@@ -132,12 +153,6 @@ class Theme_Slug_Library_Control {
 
 
 
-
-
-	/**
-	 * 20) Add control
-	 */
-
 		/**
 		 * Add control.
 		 *
@@ -153,10 +168,6 @@ class Theme_Slug_Library_Control {
 
 			// Processing
 
-				// First we need to add the setting.
-				self::add_setting( $option, $wp_customize );
-
-				// Then render the control.
 				if ( method_exists( __CLASS__, 'add_control_' . $option['type'] ) ) {
 					// Render custom or special control.
 					call_user_func(

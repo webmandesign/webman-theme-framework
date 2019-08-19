@@ -66,9 +66,9 @@ class Theme_Slug_Library_Customize {
 
 					// Actions
 
-						add_action( 'customize_register', __CLASS__ . '::register', 100 );
+						add_action( 'customize_register', __CLASS__ . '::render', 100 );
 
-						add_action( 'theme_slug/library_customize/register/add_option', 'Theme_Slug_Library_Control::add_control', 10, 2 );
+						add_action( 'theme_slug/library_customize/render/option', 'Theme_Slug_Library_Control::add_option', 10, 2 );
 
 						add_action( 'customize_controls_enqueue_scripts', __CLASS__ . '::assets' );
 
@@ -384,7 +384,7 @@ class Theme_Slug_Library_Customize {
 		 *
 		 * @return  void
 		 */
-		public static function register( WP_Customize_Manager $wp_customize ) {
+		public static function render( WP_Customize_Manager $wp_customize ) {
 
 			// Pre
 
@@ -399,7 +399,7 @@ class Theme_Slug_Library_Customize {
 				 * @param  mixed                $pre           Default: null. If not null, method returns the value.
 				 * @param  WP_Customize_Manager $wp_customize  Customizer object.
 				 */
-				$pre = apply_filters( 'pre/theme_slug/library_customize/register', null, $wp_customize );
+				$pre = apply_filters( 'pre/theme_slug/library_customize/render', null, $wp_customize );
 
 				if ( null !== $pre ) {
 					return $pre;
@@ -421,7 +421,7 @@ class Theme_Slug_Library_Customize {
 					 *
 					 * @param  int $priority
 					 */
-					apply_filters( 'theme_slug/library_customize/register/priority', 0 )
+					apply_filters( 'theme_slug/library_customize/render/priority', 0 )
 				);
 
 
@@ -468,22 +468,24 @@ class Theme_Slug_Library_Customize {
 							 *
 							 * @since  2.8.0
 							 *
-							 * @param  string $panel_type
-							 * @param  array  $option
-							 * @param  array  $options
+							 * @param  string               $panel_type
+							 * @param  array                $option
+							 * @param  WP_Customize_Manager $wp_customize
+							 * @param  array                $options
 							 */
-							$panel_type = (string) apply_filters( 'theme_slug/library_customize/register/panel_type', $panel_type, $option, $options );
+							$panel_type = (string) apply_filters( 'theme_slug/library_customize/render/panel_type', $panel_type, $option, $wp_customize, $options );
 
 							/**
 							 * Filters customizer theme options panel id.
 							 *
 							 * @since  2.8.0
 							 *
-							 * @param  string $panel_id
-							 * @param  array  $option
-							 * @param  array  $options
+							 * @param  string               $panel_id
+							 * @param  array                $option
+							 * @param  WP_Customize_Manager $wp_customize
+							 * @param  array                $options
 							 */
-							$panel_id = (string) apply_filters( 'theme_slug/library_customize/register/panel_id', $panel_id, $option, $options );
+							$panel_id = (string) apply_filters( 'theme_slug/library_customize/render/panel_id', $panel_id, $option, $wp_customize, $options );
 
 							if ( $panel !== $panel_id ) {
 								$wp_customize->add_panel(
@@ -536,14 +538,15 @@ class Theme_Slug_Library_Customize {
 						// Generate option control.
 						if ( ! in_array( $option['type'], array( 'panel', 'section' ) ) ) {
 							/**
-							 * Action for adding the theme option customizer setting and control.
+							 * Action for creating a theme option in customizer.
 							 *
 							 * @since  2.8.0
 							 *
 							 * @param  array                $option
 							 * @param  WP_Customize_Manager $wp_customize
+							 * @param  array                $options
 							 */
-							do_action( 'theme_slug/library_customize/register/add_option', $option, $wp_customize );
+							do_action( 'theme_slug/library_customize/render/option', $option, $wp_customize, $options );
 						}
 					}
 				}
@@ -553,7 +556,7 @@ class Theme_Slug_Library_Customize {
 					add_action( 'wp_footer', __CLASS__ . '::preview_scripts', 99 );
 				}
 
-		} // /register
+		} // /render
 
 
 
