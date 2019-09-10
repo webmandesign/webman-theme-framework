@@ -63,7 +63,6 @@ class Theme_Slug_Library_Control {
 				 * Has to be done during customizer registration process
 				 * to have the `WP_Customize_Control` class available.
 				 */
-				require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-hidden.php';
 				require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-html.php';
 				require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-multiselect.php';
 				require_once THEME_SLUG_LIBRARY . 'includes/classes/class-customize-control-radio-matrix.php';
@@ -121,6 +120,7 @@ class Theme_Slug_Library_Control {
 				$sanitize = ( isset( self::$sanitize[ $option['type'] ] ) ) ? ( self::$sanitize[ $option['type'] ] ) : ( 'esc_attr' );
 
 				switch ( $sanitize ) {
+
 					case 'sanitize_hex_color_no_hash':
 						$sanitize_js = 'maybe_hash_hex_color';
 						break;
@@ -132,6 +132,7 @@ class Theme_Slug_Library_Control {
 					default:
 						$sanitize_js = $sanitize;
 						break;
+
 				}
 
 
@@ -211,38 +212,6 @@ class Theme_Slug_Library_Control {
 				);
 
 		} // /add_control_color
-
-
-
-		/**
-		 * Control: hidden.
-		 *
-		 * @since    2.8.0
-		 * @version  2.8.0
-		 *
-		 * @param  array                $option
-		 * @param  WP_Customize_Manager $wp_customize
-		 *
-		 * @return  void
-		 */
-		public static function add_control_hidden( array $option, WP_Customize_Manager $wp_customize ) {
-
-			// Processing
-
-				$wp_customize->add_control(
-					new Theme_Slug_Customize_Control_Hidden(
-						$wp_customize,
-						$option['id'],
-						array_merge(
-							self::get_args( $option ),
-							array(
-								'label' => 'HIDDEN FIELD',
-							)
-						)
-					)
-				);
-
-		} // /add_control_hidden
 
 
 
@@ -355,38 +324,6 @@ class Theme_Slug_Library_Control {
 				);
 
 		} // /add_control_multiselect
-
-
-
-		/**
-		 * Control: radiomatrix.
-		 *
-		 * @since    2.8.0
-		 * @version  2.8.0
-		 *
-		 * @param  array                $option
-		 * @param  WP_Customize_Manager $wp_customize
-		 *
-		 * @return  void
-		 */
-		public static function add_control_radiomatrix( array $option, WP_Customize_Manager $wp_customize ) {
-
-			// Processing
-
-				$wp_customize->add_control(
-					new Theme_Slug_Customize_Control_Radio_Matrix(
-						$wp_customize,
-						$option['id'],
-						array_merge(
-							self::get_args( $option ),
-							array(
-								'class' => ( isset( $option['class'] ) ) ? ( $option['class'] ) : ( '' ),
-							)
-						)
-					)
-				);
-
-		} // /add_control_radiomatrix
 
 
 

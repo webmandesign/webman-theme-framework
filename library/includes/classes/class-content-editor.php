@@ -255,39 +255,6 @@ class Theme_Slug_Library_Content_Editor {
 							),
 						),
 
-						// Group: Quotes.
-						300 . 'quotes' => array(
-							'title' => esc_html_x( 'Quotes', 'Content editor blockquote formats group title.', 'theme-slug' ),
-							'items' => array(
-
-								300 . 'quotes' . 100 => array(
-									'title' => esc_html__( 'Blockquote', 'theme-slug' ),
-									'block' => 'blockquote',
-									'icon'  => ( is_admin() ) ? ( 'blockquote' ) : ( '' ),
-								),
-
-								300 . 'quotes' . 110 => array(
-									'title'   => esc_html__( 'Pullquote - align left', 'theme-slug' ),
-									'block'   => 'blockquote',
-									'classes' => 'pullquote alignleft',
-									'icon'    => ( is_admin() ) ? ( 'alignleft' ) : ( '' ),
-								),
-
-								300 . 'quotes' . 120 => array(
-									'title'   => esc_html__( 'Pullquote - align right', 'theme-slug' ),
-									'block'   => 'blockquote',
-									'classes' => 'pullquote alignright',
-									'icon'    => ( is_admin() ) ? ( 'alignright' ) : ( '' ),
-								),
-
-								300 . 'quotes' . 130 => array(
-									'title'  => esc_html_x( 'Cite', 'Content editor format label for HTML CITE tag used to set the blockquote source.', 'theme-slug' ),
-									'inline' => 'cite',
-								),
-
-							),
-						),
-
 					) );
 
 					// Sort the array.
