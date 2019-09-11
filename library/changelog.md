@@ -2,6 +2,8 @@
 
 ## 2.8.0
 
+**This is the last release of the library code.** Instead, it is being merged into the WebMan Starter Theme, no longer being a separate code package.
+
 * **Add**: Adding CSS Variables functionality
 * **Update**: PHP 7+ support only
 * **Update**: Adding type and return hints to methods and functions
