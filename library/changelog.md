@@ -2,12 +2,79 @@
 
 ## 2.8.0
 
-* **Update**:
+* **Add**: Adding CSS Variables functionality
+* **Update**: PHP 7+ support only
+* **Update**: Adding type and return hints to methods and functions
+* **Update**: Using closures (anonymous functions) where appropriate
+* **Update**: Removing `final` from PHP classes declaration
+* **Update**: Removing singletons
+* **Update**: Renaming files and folders
+* **Update**: Using `instanceof` instead of `is_a()`
+* **Update**: Simplifying paginated suffix functionality
+* **Update**: Renaming variables
+* **Update**: Removing welcome page loading, leaving this for the theme
+* **Update**: Updating developer placeholders
+* **Update**: Updating WebMan Design URL
+* **Update**: Removing Child Theme Generator functionality
+* **Update**: Updating SSL URLs function
+* **Update**: Updating theme upgrade functionality
+* **Update**: Not using `locate_template()` any more
+* **Update**: Formats dropdown button: Removing obsolete classes and changing display font size classes for better Gutenberg compatibility
+* **Update**: Improving plugins suggestions loading
+* **Update**: Abstracting filter hooks into dedicated methods
+* **Update**: Removing obsolete global hooks comments
+* **Update**: Introducing compatibility with custom "more tag" text
+* **Update**: Making skip links more flexible
+* **Update**: Updating hooks naming convention
+* **Update**: Removing "hook/" from hook names
+* **Update**: Renaming bypass filters (using "pre" as filter name prefix, not suffix)
+* **Update**: Removing obsolete hooks
+* **Update**: Removing pullquote TinyMCE format dropdown styles
+* **Update**: Removing obsolete customizer controls
+* **Update**: Removing Update Notifier script
+* **Update**: Improving customizer options generator
+* **Update**: Improving customizer controls
+* **Update**: Renaming customizer rendering method
+* **Update**: Making "Theme Options" first panel in customizer
+* **Update**: Removing any customizer native panel/section/setting/control modifications
+* **Update**: Removing Stylesheet Generator functionality
+* **Update**: Updating css-vars-ponyfill to version 2.0.2
+* **Update**: Loading CSS vars ponyfill on IE browser only
+* **Update**: Splitting SASS files into partials
+* **Update**: Updating golden ratio values to more precise ones
+* **Update**: Removing "only screen" from CSS media queries
+* **Update**: Preventing JS error for CSS variables incompatible browsers
+* **Update**: Moving CSS escaping from library into the theme
+* **Update**: Improving security
+* **Update**: Improving sanitization
+* **Update**: Improving fonts sanitization
+* **Update**: Updating code documentation
+* **Update**: Removing deprecated @subpackage docblock
+* **Update**: Updating code formatting
+* **Update**: Removing obsolete code
+* **Fix**: CSS variables functionality
+* **Fix**: Customizer preview JS functionality
+* **Fix**: Sanitization methods
+* **Fix**: WP PHP coding standards: Assignments must not be placed in conditionals
+* **Fix**: Updating inline IF statements according to WP coding standards: check for true, not false
 
 ### Files changed:
 
 	changelog.md
 	init.php
+	includes/classes/class-content-editor.php
+	includes/classes/class-core.php
+	includes/classes/class-css-variables.php
+	includes/classes/class-customize-control-html.php
+	includes/classes/class-customize-control-multiselect.php
+	includes/classes/class-customize-control-select.php
+	includes/classes/class-customize-control-text.php
+	includes/classes/class-customize-control.php
+	includes/classes/class-customize.php
+	includes/classes/class-sanitize.php
+	js/customize-control-multicheckbox.js
+	js/customize-controls.js
+	scss/customize.scss
 
 
 ## 2.7.0
